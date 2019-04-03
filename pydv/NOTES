@@ -1,0 +1,57 @@
+TO UPDATE TO LATEST VERSION, DO:
+
+hg pull https://dougmillerLLNL@bitbucket.org/dougmillerLLNL/pdv
+
+THEN
+
+chmod ugo+r *
+
+2015/05
+   Added 'savecsv' command.
+   
+2015/04
+   Added 'newcurve' command.
+   
+2013/04/12
+   Redefined norm so it does not divide by the interval.  This
+   definition is more  consistent with usual mathematical 
+   definitions of norm. Also, fixed bug in integrate() where if 
+   either xmin or xmax were zero, then the user supplied interval 
+   was ignored.
+
+2012/11/30
+   Added ability to change width of label column, upgraded regex
+   syntax documentation.
+
+2012/11/12
+   Made linespoints show up as o-o in the legend rather than -o-.
+
+2012/09/04
+   Added 'linespoints' mode for curves.  Syntax like the 'scatter'
+   mode command.
+
+2012/05/10
+   Ticks pretty much good, Owen added headerless reads.  Clear that 
+   we need a re-factoring of the code, several missed opportunities 
+   for encapsulation exist.
+
+2011/12/2
+   Working on ticks.  Currently does not run script xx correctly.
+
+2011/11/22
+   Added ability to read column formatted data, via '-gnu' command
+line argument or '.gnu' file suffix.
+
+2011/11/17
+   /usr/gapps/pdv/bin/pdv version wasn't the latest, updated that.
+
+2011/11/1
+   Set up on GoogleCode.  Went to Mercurial repo on code.google.com.
+   Also have bug tracker working on GoogleCode.
+
+2011/10/22
+   Making branches/dev branch, because tick work is messing up trunk.
+
+2011/10/11
+   Adding tick mark specification.
+

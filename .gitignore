@@ -1,0 +1,9 @@
+*~
+*.pyc
+*.orig
+.idea
+*.pdf
+.DS_Store
+mypdv
+dist
+pydv/docs/_build

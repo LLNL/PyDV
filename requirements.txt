@@ -1,0 +1,16 @@
+# Python Requirements file for use with pip
+
+## From the LC Web Server
+--find-links https://www-lc.llnl.gov/python/wheelhouse/
+
+backports.functools-lru-cache==1.5
+cycler==0.10.0
+matplotlib==2.2.3
+numpy==1.15.2
+pyparsing==2.2.2
+PySide==1.2.4
+python-dateutil==2.7.3
+pytz==2018.5
+scipy==1.1.0
+six==1.11.0
+subprocess32==3.5.3
