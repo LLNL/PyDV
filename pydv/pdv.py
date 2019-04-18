@@ -3612,8 +3612,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             if len(line) == 2:
                 nc = pydvif.convolve(c1, c2)
+            elif len(line) == 3:
+                npts = int(line[2])
+                nc = pydvif.convolve(c1, c2, npts)
             else:
-                raise RuntimeError("Wrong number of arguments, expecting 2 but received %d." % len(line))
+                raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
             self.addtoplot(nc)
             self.plotedit = True
@@ -3630,7 +3633,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))' \
               '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect' \
               '\n              results due to improper padding - use with caution.' \
-              '\n   Usage: convolve <curve1> <curve2>\n   Shortcuts: convol'
+              '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol'
 
     ##make a new curve - slower convolution which doesn't use FFT's
     def do_convolveb(self, line):
