@@ -1479,6 +1479,86 @@ class Command(cmd.Cmd, object):
         print '\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n'
 
 
+    ##get the max y-value for the given curve##
+    def do_getymax(self, line):
+        if not line:
+            return 0
+        try:
+            line = line.split()
+            xlow = None
+            xhi = None
+
+            try:
+                xhi = float(line[-1])
+            except:
+                xhi = None
+
+            try:
+                xlow = float(line[-2])
+            except:
+                xlow = None
+
+            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                raise RuntimeError, "<xmin> and <xmax> must BOTH be specified"
+
+            for i in range(len(self.plotlist)):
+                cur = self.plotlist[i]
+                if cur.plotname == line[0].upper():
+                    plotname, maxy = pydvif.getymax(cur, xlow, xhi)
+                    print '\nCurve ' + plotname
+                    print '    ymax: %.6f' % maxy
+            print ''
+        except:
+            print 'error - usage: getymax <curve> [<xmin> <xmax>]'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+
+    def help_getymax(self):
+        print '\n   Procedure: Return the maximum y-value for the curve within the specified domain.\n   Usage: getymax <curve> [<xmin> <xmax>]\n'
+
+
+    ##get the min y-value for the given curve##
+    def do_getymin(self, line):
+        if not line:
+            return 0
+        try:
+            line = line.split()
+            xlow = None
+            xhi = None
+
+            try:
+                xhi = float(line[-1])
+            except:
+                xhi = None
+
+            try:
+                xlow = float(line[-2])
+            except:
+                xlow = None
+
+            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                raise RuntimeError, "<xmin> and <xmax> must BOTH be specified"
+
+            for i in range(len(self.plotlist)):
+                cur = self.plotlist[i]
+                if cur.plotname == line[0].upper():
+                    plotname, miny = pydvif.getymin(cur, xlow, xhi)
+                    print '\nCurve ' + plotname
+                    print '    ymin: %.6f' % miny
+            print ''
+        except:
+            print 'error - usage: getymin <curve> [<xmin> <xmax>]'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+
+    def help_getymin(self):
+        print '\n   Procedure: Return the minimum y-value for the curve within the specified domain.\n   Usage: getymin <curve> [<xmin> <xmax>]\n'
+
+
     ##get the label of a given curve##
     def do_getlabel(self, line):
         try:

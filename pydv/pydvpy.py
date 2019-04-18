@@ -2447,13 +2447,57 @@ def integrate(curvelist, low=None, high=None):
             nc.name = 'Integrate %s [%.1f,%.1f]' % (c.plotname, low, high)
 
         r = __get_sub_range(nc.x, low, high)
-        nc.x = nc.x[r[0]:r[1]]
-        nc.y = nc.y[r[0]:r[1]]
+        nc.x = nc.x[r[0]:r[1]+1]
+        nc.y = nc.y[r[0]:r[1]+1]
         nc.y = np.array(scipy.integrate.cumtrapz(nc.y, nc.x, initial=0.0))
 
         ncurves.append(nc)
 
     return ncurves
+
+
+def getymax(c, xmin=None, xmax=None):
+    """
+    Get the maximum y-value for the curve within the specified domain.
+
+    :param c: the curve
+    :type Curve:
+    :param xmin: the minimum x-value for the sub-domain
+    :type xmin: float, optional
+    :param xmax: the maximum x-value for the sub-domain
+    :type xmax: float, optional
+    :return: str -- curve name
+             ymax -- the maximum y-value for the specified domain
+    """
+    if xmin is not None:
+        r = __get_sub_range(c.x, xmin, xmax)
+        ymax = max(c.y[r[0]:r[1]+1])
+    else:
+        ymax = max(c.y)
+
+    return __toCurveString(c), ymax
+
+
+def getymin(c, xmin=None, xmax=None):
+    """
+    Get the minimum y-value for the curve within the specified domain.
+
+    :param c: the curve
+    :type Curve:
+    :param xmin: the minimum x-value for the sub-domain
+    :type xmin: float, optional
+    :param xmax: the maximum x-value for the sub-domain
+    :type xmax: float, optional
+    :return: str -- curve name
+             ymin -- the minimum y-value for the specified domain
+    """
+    if xmin is not None:
+        r = __get_sub_range(c.x, xmin, xmax)
+        ymin = min(c.y[r[0]:r[1]+1])
+    else:
+        ymin = min(c.y)
+
+    return __toCurveString(c), ymin
 
 
 def correlate(c1, c2, mode='same'):
@@ -3610,6 +3654,7 @@ def __complex_times(ra, ia, rb, ib):
 
     return sa, sb
 
+
 def __get_sub_range(x, low=None, high=None):
     """
     Returns a tuple with the index of the first x value greater than low and the index of
@@ -3624,16 +3669,28 @@ def __get_sub_range(x, low=None, high=None):
     :return: tuple -- a tuple with the indices of the first value in x that is greater than low and the first value in
                       x less than high
     """
-    min_idx = 0
-    max_idx = len(x)
-
     if low is not None:
         min_idx = np.where(x >= low)[0][0]
 
     if high is not None:
         max_idx = np.where(x <= high)[0][-1]
 
-    return (min_idx, max_idx)
+    return min_idx, max_idx
+    # min_idx = len(x) - 1
+    # min = x[-1]
+    # max_idx = 0
+    # max = x[0]
+    #
+    # for i in range(0, len(x)):
+    #     if min > x[i] >= low:
+    #         min = x[i]
+    #         min_idx = i
+    #
+    #     if high >= x[i] > max:
+    #         max = x[i]
+    #         max_idx = i
+    #
+    # return min_idx, max_idx
 
 
 def __toCurveString(c):
