@@ -61,6 +61,7 @@
 
 import sys
 import numpy as np
+from scipy import interpolate
 
 import pdvutil
 
@@ -208,9 +209,7 @@ class Curve(object):
         return c
 
 
-
-##return the interpolated and domain matched versions of the two curves##
-def getinterp(a, b, left=None, right=None):
+def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
     """
     Gets the interpolated and domain matched versions of the two curves.
 
@@ -222,56 +221,71 @@ def getinterp(a, b, left=None, right=None):
     :type left: float, optional
     :param right: Value to return for `x > a.x[-1]`, default is `a.y[-1]`.
     :type: right: float, optional
+    :param match {'domain','step'},optional: A string indicating how to interpolate the two curves
+    :type match: str
     :returns: curve pair -- the interpolated and domain matched versions of a and b
     """
-    ux = list(set(a.x).union(set(b.x)))  #get union of xvals
-    ux.sort()
+    if match == 'domain':
+        ux = list(set(a.x).union(set(b.x)))  #get union of xvals
+        ux.sort()
 
-    ia = a.copy()
-    ia.x = np.array(ux)
-    ia.y = np.interp(ux, a.x, a.y, left, right) # interpolate y vals
+        ia = a.copy()
+        ia.x = np.array(ux)
+        ia.y = np.interp(ux, a.x, a.y, left, right) # interpolate y vals
 
-    ib = Curve('', '')
-    ib.x = np.array(ux)
-    ib.y = np.interp(ux, b.x, b.y, left, right) # interpolate y vals
+        ib = Curve('', '')
+        ib.x = np.array(ux)
+        ib.y = np.interp(ux, b.x, b.y, left, right) # interpolate y vals
 
-    return ia, ib
+        return ia, ib
+    elif match == 'step':
+        ax, step = np.linspace(min(a.x), max(a.x), num=samples, retstep=True)
+
+        bxsamples = int((max(b.x) - min(b.x)) / step)
+        if bxsamples < 1:
+            bxsamples = 1
+
+        bx = np.linspace(min(b.x), max(b.x), bxsamples)
+
+        ia = a.copy()
+        ia.x = ax
+        ia.y = np.interp(ax, a.x, a.y, left, right)  # interpolate y vals
+
+        ib = Curve('', '')
+        ib.x = bx
+        ib.y = np.interp(bx, b.x, b.y, left, right)  # interpolate y vals
+
+        return ia, ib
+    else:
+        raise ValueError("{} is not a supported option for match".format(match))
 
 
-##return the interpolated and sample step matched versions of the two curves##
-def getinterp2(a, b, left=None, right=None, samples=100):
+def interp1d(a, num=100, retstep=False):
     """
-    Gets the interpolated and sample step matched versions of the two curves.
+    Gets the interpolated values of the curve with the specified number of samples.
 
     :param a: Curve A
     :type a: curve
-    :param b: Curve B
-    :type b: curve
-    :param left: Value to return for `x < a.x[0]`, default is `a.y[0]`.
-    :type left: float, optional
-    :param right: Value to return for `x > a.x[-1]`, default is `a.y[-1]`.
-    :type: right: float, optional
-    :param samples: Number of samples to generate. Default is 100. Must be non-negative.
-    :type: samples: int, optional
-    :returns: curve pair -- the interpolated and sample step matched versions of a and b
+    :param num: Number of samples to generate. Default is 100. Must be non-negative.
+    :type: num: int, optional
+    :param retstep: return the spacing between samples
+    :type: retstep: bool, optional
+    :returns: ia: curve -- the interpolated and dimensions matched version of a
+              step: float, optional -- only returned if retstep is True. Size of the spacing between samples
     """
-    ax, step = np.linspace(min(a.x), max(a.x), num=samples, retstep=True)
-
-    bxsamples = int((max(b.x)-min(b.x)) / step)
-    if bxsamples < 1:
-        bxsamples = 1
-
-    bx = np.linspace(min(b.x), max(b.x), bxsamples)
+    f = interpolate.interp1d(a.x, a.y, kind='cubic', bounds_error=False, fill_value=0)
 
     ia = a.copy()
-    ia.x = ax
-    ia.y = np.interp(ax, a.x, a.y, left, right) # interpolate y vals
 
-    ib = Curve('', '')
-    ib.x = bx
-    ib.y = np.interp(bx, b.x, b.y, left, right) # interpolate y vals
+    if retstep:
+        ia.x, step = np.linspace(min(a.x), max(a.x), num=num, retstep=True)
+        ia.y = f(ia.x)
+        return ia, step
+    else:
+        ia.x = np.linspace(min(a.x), max(a.x), num=num, retstep=False)
+        ia.y = f(ia.x)
+        return ia
 
-    return ia, ib
 
 def append(a, b):
     """

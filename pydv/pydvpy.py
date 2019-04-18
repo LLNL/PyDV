@@ -81,6 +81,7 @@ import numpy as np
 import scipy
 import scipy.integrate
 import scipy.special
+import scipy.signal
 
 import matplotlib.pyplot as plt
 
@@ -2491,14 +2492,13 @@ def correlate(c1, c2, mode='same'):
     return nc
 
 
-def convolve(c1, c2):
+def convolve(c1, c2, npts=100):
     """
     Compute and return the convolution of two real curves:
     -
     -   (g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))
     -
-    This is carried out as the inverse FFT of the product of the FFT's of the two
-    input curves.
+    The Fourier Transform is used to perform the convolution.
 
     >>> curves = pydvif.read('testData.txt')
 
@@ -2508,23 +2508,25 @@ def convolve(c1, c2):
     :type c1: Curve
     :param c2: (M,) The second curve
     :type c2: Curve
-    :return: Curve -- the convolution of the two curves c1 and c2
+    :param npts: the number of points used to create a uniform temporal spacing
+    :type npts: int
+    :return: nc: Curve -- the convolution of the two curves c1 and c2
     """
-    ic1, ic2 = curve.getinterp(c1, c2)
 
-    delx = max(ic1.x) - min(ic1.x)
-    norm = float(delx) / 4.0
+    # Create uniform temporal spacing
+    ic1, step = curve.interp1d(c1, npts, True)
 
-    ftgr, ftgi = __fft(ic1)
-    fthr, fthi = __fft(ic2)
-    ftcr, ftci = __complex_times(ftgr, ftgi, fthr, fthi)
+    c2npts = (max(c2.x) - min(c2.x)) / step
+    ic2 = curve.interp1d(c2, c2npts)
 
-    ftgr, ftgi = __ifft(ftcr, ftci)
-    my(ftgr, norm)
+    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='same', method='fft'))
+    delx = (max(c1.x) - min(c1.x)) / npts
+    y *= delx
 
-    ftgr.name = 'Convol of ' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ' (FFT)'
+    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (FFT) ' + str(npts)
+    nc = makecurve(ic1.x, y, namestr)
 
-    return ftgr
+    return nc
 
 
 def convolveb(c1, c2, npts=100):
@@ -2578,46 +2580,27 @@ def convolve_int(c1, c2, norm=True, npts=100):
     :type norm: bool
     :param npts: the number of points
     :type npts: int
-    :return: Curve -- the convolution of the two curves c1 and c2
+    :return: nc: Curve -- the convolution of the two curves c1 and c2
     """
+
+    # Create uniform temporal spacing
+    ic1, step = curve.interp1d(c1, npts, True)
+    c2npts = (max(c2.x) - min(c2.x)) / step
+    ic2 = curve.interp1d(c2, c2npts)
+
+    # normalize c2 to unit area in its domain
     if norm:
-        zot = c2.normalize()
-    else:
-        zot = c2.copy()
+        area = np.trapz(ic2.y, ic2.x)
+        if area == 0:
+            area = 0.0000009
+        ic2.y = ic2.y / area
 
-    mx(zot, -1)
+    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='same', method='direct'))
+    delx = (max(c1.x) - min(c1.x)) / npts
+    y *= delx
 
-    minx1 = min(c1.x)
-    maxx1 = max(c1.x)
-
-    minx2 = min(zot.x)
-    maxx2 = max(zot.x)
-
-    xmn = minx1 - maxx2
-    xmx = maxx1 - minx2
-    delx = float(xmn - xmx) / float(npts)
-
-    xcur = xmx + delx
-    dx(zot, xcur)
-
-    xlist = list()
-    ylist = list()
-    while xcur > xmn:
-        crb = c1 * zot
-        # cra = integrate(crb, -1.e100, 1.e100)[0]
-        #
-        # yvalues = gety(cra, max(cra.x))
-        # x, yva = yvalues[0]
-        yva = scipy.integrate.trapz(crb.y, crb.x)
-
-        xlist.insert(0, xcur)
-        ylist.insert(0, yva)
-
-        dx(zot, delx)
-        xcur += delx
-
-    namestr = 'Convol of ' + __toCurveString(c1) + ', ' + __toCurveString(c2) + '(Int)'
-    nc = makecurve(xlist, ylist, namestr)
+    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (Int) ' + str(npts)
+    nc = makecurve(ic1.x, y, namestr)
 
     return nc
 
@@ -3202,11 +3185,15 @@ def gety(c, value):
     """
     xypairs = list()
 
-    if float(value) < np.amin(c.x) or float(value) > np.amax(c.x):
-        raise ValueError, 'x-value out of range'
+    #if float(value) < np.amin(c.x) or float(value) > np.amax(c.x):
+        #raise ValueError, 'x-value out of range'
 
     for i in range(len(c.x)):
-        if c.x[i] == float(value):
+        if float(value) < np.amin(c.x):
+            xypairs.append((float(value), 0))   # c.y[0]))
+        elif float(value) > np.amax(c.x):
+            xypairs.append((float(value), 0))   # c.y[-1]))
+        elif c.x[i] == float(value):
             xypairs.append((float(value), c.y[i]))
         else:
             xmax = c.x[i]
