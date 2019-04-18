@@ -12,7 +12,7 @@ You can now call most of PyDV's functionality from within a Python script. Below
         import pydvpy as pydvif
 
         curves = list()
-        curves.appedn(pydvif.span(1,10,6))
+        curves.append(pydvif.span(1,10,6))
         pydvif.save('myFile.txt', curves)
 
 ### Links ###

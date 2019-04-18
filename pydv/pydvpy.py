@@ -82,6 +82,7 @@ import scipy
 import scipy.integrate
 import scipy.special
 import scipy.signal
+from scipy import interpolate
 
 import matplotlib.pyplot as plt
 
@@ -2438,6 +2439,7 @@ def integrate(curvelist, low=None, high=None):
     for c in curves:
         nc = c.copy()
         nc.plotname = ''
+        nc.color = ''
 
         if low is None:
             nc.name = 'Integrate ' + c.plotname
