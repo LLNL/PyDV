@@ -409,6 +409,8 @@ class Command(cmd.Cmd, object):
             arg = 'yminmax'
         elif(arg == 'ln'):
             arg = 'log'
+        elif(arg == 'lnx'):
+            arg = 'logx'
         elif(arg == 'nc'):
             arg = 'newcurve'
         elif (arg == 'mkext'):
@@ -1674,48 +1676,145 @@ class Command(cmd.Cmd, object):
         print '\n   Procedure: Take absolute value of x values of curves\n   Usage: absx <curve-list>\n'
 
 
-    ## take the natural logarithm of the curve##
+    ## take the natural logarithm of the curve y-values##
     def do_log(self, line):
+        if not line:
+            return 0
         try:
-           self.func_curve(line, 'log', 0)
-           self.plotedit = True
+            if len(line.split(':')) > 1:
+                self.do_log(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                keepnegs = True
+                if line[-1].upper() == 'TRUE' or line[-1].upper() == 'FALSE':
+                    keepnegs = keepnegs == line.pop(-1)
+
+                curves = list()
+                for i in range(len(line)):
+                    for j in range(len(self.plotlist)):
+                        name = self.plotlist[j].plotname
+                        if name == line[i].upper():
+                            curves.append(self.plotlist[j])
+                            break
+
+                pydvif.log(curves, keepnegs)
+
+            self.plotedit = True
         except:
-            print 'error - usage: log <curve-list>'
+            print 'error - usage: log <curve-list> [keep-neg-vals: True | False]'
+            if self.debug:
+                print traceback.print_exc(file=sys.stdout)
+
     def help_log(self):
-        print '\n   Procedure: take natural logarithm of y values of curves\n   Usage: log <curve-list>\n   Shorcut: ln\n'
+        print '\n   Procedure: take natural logarithm of y-values of curves.\n' \
+              '   If the optional argument keep-neg-vals is set to False, then zero and negative y-values will be discarded. keep-neg-vals is True by default.\n' \
+              '   Usage: log <curve-list> [keep-neg-vals: True | False]\n   Shortcut: ln\n'
 
+    ## take the natural logarithm of the curve x-values ##
     def do_logx(self, line):
+        if not line:
+            return 0
         try:
-           self.func_curve(line, 'log', 1)
-           self.plotedit = True
+            if len(line.split(':')) > 1:
+                self.do_logx(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                keepnegs = True
+                if line[-1].upper() == 'TRUE' or line[-1].upper() == 'FALSE':
+                    keepnegs = keepnegs == line.pop(-1)
+
+                curves = list()
+                for i in range(len(line)):
+                    for j in range(len(self.plotlist)):
+                        name = self.plotlist[j].plotname
+                        if name == line[i].upper():
+                            curves.append(self.plotlist[j])
+                            break
+
+                pydvif.logx(curves, keepnegs)
+
+            self.plotedit = True
         except:
-            print 'error - usage: log <curve-list>'
+            print 'error - usage: logx <curve-list> [keep-neg-vals: True | False]'
             if self.debug:
-                traceback.print_exc(file=sys.stdout)
+                print traceback.print_exc(file=sys.stdout)
+
     def help_logx(self):
-        print '\n   Procedure: take natural logarithm of x values of curves\n   Usage: logx <curve-list>\n   Shorcut: lnx\n'
+        print '\n   Procedure: take natural logarithm of x-values of curves.\n' \
+              '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
+              '   Usage: logx <curve-list> [keep-neg-vals: True | False]\n   Shortcut: lnx\n'
 
-
-    ## take the base 10 logarithm of the curve##
+    ## take the base 10 logarithm of the curve y-values##
     def do_log10(self, line):
+        if not line:
+            return 0
         try:
-            self.func_curve(line, 'log10', 0)
-            self.plotedit = True
-        except:
-            print 'error - usage: log10 <curve-list>'
-    def help_log10(self):
-        print '\n   Procedure: take base 10 logarithm of y values of curves\n   Usage: log10 <curve-list>\n'
+            if len(line.split(':')) > 1:
+                self.do_log10(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                keepnegs = True
+                if line[-1].upper() == 'TRUE' or line[-1].upper() == 'FALSE':
+                    keepnegs = keepnegs == line.pop(-1)
 
-    def do_log10x(self, line):
-        try:
-            self.func_curve(line, 'log10', 1)
+                curves = list()
+                for i in range(len(line)):
+                    for j in range(len(self.plotlist)):
+                        name = self.plotlist[j].plotname
+                        if name == line[i].upper():
+                            curves.append(self.plotlist[j])
+                            break
+
+                pydvif.log10(curves, keepnegs)
+
             self.plotedit = True
         except:
-            print 'error - usage: log10x <curve-list>'
+            print 'error - usage: log10 <curve-list> [keep-neg-vals: True | False]'
             if self.debug:
-                traceback.print_exc(file=sys.stdout)
+                print traceback.print_exc(file=sys.stdout)
+
+    def help_log10(self):
+        print '\n   Procedure: take base 10 logarithm of y values of curves.\n' \
+              '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
+              '   Usage: log10 <curve-list> [keep-neg-vals: True | False]'
+
+    ## take the base 10 logarithm of the curve x-values##
+    def do_log10x(self, line):
+        if not line:
+            return 0
+        try:
+            if len(line.split(':')) > 1:
+                self.do_log10x(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                keepnegs = True
+                if line[-1].upper() == 'TRUE' or line[-1].upper() == 'FALSE':
+                    keepnegs = keepnegs == line.pop(-1)
+
+                curves = list()
+                for i in range(len(line)):
+                    for j in range(len(self.plotlist)):
+                        name = self.plotlist[j].plotname
+                        if name == line[i].upper():
+                            curves.append(self.plotlist[j])
+                            break
+
+                pydvif.log10x(curves, keepnegs)
+
+            self.plotedit = True
+        except:
+            print 'error - usage: log10x <curve-list> [keep-neg-vals: True | False]'
+            if self.debug:
+                print traceback.print_exc(file=sys.stdout)
+
     def help_log10x(self):
-        print '\n   Procedure: take base 10 logarithm of x values of curves\n   Usage: log10x <curve-list>\n'
+        print '\n   Procedure: take base 10 logarithm of x values of curves.\n' \
+              '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
+              '   Usage: log10x <curve-list> [keep-neg-vals: True | False]'
 
 
     ## exponentiate the curve##
@@ -4824,24 +4923,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             else:
                                 cur.x = numpy.abs(cur.x)
                                 cur.name = 'absx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'log'):
-                            if (do_x == 0):
-                                cur.y = numpy.log(cur.y)
-                                cur.name = 'log(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.log(cur.x)
-                                cur.name = 'logx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'log10'):
-                            if (do_x == 0):
-                                cur.y = numpy.log10(cur.y)
-                                cur.name = 'log10(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.log10(cur.x)
-                                cur.name = 'log10x(' + cur.name + ')'
                                 cur.edited = True
                         elif (flag == 'exp'):
                             if (do_x == 0):

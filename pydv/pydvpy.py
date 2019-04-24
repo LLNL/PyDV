@@ -1633,7 +1633,7 @@ def absx(curvelist):
         curve.x = np.abs(curve.x)
 
 
-def log(curvelist):
+def log(curvelist, keep=True):
     """
     Take the natural logarithm of y values of the Curve or list of curves.
 
@@ -1645,6 +1645,9 @@ def log(curvelist):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
+    :param keep: flag to determine whether or not to discard zero or negative y-values before taking the log.
+                 keep is True by default.
+    :type keep: optional, boolean
     """
     curves = list()
 
@@ -1653,11 +1656,20 @@ def log(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.log(curve.y)
+    for c in curves:
+        if keep:
+            c.y = np.log(c.y)
+        else:
+            skiplist = np.where(c.y <= 0)[0]
+            if len(skiplist) > 0:
+                c.y = np.delete(c.y, skiplist)
+                c.x = np.delete(c.x, skiplist)
+                c.y = np.log(c.y)
+            else:
+                c.y = np.log(c.y)
 
 
-def logx(curvelist):
+def logx(curvelist, keep=True):
     """
     Take the natural logarithm of x values of the Curve or list of curves.
 
@@ -1669,6 +1681,9 @@ def logx(curvelist):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
+    :param keep: flag to determine whether or not to discard zero or negative x-values before taking the log.
+                 keep is True by default.
+    :type keep: optional, boolean
     """
     curves = list()
 
@@ -1677,10 +1692,19 @@ def logx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.log(curve.x)
+    for c in curves:
+        if keep:
+            c.x = np.log(c.x)
+        else:
+            skiplist = np.where(c.x <= 0)[0]
+            if len(skiplist) > 0:
+                c.y = np.delete(c.y, skiplist)
+                c.x = np.delete(c.x, skiplist)
+                c.x = np.log(c.x)
+            else:
+                c.x = np.log(c.x)
 
-def log10(curvelist):
+def log10(curvelist, keep=True):
     """
     Take the base 10 logarithm of y values of a Curve or list of curves.
 
@@ -1692,6 +1716,9 @@ def log10(curvelist):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
+    :param keep: flag to determine whether or not to discard zero or negative y-values before taking the base 10 logarithm.
+                 keep is True by default.
+    :type keep: optional, boolean
     """
     curves = list()
 
@@ -1700,11 +1727,20 @@ def log10(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.log10(curve.y)
+    for c in curves:
+        if keep:
+            c.y = np.log10(c.y)
+        else:
+            skiplist = np.where(c.y <= 0)[0]
+            if len(skiplist) > 0:
+                c.y = np.delete(c.y, skiplist)
+                c.x = np.delete(c.x, skiplist)
+                c.y = np.log10(c.y)
+            else:
+                c.y = np.log10(c.y)
 
 
-def log10x(curvelist):
+def log10x(curvelist, keep=True):
     """
     Take the base 10 logarithm of x values of a Curve or list of curves.
 
@@ -1716,6 +1752,9 @@ def log10x(curvelist):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
+    :param keep: flag to determine whether or not to discard zero or negative y-values before taking the base 10 logarithm.
+                 keep is True by default.
+    :type keep: optional, boolean
     """
     curves = list()
 
@@ -1724,8 +1763,17 @@ def log10x(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.log10(curve.x)
+    for c in curves:
+        if keep:
+            c.x = np.log10(c.x)
+        else:
+            skiplist = np.where(c.x <= 0)[0]
+            if len(skiplist) > 0:
+                c.y = np.delete(c.y, skiplist)
+                c.x = np.delete(c.x, skiplist)
+                c.x = np.log10(c.x)
+            else:
+                c.x = np.log10(c.x)
 
 
 def exp(curvelist):
