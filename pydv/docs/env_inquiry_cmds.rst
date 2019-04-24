@@ -48,3 +48,12 @@ Return a selection of the curves available for plotting. A regular expression ma
     
    [PyDV]: menu <label-pattern>
 
+**system - 2.4.2**
+------------------
+
+Allows passing commands to the operating system. **Shortcut: ! or shell**
+
+.. code::
+    
+   [PyDV]: system ls
+

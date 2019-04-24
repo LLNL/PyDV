@@ -39,8 +39,8 @@ Evaluate mathematical operations on curves.
 
    [PyDV]: eval <curve-operations>
 
-**getattributes - 2.4**
------------------------
+getattributes
+-------------
 
 Return (to the terminal) the attributes of a curve, such as: color, style, width, etc.
 
@@ -57,8 +57,8 @@ Return (to the terminal) the domains for the list of curves.
 
    [PyDV]: getdomain <curve-list>
 
-**getlabel - 2.3**
-------------------
+getlabel
+--------
 
 Return (to the terminal) the given curve's label.
 
@@ -66,8 +66,8 @@ Return (to the terminal) the given curve's label.
 
    [PyDV]: getlabel <curve>
 
-**getnumpoints - 2.3**
-----------------------
+getnumpoints
+------------
 
 Display the number of points for the given curve.
 
@@ -102,11 +102,29 @@ Return the y values for a given x
 
    [PyDV]: gety <curve-list> <x-value>
 
-**stats - 2.4**
----------------
+stats
+-----
 
 Calculate the mean and standard deviation for the curves and display the results on the terminal.
 
 .. code::
 
    [PyDV]: stats <curve-list>
+
+**getymin - 2.4.2**
+-------------------
+
+Return the minimum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.
+
+.. code::
+
+   [PyDV]: getymin <curve> [<xmin> <xmax>]
+
+**getymax - 2.4.2**
+-------------------
+
+Return the maximum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.
+
+.. code::
+
+   [PyDV]: getymax <curve> [<xmin> <xmax>]

@@ -153,8 +153,8 @@ Take hyperbolic arctangent of x values of curves.
 
    [PyDV]: atanhx <curve-list>
 
-**average - 2.4**
------------------
+average
+-------
 
 Average the specified curvelist over the intersection of their domains.
 
@@ -169,16 +169,34 @@ Computes the convolution of the two given curves. This is similar to the slower 
 
 .. code::
 
-   [PyDV]: convolve <curve1> <curve2> [samples ['full' | 'same' | 'valid']]
+   [PyDV]: convolve <curve1> <curve2> [points]
 
-convolvef
+convolveb
 ---------
 
-Computes the convolution of the two given curves using the fast Fourier transform method. This is generally much faster than **convolve** for large arrays (n > 500), but can be slower when only a few output values are needed. **Shortcut:** convolf
+Computes the convolution of the two given curves and normalizing the second curve by the area under the curve. This computes the integrals directly which avoid padding and aliasing problems associated with FFT methods (it is however slower). **Shortcut:** convolb
 
 .. code::
 
-   [PyDV]: convolvef <curve1> <curve2> [samples ['full' | 'same' | 'valid']]
+   [PyDV]: convolveb <curve1> <curve2> [points]
+
+convolvec
+---------
+
+Computes the convolution of the two given curves with no normalization. This computes the integrals directly which avoid padding and aliasing problems associated with FFT methods (it is however slower). **Shortcut:** convolb
+
+.. code::
+
+   [PyDV]: convolveb <curve1> <curve2> [points]
+
+**correl - 2.4.2**
+------------------
+
+Computes the cross-correlation of two curves.
+
+.. code::
+
+   [PyDV]: correl <curve1> <curve2>
 
 cos
 ---
@@ -381,41 +399,59 @@ Makes new curve that is the L2 norm of two args; the L2 norm is integral( (curve
 log
 ---
 
-Take the natural logarithm of the y values of the curves. **Shortcut: ln**
+Take the natural logarithm of the y values of the curves. If the optional argument *keep-neg-vals* is set to false, then zero and negative y-values will be discarded. *keep-neg-vals* is true by default. **Shortcut: ln**
 
 .. code::
 
-   [PyDV]: log <curve-list>
+   [PyDV]: log <curve-list> [keep-neg-vals: True | False]
 
-lnx
----
+logx
+----
 
-Take the natural logarithm of the x values of the curves.
+Take the natural logarithm of the x values of the curves. If the optional argument *keep-neg-vals* is set to false, then zero and negative x-values will be discarded. *keep-neg-vals* is true by default. **Shortcut: lnx** 
 
 .. code::
 
-   [PyDV]: lnx <curve-list>
+   [PyDV]: logx <curve-list> [keep-neg-vals: True | False]
 
 log10
 -----
 
-Take the base 10 logarithm of the y values of the curves.
+Take the base 10 logarithm of the y values of the curves. If the optional argument *keep-neg-vals* is set to false, then zero and negative y-values will be discarded. *keep-neg-vals* is true by default.
 
 .. code::
 
-   [PyDV]: log10 <curve-list>
+   [PyDV]: log10 <curve-list> [keep-neg-vals: True | False]
 
 log10x
 ------
 
-Take the base 10 logarithm of the x values of the curves.
+Take the base 10 logarithm of the x values of the curves. If the optional argument *keep-neg-vals* is set to false, then zero and negative y-values will be discarded. *keep-neg-vals* is true by default.
 
 .. code::
 
-   [PyDV]: log10x <curve-list>
+   [PyDV]: log10x <curve-list> [keep-neg-vals: True | False]
 
-**max - 2.4**
--------------
+**makeintensive - 2.4.2**
+-------------------------
+
+Set the y-values such that y[i] = y[i] / (x[i+1] - x[i]). **Shortcut: mkint**
+
+.. code::
+
+  [PyDV]: makeintensive <curve-list>
+
+**makeextensive - 2.4.2**
+-------------------------
+
+Set the y-values such that y[i] = y[i] * (x[i+1] - x[i]). **Shortcut: mkext**
+
+.. code::
+
+  [PyDV]: makeextensive <curve-list>
+
+max
+---
 
 Makes a new curve with max y values of curves passed in curvelist.
 
@@ -423,8 +459,8 @@ Makes a new curve with max y values of curves passed in curvelist.
 
   [PyDV]: max <curve-list>
 
-**min - 2.4**
--------------
+min
+---
 
 Makes a new curve with min y values of curves passed in curvelist.
 
