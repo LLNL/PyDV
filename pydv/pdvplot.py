@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2017, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
 # e-mail: griffin28@llnl.gov
@@ -111,7 +111,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 2.4.2b')
+        self.setWindowTitle('Python Data Visualizer 2.4.2')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -512,7 +512,7 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 2.4.2b</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 2.4.2</p>'
                                                                '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC.</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">Written by: Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p>'

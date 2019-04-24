@@ -6,7 +6,7 @@ To use it, download the source, and run with Python.  You need pyside or pyqt4, 
 You can now call most of PyDV's functionality from within a Python script. Below is an example of how to do this.
         
         import sys
-        sys.path.append("/usr/gapps/pydv/2.0")
+        sys.path.append("/usr/gapps/pydv/current")
         import pydvpy as pydvif
 
         curves = list()

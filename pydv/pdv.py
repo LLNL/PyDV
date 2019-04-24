@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2017, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
 # e-mail: griffin28@llnl.gov
@@ -5564,7 +5564,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 2.4.2b  -  01.16.2019\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 2.4.2  -  04.24.2019\n\tType "help" for more information.\n\n')
             print '\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n'
             console = code.InteractiveConsole(locals())
             console.interact()
