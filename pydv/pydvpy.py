@@ -2548,7 +2548,7 @@ def getymin(c, xmin=None, xmax=None):
     return __toCurveString(c), ymin
 
 
-def correlate(c1, c2, mode='same'):
+def correlate(c1, c2, mode='valid'):
     """
     Computes the cross-correlation of two 1D sequences (c1.y and c2.y) as defined by numpy.correlate.
 
@@ -2577,10 +2577,14 @@ def correlate(c1, c2, mode='same'):
     """
     nc = curve.Curve('', 'correlate(' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ')')
 
-    ic1, ic2 = curve.getinterp(c1, c2)
-    y = np.correlate(ic1.y, ic2.y, mode)
+    ic1, step = curve.interp1d(c1, len(c1.x), True)
+    c2npts = (max(c2.x) - min(c2.x)) / step
+    ic2 = curve.interp1d(c2, c2npts)
 
-    nc.x = ic1.x
+    y = np.correlate(ic1.y, ic2.y, mode)
+    start = min([min(ic1.x), min(ic2.x)])
+    stop = max([max(ic1.x), max(ic2.x)])
+    nc.x = np.linspace(start, stop, num=len(y))
     nc.y = np.array(y)
 
     return nc
@@ -2639,6 +2643,7 @@ def convolveb(c1, c2, npts=100):
     :type npts: int
     :return: Curve -- the convolution of the two curves c1 and c2 using integration and normalizing c2
     """
+
     return convolve_int(c1, c2, True, npts)
 
 
@@ -2658,6 +2663,7 @@ def convolvec(c1, c2, npts=100):
     :type npts: int
     :return: Curve -- the convolution of the two curves c1 and c2 using integration and no normalization
     """
+
     return convolve_int(c1, c2, False, npts)
 
 

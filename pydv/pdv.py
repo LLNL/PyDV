@@ -3885,7 +3885,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
-            self.help_convolveb()
+            self.help_convolvec()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
@@ -3951,7 +3951,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     c2 = self.plotlist[i]
                     break
 
-            nc = pydvif.correlate(c1, c2)
+            nc = pydvif.correlate(c1, c2, 'same')
 
             self.addtoplot(nc)
             self.plotedit = True
