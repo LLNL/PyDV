@@ -8,12 +8,12 @@ from os import path
 here = path.abspath(path.dirname(__file__))
 
 # Get long description from README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
         name='PyDV',
-        version='2.4.1',
+        version='2.4.2',
         description='PyDV: Python Data Visualizer',
         long_description=long_description,
         author='Kevin Griffin',
