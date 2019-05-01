@@ -2494,6 +2494,12 @@ def integrate(curvelist, low=None, high=None):
         else:
             nc.name = 'Integrate %s [%.1f,%.1f]' % (c.plotname, low, high)
 
+        if low is None:
+            low = min(nc.x)
+
+        if high is None:
+            high = max(nc.x)
+
         r = __get_sub_range(nc.x, low, high)
         nc.x = nc.x[r[0]:r[1]+1]
         nc.y = nc.y[r[0]:r[1]+1]

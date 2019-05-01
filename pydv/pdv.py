@@ -181,6 +181,7 @@ class Command(cmd.Cmd, object):
         if not line:
             return line
         check = line.split()[0].strip()
+        # TODO: check2 = line.split()[1].strip()
         if(check == '+'):
             line = 'add ' + line[1:]
         elif(check == '-'):
@@ -1233,7 +1234,7 @@ class Command(cmd.Cmd, object):
                 d.y = numpy.array([Linf]*c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
-                d = self.integrate(c,xmin,xmax) # d = integral( c**N )
+                d = pydvif.integrate(c,xmin,xmax) # d = integral( c**N )
                 d = d**(1.0/N)
                 print "L%d norm = " % N, max(d.y)
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
@@ -4194,17 +4195,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def do_run(self, line):
         try:
             fname = line.strip()
-            if(fname[0] == '~'):
+            if fname[0] == '~':
                 fname = os.getenv('HOME') + fname[1:]
             f = open(fname, 'r')
             for fline in f:
                 try:
-                    if len(fline.strip()) == 0: continue  # skip blank lines
-                    if fline.strip()[0] == '#': continue  # skip comment lines
+                    if len(fline.strip()) == 0:
+                        continue  # skip blank lines
+                    if fline.strip()[0] == '#':
+                        continue  # skip comment lines
                     fline = self.precmd(fline.strip())
                     args = fline.split()
                     cmd = args.pop(0)
-                    if(cmd == 'image'):
+                    if cmd == 'image':
                         self.updateplot
                     args = ' '.join(args)
                     send = 'self.do_' + cmd + '(\'' + args + '\')'
@@ -4213,7 +4216,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.do_quit(line)
                 except:
                     print 'invalid command: ' + fline.strip()
-                    if(self.debug): traceback.print_exc(file=sys.stdout)
+                    if self.debug:
+                        traceback.print_exc(file=sys.stdout)
             self.plotedit = True
             self.updateplot
         except SystemExit:
@@ -5655,7 +5659,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
         try:
             # Start interactive console in separate thread
-            thread = Thread(target = self.console_run)
+            thread = Thread(target=self.console_run)
             thread.start()
 
             # Start PyDV Application
