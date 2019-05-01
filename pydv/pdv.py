@@ -177,19 +177,45 @@ class Command(cmd.Cmd, object):
         for i in range(len(self.plotlist)):
             pl.append(self.plotlist[i].copy())
         self.oldlist = pl
-        line = line.strip()
+
+        line = line.split()
         if not line:
             return line
-        check = line.split()[0].strip()
-        # TODO: check2 = line.split()[1].strip()
-        if(check == '+'):
-            line = 'add ' + line[1:]
-        elif(check == '-'):
-            line = 'subtract ' + line[1:]
-        elif(check == '/'):
-            line = 'divide ' + line[1:]
-        elif(check == '*'):
-            line = 'multiply ' + line[1:]
+
+        check = line.pop(0)
+        need_join_line = False
+        if check == '+':
+            line = 'add ' + ' '.join(line)
+        elif check == '-':
+            line = 'subtract ' + ' '.join(line)
+        elif check == '/':
+            line = 'divide ' + ' '.join(line)
+        elif check == '*':
+            line = 'multiply ' + ' '.join(line)
+        else:
+            line.insert(0, check)
+            need_join_line = True
+
+        if need_join_line and len(line) > 2:
+            need_join_line = False
+            check2 = line.pop(1)
+
+            if check2 == '+':
+                line = 'add ' + ' '.join(line)
+            elif check2 == '-':
+                line = 'subtract ' + ' '.join(line)
+            elif check2 == '/':
+                line = 'divide ' + ' '.join(line)
+            elif check2 == '*':
+                line = 'multiply ' + ' '.join(line)
+            elif check2 == '**':
+                line = 'powr ' + ' '.join(line)
+            else:
+                line.insert(1, check2)
+                need_join_line = True
+
+        if need_join_line:
+            line = ' '.join(line)
 
         line = line.replace('re-id', 'reid')
         line = line.replace('data-id', 'dataid')
@@ -1234,7 +1260,7 @@ class Command(cmd.Cmd, object):
                 d.y = numpy.array([Linf]*c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
-                d = pydvif.integrate(c,xmin,xmax) # d = integral( c**N )
+                d = pydvif.integrate(c, xmin, xmax)[0] # d = integral( c**N )
                 d = d**(1.0/N)
                 print "L%d norm = " % N, max(d.y)
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname

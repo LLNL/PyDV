@@ -19,7 +19,7 @@ setup(
         author='Kevin Griffin',
         author_email='griffin28@llnl.gov',
         license='BSD',
-        url='https://lc.llnl.gov/stash/projects/VIS/repos/pydv/browse',
+        url='https://github.com/griffin28/PyDV',
         packages=find_packages(),
         classifiers=[
             'Development Status :: 5 - Production/Stable',

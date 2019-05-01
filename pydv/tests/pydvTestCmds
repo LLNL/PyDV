@@ -80,6 +80,10 @@ tan a
 atan a
 tanh a
 atanh a
+a - b
+a + b
+b ** 2
+c / b
 label a atanh(A)
 ylogscale on
 ylogscale off
