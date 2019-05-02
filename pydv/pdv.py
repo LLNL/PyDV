@@ -177,11 +177,12 @@ class Command(cmd.Cmd, object):
         for i in range(len(self.plotlist)):
             pl.append(self.plotlist[i].copy())
         self.oldlist = pl
-
-        line = line.split()
-        if not line:
+        
+        if not line or not line.split():
             return line
 
+        line = line.split()
+      
         check = line.pop(0)
         need_join_line = False
         if check == '+':
