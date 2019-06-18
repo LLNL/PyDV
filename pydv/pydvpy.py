@@ -2510,6 +2510,39 @@ def integrate(curvelist, low=None, high=None):
     return ncurves
 
 
+def gaussian(amp, wid, center, num=100, nsd=3):
+    """
+    Generate a gaussian function.
+
+    >>> curve = pydvif.gaussian(5, 10, 0)
+
+    >>> pydvif.create_plot(curve, legend=True, stylename='ggplot')
+
+    :param amp: amplitude
+    :type amp: float
+    :param wid: width
+    :type wid: float
+    :param center: center
+    :type center: float
+    :param num: optional, number of points
+    :type num: int
+    :param nsd: optional, number of half-widths
+    :type nsd: float
+    :return: Curve -- representing the gaussian function
+    """
+    crv_min = center - (nsd * wid)
+    crv_max = center + (nsd * wid)
+    cc = span(crv_min, crv_max, num)
+
+    dd = cc.y - center
+    cc.y = dd * dd * -1
+    cc.y = np.exp(cc.y / (wid * wid))
+    cc.y = cc.y * amp
+
+    cc.name = "Gaussian"
+    return cc
+
+
 def getymax(c, xmin=None, xmax=None):
     """
     Get the maximum y-value for the curve within the specified domain.

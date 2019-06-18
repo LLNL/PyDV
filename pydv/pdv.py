@@ -4146,6 +4146,46 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print '\n   Procedure: Change the font size of given component, or overall scaling factor\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n'
 
 
+    ## Generate a gaussian function ##
+    def do_gaussian(self, line):
+        """
+        Generates a gaussian function.
+
+        :param line: User Command-Line Input
+        :type line: string
+        """
+        if not line:
+            return 0
+        try:
+            num = 100   # num of points
+            nsd = 3     # num of half-widths
+
+            line = line.split()
+
+            if len(line) < 3:
+                raise RuntimeError("Wrong number of arguments")
+
+            if len(line) == 4:
+                num = int(line[-1])
+            elif len(line) == 5:
+                nsd = float(line[-1])
+                num = int(line[-2])
+
+            amp = float(line[0])
+            wid = float(line[1])
+            center = float(line[2])
+
+            c = pydvif.gaussian(amp, wid, center, num, nsd)
+            self.addtoplot(c)
+            self.plotedit = True
+        except:
+            print 'error - usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_gaussian(self):
+        print '\n   Procedure: Generate a gaussian function.\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n'
+
+
     ##change the window size and location##
     def do_geometry(self, line):
         try:
