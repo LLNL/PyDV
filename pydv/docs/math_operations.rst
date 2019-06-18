@@ -324,6 +324,15 @@ Compute the one-dimensional discrete Fourier Transform for the x-values of the c
 
    [PyDV]: fftx <curve-list>
 
+gaussian
+--------
+
+Generate a gaussian function.
+
+.. code::
+
+   [PyDV]: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]
+
 j0
 --
 
