@@ -2656,12 +2656,16 @@ def convolve(c1, c2, npts=100):
     c2npts = (max(c2.x) - min(c2.x)) / step
     ic2 = curve.interp1d(c2, c2npts)
 
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='same', method='fft'))
+    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='fft'))
     delx = (max(c1.x) - min(c1.x)) / npts
     y *= delx
 
+    xstart = min(min(c1.x), min(c2.x))
+    xstop = xstart + (len(y) * delx)
+    x = np.linspace(xstart, xstop, num=len(y))
+
     namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (FFT) ' + str(npts)
-    nc = makecurve(ic1.x, y, namestr)
+    nc = makecurve(x, y, namestr)
 
     return nc
 
@@ -2734,12 +2738,15 @@ def convolve_int(c1, c2, norm=True, npts=100):
             area = 0.0000009
         ic2.y = ic2.y / area
 
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='same', method='direct'))
+    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='direct'))
     delx = (max(c1.x) - min(c1.x)) / npts
     y *= delx
 
+    xstart = min(min(c1.x), min(c2.x))
+    xstop = xstart + (len(y) * delx)
+    x = np.linspace(xstart, xstop, num=len(y))
     namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (Int) ' + str(npts)
-    nc = makecurve(ic1.x, y, namestr)
+    nc = makecurve(x, y, namestr)
 
     return nc
 
