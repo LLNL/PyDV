@@ -2510,6 +2510,20 @@ def integrate(curvelist, low=None, high=None):
     return ncurves
 
 
+def alpha(ac, ig, res, npts=-1):
+    if npts == -1:
+        npts = len(ac.y)
+
+    ai = curve.Curve.__mul__(ac, ig)
+    num = convolveb(ai, res, npts)
+    denom = convolveb(ig, res, npts)
+    alpha_measured = curve.Curve.__div__(num, denom)
+
+    alpha_measured.name = "Measured alpha"
+    alpha_measured.plotname = ''
+    return alpha_measured
+
+
 def gaussian(amp, wid, center, num=100, nsd=3):
     """
     Generate a gaussian function.
