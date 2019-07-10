@@ -3802,6 +3802,50 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   Usage: appendcurves <curve-list>\n'
 
 
+    def do_alpha(self, line):
+        if not line:
+            return 0
+
+        try:
+            line = line.split()
+            linelen = len(line)
+            if linelen == 3 or linelen == 4:
+                for i in range(len(self.plotlist)):
+                    if self.plotlist[i].plotname == line[0].upper():
+                        c1 = self.plotlist[i]
+                        break
+                for i in range(len(self.plotlist)):
+                    if self.plotlist[i].plotname == line[1].upper():
+                        c2 = self.plotlist[i]
+                        break
+                for i in range(len(self.plotlist)):
+                    if self.plotlist[i].plotname == line[2].upper():
+                        c3 = self.plotlist[i]
+                        break
+
+                if linelen == 4:
+                    npts = int(line[3])
+                    nc = pydvif.alpha(c1, c2, c3, npts)
+                else:
+                    nc = pydvif.alpha(c1, c2, c3)
+
+                self.addtoplot(nc)
+                self.plotedit = True
+            else:
+                raise RuntimeError("Wrong number of arguments, expecting 3 or 4 but received %d." % len(line))
+        except RuntimeError as rte:
+            print 'error: %s' % rte
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        except:
+            self.help_alpha()
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_alpha(self):
+        print '\n   Procedure: Find the alpha' \
+              '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]'
+
+
     ##make a new curve - the convolution of two given curves##
     def do_convolve(self, line):
         if not line:
