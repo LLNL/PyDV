@@ -273,7 +273,7 @@ def interp1d(a, num=100, retstep=False):
     :returns: ia: curve -- the interpolated and dimensions matched version of a
               step: float, optional -- only returned if retstep is True. Size of the spacing between samples
     """
-    f = interpolate.interp1d(a.x, a.y, kind='cubic', bounds_error=False, fill_value=0)
+    f = interpolate.interp1d(a.x, a.y, kind='linear', bounds_error=False, fill_value=0)
 
     ia = a.copy()
 
