@@ -82,6 +82,7 @@ import scipy
 import scipy.integrate
 import scipy.special
 import scipy.signal
+import scipy.misc
 from scipy import interpolate
 
 import matplotlib.pyplot as plt
@@ -2847,9 +2848,9 @@ def fft(c, n=None, axis=-1, norm=None):
     return nc1, nc2
 
 
-def derivative(c):
+def derivative(c, eo=1):
     """
-    Take the derivative of the curve. then take the derivative of the curve by itself and next.
+    Take the derivative of the curve.
 
     >>> curves = pydvif.read('testData.txt')
 
@@ -2857,24 +2858,15 @@ def derivative(c):
 
     :param c: The curve
     :type c: Curve
+    :param eo: edge_order, gradient is calculated using N-th order accurate differences at the boundaries.
+               Default: 1.
+    :type eo: int, optional
     :return: A new curve representing the derivate of c
     """
-    nc = c.copy()
-    nc.filename = ''
-    nc.name = 'Derivative ' + __toCurveString(c)
-    x = list()
-    y = list()
+    nc = curve.Curve('', 'Derivative ' + __toCurveString(c))
 
-    for i in range(len(c.x)-1):
-        x.insert(i, c.x[i+1])
-
-        run = c.x[i+1] - c.x[i]
-        if run == 0:
-            run = 1e-4
-        y.insert(i, (c.y[i+1] - c.y[i])/run)
-
-    nc.x = np.array(x)
-    nc.y = np.array(y)
+    nc.x = c.x
+    nc.y = np.gradient(c.y, c.x, edge_order=eo)
 
     return nc
 

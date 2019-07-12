@@ -3385,21 +3385,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         name = self.plotlist[j].plotname
-                        if(name == line[i].upper()):
+                        if name == line[i].upper():
                             cur = self.plotlist[j]
-                            """nc = curve.Curve('', 'Derivative ' + cur.plotname)
-                            nc.plotname = self.getcurvename()
-                            y = []
-                            for dex in range(len(cur.x)-1):
-                                run = cur.x[dex+1] - cur.x[dex]
-                                if(run == 0):
-                                    run = 1e-4
-                                y.insert(dex, (cur.y[dex+1] - cur.y[dex])/run)
-                            nc.y = numpy.array(y)
-                            x = []
-                            for dex in range(len(cur.x)-1):
-                                x.insert(dex, cur.x[dex+1])
-                            nc.x = numpy.array(x)"""
                             nc = self.derivative(cur)
                             self.addtoplot(nc)
                             break
