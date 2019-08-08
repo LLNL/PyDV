@@ -3158,7 +3158,7 @@ def fit(c, n=1, logx=False, logy=False):
         x = np.log10(x)
 
     if logy:
-        y = np.log10(x)
+        y = np.log10(y)
 
     coeffs = scipy.polyfit(x, y, n)
     if len(coeffs) == 2:
@@ -3167,15 +3167,15 @@ def fit(c, n=1, logx=False, logy=False):
         print "coefficients are: ", coeffs
 
     if n==1:
-        oString = "1st"
+        oString = "1st "
     elif n == 2:
-        oString = "2nd"
+        oString = "2nd "
     elif n == 3:
-        oString = "3rd"
+        oString = "3rd "
     else:
-        oString = "%dth" % n
+        oString = "%dth " % n
 
-    nc = curve.Curve('', oString + ' order fit to ' + __toCurveString(c))
+    nc = curve.Curve('', oString + 'order fit to ' + __toCurveString(c))
     nc.x = np.array(x)
     nc.y = scipy.polyval(coeffs, x)
 
