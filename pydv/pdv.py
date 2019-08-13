@@ -138,6 +138,9 @@ class Command(cmd.Cmd, object):
     key_loc = 1
     key_ncol = 1
     showgrid = True
+    gridcolor = 'white'
+    gridstyle = 'solid'
+    gridwidth = 1.0
     showletters = True
     xlogscale = False
     ylogscale = False
@@ -942,7 +945,7 @@ class Command(cmd.Cmd, object):
                     elif cur.linestyle == '--':
                         pp_linestyle= 'dash'
                     elif cur.linestyle == '-.':
-                        pp_linestyle = 'dotdash'
+                        pp_linestyle = 'dashdot'
                     print '    Style = {}'.format(pp_linestyle)
                     print '    Curve width = {} '.format(cur.linewidth)
                     print '    Edited = {}'.format(cur.edited)
@@ -2556,7 +2559,6 @@ class Command(cmd.Cmd, object):
         print '\n   Command: change the length of the lines in the legend'
         print '     Usage: handlelength <integer>'
 
-
     ##show or hide the grid##
     def do_grid(self, line):
         try:
@@ -2574,6 +2576,60 @@ class Command(cmd.Cmd, object):
     def help_grid(self):
         print '\n   Variable: Show the grid if True\n   Usage: grid on | off\n'
 
+    ##set the grid color##
+    def do_gridcolor(self, line):
+        if not line:
+            return 0
+        try:
+            color = line.strip()
+            if mclr.is_color_like(color):
+                self.gridcolor = color
+            else:
+                print 'error: invalid color ' + color
+                return 0
+        except:
+            print 'error - usage: gridcolor <color-name>'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_gridcolor(self):
+            print '\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>\n   ' \
+                  'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   ' \
+                  'The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!'
+
+    ## Change the grid style ##
+    def do_gridstyle(self, line):
+        if not line:
+            return 0
+
+        style = line.strip()
+
+        if style == 'solid':
+            self.gridstyle = '-'
+        elif style == 'dot':
+            self.gridstyle = ':'
+        elif style == 'dash':
+            self.gridstyle = '--'
+        elif style == 'dashdot':
+            self.gridstyle = '-.'
+        else:
+            print 'error: invalid style ' + style
+            return 0
+    def help_gridstyle(self):
+        print '\n   Procedure: Set the line style for the grid.\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n'
+
+    ## Set the grid line width ##
+    def do_gridwidth(self, line):
+        if not line:
+            return 0
+
+        try:
+            self.gridwidth = float(line.strip())
+        except:
+            print 'error - usage: gridwidth <width>'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_gridwidth(self):
+        print '\n   Procedure: Set the grid line width in points.\n   Usage: gridwidth <width>\n'
 
     ##show or hide letter markers on plotted curves##
     def do_dataid(self, line):
@@ -2735,10 +2791,10 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'lnstyle', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: lnstyle <curve-list> <style: solid | dash | dot | dotdash>'
+            print 'error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>'
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_lnstyle(self):
-        print '\n   Procedure: Set the line style of curves\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dotdash>\n'
+        print '\n   Procedure: Set the line style of curves\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n'
 
     ##set draw style of given curves##
     def do_drawstyle(self, line):
@@ -4896,7 +4952,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                 cur.linestyle = ':'
                             elif modvalue == 'dash':
                                 cur.linestyle = '--'
-                            elif modvalue == 'dotdash':
+                            elif modvalue == 'dashdot':
                                 cur.linestyle = '-.'
                             cur.dashes = None      # Restore default dash behaviour
                         elif(flag == 'drawstyle'):
@@ -5394,11 +5450,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.showgrid:
                 if plt.xlim is not None and plt.ylim is not None:
                     if((plt.xlim()[0]*100 > plt.xlim()[1] and xls) or (plt.ylim()[0]*100 > plt.ylim()[1] and yls)):
-                        plt.grid(True, which='majorminor')
+                        plt.grid(True, which='majorminor', color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
                     else:
-                        plt.grid(True)
+                        plt.grid(True, color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
                 else:
-                    plt.grid(True)
+                    plt.grid(True, color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
             else:
                 plt.grid(False)
 
