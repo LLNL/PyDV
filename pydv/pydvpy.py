@@ -3485,6 +3485,31 @@ def dupx(curvelist):
     for c in curves:
         c.y = np.copy(c.x)
 
+def sort(curve):
+    """
+    Sort the specified curve so that their points are plotted in order of ascending x values.
+
+     >>> c = pydvif.span(1, 10)
+
+     >>> pydvif.sort(c)
+
+    :param curve: The curve to sort
+    :type curve: Curve
+    """
+    index_array = np.argsort(curve.x)
+    x = list()
+    y = list()
+
+    for index in index_array:
+        x.append(curve.x[index])
+        y.append(curve.y[index])
+
+    curve.x = np.array(x)
+    curve.y = np.array(y)
+
+    if curve.name.find('[s]') == -1:
+        curve.name = curve.name + ' [s]'
+
 def xindex(curvelist):
     """
     Create curves with y-values vs. integer index values.

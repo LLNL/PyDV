@@ -1610,6 +1610,27 @@ class Command(cmd.Cmd, object):
     def help_getlabel(self):
         print "\n   Procedure: Return the given curve's label\n   Usage: getlabel <curve>\n"
 
+    ## sort curves in ascending x value ##
+    def do_sort(self, line):
+        try:
+            if len(line.split(':')) > 1:
+                self.do_sort(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                for i in range(len(line)):
+                    j = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[j]
+                    pydvif.sort(cur)
+            self.plotedit = True
+        except:
+            print 'error - usage: sort <curve-list>'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_sort(self):
+        print '\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x ' \
+              'values. \n   Usage: sort <curve-list>\n'
+
 
     ##Display the y-values in the specified curves##
     def do_disp(self, line):
@@ -5063,7 +5084,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
         if(not line):
             return 0
-        if(len(line.split(':')) > 1):
+        if len(line.split(':')) > 1:
             self.func_curve(pdvutil.getletterargs(line), flag, do_x, args)
             return 0
         else:
