@@ -4862,12 +4862,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##get curve from its label/plot name##
     def curvefromlabel(self, label):
-        if(label[:1] != '@' and ord(label.upper()) >= ord('A') and ord(label.upper()) <= ord('Z')):
-            return self.plotlist[ord(label.upper()) - ord('A')]
-        else:
-            return self.plotlist[int(label[1:])-1]
-        return None
+        label = label.upper()
+        for c in self.plotlist:
+            if c.plotname == label:
+                return c
 
+        raise ValueError('label "%s" not found in the plot list' % label)
 
     ##ensure curve is valid and add it to the plotlist##
     def addtoplot(self, cur):
@@ -4885,7 +4885,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotlist.insert((ord(cur.plotname) - ord('A')), cur)
         else:
             self.plotlist.insert(int(cur.plotname[1:])-1, cur)
-
 
     ##return derivative of curve##
     def derivative(self, cur):
