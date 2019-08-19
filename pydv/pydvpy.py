@@ -3510,6 +3510,26 @@ def sort(curve):
     if curve.name.find('[s]') == -1:
         curve.name = curve.name + ' [s]'
 
+def rev(curve):
+    """
+    Swap x and y values for the specified curves. You may want to sort after this one.
+
+     >>> c = pydvif.span(1, 10)
+
+     >>> pydvif.rev(c)
+
+    :param curve: The curve to sort
+    :type curve: Curve
+    """
+    x = np.copy(curve.y)
+    y = np.copy(curve.x)
+
+    curve.x = x
+    curve.y = y
+
+    if curve.name.find('[r]') == -1:
+        curve.name = curve.name + ' [r]'
+
 def xindex(curvelist):
     """
     Create curves with y-values vs. integer index values.
