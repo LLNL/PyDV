@@ -1631,6 +1631,26 @@ class Command(cmd.Cmd, object):
         print '\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x ' \
               'values. \n   Usage: sort <curve-list>\n'
 
+    ## swap x and y values for the specified curves ##
+    def do_rev(self, line):
+        try:
+            if len(line.split(':')) > 1:
+                self.do_rev(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                for i in range(len(line)):
+                    j = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[j]
+                    pydvif.rev(cur)
+            self.plotedit = True
+        except:
+            print 'error - usage: rev <curve-list>'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_rev(self):
+        print '\n   Procedure: Swap x and y values for the specified curves. You may want to sort after this one. \n' \
+              '   Usage: rev <curve-list>\n'
 
     ##Display the y-values in the specified curves##
     def do_disp(self, line):

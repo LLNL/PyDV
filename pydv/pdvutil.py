@@ -66,7 +66,7 @@ def getCurveIndex(plotname, plotlist):
     for j in range(len(plotlist)):
         if plotname.upper() == plotlist[j].plotname:
             return j
-    raise RuntimeError, "pdvutil.py getCurveIndex - failed to find curve index"
+    raise RuntimeError("pdvutil.py getCurveIndex - failed to find curve index")
         
 ##parses and calculates mathematical input for curves, then updates plot##
 def parsemath(line, plotlist, commander, xdomain):
