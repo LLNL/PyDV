@@ -74,6 +74,7 @@ import string
 import traceback
 import sys
 import re
+import random as sysrand
 
 from distutils.version import LooseVersion
 
@@ -3507,9 +3508,6 @@ def sort(curve):
     curve.x = np.array(x)
     curve.y = np.array(y)
 
-    if curve.name.find('[s]') == -1:
-        curve.name = curve.name + ' [s]'
-
 def rev(curve):
     """
     Swap x and y values for the specified curves. You may want to sort after this one.
@@ -3527,8 +3525,19 @@ def rev(curve):
     curve.x = x
     curve.y = y
 
-    if curve.name.find('[r]') == -1:
-        curve.name = curve.name + ' [r]'
+def random(curve):
+    """
+    Generate random y values between -1 and 1 for the specified curves.
+
+     >>> c = pydvif.span(1, 10)
+
+     >>> pydvif.random(c)
+
+    :param curve: The curve to sort
+    :type curve: Curve
+    """
+    for i in range(len(curve.y)):
+        curve.y[i] = sysrand.uniform(-1, 1)
 
 def xindex(curvelist):
     """
