@@ -138,6 +138,7 @@ class Command(cmd.Cmd, object):
     key_loc = 1
     key_ncol = 1
     showgrid = True
+    showminorticks = False
     gridcolor = 'white'
     gridstyle = 'solid'
     gridwidth = 1.0
@@ -164,13 +165,21 @@ class Command(cmd.Cmd, object):
     xCol = 0    # column to use for x-axis, if doing column format reads
     debug = False
     redraw = True
+    xmajortickcolor = 'black'
+    xminortickcolor = 'black'
+    ymajortickcolor = 'black'
+    yminortickcolor = 'black'
     xtickformat = 'de'
     ytickformat = 'de'
     xticklength = 4
+    xminorticklength = 2
     yticklength = 4
+    yminorticklength = 2
     xtickwidth = 1
+    xminortickwidth = 0.5
     ytickwidth = 1
-    namewidth = 25
+    yminortickwidth = 0.5
+    namewidth = 50
     updatestyle = False
     linewidth = None
 
@@ -895,7 +904,10 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_color(self):
-        print '\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!'
+        print '\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   ' \
+              'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
+              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
+              'to see the available named colors!'
 
     ##return a curves mean and standard deviation##
     def do_stats(self,line):
@@ -2621,6 +2633,24 @@ class Command(cmd.Cmd, object):
         print '\n   Command: change the length of the lines in the legend'
         print '     Usage: handlelength <integer>'
 
+    ##show or hide minor ticks##
+    def do_minorticks(self, line):
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showminorticks = False
+            elif line == '1' or line.upper() == 'ON':
+                self.showminorticks = True
+            else:
+                print 'invalid input: requires on or off as argument'
+        except:
+            print 'error - usage: minorticks on | off'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_minorticks(self):
+        print '\n   Variable: Minor ticks are not visible by default. On will make the minor ticks visible and off will' \
+              ' hide the minor ticks.\n   Usage: minorticks on | off\n'
+
     ##show or hide the grid##
     def do_grid(self, line):
         try:
@@ -4237,7 +4267,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontcolor(self):
-        print '\n   Procedure: Change the font color of given component\n  fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n'
+        print '\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.\n   ' \
+              'Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n'
 
     ##edits the font size for various text components##
     def do_fontsize(self, line):
@@ -4708,61 +4739,251 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def help_xticks(self):
         print '\n   Variable: Set the locations of major ticks on the x axis\n   Usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>'
 
+    ## set the color for the x ticks ##
+    def do_xtickcolor(self, line):
+        try:
+            line = line.split()
+
+            if len(line) == 1:  # which = 'major'
+                if line[0] == 'de':
+                    self.xmajortickcolor = 'black'
+                else:
+                    self.xmajortickcolor = line[0]
+            elif len(line) == 2:  # which = 'major|minor|both'
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.xmajortickcolor = 'black'
+                    else:
+                        self.xmajortickcolor = line[0]
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.xminortickcolor = 'black'
+                    else:
+                        self.xminortickcolor = line[0]
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.xmajortickcolor = 'black'
+                        self.xminortickcolor = 'black'
+                    else:
+                        self.xmajortickcolor = line[0]
+                        self.xminortickcolor = line[0]
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
+        except:
+            print 'error - usage: xtickcolor color [which: major | minor | both]'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_xtickcolor(self):
+        print '\n   Variable: Set the color of the ticks on the x axis. Default is apply to major ticks only.\n' \
+              '   Usage: xtickcolor color [which: major | minor | both]\n\n' \
+              '   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
+              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
+              'to see the available named colors!'
+
+    ## set the color for the ticks on the y axis ##
+    def do_ytickcolor(self, line):
+        try:
+            line = line.split()
+
+            if len(line) == 1:  # which = 'major'
+                if line[0] == 'de':
+                    self.ymajortickcolor = 'black'
+                else:
+                    self.ymajortickcolor = line[0]
+            elif len(line) == 2:  # which = 'major|minor|both'
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.ymajortickcolor = 'black'
+                    else:
+                        self.ymajortickcolor = line[0]
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.yminortickcolor = 'black'
+                    else:
+                        self.yminortickcolor = line[0]
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.ymajortickcolor = 'black'
+                        self.yminortickcolor = 'black'
+                    else:
+                        self.ymajortickcolor = line[0]
+                        self.yminortickcolor = line[0]
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
+        except:
+            print 'error - usage: ytickcolor color [which: major | minor | both]'
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_ytickcolor(self):
+        print '\n   Variable: Set the color of the ticks on the y axis. Default is apply to major ticks only.\n' \
+              '   Usage: ytickcolor color [which: major | minor | both]\n\n' \
+              '   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
+              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
+              'to see the available named colors!'
+
     ## set the xticks length explicitly ##
     def do_xticklength(self, line):
         try:
-            if line.strip() == 'de':
-                self.xticklength = 3.2
-            elif isinstance(eval(line.strip()), Number):
-                self.xticklength = eval(line.strip())
+            line = line.split()
+
+            if len(line) == 1:  # which = 'major'
+                if line[0] == 'de':
+                    self.xticklength = 4
+                else:
+                    self.xticklength = float(line[0])
+            elif len(line) == 2:    # which = 'major|minor|both'
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.xticklength = 4
+                    else:
+                        self.xticklength = float(line[0])
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.xminorticklength = 2
+                    else:
+                        self.xminorticklength = float(line[0])
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.xticklength = 4
+                        self.xminorticklength = 2
+                    else:
+                        self.xticklength = float(line[0])
+                        self.xminorticklength = float(line[0])
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: xticklength number'
+            print 'error - usage: xticklength number [which: major | minor | both]'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xticklength(self):
-        print '\n   Variable: Set the length (in points) of x ticks on the x axis.\n   Usage: xticklength number'
+        print '\n   Variable: Set the length (in points) of x ticks on the x axis. Default is apply to major ticks' \
+              ' only.\n   Usage: xticklength number [which: major | minor | both]'
 
     ## set the yticks length explicitly ##
     def do_yticklength(self, line):
         try:
-            if line.strip() == 'de':
-                self.yticklength = 3.2
-            elif isinstance(eval(line.strip()), Number):
-                self.yticklength = eval(line.strip())
+            line = line.split()
+
+            if len(line) == 1:
+                if line[0] == 'de':
+                    self.yticklength = 4
+                else:
+                    self.yticklength = float(line[0])
+            elif len(line) == 2:
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.yticklength = 4
+                    else:
+                        self.yticklength = float(line[0])
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.yminorticklength = 2
+                    else:
+                        self.yminorticklength = float(line[0])
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.yticklength = 4
+                        self.yminorticklength = 2
+                    else:
+                        self.yticklength = float(line[0])
+                        self.yminorticklength = float(line[0])
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: yticklength number'
+            print 'error - usage: yticklength number [which: major | minor | both]'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yticklength(self):
-        print '\n   Variable: Set the length (in points) of y ticks on the y axis.\n   Usage: yticklength number'
+        print '\n   Variable: Set the length (in points) of y ticks on the y axis. Default is apply to major ticks ' \
+              'only.\n   Usage: yticklength number [which: major | minor | both]'
 
     ## set the xticks width explicitly ##
     def do_xtickwidth(self, line):
         try:
-            if line.strip() == 'de':
-                self.xtickwidth = .5
-            elif isinstance(eval(line.strip()), Number):
-                self.xtickwidth = eval(line.strip())
+            line = line.split()
+
+            if len(line) == 1:
+                if line[0] == 'de':
+                    self.xtickwidth = 1
+                else:
+                    self.xtickwidth = float(line[0])
+            elif len(line) == 2:
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.xtickwidth = 1
+                    else:
+                        self.xtickwidth = float(line[0])
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.xminortickwidth = 0.5
+                    else:
+                        self.xminortickwidth = float(line[0])
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.xtickwidth = 1
+                        self.xminortickwidth = 0.5
+                    else:
+                        self.xtickwidth = float(line[0])
+                        self.xminortickwidth = float(line[0])
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: xtickwidth number'
+            print 'error - usage: xtickwidth number [which: major | minor | both]'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xtickwidth(self):
-        print '\n   Variable: Set the width (in points) of x ticks on the x axis.\n   Usage: xtickwidth number'
+        print '\n   Variable: Set the width (in points) of x ticks on the x axis. Default is apply to major ticks' \
+              ' only.\n   Usage: xtickwidth number [which: major | minor | both]'
 
     ## set the yticks width explicitly ##
     def do_ytickwidth(self, line):
         try:
-            if line.strip() == 'de':
-                self.ytickwidth = .5
-            elif isinstance(eval(line.strip()), Number):
-                self.ytickwidth = eval(line.strip())
+            line = line.split()
+
+            if len(line) == 1:
+                if line[0] == 'de':
+                    self.ytickwidth = 1
+                else:
+                    self.ytickwidth = float(line[0])
+            elif len(line) == 2:
+                if line[1].upper() == 'MAJOR':
+                    if line[0] == 'de':
+                        self.ytickwidth = 1
+                    else:
+                        self.ytickwidth = float(line[0])
+                elif line[1].upper() == 'MINOR':
+                    if line[0] == 'de':
+                        self.yminortickwidth = 0.5
+                    else:
+                        self.yminortickwidth = float(line[0])
+                elif line[1].upper() == 'BOTH':
+                    if line[0] == 'de':
+                        self.ytickwidth = 1
+                        self.yminortickwidth = 0.5
+                    else:
+                        self.ytickwidth = float(line[0])
+                        self.yminortickwidth = float(line[0])
+                else:
+                    raise ValueError("Unknown type of axis: %s" % line[1])
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: ytickwidth number'
+            print 'error - usage: ytickwidth number [which: major | minor | both]'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ytickwidth(self):
-        print '\n   Variable: Set the width (in points) of y ticks on the y axis.\n   Usage: ytickwidth number'
+        print '\n   Variable: Set the width (in points) of y ticks on the y axis. Default is apply to major ticks' \
+              ' only.\n   Usage: ytickwidth number [which: major | minor | both]'
 
     ##set the ytickformat explicitly##
     def do_ytickformat(self, line):
@@ -5497,11 +5718,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 #                     or a tuple of (locations, labels)
 #              xls on or off
 #              xtickformat = 'sci', 'plain', 'exp', '10**'
+            if self.showminorticks:
+                plt.minorticks_on()
+                cur_axes.tick_params(axis='x', which='minor', length=self.xminorticklength, width=self.xminortickwidth, color=self.xminortickcolor)
+                cur_axes.tick_params(axis='y', which='minor', length=self.yminorticklength, width=self.yminortickwidth, color=self.yminortickcolor)
 
             # set x,y tick sizes and tick label format
-
-            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth)
-            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth)
+            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor)
+            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth, color=self.ymajortickcolor)
             yaxis = cur_axes.yaxis
             xaxis = cur_axes.xaxis
             self.tickFormat(yaxis, self.ylogscale, self.yticks, self.ytickformat)
@@ -5779,7 +6003,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     axis.set_major_formatter(matplotlib.ticker.FixedFormatter(ticks[1]))
             else: # I can't figure this out, throw an exception
                 print "CAN'T SET TICKS!!!"
-                raise RuntimeError, 'ticks set to bad value'
+                raise RuntimeError('ticks set to bad value')
 
     def console_run(self):
         while True:
