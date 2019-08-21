@@ -3902,12 +3902,12 @@ def __toCurveString(c):
 
     :param c: The curve
     :type c: Curve
-    :return: str -- The curve's plotname if not empty, otherwise, the curve's name
+    :return: str -- The curve's name if not empty, otherwise, the curve's plotname
     """
-    if c.plotname.strip():
-        return c.plotname
+    if c.name:
+        return c.name
 
-    return c.name
+    return c.plotname
 
 
 def __loadcolumns(fname, xcol):

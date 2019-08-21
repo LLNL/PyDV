@@ -191,6 +191,15 @@ Creates a new curve from an expression.
      will generate a curve from different domains (with no error message), and that curve
      will almost certainly not be what you intended.
 
+random
+------
+
+Generate random y values between -1 and 1 for the specified curves.
+
+.. code::
+    
+   [PyDV]: random <curve-list>
+
 redo
 ----
 
@@ -209,6 +218,15 @@ Relabel all the curves in order. **Alternative Form: re-id**
     
    [PyDV]: reid
 
+rev
+---
+
+Swap x and y values for the specified curves. You may want to sort after this one.
+
+.. code::
+    
+   [PyDV]: rev <curve-list>
+
 scatter
 -------
 
@@ -226,6 +244,15 @@ Reveal the specified curves hidden by the hide command
 .. code::
     
    [PyDV]: show <curve-list>
+
+sort
+----
+
+Sort the specified curves so that their points are plotted in order of ascending x values.
+
+.. code::
+    
+   [PyDV]: sort <curve-list>
 
 subsample
 ---------

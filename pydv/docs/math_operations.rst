@@ -73,6 +73,15 @@ Take the sum of curves. **Shortcut:** +
 
    [PyDV]: add <curve-list>
 
+alpha
+-----
+
+Find the alpha.
+
+.. code::
+
+   [PyDV]: alpha <calculated-a> <calculated-i> <response> [# points]
+
 asin
 ----
 
