@@ -474,9 +474,31 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 if first != 1:
                     if len(buildlistx) != 0:
                         if current.drawstyle != 'default':
-                            buildlisty.insert(0, buildlisty[0])
-                        current.x = np.array(buildlistx)
-                        current.y = np.array(buildlisty)
+                            current.drawstyle = 'default'
+                            buildlisty.append(buildlisty[-1])
+                            histx = list()
+                            histx.append(buildlistx[0])
+                            histy = list()
+                            histy.append(buildlisty[0])
+
+                            i = 1
+                            while i < len(buildlisty):
+                                # insert new x,y
+                                histx.append(buildlistx[i])
+                                histy.append(buildlisty[i - 1])
+
+                                # insert old x,y
+                                histx.append(buildlistx[i])
+                                histy.append(buildlisty[i])
+
+                                i += 1
+
+                            current.x = np.array(histx)
+                            current.y = np.array(histy)
+                        else:
+                            current.x = np.array(buildlistx)
+                            current.y = np.array(buildlisty)
+
                         curvelist.append(current)
                         buildlistx = list()
                         buildlisty = list()
@@ -506,17 +528,38 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                                 buildlisty.append(float(vals[i+1]))
                             else:   # treat as piecewise constant
                                 buildlistx.append(float(vals[i]))
-                                current.drawstyle = 'steps-pre'
+                                current.drawstyle = 'steps-post'
                             dim = 'skip'
                         elif dim == 'skip':
                             dim = 'x'
 
         if current is not None:
             if current.drawstyle != 'default':
-                buildlisty.insert(0, buildlisty[0])
+                current.drawstyle = 'default'
+                buildlisty.append(buildlisty[-1])
+                histx = list()
+                histx.append(buildlistx[0])
+                histy = list()
+                histy.append(buildlisty[0])
 
-            current.x = np.array(buildlistx)
-            current.y = np.array(buildlisty)
+                i = 1
+                while i < len(buildlisty):
+                    # insert new x,y
+                    histx.append(buildlistx[i])
+                    histy.append(buildlisty[i-1])
+
+                    # insert old x,y
+                    histx.append(buildlistx[i])
+                    histy.append(buildlisty[i])
+
+                    i += 1
+
+                current.x = np.array(histx)
+                current.y = np.array(histy)
+            else:
+                current.x = np.array(buildlistx)
+                current.y = np.array(buildlisty)
+
             curvelist.append(current)
 
         f.close()
