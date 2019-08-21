@@ -125,6 +125,33 @@ Set whether or not to draw grid lines on the graph. Default is off.
 
    [PyDV]: grid <on | off>
 
+gridcolor
+---------
+
+Set the color of the grid.
+
+.. code::
+
+   [PyDV]: gridcolor <color-name>
+
+gridstyle
+---------
+
+Set the line style for the grid.
+
+.. code::
+
+   [PyDV]: gridstyle <style: solid | dash | dot | dashdot>
+
+gridwidth
+---------
+
+Set the grid line width in points.
+
+.. code::
+
+   [PyDV]: gridwidth <width>
+
 guilims
 -------
 
@@ -215,6 +242,15 @@ Set the marker symbol and scale (optionally) for scatter plots. You can also use
 
    [PyDV]: marker <curve-list> <marker-style: + | . | circle | square | diamond> [marker-size]
 
+minorticks
+----------
+
+Minor ticks are not visible by default. On will make the minor ticks visible and off will hide the minor ticks.
+
+.. code::
+
+   [PyDV]: minorticks <on | off>
+
 movefront
 ---------
 
@@ -288,6 +324,15 @@ Set log scale on or off for the x-axis. **Alternative Form: x-log-scale**, **Sho
 
    [PyDV]: xlogscale <on | off>
 
+xtickcolor
+----------
+
+Set the color of the ticks on the x-axis. Default is to apply to major ticks only.
+
+.. code::
+
+   [PyDV]: xticks <de | color> [which: major | minor | both]
+
 xticks
 ------
 
@@ -309,20 +354,20 @@ Set the format of major ticks on the x axis. Default is plain.
 xticklength
 -----------
 
-Set the length (in points) of x ticks on the axis.
+Set the length (in points) of x ticks on the axis. Default is apply to major ticks only.
 
 .. code::
 
-   [PyDV]: xticklength <number>
+   [PyDV]: xticklength <number> [which: major | minor | both]
 
 xtickwidth
 ----------
 
-Set the width (in points) of x ticks on the x axis.
+Set the width (in points) of x ticks on the x axis. Default is to apply to major ticks only.
 
 .. code::
 
-   [PyDV]: xtickwidth <number>
+   [PyDV]: xtickwidth <number> [which: major | minor | both]
 
 ylabel
 ------
@@ -342,6 +387,15 @@ Set log scale on or off for the y-axis. **Alternative Form: y-log-scale**, **Sho
 
    [PyDV]: ylogscale <on | off>
 
+ytickcolor
+----------
+
+Set the color of the ticks on the y-axis. Default is to apply to major ticks only.
+
+.. code::
+
+   [PyDV]: ytickcolor <de | color> [which: major | minor | both]
+
 ytickformat
 -----------
 
@@ -354,20 +408,20 @@ Set the format of major ticks on the y axis. Default is plain.
 yticklength
 -----------
 
-Set the length (in points) of y ticks on the y axis.
+Set the length (in points) of y ticks on the y axis. Default is to apply to major ticks only.
 
 .. code::
 
-   [PyDV]: yticklength <number>
+   [PyDV]: yticklength <number> [which: major | minor | both]
 
 ytickwidth
 ----------
 
-Set the width (in points) of y ticks on the y axis.
+Set the width (in points) of y ticks on the y axis. Default is to apply to major ticks only.
 
 .. code::
 
-   [PyDV]: ytickwidth <number>
+   [PyDV]: ytickwidth <number> [which: major | minor | both]
 
 yticks
 ------
