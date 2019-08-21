@@ -1,4 +1,4 @@
-PyDV 2.4.2 API Specification 
+PyDV 2.4.3 API Specification 
 ============================
 
 
