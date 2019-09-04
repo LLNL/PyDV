@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from setuptools import setup, find_packages
@@ -13,12 +13,13 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
         name='PyDV',
-        version='2.4.3',
+        version='2.4.4',
         description='PyDV: Python Data Visualizer',
         long_description=long_description,
         author='Kevin Griffin',
         author_email='griffin28@llnl.gov',
         license='BSD',
+        python_requires='>=3',
         url='https://github.com/griffin28/PyDV',
         packages=find_packages(),
         classifiers=[

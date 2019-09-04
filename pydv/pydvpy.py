@@ -68,6 +68,8 @@ A python interface for PyDV functionality.
 
 >>> import pydvpy as pydvif
 """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import string
@@ -94,7 +96,7 @@ try:
 except:
     stylesLoaded = False
 
-import curve
+from . import curve
 
 try:
     import pact.pdb as pdb
@@ -318,7 +320,7 @@ def create_plot(curvelist, **kwargs):
         try:
             plt.savefig(fname + '.' + ftype, format=ftype)
         except:
-            print 'Error: Could not save image to ' + fname + ' of type ' + ftype
+            print('Error: Could not save image to ' + fname + ' of type ' + ftype)
 
     return plt
 
@@ -356,7 +358,7 @@ def save(fname, curvelist, verbose=False):
             for dex in range(len(curve.x)):
                 f.write(' ' + str(curve.x[dex]) + ' ' + str(curve.y[dex]) + '\n')
     except:
-        print 'Error: Can not write to: ' + fname
+        print('Error: Can not write to: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
     finally:
@@ -403,7 +405,7 @@ def savecsv(fname, curvelist, verbose=False):
             s += '\n'
             f.write(s)
     except:
-        print 'Error: Can not write to: ' + fname
+        print('Error: Can not write to: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
     finally:
@@ -564,11 +566,11 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
         f.close()
     except IOError:
-        print 'could not load file: ' + fname
+        print('could not load file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
     except ValueError:
-        print 'invalid ultra file: ' + fname
+        print('invalid ultra file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -620,7 +622,7 @@ def readcsv(fname, xcol=0, verbose=False):
     try:
         f = open(fname, 'r')
     except IOError:
-        print 'readcsv: could not load file: ' + fname
+        print('readcsv: could not load file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
         return curvelist
@@ -633,7 +635,7 @@ def readcsv(fname, xcol=0, verbose=False):
                 break;
             iLine += 1
         if iLine == 0 and False: # FIXME make condition to catch no labels
-            print 'WARNING: columns have no labels, labels will be assigned...someday'
+            print('WARNING: columns have no labels, labels will be assigned...someday')
         alllabels = lines[iLine] # this line has the labels on it.
         colLabels = alllabels.split(',')
         colLabels = [string.strip(w) for w in colLabels]
@@ -641,7 +643,7 @@ def readcsv(fname, xcol=0, verbose=False):
             if '"' in w: w.replace('"','')
         # check that we have a label for every column
         if len(colLabels) != len(lines[iLine].split(',')) and iLine > 0:
-            raise RuntimeError, 'Sorry, right now PDV requires you to have a label for every column.'
+            raise RuntimeError('Sorry, right now PDV requires you to have a label for every column.')
         # We assume some column is the x-data, every other column
         # is y-data
         iLine += 1 # go to next line after header labels
@@ -659,7 +661,7 @@ def readcsv(fname, xcol=0, verbose=False):
             # print 'nums = ', nums, 'numcurves = ', numcurves
             assert len(nums) == numcurves + 1
             if xcol >= numcurves:
-                print 'xcolumn is %d, larger than the number of curves in the file, use "setxcolumn" to fix that' % xcol
+                print('xcolumn is %d, larger than the number of curves in the file, use "setxcolumn" to fix that' % xcol)
             for colID in xrange(numcurves + 1):
                 localCurves[colID].append(nums[colID])
         # convert lists to numpy arrays
@@ -669,14 +671,14 @@ def readcsv(fname, xcol=0, verbose=False):
         for colID in xrange(numcurves + 1):
             if colID != xcol:
                 c = makecurve(localCurves[xcol], localCurves[colID], colLabels[colID], fname)
-                print "Appended curve: ", colLabels[colID], len(c.x), len(c.y)
+                print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
                 curvelist.append(c)
         # tidy up
         f.close()
     # anticipate failure!
     except ValueError as e:
-        print e.message
-        print 'readcsv: invalid ultra file: ' + fname
+        print(e.message)
+        print('readcsv: invalid ultra file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -1233,7 +1235,7 @@ def add(curvelist):
         c.name = name
 
         if c.x is None or len(c.x) < 2:
-            print 'Error: curve overlap is insufficient'
+            print('Error: curve overlap is insufficient')
             return 0
 
         return c
@@ -1268,7 +1270,7 @@ def subtract(curvelist):
         c.name = name
 
         if c.x is None or len(c.x) < 2:
-            print 'Error: curve overlap is insufficient'
+            print('Error: curve overlap is insufficient')
             return 0
 
         return c
@@ -1302,7 +1304,7 @@ def multiply(curvelist):
         c.name = name
 
         if c.x is None or len(c.x) < 2:
-            print 'Error: curve overlap is insufficient'
+            print('Error: curve overlap is insufficient')
             return 0
 
         return c
@@ -1336,7 +1338,7 @@ def divide(curvelist):
         c.name = name
 
         if c.x is None or len(c.x) < 2:
-            print 'Error: curve overlap is insufficient'
+            print('Error: curve overlap is insufficient')
             return 0
 
         return c
@@ -1529,7 +1531,7 @@ def l1(c1, c2, xmin=None, xmax=None):
 
     if xmin is not None and xmax is not None:
         if xmax <= xmin:
-            raise RuntimeError, "xmin > xmax or xmin == xmax in l1"
+            raise RuntimeError("xmin > xmax or xmin == xmax in l1")
     else:
         xmin = np.min(c.x)
         xmax = np.max(c.x)
@@ -1565,7 +1567,7 @@ def l2(c1, c2, xmin=None, xmax=None):
 
     if xmin is not None and xmax is not None:
         if xmax <= xmin:
-            raise RuntimeError, "xmin > xmax or xmin == xmax in l2"
+            raise RuntimeError("xmin > xmax or xmin == xmax in l2")
     else:
         xmin = np.min(c.x)
         xmax = np.max(c.x)
@@ -1608,7 +1610,7 @@ def norm(c1, c2, p, xmin=None, xmax=None):
 
     if xmin is not None and xmax is not None:
         if xmax <= xmin:
-            raise RuntimeError, "xmin > xmax or xmin == xmax in norm"
+            raise RuntimeError("xmin > xmax or xmin == xmax in norm")
     else:
         xmin = np.min(c.x)
         xmax = np.max(c.x)
@@ -3018,7 +3020,7 @@ def subsample(curvelist, stride=2, verbose=False):
         c.y = yss
 
         if verbose:
-            print "Reduced %s from %i -> %i values." % (c.name, n, len(c.x))
+            print("Reduced %s from %i -> %i values." % (c.name, n, len(c.x)))
 
 
 def smooth(curvelist, factor=1):
@@ -3206,9 +3208,9 @@ def fit(c, n=1, logx=False, logy=False):
 
     coeffs = scipy.polyfit(x, y, n)
     if len(coeffs) == 2:
-        print "slope = ", coeffs[0], " intercept = ", coeffs[1]
+        print("slope = ", coeffs[0], " intercept = ", coeffs[1])
     else:
-        print "coefficients are: ", coeffs
+        print("coefficients are: ", coeffs)
 
     if n==1:
         oString = "1st "
@@ -3343,7 +3345,7 @@ def getx(c, value):
     xypairs = list()
 
     if float(value) < np.amin(c.y) or float(value) > np.amax(c.y):
-        raise ValueError, 'y-value out of range'
+        raise ValueError('y-value out of range')
 
     for i in range(len(c.y)):
         if c.y[i] == float(value):
@@ -3659,7 +3661,7 @@ def max_curve(curvelist):
     y = np.zeros(len(x))
 
     for i in range(len(x)):
-        y[i] = float(-sys.maxint - 1)
+        y[i] = float(-sys.maxsize - 1)
         for j in range(len(curvelist)):
             try:
                 vals = gety(curvelist[j], x[i])
@@ -3704,7 +3706,7 @@ def min_curve(curvelist):
     y = np.zeros(len(x))
 
     for i in range(len(x)):
-        y[i] = float(sys.maxint)
+        y[i] = float(sys.maxsize)
         for j in range(len(curvelist)):
             try:
                 vals = gety(curvelist[j], x[i])
@@ -3934,7 +3936,7 @@ def __loadcolumns(fname, xcol):
                 break;
             iLine += 1
         if iLine == 0:
-            print 'WARNING: columns have no labels, labels will be assigned...someday'
+            print('WARNING: columns have no labels, labels will be assigned...someday')
         alllabels = lines[iLine - 1][1:] # drop leading '#' character
         if '"' in alllabels:
             colLabels = [x for x in alllabels.split('"')[1:-1] if len(x.replace(" ", "")) > 0]
@@ -3942,7 +3944,7 @@ def __loadcolumns(fname, xcol):
             colLabels = alllabels.split()
         # check that we have a label for every column
         if len(colLabels) != len(lines[iLine].split()) and iLine > 0:
-            raise RuntimeError, 'Sorry, right now PyDV requires you to have a label for every column.'
+            raise RuntimeError('Sorry, right now PyDV requires you to have a label for every column.')
         # We assume some column is the x-data, every other column
         # is y-data
         numcurves = len(lines[iLine].split()) - 1
@@ -3968,16 +3970,16 @@ def __loadcolumns(fname, xcol):
                 c = curve.Curve(fname, colLabels[colID])
                 c.x = localCurves[xcol]
                 c.y = localCurves[colID]
-                print "Appended curve: ", colLabels[colID], len(c.x), len(c.y)
+                print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
                 curvelist.append(c)
         # tidy up
         f.close()
     # anticipate failure!
     except IOError:
         traceback.print_exc(file=sys.stdout)
-        print 'could not load file: ' + fname
+        print('could not load file: ' + fname)
     except ValueError:
-        print 'invalid ultra file: ' + fname
+        print('invalid ultra file: ' + fname)
 
     return curvelist
 
@@ -3999,8 +4001,8 @@ def __loadpdb(fname, fpdb):
 
             fpdb.close()
     except IOError:
-        print 'could not load file: ' + fname
+        print('could not load file: ' + fname)
     except ValueError:
-        print 'invalid ultra file: ' + fname
+        print('invalid ultra file: ' + fname)
 
     return curvelist

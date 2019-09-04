@@ -1,3 +1,4 @@
+from __future__ import print_function
 # Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
@@ -95,7 +96,7 @@ def parsemath(line, plotlist, commander, xdomain):
     c.name = ' '.join(line).replace('commander.', '').title()  # set name
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
-        print 'error: curve overlap is not sufficient'
+        print('error: curve overlap is not sufficient')
         return 0
     # put new curve into plotlist
     if(c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):

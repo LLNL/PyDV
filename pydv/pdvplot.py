@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
@@ -64,8 +66,8 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
 
 from os import path
 
-from pdvnavbar import PyDVToolbar
-import pdvutil
+from .pdvnavbar import PyDVToolbar
+from . import pdvutil
 
 try:
     from matplotlib import style
@@ -79,8 +81,9 @@ if use_pyside:
     from PySide.QtCore import *
     from PySide.QtGui import *
 else:
-    from PyQt4.QtCore import *
-    from PyQt4.QtGui import *
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 
 
 class Plotter(QMainWindow):
@@ -525,7 +528,7 @@ class Plotter(QMainWindow):
 
         if rowcnt > 0:
             if rowcnt == len(self._pydvcmd.plotlist):
-                print "erase"
+                print("erase")
                 self._pydvcmd.do_erase("erase")
             else:
                 plotnames = str()
@@ -533,7 +536,7 @@ class Plotter(QMainWindow):
                     row = index.row()
                     plotnames += "%s " % self._pydvcmd.plotlist[row].plotname
 
-                print "delete %s" % plotnames
+                print("delete %s" % plotnames)
                 self._pydvcmd.do_delete("%s" % plotnames)
 
             self._pydvcmd.updateplot
@@ -544,7 +547,7 @@ class Plotter(QMainWindow):
 
         if rowcnt > 0:
             if rowcnt == len(self._pydvcmd.curvelist):
-                print "kill all"
+                print("kill all")
                 self._pydvcmd.do_kill("all")
             else:
                 menuindexes = str()
@@ -552,7 +555,7 @@ class Plotter(QMainWindow):
                     row = index.row()
                     menuindexes += "%d " % (row+1)
 
-                print "kill %s" % menuindexes
+                print("kill %s" % menuindexes)
                 self._pydvcmd.do_kill("%s" % menuindexes)
 
 
@@ -566,7 +569,7 @@ class Plotter(QMainWindow):
                 row = index.row()
                 plotnames += " %d" % (row+1)
 
-            print "curve%s" % plotnames
+            print("curve%s" % plotnames)
             self._pydvcmd.do_curve("%s" % plotnames)
             self._pydvcmd.updateplot
 

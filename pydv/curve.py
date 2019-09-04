@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
@@ -63,7 +64,7 @@ import sys
 import numpy as np
 from scipy import interpolate
 
-import pdvutil
+from . import pdvutil
 
 
 class Curve(object):
@@ -142,7 +143,7 @@ class Curve(object):
 
             c.y = ia.y / ib.y
             for idx in zero_indices:
-                c.y[idx] = float(sys.maxint)
+                c.y[idx] = float(sys.maxsize)
 
         return c
 

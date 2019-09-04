@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+
+from pydv import pdv
+
+if __name__ == "__main__":
+    pdv.Command().main()
