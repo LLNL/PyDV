@@ -1,19 +1,19 @@
 from __future__ import print_function
 from __future__ import absolute_import
 # Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory  
+# Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
 # e-mail: griffin28@llnl.gov
 # LLNL-CODE-507071
-# All rights reserved.  
-  
+# All rights reserved.
+
 # This file is part of PDV.  For details, see <URL describing code and
 # how to download source>. Please also read "Additional BSD Notice".
-  
+
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-  
+
 # Redistributions of source code must retain the above copyright
 # notice, this list of conditions and the disclaimer below.
 # Redistributions in binary form must reproduce the above copyright
@@ -22,7 +22,7 @@ from __future__ import absolute_import
 # distribution.  Neither the name of the LLNS/LLNL nor the names of
 # its contributors may be used to endorse or promote products derived
 # from this software without specific prior written permission.
- 
+
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 # LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -36,21 +36,21 @@ from __future__ import absolute_import
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 # OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-    
-# Additional BSD Notice  
-  
+
+# Additional BSD Notice
+
 # 1. This notice is required to be provided under our contract with
 # the U.S.  Department of Energy (DOE).  This work was produced at
 # Lawrence Livermore National Laboratory under Contract
 # No. DE-AC52-07NA27344 with the DOE.
-  
+
 # 2. Neither the United States Government nor Lawrence Livermore
 # National Security, LLC nor any of their employees, makes any
 # warranty, express or implied, or assumes any liability or
 # responsibility for the accuracy, completeness, or usefulness of any
 # information, apparatus, product, or process disclosed, or represents
 # that its use would not infringe privately-owned rights.
-  
+
 # 3.  Also, reference herein to any specific commercial products,
 # process, or services by trade name, trademark, manufacturer or
 # otherwise does not necessarily constitute or imply its endorsement,
@@ -77,6 +77,7 @@ except:
 
 from matplotlib.backends import qt_compat
 use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE
+
 if use_pyside:
     from PySide.QtCore import *
     from PySide.QtGui import *
@@ -151,6 +152,7 @@ class Plotter(QMainWindow):
         helpMenu.addAction(aboutQtAction)
 
         # Styles
+
         if stylesLoaded:
             styles = plt.style.available
 
@@ -163,13 +165,13 @@ class Plotter(QMainWindow):
                     style.use(self.style)
 
         # Figure Canvas
-        self.fig = plt.figure(figsize=(1,1))
+        self.fig = plt.figure(figsize=(1, 1))
         self.fig.set_facecolor(self.figcolor)
 
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.setCentralWidget(self.canvas)
 
-        toolbar = PyDVToolbar(self.canvas, self, True)   # Add False as third parameter to turn off coordinates
+        toolbar = PyDVToolbar(self.canvas, self, True) # Add False as third parameter to turn off coordinates
         self.addToolBar(toolbar)
 
     def updateGeometry(self, geometry='de'):
@@ -184,6 +186,7 @@ class Plotter(QMainWindow):
         """
         Updates the list and menu dialogs if visible.
         """
+
         if self._listDialog is not None:
             if self._listDialog.isVisible():
                 self._listAction.trigger()
@@ -214,6 +217,7 @@ class Plotter(QMainWindow):
         cols = len(headerLabels)
 
         # Create or clear table
+
         if self._tableWidget is None:
             self._tableWidget = QTableWidget(rows, cols, self)
             self._tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -232,11 +236,13 @@ class Plotter(QMainWindow):
 
         # Populate table with curves
         row = 0
+
         for c in self._pydvcmd.plotlist:
             col = 0
 
             # Plot Name
             prefix = ''
+
             if c.edited:
                 prefix = '*'
             plotnameItem = QTableWidgetItem(self.tr("%s%s" % (prefix, c.plotname)))
@@ -276,6 +282,7 @@ class Plotter(QMainWindow):
             row += 1
 
         maxrows = rows
+
         if rows > 10:
             maxrows = 10
 
@@ -285,7 +292,7 @@ class Plotter(QMainWindow):
 
             # Scroll Bar
             scroll = QScrollArea(self._listDialog)
-            scroll.setGeometry(QRect(10, 20, cols*115, maxrows*50))
+            scroll.setGeometry(QRect(10, 20, cols * 115, maxrows * 50))
             scroll.setMinimumSize(150, 150)
             scroll.setWidget(self._tableWidget)
             scroll.setWidgetResizable(True)
@@ -304,7 +311,8 @@ class Plotter(QMainWindow):
 
             vbox.addLayout(hbox)
 
-        self._listDialog.resize(cols*115, maxrows*50)
+        self._listDialog.resize(cols * 115, maxrows * 50)
+
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
@@ -326,6 +334,7 @@ class Plotter(QMainWindow):
         cols = len(headerLabels)
 
         # Create or clear table
+
         if self._menuTableWidget is None:
             self._menuTableWidget = QTableWidget(rows, cols, self)
             self._menuTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -348,6 +357,7 @@ class Plotter(QMainWindow):
 
         # Populate table with curves
         row = 0
+
         for c in self._pydvcmd.curvelist:
             col = 0
 
@@ -392,6 +402,7 @@ class Plotter(QMainWindow):
             row += 1
 
         maxrows = rows
+
         if rows > 10:
             maxrows = 10
 
@@ -401,7 +412,7 @@ class Plotter(QMainWindow):
 
             # Scroll Bar
             scroll = QScrollArea(self._menuDialog)
-            scroll.setGeometry(QRect(10, 20, cols*115, maxrows*50))
+            scroll.setGeometry(QRect(10, 20, cols * 115, maxrows * 50))
             scroll.setMinimumSize(150, 150)
             scroll.setWidget(self._menuTableWidget)
             scroll.setWidgetResizable(True)
@@ -420,12 +431,14 @@ class Plotter(QMainWindow):
 
             vbox.addLayout(hbox)
 
-        self._menuDialog.resize(cols*115, maxrows*50)
+        self._menuDialog.resize(cols * 115, maxrows * 50)
+
         if not self._menuDialog.isVisible():
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC. \
+        msg = self.tr(
+            '<b><p style="font-family:verdana;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
                       <p style="font-family:verdana;">Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p> \
                       <p style="font-family:verdana;">e-mail: griffin28@llnl.gov or dougmiller@llnl.gov</p> \
@@ -514,14 +527,16 @@ class Plotter(QMainWindow):
         QMessageBox.aboutQt(self)
 
     def __aboutPyDV(self):
-        QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 2.4.3</p>'
-                                                               '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">email: griffin28@llnl.gov</p>'
-                                                               '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
-
+        QMessageBox.about(
+            self, self.tr('About PyDV'),
+            self.
+            tr('<h2>About PyDV</h2>'
+               '<p style="font-family:courier; font-size:40%;">version 2.4.3</p>'
+               '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
+               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC.</p>'
+               '<p style="font-family:veranda; font-size:80%;">Written by: Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p>'
+               '<p style="font-family:veranda; font-size:80%;">email: griffin28@llnl.gov</p>'
+               '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
     def __deleteCurve(self):
         rowcnt = len(self._tableWidget.selectionModel().selectedRows())
@@ -532,6 +547,7 @@ class Plotter(QMainWindow):
                 self._pydvcmd.do_erase("erase")
             else:
                 plotnames = str()
+
                 for index in self._tableWidget.selectionModel().selectedRows():
                     row = index.row()
                     plotnames += "%s " % self._pydvcmd.plotlist[row].plotname
@@ -540,7 +556,6 @@ class Plotter(QMainWindow):
                 self._pydvcmd.do_delete("%s" % plotnames)
 
             self._pydvcmd.updateplot
-
 
     def __deleteMenuCurve(self):
         rowcnt = len(self._menuTableWidget.selectionModel().selectedRows())
@@ -551,13 +566,13 @@ class Plotter(QMainWindow):
                 self._pydvcmd.do_kill("all")
             else:
                 menuindexes = str()
+
                 for index in self._menuTableWidget.selectionModel().selectedRows():
                     row = index.row()
-                    menuindexes += "%d " % (row+1)
+                    menuindexes += "%d " % (row + 1)
 
                 print("kill %s" % menuindexes)
                 self._pydvcmd.do_kill("%s" % menuindexes)
-
 
     def __plotMenuCurve(self):
         rowcnt = len(self._menuTableWidget.selectionModel().selectedRows())
@@ -567,7 +582,7 @@ class Plotter(QMainWindow):
 
             for index in self._menuTableWidget.selectionModel().selectedRows():
                 row = index.row()
-                plotnames += " %d" % (row+1)
+                plotnames += " %d" % (row + 1)
 
             print("curve%s" % plotnames)
             self._pydvcmd.do_curve("%s" % plotnames)
@@ -575,11 +590,11 @@ class Plotter(QMainWindow):
 
     def __setgeometry(self):
         geometry = self._geometry
+
         if geometry != 'de':
             self.setGeometry(int(geometry[2]), int(geometry[3]), int(geometry[0]), int(geometry[1]))
         else:
             self.setGeometry(50, 50, 600, 500)
-
 
     def closeEvent(self, event):
         event.ignore()

@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 # Copyright (c) 2011-2016, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
@@ -59,13 +61,13 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
-import sys
-sys.path.append("../")
-import os
-import os.path
-
 import unittest
-import pydvpy as pydvif
+import os.path
+import os
+import sys
+sys.path.append("..")
+from pydv import pydvpy as pydvif
+
 
 class Test_PYPDVPY(unittest.TestCase):
     def setUp(self):
@@ -98,7 +100,6 @@ class Test_PYPDVPY(unittest.TestCase):
         # self.assertTrue(os.path.isfile(self.fullfname))
         # os.remove(self.fullfname)
 
-
     def test_save(self):
         c = pydvif.makecurve(self.x, self.y, 'Line', 'myfile')
         pydvif.save('mysave.txt', c)
@@ -111,13 +112,13 @@ class Test_PYPDVPY(unittest.TestCase):
         self.assertTrue(os.path.isfile('mysave.csv'))
         os.remove('mysave.csv')
 
-    def test_read(self):
+    def test_read(self, verbose=True):
         curves = pydvif.read('testData.txt')
         self.assertEqual(len(curves), 2)
         self.assertEqual(curves[0].name, 'darkness')
         self.assertEqual(curves[1].name, 'lightness')
 
-    def test_readcsv(self):
+    def test_readcsv(self, verbose=True):
         curves = pydvif.readcsv('testData.csv')
         self.assertEqual(len(curves), 1)
         self.assertEqual(len(curves[0].x), 5)
