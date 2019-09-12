@@ -2220,7 +2220,7 @@ def yn(curvelist, n):
     :param n: The order
     :type n: int
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2242,7 +2242,7 @@ def ynx(curvelist, n):
     :param n: The order
     :type n: int
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2262,7 +2262,7 @@ def y0(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2282,7 +2282,7 @@ def y0x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2302,7 +2302,7 @@ def y1(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2322,7 +2322,7 @@ def y1x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2344,7 +2344,7 @@ def jn(curvelist, n):
     :param n: The order
     :type n: float
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2366,7 +2366,7 @@ def jnx(curvelist, n):
     :param n: The order
     :type n: float
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2386,7 +2386,7 @@ def j0(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2406,7 +2406,7 @@ def j0x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2426,7 +2426,7 @@ def j1(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):
@@ -2446,7 +2446,7 @@ def j1x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    scipy.special.errprint(1)
+    # scipy.special.errprint(1)
     curves = list()
 
     if isinstance(curvelist, list):

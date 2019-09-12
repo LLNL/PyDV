@@ -70,18 +70,20 @@ from math import *
 from numpy import *
 
 import matplotlib
-matplotlib.use('Qt4Agg')
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mclr
 
 from matplotlib.backends import qt_compat
-use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE
+use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
 if use_pyside:
-    from PySide.QtCore import *
-    from PySide.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtGui import *
+    from PySide2.QtWidgets import *
 else:
-    from PyQt4.QtCore import *
-    from PyQt4.QtGui import *
+    from PyQt5.QtCore import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtWidgets import *
 
 import traceback
 import new
@@ -5341,7 +5343,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##operate on given curves by a function##
     def func_curve(self, line, flag, do_x=0, args=[]):
         import scipy.special
-        scipy.special.errprint(1)
+        # scipy.special.errprint(1)
 
         if(not line):
             return 0
@@ -6007,7 +6009,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 2.4.3  -  08.21.2019\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 2.4.3.1  -  TBD\n\tType "help" for more information.\n\n')
             print '\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n'
             console = code.InteractiveConsole(locals())
             console.interact()
@@ -6039,7 +6041,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         matplotlib.rc('font', family='sans-serif')
         self.loadrc()
 
-        qInstallMsgHandler(self.__qtMsgHandler)
+        qInstallMessageHandler(self.__qtMsgHandler)
         self.app = QApplication(sys.argv)
         self.plotter = pdvplot.Plotter(self)
         self.plotter.updateGeometry(self.geometry)
