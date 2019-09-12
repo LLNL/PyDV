@@ -59,7 +59,7 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
-from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 
 
 class PyDVToolbar(NavigationToolbar2QT):
