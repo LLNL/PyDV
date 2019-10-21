@@ -6009,7 +6009,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 2.4.3.1  -  TBD\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 2.4.3.1  -  11.21.2019\n\tType "help" for more information.\n\n')
             print '\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n'
             console = code.InteractiveConsole(locals())
             console.interact()
@@ -6018,18 +6018,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 #####  private functions
 ################################################################################################
 
-    def __qtMsgHandler(self, type, msg):
+    def __qtMsgHandler(self, msgtype, context, msg):
         if self.debug:
-            if type == QtDebugMsg:
-                print "\nQt Debug: %s\n" % msg
-            elif type == QtWarningMsg:
-                print "\nQt Warning: %s\n" % msg
-            elif type == QtCriticalMsg:
-                print "\nQt Critical: %s\n" % msg
-            elif type == QtFatalMsg:
-                print "\nQt Fatal: %s\n" % msg
-            elif type == QtSystemMsg:
-                print "\nQt System: %s\n" % msg
+            if msgtype == QtDebugMsg:
+                print "\nQt Debug: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            elif msgtype == QtWarningMsg:
+                print "\nQt Warning: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            elif msgtype == QtCriticalMsg:
+                print "\nQt Critical: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            elif msgtype == QtFatalMsg:
+                print "\nQt Fatal: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            elif msgtype == QtSystemMsg:
+                print "\nQt System: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            elif msgtype == QtInfoMsg:
+                print "\nQt Info: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+            else:
+                print "\nUnknown Message Type: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
 
 
 ################################################################################################
