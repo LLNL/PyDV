@@ -13,7 +13,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
         name='PyDV',
-        version='2.4.3',
+        version='2.4.3.1',
         description='PyDV: Python Data Visualizer',
         long_description=long_description,
         author='Kevin Griffin',
