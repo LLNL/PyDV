@@ -95,7 +95,7 @@ def parsemath(line, plotlist, commander, xdomain):
     c.name = ' '.join(line).replace('commander.', '').title()  # set name
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
-        print 'error: curve overlap is not sufficient'
+        print('error: curve overlap is not sufficient')
         return 0
     # put new curve into plotlist
     if(c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):
@@ -146,7 +146,7 @@ def getnumberargs(line, filelist):
                 step = 1
             else:
                 step = -1
-            for j in xrange(int(start), int(start) + delta + step, step):
+            for j in range(int(start), int(start) + delta + step, step):
                 args += str(j) + ' '
             arglist += args + ' '
         if(len(line[-1].split()) > 1):   #check for non list args
