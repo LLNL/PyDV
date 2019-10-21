@@ -113,7 +113,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 2.4.3.1')
+        self.setWindowTitle('Python Data Visualizer 3.0')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -514,7 +514,7 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 2.4.3.1</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 3.0</p>'
                                                                '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC.</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">Written by: Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p>'
@@ -527,7 +527,7 @@ class Plotter(QMainWindow):
 
         if rowcnt > 0:
             if rowcnt == len(self._pydvcmd.plotlist):
-                print "erase"
+                print("erase")
                 self._pydvcmd.do_erase("erase")
             else:
                 plotnames = str()
@@ -535,7 +535,7 @@ class Plotter(QMainWindow):
                     row = index.row()
                     plotnames += "%s " % self._pydvcmd.plotlist[row].plotname
 
-                print "delete %s" % plotnames
+                print("delete %s" % plotnames)
                 self._pydvcmd.do_delete("%s" % plotnames)
 
             self._pydvcmd.updateplot
@@ -546,7 +546,7 @@ class Plotter(QMainWindow):
 
         if rowcnt > 0:
             if rowcnt == len(self._pydvcmd.curvelist):
-                print "kill all"
+                print("kill all")
                 self._pydvcmd.do_kill("all")
             else:
                 menuindexes = str()
@@ -554,7 +554,7 @@ class Plotter(QMainWindow):
                     row = index.row()
                     menuindexes += "%d " % (row+1)
 
-                print "kill %s" % menuindexes
+                print("kill %s" % menuindexes)
                 self._pydvcmd.do_kill("%s" % menuindexes)
 
 
@@ -568,7 +568,7 @@ class Plotter(QMainWindow):
                 row = index.row()
                 plotnames += " %d" % (row+1)
 
-            print "curve%s" % plotnames
+            print("curve%s" % plotnames)
             self._pydvcmd.do_curve("%s" % plotnames)
             self._pydvcmd.updateplot
 

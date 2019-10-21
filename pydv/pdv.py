@@ -86,7 +86,6 @@ else:
     from PyQt5.QtWidgets import *
 
 import traceback
-import new
 import readline
 import code
 from numbers import Number
@@ -191,12 +190,12 @@ class Command(cmd.Cmd, object):
         for i in range(len(self.plotlist)):
             pl.append(self.plotlist[i].copy())
         self.oldlist = pl
-        
+
         if not line or not line.split():
             return line
 
         line = line.split()
-      
+
         check = line.pop(0)
         need_join_line = False
         if check == '+':
@@ -264,7 +263,7 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
         except:
             self.redraw = False
-            print 'error - unknown syntax: ' + line
+            print('error - unknown syntax: ' + line)
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
@@ -468,7 +467,7 @@ class Command(cmd.Cmd, object):
     def do_shell(self, line):
         os.system(line)
     def help_shell(self):
-        print "\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'.\n   Usage: <shell | system> <command>\n"
+        print("\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'.\n   Usage: <shell | system> <command>\n")
 
     ########################################################################################################
     #command functions#
@@ -480,10 +479,10 @@ class Command(cmd.Cmd, object):
         try:
             # check for obvious input errors
             if(not line):
-                print 'error - no arguments to newcurve, do not tease me this way'
+                print('error - no arguments to newcurve, do not tease me this way')
                 return 0
             if(len(line.split(':')) > 1):
-                print 'error - NOT HANDLING RANGES YET, not even sure what that would mean yet'
+                print('error - NOT HANDLING RANGES YET, not even sure what that would mean yet')
                 return 0
             else: # ok, got through input error checking, let's get to work
                 newline = line # copy the original line, we need the original for labeling
@@ -513,30 +512,30 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print 'error - usage: newcurve <expression>'
-            print 'try "help newcurve" for much more info'
+            print('error - usage: newcurve <expression>')
+            print('try "help newcurve" for much more info')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
     def help_newcurve(self):
-        print '\n   newcurve creats a new curve from an expression\n   Usage: newcurve <numpy expression>\n'
-        print 'For convenience, both math and numpy modules have been imported into the namespace.'
-        print 'Just FYI, this feature is way outside the ULTRA syntax PDV is mostly based on.'
-        print 'EXAMPLE:'
-        print
-        print '[PDV]: newcurve sin(a.x*2*pi)/(h.y**2)'
-        print
-        print 'This creates a new curve according to the complicated expression.'
-        print 'You can abbreviate newcurve as nc.'
-        print
-        print 'WARNINGS:'
-        print '* Currently, newcurve is hard-wired to only handle single-letter labels.'
-        print '  Curve names used in the expression cannot be the @N type we use after'
-        print '  we run out of letters. Sorry (April 2015).'
-        print '* A common error is to forget the .x or .y on the curve label name.'
-        print '* All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve'
-        print '  will generate a curve from different domains (with no error message), and that curve'
-        print '  will almost certainly not be what you intended.'
-        print
+        print('\n   newcurve creats a new curve from an expression\n   Usage: newcurve <numpy expression>\n')
+        print('For convenience, both math and numpy modules have been imported into the namespace.')
+        print('Just FYI, this feature is way outside the ULTRA syntax PDV is mostly based on.')
+        print('EXAMPLE:')
+        print()
+        print('[PDV]: newcurve sin(a.x*2*pi)/(h.y**2)')
+        print()
+        print('This creates a new curve according to the complicated expression.')
+        print('You can abbreviate newcurve as nc.')
+        print()
+        print('WARNINGS:')
+        print('* Currently, newcurve is hard-wired to only handle single-letter labels.')
+        print('  Curve names used in the expression cannot be the @N type we use after')
+        print('  we run out of letters. Sorry (April 2015).')
+        print('* A common error is to forget the .x or .y on the curve label name.')
+        print('* All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve')
+        print('  will generate a curve from different domains (with no error message), and that curve')
+        print('  will almost certainly not be what you intended.')
+        print()
 
 
     ##evaluate a line of mathematical operations##
@@ -548,10 +547,10 @@ class Command(cmd.Cmd, object):
             pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
         except:
-            print 'error - usage: eval <curve-operations>'
+            print('error - usage: eval <curve-operations>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_eval(self):
-        print '\n   Procedure: Evaluate mathematical operations on curves\n   Usage: eval <curve-operations>\n'
+        print('\n   Procedure: Evaluate mathematical operations on curves\n   Usage: eval <curve-operations>\n')
 
 
     ##turn on debug tracebacks for commands##
@@ -563,14 +562,14 @@ class Command(cmd.Cmd, object):
             elif(line == '1' or line.upper() == 'ON'):
                 self.debug = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_debug(self):
-        print '\n   Variable: Show debug tracebacks if True\n   Usage: debug on | off\n'
+        print('\n   Variable: Show debug tracebacks if True\n   Usage: debug on | off\n')
 
 
     ##undo last operation on a curve##
@@ -589,12 +588,12 @@ class Command(cmd.Cmd, object):
                 #print self.history
                 #print self.histptr
             else:
-                print 'error - cannot undo further'
+                print('error - cannot undo further')
         except:
-            print 'error - usage: undo'
+            print('error - usage: undo')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_undo(self):
-        print '\n   Procedure: Undo the last operation on plotted curves\n   Usage: undo\n'
+        print('\n   Procedure: Undo the last operation on plotted curves\n   Usage: undo\n')
 
 
     ##redo last curve operation undo##
@@ -607,12 +606,12 @@ class Command(cmd.Cmd, object):
                 #print self.history
                 #print self.histptr
             else:
-                print 'error - cannot redo further'
+                print('error - cannot redo further')
         except:
-            print 'error - usage: redo'
+            print('error - usage: redo')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_redo(self):
-        print '\n   Procedure: Redo the last undone curve operation\n   Usage: redo\n'
+        print('\n   Procedure: Redo the last undone curve operation\n   Usage: redo\n')
 
 
     ##add one or more curves and plot resulting curve##
@@ -627,10 +626,10 @@ class Command(cmd.Cmd, object):
                 pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
         except:
-            print 'error - usage: add <curve-list>'
+            print('error - usage: add <curve-list>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_add(self):
-        print '\n   Procedure: Take sum of curves\n   Usage: add <curve-list>\n   Shortcuts: +\n'
+        print('\n   Procedure: Take sum of curves\n   Usage: add <curve-list>\n   Shortcuts: +\n')
 
 
     ##subtract one or more curves##
@@ -648,11 +647,11 @@ class Command(cmd.Cmd, object):
                 pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
         except:
-            print 'error - usage: sub <curve-list>'
+            print('error - usage: sub <curve-list>')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
     def help_subtract(self):
-        print '\n   Procedure: Take difference of curves\n   Usage: subtract <curve-list>\n   Shortcuts: - , sub\n'
+        print('\n   Procedure: Take difference of curves\n   Usage: subtract <curve-list>\n   Shortcuts: - , sub\n')
 
 
     ##multiply one or more curves##
@@ -667,11 +666,11 @@ class Command(cmd.Cmd, object):
                 pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
         except:
-            print 'error - usage: mult <curve-list>'
+            print('error - usage: mult <curve-list>')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
     def help_multiply(self):
-        print '\n   Procedure: Take product of curves\n   Usage: multiply <curve-list>\n   Shortcuts: * , mult\n'
+        print('\n   Procedure: Take product of curves\n   Usage: multiply <curve-list>\n   Shortcuts: * , mult\n')
 
 
     ##divide one or more curves##
@@ -686,11 +685,11 @@ class Command(cmd.Cmd, object):
                 pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
         except:
-            print 'error - usage: div <curve-list>'
+            print('error - usage: div <curve-list>')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
     def help_divide(self):
-        print '\n   Procedure: Take quotient of curves\n   Usage: divide <curve-list>\n   Shortcuts: / , div\n'
+        print('\n   Procedure: Take quotient of curves\n   Usage: divide <curve-list>\n   Shortcuts: / , div\n')
 
 
     ##read in an ultra file##
@@ -706,7 +705,7 @@ class Command(cmd.Cmd, object):
                     self.xCol = int(line[0])
                     self.load(line[1], True)
                 else:
-                    raise RuntimeError, 'expecting an x-column number.'
+                    raise RuntimeError('expecting an x-column number.')
             elif n == 3:
                 line[0] = line[0].strip().strip('()')
                 matches = int(line[1])
@@ -721,7 +720,7 @@ class Command(cmd.Cmd, object):
                 self.xCol = int(line[2])
                 self.load(line[3], True, line[0], matches)
             else:
-                print 'error - Usage: read [(regex) matches] [x-col] <file-name>'
+                print('error - Usage: read [(regex) matches] [x-col] <file-name>')
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -763,7 +762,7 @@ class Command(cmd.Cmd, object):
         try:
             line = line.split()
             if len(line) > 1:
-                print 'error - usage: setxcolumn n'
+                print('error - usage: setxcolumn n')
             else:
                 self.xCol = string.atoi(line[0])
         except:
@@ -790,7 +789,7 @@ class Command(cmd.Cmd, object):
                 try:
                     reg = re.compile(r"%s" % line[0])
                 except:
-                    print 'error: invalid expression'
+                    print('error: invalid expression')
                     return 0
                 self.do_menu(line[0])
                 regline = ''
@@ -822,24 +821,24 @@ class Command(cmd.Cmd, object):
                                 filecounter += 1
                             curvedex += 1 # this will end up being one past what we want
                             if curvedex >= len(self.curvelist):
-                                print "error: in curve list did not find matching file for %s" % line[i]
+                                print("error: in curve list did not find matching file for %s" % line[i])
                         curvedex -= 1 # back curvedex up to point to start of file's curves
                         curvedex += int(line[i].split('.')[-1])-1
                     elif(int(line[i]) > 0 and int(line[i]) <= len(self.curvelist)):
                         curvedex = int(line[i])-1
                     else:
-                        print 'error: curve index out of bounds: ' + line[i]
+                        print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if(not skip):
                         current = self.curvelist[curvedex].copy()
                         self.addtoplot(current)
                 self.plotedit = True
         except:
-            print 'error - usage: curve <(<regex>) | list-of-menu-numbers>'
+            print('error - usage: curve <(<regex>) | list-of-menu-numbers>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_curve(self):
-        print '\n   Procedure: Select curves from the menu for plotting\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n'
+        print('\n   Procedure: Select curves from the menu for plotting\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
 
     ##remove all curves from the graph##
     def do_erase(self, line):
@@ -848,7 +847,7 @@ class Command(cmd.Cmd, object):
 
         self.plotedit = True
     def help_erase(self):
-        print '\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase\n   Shortcuts: era\n'
+        print('\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase\n   Shortcuts: era\n')
 
 
     ##remove a curve from the graph##
@@ -870,11 +869,11 @@ class Command(cmd.Cmd, object):
                             break
             self.plotedit = True
         except:
-            print 'error - usage: del <curve-list>'
+            print('error - usage: del <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_delete(self):
-        print '\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n'
+        print('\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n')
 
 
     ##set a specific color for a list of curves##
@@ -897,19 +896,19 @@ class Command(cmd.Cmd, object):
                             if(mclr.is_color_like(color)):
                                 self.plotlist[j].color = color
                             else:
-                                print 'error: invalid color ' + color
+                                print('error: invalid color ' + color)
                                 return 0
                             break
             self.plotedit = True
         except:
-            print 'error - usage: color <curve-list> <color-name>'
+            print('error - usage: color <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_color(self):
-        print '\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   ' \
+        print('\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   ' \
               'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
               'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
-              'to see the available named colors!'
+              'to see the available named colors!')
 
     ##return a curves mean and standard deviation##
     def do_stats(self,line):
@@ -929,9 +928,9 @@ class Command(cmd.Cmd, object):
                             yval = numpy.array(cur.y)
                             mean = (sum(yval)/len(yval))
                             ystd = numpy.std(yval, ddof = 1)
-                            print '\nCurve ' + cur.plotname
-                            print '   Mean: {}    Standard Deviation: {}'.format(mean, ystd)
-                print '\n'
+                            print('\nCurve ' + cur.plotname)
+                            print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                print('\n')
             except:
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
@@ -948,9 +947,9 @@ class Command(cmd.Cmd, object):
             for i in range(len(self.plotlist)):
                 cur = self.plotlist[i]
                 if cur.plotname == line[0].upper():
-                    print '\n'
-                    print '    Plot name = {}'.format(cur.plotname)
-                    print '    Color = {}'.format(cur.color)
+                    print('\n')
+                    print('    Plot name = {}'.format(cur.plotname))
+                    print('    Color = {}'.format(cur.color))
                     #pretty print line style
                     if cur.linestyle == '-':
                         pp_linestyle = 'solid'
@@ -960,27 +959,27 @@ class Command(cmd.Cmd, object):
                         pp_linestyle= 'dash'
                     elif cur.linestyle == '-.':
                         pp_linestyle = 'dashdot'
-                    print '    Style = {}'.format(pp_linestyle)
-                    print '    Curve width = {} '.format(cur.linewidth)
-                    print '    Edited = {}'.format(cur.edited)
-                    print '    Scatter = {}'.format(cur.scatter)
-                    print '    Linespoints = {}'.format(cur.linespoints)
-                    print '    Drawstyle = {}'.format (cur.drawstyle)
-                    print '    Dashes = {}'.format (cur.dashes)
-                    print '    Hidden = {}'.format (cur.hidden)
-                    print '    Marker = {}'.format (cur.marker)
-                    print '    Markersize = {}'.format (cur.markersize)
-                    print '    Markeredgecolor = {}'.format (cur.markeredgecolor)
-                    print '    Markerfacecolor = {}'.format (cur.markerfacecolor)
-                    print '    Ebar = {}'.format (cur.ebar)
-                    print '    Erange = {}'.format (cur.erange)
-                    print '    Plotprecedence = {}'.format (cur.plotprecedence)
-                    print '\n'
+                    print('    Style = {}'.format(pp_linestyle))
+                    print('    Curve width = {} '.format(cur.linewidth))
+                    print('    Edited = {}'.format(cur.edited))
+                    print('    Scatter = {}'.format(cur.scatter))
+                    print('    Linespoints = {}'.format(cur.linespoints))
+                    print('    Drawstyle = {}'.format (cur.drawstyle))
+                    print('    Dashes = {}'.format (cur.dashes))
+                    print('    Hidden = {}'.format (cur.hidden))
+                    print('    Marker = {}'.format (cur.marker))
+                    print('    Markersize = {}'.format (cur.markersize))
+                    print('    Markeredgecolor = {}'.format (cur.markeredgecolor))
+                    print('    Markerfacecolor = {}'.format (cur.markerfacecolor))
+                    print('    Ebar = {}'.format (cur.ebar))
+                    print('    Erange = {}'.format (cur.erange))
+                    print('    Plotprecedence = {}'.format (cur.plotprecedence))
+                    print('\n')
                     found = True
                     break
 
             if not found:
-                print '\nerror - Curve %s does not exist - usage: getattributes <curve>\n' % line[0]
+                print('\nerror - Curve %s does not exist - usage: getattributes <curve>\n' % line[0])
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -1009,16 +1008,19 @@ class Command(cmd.Cmd, object):
                             if mclr.is_color_like(color):
                                 self.plotlist[j].markerfacecolor = color
                             else:
-                                print 'error: invalid markerface color ' + color
+                                print('error: invalid markerface color ' + color)
                                 return 0
                             break
             self.plotedit = True
         except:
-            print 'error - usage: markerfacecolor <curve-list> <color-name>'
+            print('error - usage: markerfacecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_markerfacecolor(self):
-        print '\n   Procedure: Set the markerface color of curves\n   Usage: markerfacecolor <curve-list> <color-name>\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!'
+        print('\n   Procedure: Set the markerface color of curves\n   Usage: markerfacecolor <curve-list> '
+              '<color-name>\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   '
+              'of hexadecimal red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names '
+              'is available.\n   Try "showcolormap" to see the available named colors!')
 
     ##set the markeredge color for a list of curves##
     def do_markeredgecolor(self, line):
@@ -1040,40 +1042,36 @@ class Command(cmd.Cmd, object):
                             if mclr.is_color_like(color):
                                 self.plotlist[j].markeredgecolor = color
                             else:
-                                print 'error: invalid markeredge color ' + color
+                                print('error: invalid markeredge color ' + color)
                                 return 0
                             break
             self.plotedit = True
         except:
-            print 'error - usage: markeredgecolor <curve-list> <color-name>'
+            print('error - usage: markeredgecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_markeredgecolor(self):
-        print '\n   Procedure: Set the markeredge color of curves\n   Usage: markeredgecolor <curve-list> <color-name>\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!'
+        print("\n   Procedure: Set the markeredge color of curves\n   Usage: markeredgecolor <curve-list> <color-name>"
+              "\n   Color names can be 'blue', 'red', etc, or '#eb70aa', a 6 digit set\n   of hexadecimal "
+              "red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names is available."
+              "\n   Try 'showcolormap' to see the available named colors!")
 
     ## show available matplotlib styles
-    def do_showstyles(self, arg):
-        """
-        Show the available plot styles.
-
-        :param arg: the command-line input
-        """
+    def do_showstyles(self, line):
         try:
             if stylesLoaded:
-                ss = list()
-                for uc in pydvif.get_styles():
-                    ss.append(uc.encode('ascii', 'ignore'))
-                print '\n'
+                ss = pydvif.get_styles()
+                print('\n')
                 self.print_topics('Style Names (type style <style-name>):', ss, 15, 80)
             else:
-                print '\nNo styles available. Try using a newer version of Python.\n'
+                print("\nNo styles available.\n")
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_showstyles(self):
-        print '\n   Procedure: show the available pre-defined styles provided by matplotlib.\nUsage: showstyles\n'
+        print("\n   Procedure: show the available pre-defined styles provided by matplotlib.\n   Usage: showstyles\n")
 
     ## show color map
     def do_showcolormap(self, line):
@@ -1112,15 +1110,15 @@ class Command(cmd.Cmd, object):
             plt.draw()
             self.plotter.canvas.draw()
 
-            print 'hit return to go back to your plots'
-            x = raw_input()
+            print('hit return to go back to your plots')
+            x = input()
             self.plotedit=True
         except:
-            print 'error - usage: showcolormap'
+            print('error - usage: showcolormap')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_showcolormap(self):
-        print '\n   Procedure: show the available named colors\n   Usage: showcolormap\n   Hit <return> after viewing to go back to regular plotting'
+        print('\n   Procedure: show the available named colors\n   Usage: showcolormap\n   Hit <return> after viewing to go back to regular plotting')
 
 
     ##scale curve x values by given factor##
@@ -1129,11 +1127,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'mx', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: mx <curve-list> <value>'
+            print('error - usage: mx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_mx(self):
-        print '\n   Procedure: Scale x values of curves by a constant\n   Usage: mx <curve-list> <value>\n'
+        print('\n   Procedure: Scale x values of curves by a constant\n   Usage: mx <curve-list> <value>\n')
 
 
     ##scale curve x values by given factor##
@@ -1142,11 +1140,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'divx', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: divx <curve-list> <value>'
+            print('error - usage: divx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_divx(self):
-        print '\n   Procedure: Divide x values of curves by a constant\n   Usage: divx <curve-list> <value>\n'
+        print('\n   Procedure: Divide x values of curves by a constant\n   Usage: divx <curve-list> <value>\n')
 
 
     ##scale curve y values by given factor##
@@ -1155,11 +1153,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'my', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: my <curve-list> <value>'
+            print('error - usage: my <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_my(self):
-        print '\n   Procedure: Scale y values of curves by a constant\n   Usage: my <curve-list> <value>\n'
+        print('\n   Procedure: Scale y values of curves by a constant\n   Usage: my <curve-list> <value>\n')
 
 
     ##scale curve y values by given factor##
@@ -1168,11 +1166,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'divy', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: divy <curve-list> <value>'
+            print('error - usage: divy <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_divy(self):
-        print '\n   Procedure: Divide y values of curves by a constant\n   Usage: divy <curve-list> <value>\n'
+        print('\n   Procedure: Divide y values of curves by a constant\n   Usage: divy <curve-list> <value>\n')
 
 
     ##shift curve x values by given factor##
@@ -1181,11 +1179,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'dx', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: dx <curve-list> <value>'
+            print('error - usage: dx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dx(self):
-        print '\n   Procedure: Shift x values of curves by a constant\n   Usage: dx <curve-list> <value>\n'
+        print('\n   Procedure: Shift x values of curves by a constant\n   Usage: dx <curve-list> <value>\n')
 
 
     ##shift curve y values by given factor##
@@ -1194,11 +1192,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'dy', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: dy <curve-list> <value>'
+            print('error - usage: dy <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dy(self):
-        print '\n   Procedure: Shift y values of curves by a constant\n   Usage: dy <curve-list> <value>\n'
+        print('\n   Procedure: Shift y values of curves by a constant\n   Usage: dy <curve-list> <value>\n')
 
 
     ## take L2 norm of two curves
@@ -1207,7 +1205,7 @@ class Command(cmd.Cmd, object):
             """take L2 norm of two curves given as args"""
             args = line.strip().split()
             if len(args) != 2 and len(args) != 4:
-                raise RuntimeError, "wrong number of args to L2"
+                raise RuntimeError("wrong number of args to L2")
             # put a '2' in between curves and xmin, xmax,
             # to indicate the order of norm to take
             args.insert(2, '2')
@@ -1216,11 +1214,11 @@ class Command(cmd.Cmd, object):
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print 'error - usage: L2 <curve> <curve> [<xmin> <xmax>]'
+            print('error - usage: L2 <curve> <curve> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_L2(self):
-        print '\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is \n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n'
+        print('\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is \n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
 
     ## take L1 norm of two curves
@@ -1229,7 +1227,7 @@ class Command(cmd.Cmd, object):
             """take L1 norm of two curves given as args"""
             args = line.strip().split()
             if len(args) != 2 and len(args) != 4:
-                raise RuntimeError, "wrong number of args to L1"
+                raise RuntimeError("wrong number of args to L1")
             # put a '1' in between curves and xmin, xmax,
             # to indicate the order of norm to take
             args.insert(2, '1')
@@ -1238,11 +1236,11 @@ class Command(cmd.Cmd, object):
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print 'error - usage: L1 <curve> <curve> [<xmin> <xmax>]'
+            print('error - usage: L1 <curve> <curve> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_L1(self):
-        print '\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is \n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n'
+        print('\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is \n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
 
     ## take arbitrary order norm of two curves
@@ -1251,7 +1249,7 @@ class Command(cmd.Cmd, object):
             """take norm of order N of two curves given as args"""
             args = line.strip().split()
             if len(args) != 3 and len(args) != 5:
-                raise RuntimeError, "wrong number of args to norm"
+                raise RuntimeError("wrong number of args to norm")
             # curves a and b will be our operands
             a = self.curvefromlabel(args[0])
             b = self.curvefromlabel(args[1])
@@ -1264,7 +1262,7 @@ class Command(cmd.Cmd, object):
                 xmin = string.atof(args[3])
                 xmax = string.atof(args[4])
                 if xmax <= xmin:
-                    raise RuntimeError, "xmin > xmax or xmin == xmax in do_norm()"
+                    raise RuntimeError("xmin > xmax or xmin == xmax in do_norm()")
             else:
                 xmin = min(c.x)
                 xmax = max(c.x)
@@ -1273,22 +1271,22 @@ class Command(cmd.Cmd, object):
                 for xi, yi in zip(c.x, c.y):
                     if xi >= xmin and xi <= xmax:
                         Linf = max(Linf, yi)
-                print "Linf norm = ", Linf
+                print("Linf norm = ", Linf)
                 d = c
                 d.y = numpy.array([Linf]*c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
                 d = pydvif.integrate(c, xmin, xmax)[0] # d = integral( c**N )
                 d = d**(1.0/N)
-                print "L%d norm = " % N, max(d.y)
+                print("L%d norm = " % N, max(d.y))
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
             self.addtoplot(d)
         except:
-            print 'error - usage: norm <curve> <curve> <p> [<xmin> <xmax>]'
+            print('error - usage: norm <curve> <curve> <p> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_norm(self):
-        print '\n   Procedure: makes new curve that is the norm of two args; the p-norm is \n (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]\n   where p=order.  Also prints value of integral to command line.\n'
+        print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is \n (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]\n   where p=order.  Also prints value of integral to command line.\n')
 
     ## make a new curve - the max of the specified curves ##
     def do_max(self, line):
@@ -1318,7 +1316,7 @@ class Command(cmd.Cmd, object):
                     self.addtoplot(nc)
                     self.plotedit = True
             except RuntimeError as rte:
-                print 'error: %s' % rte
+                print('error: %s' % rte)
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
             except:
@@ -1356,7 +1354,7 @@ class Command(cmd.Cmd, object):
                     self.addtoplot(nc)
                     self.plotedit = True
             except RuntimeError as rte:
-                print 'error: %s' % rte
+                print('error: %s' % rte)
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
             except:
@@ -1394,7 +1392,7 @@ class Command(cmd.Cmd, object):
                     self.addtoplot(nc)
                     self.plotedit = True
             except RuntimeError as rte:
-                print 'error: %s' % rte
+                print('error: %s' % rte)
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
             except:
@@ -1402,17 +1400,17 @@ class Command(cmd.Cmd, object):
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_average(self):
-        print '\n   Procedure: Average the specified curvelist over the intersection of their domains.' \
-              '\n   Usage: average <curvelist>\n'
+        print('\n   Procedure: Average the specified curvelist over the intersection of their domains.' \
+              '\n   Usage: average <curvelist>\n')
 
     ## fit a curve with a polynomial function ##
     def do_fit(self, line):
         try:
             """fit curve to line: usage is 'fit curve [n] [logx] [logy]', where n=order of fit, default is linear"""
-            print "fitting curve:", line
+            print("fitting curve:", line)
             args = line.strip().split()
             if len(args) == 0 or len(args) > 4 :
-                raise RuntimeError, "wrong number of args to fit"
+                raise RuntimeError("wrong number of args to fit")
 
             c = self.curvefromlabel(args[0])
             logx, logy = False, False
@@ -1435,41 +1433,41 @@ class Command(cmd.Cmd, object):
             nc.plotname = self.getcurvename()
             self.addtoplot(nc)
         except:
-            print 'error - usage: fit <curve> [n] [logx] [logy]'
+            print('error - usage: fit <curve> [n] [logx] [logy]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fit(self):
-        print '\n   Procedure: make new curve that is polynomial fit to argument.\n   Usage: fit <curve> [n] [logx] [logy]\n   n=1 by default, logy means take log(y-values) before fitting, \n   logx means take log(x-values) before fitting\n'
+        print('\n   Procedure: make new curve that is polynomial fit to argument.\n   Usage: fit <curve> [n] [logx] [logy]\n   n=1 by default, logy means take log(y-values) before fitting, \n   logx means take log(x-values) before fitting\n')
 
 
     ##return x values on curves at y value##
     def do_getx(self, line):
         try:
             self.modcurve(line, 'getx', [line.split()[-1]])
-            print ''
+            print('')
         except:
-            print 'error - usage: getx <curve-list> <value>'
+            print('error - usage: getx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_getx(self):
-        print '\n   Procedure: Return x values for a given y\n   Usage: getx <curve-list> <y-value>\n'
+        print('\n   Procedure: Return x values for a given y\n   Usage: getx <curve-list> <y-value>\n')
 
 
     ##return y values on curves at x value##
     def do_gety(self, line):
         try:
             self.modcurve(line, 'gety', [line.split()[-1]])
-            print ''
+            print('')
         except:
-            print 'error - usage: gety <curve-list> <value>'
+            print('error - usage: gety <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_gety(self):
-        print '\n   Procedure: Return y values for a given x\n   Usage: gety <curve-list> <x-value>\n'
+        print('\n   Procedure: Return y values for a given x\n   Usage: gety <curve-list> <x-value>\n')
 
 
     ##get the range of the given curves##
@@ -1479,24 +1477,24 @@ class Command(cmd.Cmd, object):
                 self.do_getrange(pdvutil.getletterargs(line))
                 return 0
             else:
-                print '\n   Get Range'
+                print('\n   Get Range')
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         cur = self.plotlist[j]
                         if(cur.plotname == line[i].upper()):
                             plotname, miny, maxy = pydvif.getrange(cur)[0]
-                            print '\nCurve ' + plotname
-                            print '    ymin: %.6e    ymax: %.6e' % (miny, maxy)
-                print ''
+                            print('\nCurve ' + plotname)
+                            print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                print('')
         except:
-            print 'error - usage: getrange <curve-list>'
+            print('error - usage: getrange <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_getrange(self):
-        print '\n   Procedure: Return range of curves\n   Usage: getrange <curve-list>\n   Shortcuts: get-range\n'
+        print('\n   Procedure: Return range of curves\n   Usage: getrange <curve-list>\n   Shortcuts: get-range\n')
 
 
     ##get the domain of the given curves##
@@ -1506,24 +1504,24 @@ class Command(cmd.Cmd, object):
                 self.do_getdomain(pdvutil.getletterargs(line))
                 return 0
             else:
-                print '\n   Get Domain'
+                print('\n   Get Domain')
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
                             plotname, minx, maxx = pydvif.getdomain(cur)[0]
-                            print '\nCurve ' + plotname
-                            print '    xmin: %.6e    xmax: %.6e' % (minx, maxx)
-                print ''
+                            print('\nCurve ' + plotname)
+                            print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                print('')
         except:
-            print 'error - usage: getdomain <curve-list>'
+            print('error - usage: getdomain <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_getdomain(self):
-        print '\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n'
+        print('\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n')
 
 
     ##get the max y-value for the given curve##
@@ -1546,24 +1544,24 @@ class Command(cmd.Cmd, object):
                 xlow = None
 
             if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError, "<xmin> and <xmax> must BOTH be specified"
+                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
             for i in range(len(self.plotlist)):
                 cur = self.plotlist[i]
                 if cur.plotname == line[0].upper():
                     plotname, maxy = pydvif.getymax(cur, xlow, xhi)
-                    print '\nCurve ' + plotname
-                    print '    ymax: %.6f' % maxy
-            print ''
+                    print('\nCurve ' + plotname)
+                    print('    ymax: %.6f' % maxy)
+            print('')
         except:
-            print 'error - usage: getymax <curve> [<xmin> <xmax>]'
+            print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
 
     def help_getymax(self):
-        print '\n   Procedure: Return the maximum y-value for the curve within the specified domain.\n   Usage: getymax <curve> [<xmin> <xmax>]\n'
+        print('\n   Procedure: Return the maximum y-value for the curve within the specified domain.\n   Usage: getymax <curve> [<xmin> <xmax>]\n')
 
 
     ##get the min y-value for the given curve##
@@ -1586,24 +1584,24 @@ class Command(cmd.Cmd, object):
                 xlow = None
 
             if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError, "<xmin> and <xmax> must BOTH be specified"
+                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
             for i in range(len(self.plotlist)):
                 cur = self.plotlist[i]
                 if cur.plotname == line[0].upper():
                     plotname, miny = pydvif.getymin(cur, xlow, xhi)
-                    print '\nCurve ' + plotname
-                    print '    ymin: %.6f' % miny
-            print ''
+                    print('\nCurve ' + plotname)
+                    print('    ymin: %.6f' % miny)
+            print('')
         except:
-            print 'error - usage: getymin <curve> [<xmin> <xmax>]'
+            print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
 
     def help_getymin(self):
-        print '\n   Procedure: Return the minimum y-value for the curve within the specified domain.\n   Usage: getymin <curve> [<xmin> <xmax>]\n'
+        print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
 
 
     ##get the label of a given curve##
@@ -1614,15 +1612,15 @@ class Command(cmd.Cmd, object):
             for i in range(len(self.plotlist)):
                 cur = self.plotlist[i]
                 if cur.plotname == line[0].upper():
-                    print "\nLabel = %s\n" % cur.name
+                    print("\nLabel = %s\n" % cur.name)
         except:
-            print 'error - usage: getlabel <curve>'
+            print('error - usage: getlabel <curve>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_getlabel(self):
-        print "\n   Procedure: Return the given curve's label\n   Usage: getlabel <curve>\n"
+        print("\n   Procedure: Return the given curve's label\n   Usage: getlabel <curve>\n")
 
     ## sort curves in ascending x value ##
     def do_sort(self, line):
@@ -1638,12 +1636,12 @@ class Command(cmd.Cmd, object):
                     pydvif.sort(cur)
             self.plotedit = True
         except:
-            print 'error - usage: sort <curve-list>'
+            print('error - usage: sort <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sort(self):
-        print '\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x ' \
-              'values. \n   Usage: sort <curve-list>\n'
+        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x ' \
+              'values. \n   Usage: sort <curve-list>\n')
 
     ## swap x and y values for the specified curves ##
     def do_rev(self, line):
@@ -1659,12 +1657,12 @@ class Command(cmd.Cmd, object):
                     pydvif.rev(cur)
             self.plotedit = True
         except:
-            print 'error - usage: rev <curve-list>'
+            print('error - usage: rev <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_rev(self):
-        print '\n   Procedure: Swap x and y values for the specified curves. You may want to sort after this one. \n' \
-              '   Usage: rev <curve-list>\n'
+        print('\n   Procedure: Swap x and y values for the specified curves. You may want to sort after this one. \n' \
+              '   Usage: rev <curve-list>\n')
 
     ## generate random y values between -1 and 1 ##
     def do_random(self, line):
@@ -1680,12 +1678,12 @@ class Command(cmd.Cmd, object):
                     pydvif.random(cur)
             self.plotedit = True
         except:
-            print 'error - usage: random <curve-list>'
+            print('error - usage: random <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_random(self):
-        print '\n   Procedure: Generate random y values between -1 and 1 for the specified curves. \n' \
-              '   Usage: random <curve-list>\n'
+        print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. \n' \
+              '   Usage: random <curve-list>\n')
 
     ##Display the y-values in the specified curves##
     def do_disp(self, line):
@@ -1694,7 +1692,7 @@ class Command(cmd.Cmd, object):
                 self.do_disp(pdvutil.getletterargs(line))
                 return 0
             else:
-                print '\n'
+                print('\n')
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
@@ -1703,13 +1701,13 @@ class Command(cmd.Cmd, object):
                             dispname, ss = pydvif.disp(cur, False)
                             self.print_topics('Curve %s: %s' % (dispname, cur.name), ss, 15, 100)
         except:
-            print 'error - usage: disp <curve-list>'
+            print('error - usage: disp <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_disp(self):
-        print '\n   Procedure: Display the y-values in the specified curve(s). \n   Usage: disp <curve-list>\n'
+        print('\n   Procedure: Display the y-values in the specified curve(s). \n   Usage: disp <curve-list>\n')
 
 
     ##Display the x-values in the specified curves##
@@ -1719,7 +1717,7 @@ class Command(cmd.Cmd, object):
                 self.do_dispx(pdvutil.getletterargs(line))
                 return 0
             else:
-                print '\n'
+                print('\n')
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
@@ -1728,13 +1726,13 @@ class Command(cmd.Cmd, object):
                             dispname, ss = pydvif.disp(cur)
                             self.print_topics('Curve %s: %s' % (dispname, cur.name), ss, 15, 100)
         except:
-            print 'error - usage: dispx <curve-list>'
+            print('error - usage: dispx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_dispx(self):
-        print '\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n'
+        print('\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n')
 
     ## Display the number of points for the given curve ##
     def do_getnumpoints(self, line):
@@ -1745,12 +1743,12 @@ class Command(cmd.Cmd, object):
             for i in range(len(self.plotlist)):
                 cur = self.plotlist[i]
                 if cur.plotname == line[0].upper():
-                    print '\n    Number of points = %d\n' % pydvif.getnumpoints(cur)
+                    print('\n    Number of points = %d\n' % pydvif.getnumpoints(cur))
                     found = True
                     break
 
             if not found:
-                print '\nerror - Curve %s does not exist - usage: getnumpoints <curve>\n' % line[0]
+                print('\nerror - Curve %s does not exist - usage: getnumpoints <curve>\n' % line[0])
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -1765,22 +1763,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'abs', 0)
             self.plotedit = True
         except:
-            print 'error - usage: abs <curve-list>'
+            print('error - usage: abs <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_abs(self):
-        print '\n   Procedure: Take absolute value of y values of curves\n   Usage: abs <curve-list>\n'
+        print('\n   Procedure: Take absolute value of y values of curves\n   Usage: abs <curve-list>\n')
 
     def do_absx(self, line):
         try:
             self.func_curve(line, 'abs', 1)
             self.plotedit = True
         except:
-            print 'error - usage: absx <curve-list>'
+            print('error - usage: absx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_absx(self):
-        print '\n   Procedure: Take absolute value of x values of curves\n   Usage: absx <curve-list>\n'
+        print('\n   Procedure: Take absolute value of x values of curves\n   Usage: absx <curve-list>\n')
 
 
     ## take the natural logarithm of the curve y-values##
@@ -1809,14 +1807,14 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print 'error - usage: log <curve-list> [keep-neg-vals: True | False]'
+            print('error - usage: log <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
-                print traceback.print_exc(file=sys.stdout)
+                print(traceback.print_exc(file=sys.stdout))
 
     def help_log(self):
-        print '\n   Procedure: take natural logarithm of y-values of curves.\n' \
+        print('\n   Procedure: take natural logarithm of y-values of curves.\n' \
               '   If the optional argument keep-neg-vals is set to False, then zero and negative y-values will be discarded. keep-neg-vals is True by default.\n' \
-              '   Usage: log <curve-list> [keep-neg-vals: True | False]\n   Shortcut: ln\n'
+              '   Usage: log <curve-list> [keep-neg-vals: True | False]\n   Shortcut: ln\n')
 
     ## take the natural logarithm of the curve x-values ##
     def do_logx(self, line):
@@ -1844,14 +1842,14 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print 'error - usage: logx <curve-list> [keep-neg-vals: True | False]'
+            print('error - usage: logx <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
-                print traceback.print_exc(file=sys.stdout)
+                print(traceback.print_exc(file=sys.stdout))
 
     def help_logx(self):
-        print '\n   Procedure: take natural logarithm of x-values of curves.\n' \
+        print('\n   Procedure: take natural logarithm of x-values of curves.\n' \
               '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
-              '   Usage: logx <curve-list> [keep-neg-vals: True | False]\n   Shortcut: lnx\n'
+              '   Usage: logx <curve-list> [keep-neg-vals: True | False]\n   Shortcut: lnx\n')
 
     ## take the base 10 logarithm of the curve y-values##
     def do_log10(self, line):
@@ -1879,14 +1877,14 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print 'error - usage: log10 <curve-list> [keep-neg-vals: True | False]'
+            print('error - usage: log10 <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
-                print traceback.print_exc(file=sys.stdout)
+                print(traceback.print_exc(file=sys.stdout))
 
     def help_log10(self):
-        print '\n   Procedure: take base 10 logarithm of y values of curves.\n' \
+        print('\n   Procedure: take base 10 logarithm of y values of curves.\n' \
               '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
-              '   Usage: log10 <curve-list> [keep-neg-vals: True | False]'
+              '   Usage: log10 <curve-list> [keep-neg-vals: True | False]')
 
     ## take the base 10 logarithm of the curve x-values##
     def do_log10x(self, line):
@@ -1914,14 +1912,14 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print 'error - usage: log10x <curve-list> [keep-neg-vals: True | False]'
+            print('error - usage: log10x <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
-                print traceback.print_exc(file=sys.stdout)
+                print(traceback.print_exc(file=sys.stdout))
 
     def help_log10x(self):
-        print '\n   Procedure: take base 10 logarithm of x values of curves.\n' \
+        print('\n   Procedure: take base 10 logarithm of x values of curves.\n' \
               '   If the optional argument keep-neg-vals is set to False, then zero and negative x-values will be discarded. keep-neg-vals is True by default.\n' \
-              '   Usage: log10x <curve-list> [keep-neg-vals: True | False]'
+              '   Usage: log10x <curve-list> [keep-neg-vals: True | False]')
 
 
     ## exponentiate the curve##
@@ -1930,22 +1928,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'exp', 0)
             self.plotedit = True
         except:
-            print 'error - usage: exp <curve-list>'
+            print('error - usage: exp <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_exp(self):
-        print '\n   Procedure: e**y, exponentiate y values of curves\n   Usage: exp <curve-list>\n'
+        print('\n   Procedure: e**y, exponentiate y values of curves\n   Usage: exp <curve-list>\n')
 
     def do_expx(self, line):
         try:
             self.func_curve(line, 'exp', 1)
             self.plotedit = True
         except:
-            print 'error - usage: expx <curve-list>'
+            print('error - usage: expx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_expx(self):
-        print '\n   Procedure: e**y, exponentiate x values of curves\n   Usage: expx <curve-list>\n'
+        print('\n   Procedure: e**y, exponentiate x values of curves\n   Usage: expx <curve-list>\n')
 
 
     ##take the cosine of the curve##
@@ -1954,22 +1952,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'cos', 0)
             self.plotedit = True
         except:
-            print 'error - usage: cos <curve-list>'
+            print('error - usage: cos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cos(self):
-        print '\n   Procedure: Take cosine of y values of curves\n   Usage: cos <curve-list>\n'
+        print('\n   Procedure: Take cosine of y values of curves\n   Usage: cos <curve-list>\n')
 
     def do_cosx(self, line):
         try:
             self.func_curve(line, 'cos', 1)
             self.plotedit = True
         except:
-            print 'error - usage: cos <curve-list>'
+            print('error - usage: cos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cosx(self):
-        print '\n   Procedure: Take cosine of x values of curves\n   Usage: cos <curve-list>\n'
+        print('\n   Procedure: Take cosine of x values of curves\n   Usage: cos <curve-list>\n')
 
 
     ##take the sine of the curve##
@@ -1978,11 +1976,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sin', 0)
             self.plotedit = True
         except:
-            print 'error - usage: sin <curve-list>'
+            print('error - usage: sin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sin(self):
-        print '\n   Procedure: Take sine of y values of curves\n   Usage: sin <curve-list>\n'
+        print('\n   Procedure: Take sine of y values of curves\n   Usage: sin <curve-list>\n')
 
 
     def do_sinx(self, line):
@@ -1990,11 +1988,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sin', 1)
             self.plotedit = True
         except:
-            print 'error - usage: sinx <curve-list>'
+            print('error - usage: sinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinx(self):
-        print '\n   Procedure: Take sine of x values of curves\n   Usage: sinx <curve-list>\n'
+        print('\n   Procedure: Take sine of x values of curves\n   Usage: sinx <curve-list>\n')
 
 
     ##take the tangent of the curve##
@@ -2003,22 +2001,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'tan', 0)
             self.plotedit = True
         except:
-            print 'error - usage: tan <curve-list>'
+            print('error - usage: tan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tan(self):
-        print '\n   Procedure: Take tangent of y values of curves\n   Usage: tan <curve-list>\n'
+        print('\n   Procedure: Take tangent of y values of curves\n   Usage: tan <curve-list>\n')
 
     def do_tanx(self, line):
         try:
             self.func_curve(line, 'tan', 1)
             self.plotedit = True
         except:
-            print 'error - usage: tanx <curve-list>'
+            print('error - usage: tanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanx(self):
-        print '\n   Procedure: Take tangent of x values of curves\n   Usage: tanx <curve-list>\n'
+        print('\n   Procedure: Take tangent of x values of curves\n   Usage: tanx <curve-list>\n')
 
 
     ##take the arccosine of the curve##
@@ -2027,22 +2025,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'acos', 0)
             self.plotedit = True
         except:
-            print 'error - usage: acos <curve-list>'
+            print('error - usage: acos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acos(self):
-        print '\n   Procedure: Take arccosine of y values of curves\n   Usage: acos <curve-list>\n'
+        print('\n   Procedure: Take arccosine of y values of curves\n   Usage: acos <curve-list>\n')
 
     def do_acosx(self, line):
         try:
             self.func_curve(line, 'acos', 1)
             self.plotedit = True
         except:
-            print 'error - usage: acosx <curve-list>'
+            print('error - usage: acosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acosx(self):
-        print '\n   Procedure: Take arccosine of x values of curves\n   Usage: acosx <curve-list>\n'
+        print('\n   Procedure: Take arccosine of x values of curves\n   Usage: acosx <curve-list>\n')
 
 
     ##take the arcsine of the curve##
@@ -2051,11 +2049,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'asin', 0)
             self.plotedit = True
         except:
-            print 'error - usage: asin <curve-list>'
+            print('error - usage: asin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asin(self):
-        print '\n   Procedure: Take arcsine of y values of curves\n   Usage: asin <curve-list>\n'
+        print('\n   Procedure: Take arcsine of y values of curves\n   Usage: asin <curve-list>\n')
 
     def do_asinx(self, line):
         """
@@ -2068,11 +2066,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'asin', 1)
             self.plotedit = True
         except:
-            print 'error - usage: asinx <curve-list>'
+            print('error - usage: asinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinx(self):
-        print '\n   Procedure: Take arcsine of x values of curves\n   Usage: asinx <curve-list>\n'
+        print('\n   Procedure: Take arcsine of x values of curves\n   Usage: asinx <curve-list>\n')
 
 
     ##take the arctangent of the curve##
@@ -2081,22 +2079,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'atan', 0)
             self.plotedit = True
         except:
-            print 'error - usage: atan <curve-list>'
+            print('error - usage: atan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atan(self):
-        print '\n   Procedure: Take arctangent of y values of curves\n   Usage: atan <curve-list>\n'
+        print('\n   Procedure: Take arctangent of y values of curves\n   Usage: atan <curve-list>\n')
 
     def do_atanx(self, line):
         try:
             self.func_curve(line, 'atan', 1)
             self.plotedit = True
         except:
-            print 'error - usage: atanx <curve-list>'
+            print('error - usage: atanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanx(self):
-        print '\n   Procedure: Take arctangent of x values of curves\n   Usage: atanx <curve-list>\n'
+        print('\n   Procedure: Take arctangent of x values of curves\n   Usage: atanx <curve-list>\n')
 
 
     ##peform the atan2 method for a pair of curves##
@@ -2116,10 +2114,10 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print 'error - usage: atan curve1 curve2'
+            print('error - usage: atan curve1 curve2')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_atan2(self):
-        print '\n   Procedure: Take atan2 of two curves\n   Usage: atan2 curve1 curve2\n'
+        print('\n   Procedure: Take atan2 of two curves\n   Usage: atan2 curve1 curve2\n')
 
 
     ##take the hyperbolic cosine of the curve##
@@ -2128,22 +2126,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'cosh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: cosh <curve-list>'
+            print('error - usage: cosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cosh(self):
-        print '\n   Procedure: Take hyperbolic cosine of y values of curves\n   Usage: cosh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic cosine of y values of curves\n   Usage: cosh <curve-list>\n')
 
     def do_coshx(self, line):
         try:
             self.func_curve(line, 'cosh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: coshx <curve-list>'
+            print('error - usage: coshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_coshx(self):
-        print '\n   Procedure: Take hyperbolic cosine of x values of curves\n   Usage: coshx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic cosine of x values of curves\n   Usage: coshx <curve-list>\n')
 
 
     ##take the hyperbolic sine of the curve##
@@ -2152,22 +2150,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sinh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: sinh <curve-list>'
+            print('error - usage: sinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinh(self):
-        print '\n   Procedure: Take hyperbolic sine of y values of curves\n   Usage: sinh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic sine of y values of curves\n   Usage: sinh <curve-list>\n')
 
     def do_sinhx(self, line):
         try:
             self.func_curve(line, 'sinh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: sinhx <curve-list>'
+            print('error - usage: sinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinhx(self):
-        print '\n   Procedure: Take hyperbolic sine of x values of curves\n   Usage: sinhx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic sine of x values of curves\n   Usage: sinhx <curve-list>\n')
 
 
     ##take the hyperbolic tangent of the curve##
@@ -2176,22 +2174,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'tanh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: tanh <curve-list>'
+            print('error - usage: tanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanh(self):
-        print '\n   Procedure: Take hyperbolic tangent of y values of curves\n   Usage: tanh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic tangent of y values of curves\n   Usage: tanh <curve-list>\n')
 
     def do_tanhx(self, line):
         try:
             self.func_curve(line, 'tanh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: tanhx <curve-list>'
+            print('error - usage: tanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanhx(self):
-        print '\n   Procedure: Take hyperbolic tangent of x values of curves\n   Usage: tanhx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic tangent of x values of curves\n   Usage: tanhx <curve-list>\n')
 
 
     ##take the inverse hyperbolic cosine of the curve##
@@ -2200,22 +2198,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'acosh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: acosh <curve-list>'
+            print('error - usage: acosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acosh(self):
-        print '\n   Procedure: Take hyperbolic arccosine of y values of curves\n   Usage: acosh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arccosine of y values of curves\n   Usage: acosh <curve-list>\n')
 
     def do_acoshx(self, line):
         try:
             self.func_curve(line, 'acosh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: acoshx <curve-list>'
+            print('error - usage: acoshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acoshx(self):
-        print '\n   Procedure: Take hyperbolic arccosine of x values of curves\n   Usage: acoshx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arccosine of x values of curves\n   Usage: acoshx <curve-list>\n')
 
 
     ##take the hyperbolic arcsine of the curve##
@@ -2224,22 +2222,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'asinh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: asinh <curve-list>'
+            print('error - usage: asinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinh(self):
-        print '\n   Procedure: Take hyperbolic arcsine of y values of curves\n   Usage: asinh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arcsine of y values of curves\n   Usage: asinh <curve-list>\n')
 
     def do_asinhx(self, line):
         try:
             self.func_curve(line, 'asinh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: asinhx <curve-list>'
+            print('error - usage: asinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinhx(self):
-        print '\n   Procedure: Take hyperbolic arcsine of x values of curves\n   Usage: asinhx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arcsine of x values of curves\n   Usage: asinhx <curve-list>\n')
 
 
     ##take the hyperbolic arctangent of the curve##
@@ -2248,22 +2246,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'atanh', 0)
             self.plotedit = True
         except:
-            print 'error - usage: atanh <curve-list>'
+            print('error - usage: atanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanh(self):
-        print '\n   Procedure: Take hyperbolic arctangent of y values of curves\n   Usage: atanh <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arctangent of y values of curves\n   Usage: atanh <curve-list>\n')
 
     def do_atanhx(self, line):
         try:
             self.func_curve(line, 'atanh', 1)
             self.plotedit = True
         except:
-            print 'error - usage: atanhx <curve-list>'
+            print('error - usage: atanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanhx(self):
-        print '\n   Procedure: Take hyperbolic arctangent of x values of curves\n   Usage: atanhx <curve-list>\n'
+        print('\n   Procedure: Take hyperbolic arctangent of x values of curves\n   Usage: atanhx <curve-list>\n')
 
 
     ##take the zeroth order Bessel function of the curve##
@@ -2272,22 +2270,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'j0', 0)
             self.plotedit = True
         except:
-            print 'error - usage: j0 <curve-list>'
+            print('error - usage: j0 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j0(self):
-        print '\n   Procedure: Take the zeroth order Bessel function of y values of curves\n   Usage: j0 <curve-list>\n'
+        print('\n   Procedure: Take the zeroth order Bessel function of y values of curves\n   Usage: j0 <curve-list>\n')
 
     def do_j0x(self, line):
         try:
             self.func_curve(line, 'j0', 1)
             self.plotedit = True
         except:
-            print 'error - usage: j0x <curve-list>'
+            print('error - usage: j0x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j0x(self):
-        print '\n   Procedure: Take the zeroth order Bessel function of x values of curves\n   Usage: j0x <curve-list>\n'
+        print('\n   Procedure: Take the zeroth order Bessel function of x values of curves\n   Usage: j0x <curve-list>\n')
 
 
     ##take the first order Bessel function of the curve##
@@ -2296,47 +2294,47 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'j1', 0)
             self.plotedit = True
         except:
-            print 'error - usage: j1 <curve-list>'
+            print('error - usage: j1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j1(self):
-        print '\n   Procedure: Take the first order Bessel function of y values of curves\n   Usage: j1 <curve-list>\n'
+        print('\n   Procedure: Take the first order Bessel function of y values of curves\n   Usage: j1 <curve-list>\n')
 
     def do_j1x(self, line):
         try:
             self.func_curve(line, 'j1', 1)
             self.plotedit = True
         except:
-            print 'error - usage: j1x <curve-list>'
+            print('error - usage: j1x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j1x(self):
-        print '\n   Procedure: Take the first order Bessel function of x values of curves\n   Usage: j1x <curve-list>\n'
+        print('\n   Procedure: Take the first order Bessel function of x values of curves\n   Usage: j1x <curve-list>\n')
 
 
     ##take the nth order Bessel function of the curve##
     def do_jn(self, line):
         try:
-            print "do_jn: "+line+"  '"+line.split()[-1]+"' "
+            print("do_jn: "+line+"  '"+line.split()[-1]+"' ")
             self.func_curve(line, 'jn', 0, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: jn <curve-list> n'
+            print('error - usage: jn <curve-list> n')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jn(self):
-        print '\n   Procedure: Take the nth order Bessel function of y values of curves\n   Usage: jn <curve-list> n\n'
+        print('\n   Procedure: Take the nth order Bessel function of y values of curves\n   Usage: jn <curve-list> n\n')
 
     def do_jnx(self, line):
         try:
             self.func_curve(line, 'jn', 1, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: jnx <curve-list>'
+            print('error - usage: jnx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jnx(self):
-        print '\n   Procedure: Take the nth order Bessel function of x values of curves\n   Usage: jnx <curve-list> n\n'
+        print('\n   Procedure: Take the nth order Bessel function of x values of curves\n   Usage: jnx <curve-list> n\n')
 
 
     ##take the zeroth order Bessel function of the second kind of the curve##
@@ -2345,22 +2343,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'y0', 0)
             self.plotedit = True
         except:
-            print 'error - usage: y0 <curve-list>'
+            print('error - usage: y0 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y0(self):
-        print '\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves\n   Usage: y0 <curve-list>\n'
+        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves\n   Usage: y0 <curve-list>\n')
 
     def do_y0x(self, line):
         try:
             self.func_curve(line, 'y0', 1)
             self.plotedit = True
         except:
-            print 'error - usage: y0x <curve-list>'
+            print('error - usage: y0x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y0x(self):
-        print '\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves\n   Usage: y0x <curve-list>\n'
+        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves\n   Usage: y0x <curve-list>\n')
 
 
     ##take the first order Bessel function of the second kind of the curve##
@@ -2369,22 +2367,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'y1', 0)
             self.plotedit = True
         except:
-            print 'error - usage: y1 <curve-list>'
+            print('error - usage: y1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y1(self):
-        print '\n   Procedure: Take the first order Bessel function of the second kind of y values of curves\n   Usage: y1 <curve-list>\n'
+        print('\n   Procedure: Take the first order Bessel function of the second kind of y values of curves\n   Usage: y1 <curve-list>\n')
 
     def do_y1x(self, line):
         try:
             self.func_curve(line, 'y1', 1)
             self.plotedit = True
         except:
-            print 'error - usage: y1x <curve-list>'
+            print('error - usage: y1x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y1x(self):
-        print '\n   Procedure: Take the first order Bessel function of the second kind of x values of curves\n   Usage: y1x <curve-list>\n'
+        print('\n   Procedure: Take the first order Bessel function of the second kind of x values of curves\n   Usage: y1x <curve-list>\n')
 
 
     ##take the nth order Bessel function of the second kind of the curve##
@@ -2393,22 +2391,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'yn', 0, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: yn <curve-list> n'
+            print('error - usage: yn <curve-list> n')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yn(self):
-        print '\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves\n   Usage: yn <curve-list> <n>\n'
+        print('\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves\n   Usage: yn <curve-list> <n>\n')
 
     def do_ynx(self, line):
         try:
             self.func_curve(line, 'yn', 1, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: ynx <curve-list>'
+            print('error - usage: ynx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ynx(self):
-        print '\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves\n   Usage: ynx <curve-list> <n>\n'
+        print('\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves\n   Usage: ynx <curve-list> <n>\n')
 
 
     ##Raise a fixed value, a, to the power of the y values of the curves
@@ -2417,22 +2415,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'powa', 0, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: powa <curve-list> a'
+            print('error - usage: powa <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powa(self):
-        print '\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves\n   Usage: powa <curve-list> a\n'
+        print('\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves\n   Usage: powa <curve-list> a\n')
 
     def do_powax(self, line):
         try:
             self.func_curve(line, 'powa', 1, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: powax <curve-list> a'
+            print('error - usage: powax <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powax(self):
-        print '\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves\n   Usage: powax <curve-list> a\n'
+        print('\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves\n   Usage: powax <curve-list> a\n')
 
 
     ##Raise the y values of the curves  to a fixed power
@@ -2441,22 +2439,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'powr', 0, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: powr <curve-list> a'
+            print('error - usage: powr <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powr(self):
-        print '\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n'
+        print('\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n')
 
     def do_powrx(self, line):
         try:
             self.func_curve(line, 'powr', 1, [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: powrx <curve-list> a'
+            print('error - usage: powrx <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powrx(self):
-        print '\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n'
+        print('\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n')
 
 
     ##Take the reciprocal of the y values of the curves
@@ -2465,22 +2463,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'recip', 0)
             self.plotedit = True
         except:
-            print 'error - usage: recip <curve-list>'
+            print('error - usage: recip <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_recip(self):
-        print '\n   Procedure: Take the reciprocal of the y values of the curves\n   Usage: recip <curve-list>\n'
+        print('\n   Procedure: Take the reciprocal of the y values of the curves\n   Usage: recip <curve-list>\n')
 
     def do_recipx(self, line):
         try:
             self.func_curve(line, 'recip', 1)
             self.plotedit = True
         except:
-            print 'error - usage: recipx <curve-list>'
+            print('error - usage: recipx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_recipx(self):
-        print '\n   Procedure: Take the reciprocal of the x values of the curves\n   Usage: recipx <curve-list>\n'
+        print('\n   Procedure: Take the reciprocal of the x values of the curves\n   Usage: recipx <curve-list>\n')
 
 
     ##Take the square of the y values of the curves
@@ -2489,22 +2487,22 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sqr', 0)
             self.plotedit = True
         except:
-            print 'error - usage: sqr <curve-list>'
+            print('error - usage: sqr <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqr(self):
-        print '\n   Procedure: Take the square of the y values of the curves\n   Usage: square <curve-list>\n   Shortcut: sqr\n'
+        print('\n   Procedure: Take the square of the y values of the curves\n   Usage: square <curve-list>\n   Shortcut: sqr\n')
 
     def do_sqrx(self, line):
         try:
             self.func_curve(line, 'sqr', 1)
             self.plotedit = True
         except:
-            print 'error - usage: sqrx <curve-list>'
+            print('error - usage: sqrx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrx(self):
-        print '\n   Procedure: Take the square of the x values of the curves\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n'
+        print('\n   Procedure: Take the square of the x values of the curves\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n')
 
     ##Take the square root of the y values of the curves
 
@@ -2514,11 +2512,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sqrt', 0)
             self.plotedit = True
         except:
-            print 'error - usage: sqrt <curve-list>'
+            print('error - usage: sqrt <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrt(self):
-        print '\n   Procedure: Take the square root of the y values of the curves\n   Usage: sqrt <curve-list>\n'
+        print('\n   Procedure: Take the square root of the y values of the curves\n   Usage: sqrt <curve-list>\n')
 
 
 
@@ -2527,11 +2525,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'sqrt', 1)
             self.plotedit = True
         except:
-            print 'error - usage: sqrtx <curve-list>'
+            print('error - usage: sqrtx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrtx(self):
-        print '\n   Procedure: Take the square root of the x values of the curves\n   Usage: sqrtx <curve-list>\n'
+        print('\n   Procedure: Take the square root of the x values of the curves\n   Usage: sqrtx <curve-list>\n')
 
 
     ##set labels and titles##
@@ -2540,33 +2538,33 @@ class Command(cmd.Cmd, object):
             self.xlabel = line
             plt.xlabel(line)
         except:
-            print 'error - usage: xlabel <label-name>'
+            print('error - usage: xlabel <label-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xlabel(self):
-        print '\n   Procedure: Set a label for the x axis\n   Usage: xlabel <label-name>\n'
+        print('\n   Procedure: Set a label for the x axis\n   Usage: xlabel <label-name>\n')
 
     def do_ylabel(self, line):
         try:
             self.ylabel = line
             plt.ylabel(line)
         except:
-            print 'error - usage: ylabel <label-name>'
+            print('error - usage: ylabel <label-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ylabel(self):
-        print '\n   Procedure: Set a label for the y axis\n   Usage: ylabel <label-name>\n'
+        print('\n   Procedure: Set a label for the y axis\n   Usage: ylabel <label-name>\n')
 
     def do_title(self, line):
         try:
             self.title = line
             plt.title(line)
         except:
-            print 'error - usage: title <title-name>'
+            print('error - usage: title <title-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_title(self):
-        print '\n   Procedure: Set a title for the plot\n   Usage: title <title-name>\n'
+        print('\n   Procedure: Set a title for the plot\n   Usage: title <title-name>\n')
 
 
     ##show or hide the key/legend##
@@ -2578,7 +2576,7 @@ class Command(cmd.Cmd, object):
             for i in range(len(line)):
                 key = line[i].lower()
 
-                if locs.has_key(key):
+                if key in locs:
                     self.key_loc = locs[key]
                 elif key == 'on':
                     self.showkey = True
@@ -2588,33 +2586,33 @@ class Command(cmd.Cmd, object):
                     try:
                         self.key_ncol = int(key)
                     except:
-                        raise Exception, 'Invalid argument: %s' % key
+                        raise Exception('Invalid argument: %s' % key)
         except:
-            print 'error - usage: legend [on | off] [<position>] [<number of columns>]'
+            print('error - usage: legend [on | off] [<position>] [<number of columns>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_legend(self):
-        print '\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n'
+        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n')
 
 
     ## adjust the width of the label column in 'menu' and 'lst' commands
     def do_namewidth(self, line):
         try:
             if len(line) == 0:
-                print 'label column width is currently', self.namewidth
+                print('label column width is currently', self.namewidth)
             else:
                 line = line.strip().split()
                 width = int(line[0])
                 if width < 0:
                     width = 0
                 self.namewidth = width
-                print 'changing label column width to ', self.namewidth
+                print('changing label column width to ', self.namewidth)
         except:
-            print 'error - usage: namewidth <integer>'
+            print('error - usage: namewidth <integer>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_namewidth(self):
-        print '\n   Command: change the width of the first column of the menu and lst output\n  Usage:  namewidth <integer>'
+        print('\n   Command: change the width of the first column of the menu and lst output\n  Usage:  namewidth <integer>')
 
 
     ##adjust the length of the lines in the legend##
@@ -2627,13 +2625,13 @@ class Command(cmd.Cmd, object):
                 self.handlelength = max(0, int(key))
             self.plotedit = True
         except:
-            print 'error -- usage:'
+            print('error -- usage:')
             self.help_handlelength()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_handlelength(self):
-        print '\n   Command: change the length of the lines in the legend'
-        print '     Usage: handlelength <integer>'
+        print('\n   Command: change the length of the lines in the legend')
+        print('     Usage: handlelength <integer>')
 
     ##show or hide minor ticks##
     def do_minorticks(self, line):
@@ -2644,14 +2642,14 @@ class Command(cmd.Cmd, object):
             elif line == '1' or line.upper() == 'ON':
                 self.showminorticks = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: minorticks on | off'
+            print('error - usage: minorticks on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_minorticks(self):
-        print '\n   Variable: Minor ticks are not visible by default. On will make the minor ticks visible and off will' \
-              ' hide the minor ticks.\n   Usage: minorticks on | off\n'
+        print('\n   Variable: Minor ticks are not visible by default. On will make the minor ticks visible and off will' \
+              ' hide the minor ticks.\n   Usage: minorticks on | off\n')
 
     ##show or hide the grid##
     def do_grid(self, line):
@@ -2662,13 +2660,13 @@ class Command(cmd.Cmd, object):
             elif(line == '1' or line.upper() == 'ON'):
                 self.showgrid = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: grid on | off'
+            print('error - usage: grid on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_grid(self):
-        print '\n   Variable: Show the grid if True\n   Usage: grid on | off\n'
+        print('\n   Variable: Show the grid if True\n   Usage: grid on | off\n')
 
     ##set the grid color##
     def do_gridcolor(self, line):
@@ -2679,16 +2677,16 @@ class Command(cmd.Cmd, object):
             if mclr.is_color_like(color):
                 self.gridcolor = color
             else:
-                print 'error: invalid color ' + color
+                print('error: invalid color ' + color)
                 return 0
         except:
-            print 'error - usage: gridcolor <color-name>'
+            print('error - usage: gridcolor <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_gridcolor(self):
-            print '\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>\n   ' \
+            print('\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>\n   ' \
                   'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   ' \
-                  'The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!'
+                  'The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!')
 
     ## Change the grid style ##
     def do_gridstyle(self, line):
@@ -2706,10 +2704,10 @@ class Command(cmd.Cmd, object):
         elif style == 'dashdot':
             self.gridstyle = '-.'
         else:
-            print 'error: invalid style ' + style
+            print('error: invalid style ' + style)
             return 0
     def help_gridstyle(self):
-        print '\n   Procedure: Set the line style for the grid.\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n'
+        print('\n   Procedure: Set the line style for the grid.\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n')
 
     ## Set the grid line width ##
     def do_gridwidth(self, line):
@@ -2719,11 +2717,11 @@ class Command(cmd.Cmd, object):
         try:
             self.gridwidth = float(line.strip())
         except:
-            print 'error - usage: gridwidth <width>'
+            print('error - usage: gridwidth <width>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_gridwidth(self):
-        print '\n   Procedure: Set the grid line width in points.\n   Usage: gridwidth <width>\n'
+        print('\n   Procedure: Set the grid line width in points.\n   Usage: gridwidth <width>\n')
 
     ##show or hide letter markers on plotted curves##
     def do_dataid(self, line):
@@ -2734,13 +2732,13 @@ class Command(cmd.Cmd, object):
             elif(line == '1' or line.upper() == 'ON'):
                 self.showletters = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: dataid on | off'
+            print('error - usage: dataid on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dataid(self):
-        print '\n   Variable: Show curve identifiers if True\n   Usage: dataid on | off\n   Shortcuts: data-id\n'
+        print('\n   Variable: Show curve identifiers if True\n   Usage: dataid on | off\n   Shortcuts: data-id\n')
 
 
     ##show the x axis on a log scale##
@@ -2756,13 +2754,13 @@ class Command(cmd.Cmd, object):
                     xmin = max(1e-2, self.xlim[0])
                     self.xlim = (xmin, max(self.xlim[1], 1000.0*xmin))
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: xlogscale on | off'
+            print('error - usage: xlogscale on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xlogscale(self):
-        print '\n   Variable: Show x axis in log scale if True\n   Usage: xlogscale on | off\n   Shortcuts: x-log-scale , xls\n'
+        print('\n   Variable: Show x axis in log scale if True\n   Usage: xlogscale on | off\n   Shortcuts: x-log-scale , xls\n')
 
 
     ##show the y axis on a log scale##
@@ -2778,13 +2776,13 @@ class Command(cmd.Cmd, object):
                     ymin = max(1e-2, self.ylim[0])
                     self.ylim = (ymin, max(self.ylim[1], 1000.0*ymin))
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: ylogscale on | off'
+            print('error - usage: ylogscale on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ylogscale(self):
-        print '\n   Variable: Show y axis in log scale if True\n   Usage: ylogscale on | off\n   Shortcuts: y-log-scale , yls\n'
+        print('\n   Variable: Show y axis in log scale if True\n   Usage: ylogscale on | off\n   Shortcuts: y-log-scale , yls\n')
 
     ##set whether to update after each command##
     def do_guilims(self, line):
@@ -2797,13 +2795,13 @@ class Command(cmd.Cmd, object):
             elif line == '1' or line.upper() == 'ON':
                 self.guilims = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: guilims on | off'
+            print('error - usage: guilims on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_guilims(self):
-        print '\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.\n   Usage: guilims on | off\n'
+        print('\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.\n   Usage: guilims on | off\n')
 
     ##set whether to update after each command##
     def do_update(self, line):
@@ -2814,13 +2812,13 @@ class Command(cmd.Cmd, object):
             elif line == '1' or line.upper() == 'ON':
                 self.update = True
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'error - usage: update on | off'
+            print('error - usage: update on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_update(self):
-        print '\n   Variable: Update the plot after each command if True\n   Usage: update on | off\n'
+        print('\n   Variable: Update the plot after each command if True\n   Usage: update on | off\n')
 
     ##set whether or not to use LaTeX font rendering##
     def do_latex(self, line):
@@ -2831,13 +2829,13 @@ class Command(cmd.Cmd, object):
             elif(line == '1' or line.upper() == 'ON'):
                 matplotlib.rc('text', usetex=True)
             else:
-                print 'invalid input: requires on or off as argument'
+                print('invalid input: requires on or off as argument')
         except:
-            print 'latex on | off'
+            print('latex on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_latex(self):
-        print '\n   Variable: Use LaTeX font rendering if True\n   Usage: latex on | off\n'
+        print('\n   Variable: Use LaTeX font rendering if True\n   Usage: latex on | off\n')
 
 
     ##show given curves as points rather than continuous line##
@@ -2846,11 +2844,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'scatter', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: scatter <curve-list> on | off'
+            print('error - usage: scatter <curve-list> on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_scatter(self):
-        print '\n   Procedure: Plot curves as scatter plots\n   Usage: scatter <curve-list> on | off\n'
+        print('\n   Procedure: Plot curves as scatter plots\n   Usage: scatter <curve-list> on | off\n')
 
 
     ##show given curves as points and a line rather than continuous line##
@@ -2859,11 +2857,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'linespoints', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: linespoints <curve-list> on | off'
+            print('error - usage: linespoints <curve-list> on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_linespoints(self):
-        print '\n   Procedure: Plot curves as linespoints plots\n   Usage: linespoints <curve-list> on | off\n'
+        print('\n   Procedure: Plot curves as linespoints plots\n   Usage: linespoints <curve-list> on | off\n')
 
 
     ##set line width of given curves##
@@ -2872,11 +2870,11 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'lnwidth', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: lnwidth <curve-list> <width-number>'
+            print('error - usage: lnwidth <curve-list> <width-number>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_lnwidth(self):
-        print '\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width-number>\n'
+        print('\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width-number>\n')
 
 
     ##set line style of given curves##
@@ -2885,10 +2883,10 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'lnstyle', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>'
+            print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_lnstyle(self):
-        print '\n   Procedure: Set the line style of curves\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n'
+        print('\n   Procedure: Set the line style of curves\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n')
 
     ##set draw style of given curves##
     def do_drawstyle(self, line):
@@ -2896,15 +2894,15 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'drawstyle', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>'
+            print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
     def help_drawstyle(self):
-        print '\n   Procedure: Set the draw style of the curves\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n'
+        print('\n   Procedure: Set the draw style of the curves\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
 
     ##set dash style of given curves##
     def help_dashstyle(self):
-        print '''
+        print('''
    Procedure: Set the style of dash or dot dash lines
    Usage: dashstyle <curve-list> <[...]>
      The python list is a list of integers, alternating how many pixels to turn on and off, for example:
@@ -2913,13 +2911,13 @@ class Command(cmd.Cmd, object):
         [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
         [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
    See matplotlib 'set_dashes' command for more information.
-'''
+''')
     def do_dashstyle(self, line):
         try:
             self.modcurve(line, 'dashstyle', [line[line.index("["):],])
             self.plotedit = True
         except:
-            print "ERROR : dashstyle usage"
+            print("ERROR : dashstyle usage")
             self.help_dashstyle()
             if(self.debug): traceback.print_exc(file=sys.stdout)
 
@@ -2930,11 +2928,11 @@ class Command(cmd.Cmd, object):
             line = line + ' ON'
             self.modcurve(line, 'hide', ['ON'])
         except:
-            print 'error - usage: hide <curve-list>'
+            print('error - usage: hide <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_hide(self):
-        print '\n   Procedure: Hide curves from view\n   Usage: hide <curve-list>\n'
+        print('\n   Procedure: Hide curves from view\n   Usage: hide <curve-list>\n')
 
 
     ##turn hiding off for given curves##
@@ -2943,11 +2941,11 @@ class Command(cmd.Cmd, object):
             line = line + ' OFF'
             self.modcurve(line, 'hide', ['OFF'])
         except:
-            print 'error - usage: show <curve-list>'
+            print('error - usage: show <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_show(self):
-        print '\n   Procedure: Reveal curves hidden by hide command\n   Usage: show <curve-list>\n'
+        print('\n   Procedure: Reveal curves hidden by hide command\n   Usage: show <curve-list>\n')
 
 
     ##Use matplotlib style settings##
@@ -2958,17 +2956,17 @@ class Command(cmd.Cmd, object):
             self.updatestyle = True
             self.redraw = True
         except:
-            print 'error - usage: style <style-name>'
+            print('error - usage: style <style-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_style(self):
-        print '''
+        print('''
         Procedure: Use matplotlib style settings from a style specification.
         The style name of 'default' is reserved for reverting back to the
         default style settings.
 
         Usage: style <style-name>
-        '''
+        ''')
 
     ##change the y range on the graph##
     def do_range(self, line):
@@ -2979,13 +2977,13 @@ class Command(cmd.Cmd, object):
             elif(len(line) == 2):
                 self.ylim = (float(line[0]), float(line[1]))
             else:
-                print 'error: exactly two arguments required or de for default'
+                print('error: exactly two arguments required or de for default')
         except:
-            print 'error - usage: range <low-lim> <high-lim> or range de'
+            print('error - usage: range <low-lim> <high-lim> or range de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_range(self):
-        print '\n   Procedure: Set the range for plotting\n   Usage: range <low-lim> <high-lim> or\n   Usage: range de\n   Shortcuts: ran\n'
+        print('\n   Procedure: Set the range for plotting\n   Usage: range <low-lim> <high-lim> or\n   Usage: range de\n   Shortcuts: ran\n')
 
 
     ##change the x domain on the graph##
@@ -2997,13 +2995,13 @@ class Command(cmd.Cmd, object):
             elif(len(line) == 2):
                 self.xlim = (float(line[0]), float(line[1]))
             else:
-                print 'error: exactly two arguments required or de for default'
+                print('error: exactly two arguments required or de for default')
         except:
-            print 'error - usage: domain <low-lim> <high-lim> or domain de'
+            print('error - usage: domain <low-lim> <high-lim> or domain de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_domain(self):
-        print '\n   Procedure: Set the domain for plotting\n   Usage: domain <low-lim> <high-lim> or\n   Usage: domain de\n   Shortcuts: dom\n'
+        print('\n   Procedure: Set the domain for plotting\n   Usage: domain <low-lim> <high-lim> or\n   Usage: domain de\n   Shortcuts: dom\n')
 
 
     ##list currently graphed curves##
@@ -3014,7 +3012,7 @@ class Command(cmd.Cmd, object):
                 try:
                     reg = re.compile(r"%s" % line)
                 except:
-                    print 'error - invalid label-pattern'
+                    print('error - invalid label-pattern')
                     return 0
 
             for curve in self.plotlist:
@@ -3030,21 +3028,21 @@ class Command(cmd.Cmd, object):
                     xmax = string.ljust('%.2e' % max(curve.x), 9)
                     ymin = string.ljust('%.2e' % min(curve.y), 9)
                     ymax = string.ljust('%.2e' % max(curve.y), 9)
-                    print '%s  %s   %s   %s   %s   %s  %s' % (plotname, name, xmin, xmax, ymin, ymax, fname)
+                    print('%s  %s   %s   %s   %s   %s  %s' % (plotname, name, xmin, xmax, ymin, ymax, fname))
         except:
-            print 'error - usage: list [<label-pattern>]'
+            print('error - usage: list [<label-pattern>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_list(self):
-        print '\n   Macro: Display curves in list\n   Usage: list [<label-pattern>]\n   Shortcuts: lst\n'
+        print('\n   Macro: Display curves in list\n   Usage: list [<label-pattern>]\n   Shortcuts: lst\n')
 
     ## Delete the specified entries from the menu ##
     def do_kill(self, line):
         try:
             if not line:
-                raise RuntimeError, "Argument(s) missing."
+                raise RuntimeError("Argument(s) missing.")
 
             if 'all' in line:
                 self.curvelist = list()
@@ -3057,20 +3055,20 @@ class Command(cmd.Cmd, object):
 
                 self.curvelist = tmpcurvelist
         except RuntimeError as rte:
-            print '   error - %s' % rte
-            print '   usage: kill [all | number-list]'
+            print('   error - %s' % rte)
+            print('   usage: kill [all | number-list]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
-            print 'error - usage: kill [all | number-list]'
+            print('error - usage: kill [all | number-list]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
     def help_kill(self):
-        print '\n   Procedure: Delete the specified entries from the menu. ' \
-              'number-list is a space separated list of menu indexes\n   Usage: kill [all | number-list]'
+        print('\n   Procedure: Delete the specified entries from the menu. ' \
+              'number-list is a space separated list of menu indexes\n   Usage: kill [all | number-list]')
 
     ##print out curves loaded from files##
     def do_menu(self, line):
@@ -3081,7 +3079,7 @@ class Command(cmd.Cmd, object):
                     reg = re.compile(r"%s" % line)
                     # reg = re.compile(line)
                 except:
-                    print 'error: invalid expression'
+                    print('error: invalid expression')
                     return 0
 
             for i in range(len(self.curvelist)):
@@ -3094,15 +3092,15 @@ class Command(cmd.Cmd, object):
                     xmax = string.ljust('%.2e' % max(self.curvelist[i].x), 9)
                     ymin = string.ljust('%.2e' % min(self.curvelist[i].y), 9)
                     ymax = string.ljust('%.2e' % max(self.curvelist[i].y), 9)
-                    print '%s  %s   %s   %s   %s   %s  %s' % (index, name, xmin, xmax, ymin, ymax, fname)
+                    print('%s  %s   %s   %s   %s   %s  %s' % (index, name, xmin, xmax, ymin, ymax, fname))
         except:
-            print 'error - usage: menu [<regex>]'
+            print('error - usage: menu [<regex>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_menu(self):
-        print """\n   Macro: List the available curves\n   Usage: menu [<regex>]\n
+        print("""\n   Macro: List the available curves\n   Usage: menu [<regex>]\n
 Regular expressions are based on the Python regex syntax, not the UNIX syntax.
 In particular, '*' is not the wildcard you might be expecting.
 
@@ -3141,9 +3139,9 @@ VR[de]     matches 'bigVRdump', 'smallVRexit', but not 'mediumVRfront'
 AX[deh-z]  matches 'myAXjob', 'yourAXexit', 'AXnow', but not 'AXfoo'
 
 For a painfully complete explanation of the regex syntax, type 'help regex'.
-"""
+""")
     def help_regex(self):
-        print "This is the Python help for the 're' module.  'help menu' will give you\n a shorter version."
+        print("This is the Python help for the 're' module.  'help menu' will give you\n a shorter version.")
         help(re)
 
 
@@ -3152,7 +3150,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.redraw = False
         return True
     def help_drop(self):
-        print '\n   Macro: Enter the python prompt for custom input\n   Usage: drop\n'
+        print('\n   Macro: Enter the python prompt for custom input\n   Usage: drop\n')
 
 
     ##exit the program##
@@ -3166,7 +3164,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             sys.exit()
             return True
     def help_quit(self):
-        print '\n   Macro: Exit PyDV\n   Usage: quit\n   Shortcuts: q\n'
+        print('\n   Macro: Exit PyDV\n   Usage: quit\n   Shortcuts: q\n')
 
 
     ##save figure to file##
@@ -3182,13 +3180,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 filename = line.pop(-1)
             plt.savefig(filename+'.'+filetype, format=filetype)
         except:
-            print 'error - usage: image <file-name> <file-type: png | ps | pdf | svg>'
+            print('error - usage: image <file-name> <file-type: png | ps | pdf | svg>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_image(self):
-        print '\n   Macro: Save the current figure to image file\n   Usage: image <file-name> <file-type: png | ps | pdf | svg>\n'
+        print('\n   Macro: Save the current figure to image file\n   Usage: image <file-name> <file-type: png | ps | pdf | svg>\n')
 
 
     ##save given curves to a new ultra file##
@@ -3214,13 +3212,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                 f.write(' ' + str(self.plotlist[j].x[dex]) + ' ' + str(self.plotlist[j].y[dex]) + '\n')
                             break
         except:
-            print 'error - usage: save <file-name> <curve-list>'
+            print('error - usage: save <file-name> <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_save(self):
-        print '\n   Macro: Save curves to file\n   Usage: save <file-name> <curve-list>\n'
+        print('\n   Macro: Save curves to file\n   Usage: save <file-name> <curve-list>\n')
 
 
     ##save given curves to a CSV file##
@@ -3237,22 +3235,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 # make list of curve indices
                 indices = []
-		#used to ensure number of points in each curve appended is equal
-		assertlength = None
+                #used to ensure number of points in each curve appended is equal
+                assertlength = None
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         pname = self.plotlist[j].plotname
                         if(pname == line[i].upper()):
-			    if assertlength is not None and len(self.plotlist[j].x) != assertlength:
-			        print 'error - All curves must have the same number of points.'
-				return 0
-			    elif assertlength is None:
-				assertlength = len(self.plotlist[j].x)
-				indices.append(j)
-				break
-			    else:
-	                        indices.append(j)
+                            if assertlength is not None and len(self.plotlist[j].x) != assertlength:
+                                print('error - All curves must have the same number of points.')
+                                return 0
+                            elif assertlength is None:
+                                assertlength = len(self.plotlist[j].x)
+                                indices.append(j)
+                                break
+                            else:
+                                indices.append(j)
                                 break
 
                 # write curves out in csv format
@@ -3263,7 +3261,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 s += self.plotlist[indices[-1]].name
                 s += '\n'
                 f.write(s)
-		try:
+                try:
                     for i in range(len(self.plotlist[indices[0]].x)):
                         s = str(self.plotlist[indices[0]].x[i]) + ', '
                         for j in indices[:-1]:
@@ -3272,16 +3270,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         s += '\n'
                         f.write(s)
                     f.close()
-		except IndexError:
-		    print 'error - All curves must have the same number of points.'
+                except IndexError:
+                    print('error - All curves must have the same number of points.')
         except:
-            print 'error - usage: savecsv <file-name> <curve-list>'
+            print('error - usage: savecsv <file-name> <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_savecsv(self):
-        print '\n   Macro: Save curves to file in comma separated values (csv) format\n   Assumes all curves have the same x basis\n   CSV file generated with number rows equal to number of points in first curve passed.\n   Usage: savecsv <file-name> <curve-list>\n'
+        print('\n   Macro: Save curves to file in comma separated values (csv) format\n   Assumes all curves have the same x basis\n   CSV file generated with number rows equal to number of points in first curve passed.\n   Usage: savecsv <file-name> <curve-list>\n')
 
 
     ##Display text on the plot at the given plot location##
@@ -3296,11 +3294,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             line = line[:argdex]
             self.usertexts.append([float(xloc), float(yloc), line])
         except:
-            print 'error - usage: annot <text> <xloc> <yloc>'
+            print('error - usage: annot <text> <xloc> <yloc>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_annot(self):
-        print '\n   Macro: Display text on the plot by axis x and y location\n   Usage: annot <text> <xloc> <yloc>\n'
+        print('\n   Macro: Display text on the plot by axis x and y location\n   Usage: annot <text> <xloc> <yloc>\n')
 
 
     ##List current annotations##
@@ -3311,14 +3309,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 xloc = string.ljust('%.4f' % self.usertexts[i][0], 5)
                 yloc = string.ljust('%.4f' % self.usertexts[i][1], 5)
                 annot = pdvutil.truncate(string.ljust(self.usertexts[i][2], 50),50)
-                print '%s   %s  %s   %s' % (dex, xloc, yloc, annot)
+                print('%s   %s  %s   %s' % (dex, xloc, yloc, annot))
         except:
-            print 'error - usage: listannot'
+            print('error - usage: listannot')
             if(self.debug): traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_listannot(self):
-        print '\n   Macro: List current annotations\n   Usage: listannot\n'
+        print('\n   Macro: List current annotations\n   Usage: listannot\n')
 
 
     ##Remove the specified annotations##
@@ -3330,7 +3328,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.do_delannot(pdvutil.getnumberargs(line, self.filelist))
                 return 0
             else:
-                print line
+                print(line)
                 line = line.split()
                 rmlist = []
                 for i in range(len(line)):
@@ -3338,10 +3336,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 for text in rmlist:
                     self.usertexts.remove(text)
         except:
-            print 'error - usage: delannot <number-list-of-annotations>'
+            print('error - usage: delannot <number-list-of-annotations>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_delannot(self):
-        print '\n   Procedure: Delete annotations from list\n   Usage: delannot <number-list-of-annotations>\n'
+        print('\n   Procedure: Delete annotations from list\n   Usage: delannot <number-list-of-annotations>\n')
 
 
     ##generate a straight line and add to curve list##
@@ -3365,11 +3363,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print 'error - usage: span <xmin> <xmax> [<# pts>]'
+            print('error - usage: span <xmin> <xmax> [<# pts>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_span(self):
-        print '\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points\n   Usage: span <xmin> <xmax> [<# pts>]\n'
+        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points\n   Usage: span <xmin> <xmax> [<# pts>]\n')
 
 
     ##generate y = mx + b line##
@@ -3390,11 +3388,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print 'error - usage: line <m> <b> <xmin> <xmax> [<# pts>]'
+            print('error - usage: line <m> <b> <xmin> <xmax> [<# pts>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_line(self):
-        print '\n   Procedure: Generate a line with y = mx + b and an optional number of points\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n'
+        print('\n   Procedure: Generate a line with y = mx + b and an optional number of points\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n')
 
 
     ##generate curve from given x and y points##
@@ -3406,7 +3404,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             x = numpy.fromstring(line[0].strip().strip('('), dtype=float, sep=' ')
             y = numpy.fromstring(line[1].strip().strip('('), dtype=float, sep=' ')
             if(len(x) != len(y)):
-                print 'error: must have same number of x and y values'
+                print('error: must have same number of x and y values')
                 return 0
             c = curve.Curve('', 'Curve')
             c.x = x
@@ -3414,11 +3412,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print 'error - usage: makecurve (<list of x-values>) (<list of y values>)'
+            print('error - usage: makecurve (<list of x-values>) (<list of y values>)')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_makecurve(self):
-        print '\n   Macro: Generate a curve from two lists of numbers\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n'
+        print('\n   Macro: Generate a curve from two lists of numbers\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n')
 
 
     ##filter out points##
@@ -3427,11 +3425,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.modcurve(line, 'ymin', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: ymin <curve-list> <limit>'
+            print('error - usage: ymin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ymin(self):
-        print '\n   Procedure: Filter out points in curves whose y-values < limit\n   Usage: ymin <curve-list> <limit>\n'
+        print('\n   Procedure: Filter out points in curves whose y-values < limit\n   Usage: ymin <curve-list> <limit>\n')
 
 
     ##filter out points##
@@ -3440,11 +3438,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.modcurve(line, 'ymax', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: ymax <curve-list> <limit>'
+            print('error - usage: ymax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ymax(self):
-        print '\n   Procedure: Filter out points in curves whose y-values > limit\n   Usage: ymax <curve-list> <limit>\n'
+        print('\n   Procedure: Filter out points in curves whose y-values > limit\n   Usage: ymax <curve-list> <limit>\n')
 
 
     ##filter out points##
@@ -3453,11 +3451,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.modcurve(line, 'xmin', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: xmin <curve-list> <limit>'
+            print('error - usage: xmin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xmin(self):
-        print '\n   Procedure: Filter out points in curves whose x-values < limit\n   Usage: xmin <curve-list> <limit>\n'
+        print('\n   Procedure: Filter out points in curves whose x-values < limit\n   Usage: xmin <curve-list> <limit>\n')
 
 
     ##filter out points##
@@ -3466,11 +3464,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.modcurve(line, 'xmax', [line.split()[-1]])
             self.plotedit = True
         except:
-            print 'error - usage: xmax <curve-list> <limit>'
+            print('error - usage: xmax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xmax(self):
-        print '\n   Procedure: Filter out points in curves whose x-values > limit\n   Usage: xmax <curve-list> <limit>\n'
+        print('\n   Procedure: Filter out points in curves whose x-values > limit\n   Usage: xmax <curve-list> <limit>\n')
 
 
     ##filter out points; this is the only filter points function that returns a new curve.
@@ -3496,11 +3494,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             cNew.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
             self.plotedit = True
         except:
-            print 'error - usage: xminmax <curve-list> <low-lim> <high-lim>'
+            print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xminmax(self):
-        print '\n   Procedure: Trim the selcted curves\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm'
+        print('\n   Procedure: Trim the selcted curves\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm')
 
 
     ##filter out points##
@@ -3515,11 +3513,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.do_ymax(maxline)
             self.plotedit = True
         except:
-            print 'error - usage: yminmax <curve-list> <low-lim> <high-lim>'
+            print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yminmax(self):
-        print '\n   Procedure: Trim the selcted curves\n   Usage: yminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: ymm'
+        print('\n   Procedure: Trim the selcted curves\n   Usage: yminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: ymm')
 
 
     ##take derivative of the curve##
@@ -3542,10 +3540,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             break
                 self.plotedit = True
         except:
-            print 'error - usage: der <curve-list>'
+            print('error - usage: der <curve-list>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_derivative(self):
-        print '\n   Procedure: Take derivative of curves\n   Usage: derivative <curve-list>\n   Shortcuts: der\n'
+        print('\n   Procedure: Take derivative of curves\n   Usage: derivative <curve-list>\n   Shortcuts: der\n')
 
 
     ##take the integral of the curve##
@@ -3575,7 +3573,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     xlow = None
 
                 if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                    raise RuntimeError, "<low-limit> and <high-limit> must BOTH be specified"
+                    raise RuntimeError("<low-limit> and <high-limit> must BOTH be specified")
 
                 stop = len(line) + subtrahend
                 for i in range(stop):
@@ -3588,11 +3586,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
                 self.plotedit = True
         except:
-            print 'error - usage: integrate <curve-list> [<low-limit> <high-limit>]'
+            print('error - usage: integrate <curve-list> [<low-limit> <high-limit>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_integrate(self):
-        print '\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]\n   Shortcuts: int\n'
+        print('\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]\n   Shortcuts: int\n')
 
 
     ##plot y of one curve against y of another curve
@@ -3625,7 +3623,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(nc)
             self.plotedit = True
         except:
-            print 'error: requires exactly two curves as arguments'
+            print('error: requires exactly two curves as arguments')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def __vs_variant(self, arg0, arg1):
@@ -3642,14 +3640,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         ifile += 1
                         lastfile = self.curvelist[icurve].filename
                 if icurve == len(self.curvelist):
-                    print "error: curve index out of bounds: ", arg
+                    print("error: curve index out of bounds: ", arg)
                     return 0
                 icurve += int(arg.split('.')[-1]) - 1
                 return icurve
             elif int(arg) > 0 and int(arg) <= len(self.curvelist):
                 return int(arg) - 1
             else:
-                print "error: curve index out of bounds: ", arg
+                print("error: curve index out of bounds: ", arg)
         icur1, icur2 = _extract_curvelist_number(arg0), _extract_curvelist_number(arg1)
         xc1, yc1 = numpy.array(self.curvelist[icur1].x), numpy.array(self.curvelist[icur1].y)
         xc2, yc2 = numpy.array(self.curvelist[icur2].x), numpy.array(self.curvelist[icur2].y)
@@ -3660,7 +3658,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.plotedit = True
         return
     def help_vs(self):
-        print '\n   Procedure: Plot the range of the first curve against the range of the second curve\n   Usage: vs <curve1> <curve2>\n'
+        print('\n   Procedure: Plot the range of the first curve against the range of the second curve\n   Usage: vs <curve1> <curve2>\n')
 
 
     ##define error bars for a curve##
@@ -3707,11 +3705,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotedit = True
         except:
             scur.ebar = None
-            print 'error - usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]'
+            print('error - usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_errorbar(self):
-        print '\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves and not scalars.\n' \
-              '   Usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n'
+        print('\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves and not scalars.\n' \
+              '   Usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n')
 
 
     ##Define a shaded error range for a curve##
@@ -3735,21 +3733,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotedit = True
         except:
             scur.erange = None
-            print 'error - usage: errorrange <curve> <y-error-curve> <y+error-curve>'
+            print('error - usage: errorrange <curve> <y-error-curve> <y+error-curve>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_errorrange(self):
-        print '\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are curves and not scalars\n' \
-              '   Usage: errorrange <curve> <y-error-curve> <y+error-curve>\n   Shortcuts: error-range\n'
+        print('\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are curves and not scalars\n' \
+              '   Usage: errorrange <curve> <y-error-curve> <y+error-curve>\n   Shortcuts: error-range\n')
 
 
     ##set the marker for scatter plots##
     def help_marker(self):
-        print '''
+        print('''
    Procedure: Set the marker symbol for scatter plots
    Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
    Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
          Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-'''
+''')
     def do_marker(self, line):
         if(not line):
             return 0
@@ -3789,12 +3787,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##set the marker symbol for the curves##
     def help_linemarker(self):
-        print '''
+        print('''
    Procedure: Set the marker symbol for the curves
    Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
    Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
          Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-'''
+''')
     def do_linemarker(self, line):
         if not line:
             return 0
@@ -3862,10 +3860,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             break
             self.plotedit = True
         except:
-            print 'error - usage: smooth <curve-list> [<smooth-factor>]'
+            print('error - usage: smooth <curve-list> [<smooth-factor>]')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_smooth(self):
-        print '\n   Procedure: Smooth the curve to the given degree.\n   Usage: smooth <curve-list> [<smooth-factor>]\n'
+        print('\n   Procedure: Smooth the curve to the given degree.\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
 
     ##make a new curve - the Fourier Transform of y-values the given curves##
     def do_fft(self, line):
@@ -3891,12 +3889,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
                 self.plotedit = True
             except:
-                print 'error - usage: fft <curve-list>'
+                print('error - usage: fft <curve-list>')
                 if self.debug: traceback.print_exc(file=sys.stdout)
     def help_fft(self):
-        print '\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.' \
+        print('\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.' \
               '\n              Return real and imaginary parts.' \
-              '\n   Usage: fft <curve-list>\n'
+              '\n   Usage: fft <curve-list>\n')
 
     ## Merge list of curves##
     def do_appendcurves(self, line):
@@ -3926,7 +3924,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.addtoplot(nc)
                     self.plotedit = True
             except RuntimeError as rte:
-                print 'error: %s' % rte
+                print('error: %s' % rte)
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
             except:
@@ -3934,9 +3932,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_appendcurves(self):
-        print '\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take' \
+        print('\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take' \
               '\n              the average of the curve\'s y-values.' \
-              '\n   Usage: appendcurves <curve-list>\n'
+              '\n   Usage: appendcurves <curve-list>\n')
 
 
     def do_alpha(self, line):
@@ -3971,7 +3969,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 3 or 4 but received %d." % len(line))
         except RuntimeError as rte:
-            print 'error: %s' % rte
+            print('error: %s' % rte)
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
@@ -3979,8 +3977,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_alpha(self):
-        print '\n   Procedure: Find the alpha' \
-              '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]'
+        print('\n   Procedure: Find the alpha' \
+              '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
 
 
     ##make a new curve - the convolution of two given curves##
@@ -4009,7 +4007,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
-            print 'error: %s' % rte
+            print('error: %s' % rte)
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
@@ -4017,11 +4015,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_convolve(self):
-        print '\n   Procedure: Computes the convolution of the two given curves' \
+        print('\n   Procedure: Computes the convolution of the two given curves' \
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))' \
               '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect' \
               '\n              results due to improper padding - use with caution.' \
-              '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol'
+              '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol')
 
     ##make a new curve - slower convolution which doesn't use FFT's
     def do_convolveb(self, line):
@@ -4049,7 +4047,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
-            print 'error: %s' % rte
+            print('error: %s' % rte)
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
@@ -4057,12 +4055,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_convolveb(self):
-        print '\n   Procedure: Computes the convolution of the two given curves' \
+        print('\n   Procedure: Computes the convolution of the two given curves' \
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/' \
               '\n                         Int(-inf, inf, dt*h(t))' \
               '\n   This slower method uses direct integration and minimal interpolations.' \
               '\n   curve2 is normalized to unit area before doing the convolution.' \
-              '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb'
+              '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb')
 
     ##make a new curve - slower convolution which doesn't use FFT's
     def do_convolvec(self, line):
@@ -4090,7 +4088,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
-            print 'error: %s' % rte
+            print('error: %s' % rte)
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
@@ -4099,11 +4097,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
 
     def help_convolvec(self):
-        print '\n   Procedure: Computes the convolution of the two given curves' \
+        print('\n   Procedure: Computes the convolution of the two given curves' \
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/' \
               '\n                         Int(-inf, inf, dt*h(t))' \
               '\n   This slower method uses direct integration and minimal interpolations.' \
-              '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc'
+              '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc')
 
     ##make two new curves - the diff-measure of two given curves##
     def do_diffMeasure(self, line):
@@ -4132,12 +4130,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(cdiff)
             self.addtoplot(cint)
             self.plotedit = True
-            print 'Difference measure for curves ' + c1.plotname + ' and ' + c2.plotname + ': ' + str(cint.y[-1])
+            print('Difference measure for curves ' + c1.plotname + ' and ' + c2.plotname + ': ' + str(cint.y[-1]))
         except:
-            print 'error: requires exactly two curves as arguments'
+            print('error: requires exactly two curves as arguments')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_diffMeasure(self):
-        print '\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n'
+        print('\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n')
 
     ## Compute the correlation function of the two curves ##
     def do_correl(self, line):
@@ -4165,7 +4163,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
-            print 'error: %s' % rte
+            print('error: %s' % rte)
             self.help_correl()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -4174,7 +4172,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_correl(self):
-        print '\n   Procedure: Compute the correlation function of the two curves.\n   Usage: correl <curve1> <curve2>\n'
+        print('\n   Procedure: Compute the correlation function of the two curves.\n   Usage: correl <curve1> <curve2>\n')
 
     ## Changes background color of the plot, window, or both. ##
     def do_bkgcolor(self, line):
@@ -4187,7 +4185,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 component = 'reset'
             else:
                 if not mclr.is_color_like(color):
-                    print 'error: invalid color ' + color
+                    print('error: invalid color ' + color)
                     self.redraw = False
                     return 0
 
@@ -4210,18 +4208,18 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             self.plotedit = True
         except ValueError as ve:
-            print '\nerror - %s' % ve.message
-            print 'usage: bkgcolor <[plot | window] color-name | reset>'
+            print('\nerror - %s' % ve.message)
+            print('usage: bkgcolor <[plot | window] color-name | reset>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
-            print 'usage: bkgcolor <[plot | window] color-name | reset>'
+            print('usage: bkgcolor <[plot | window] color-name | reset>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_bkgcolor(self):
-        print "\n    Procedure: Change the background color of the given component. If no component name is specified, then both components " \
+        print("\n    Procedure: Change the background color of the given component. If no component name is specified, then both components " \
               "\n    will be given the same color. See (https://matplotlib.org/users/colors.html) for all the different ways to specify color-name." \
-              "\n    \'reset\' will return the plot and window colors to their original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>\n"
+              "\n    \'reset\' will return the plot and window colors to their original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>\n")
 
     ##edits the font color for various text components##
     def do_fontcolor(self, line):
@@ -4229,7 +4227,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             line = line.split()
             color = line[-1]
             if not mclr.is_color_like(color):
-                print 'error: invalid color ' + color
+                print('error: invalid color ' + color)
                 self.redraw = False
                 return 0
 
@@ -4260,17 +4258,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             self.plotedit = True
         except ValueError as ve:
-            print '\nerror - %s' % ve.message
-            print 'usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>'
+            print('\nerror - %s' % ve.message)
+            print('usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
-            print 'error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>'
+            print('error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontcolor(self):
-        print '\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.\n   ' \
-              'Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n'
+        print('\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.\n   ' \
+              'Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
 
     ##edits the font size for various text components##
     def do_fontsize(self, line):
@@ -4321,11 +4319,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     self.annotationfont = size
         except:
-            print 'error - usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>'
+            print('error - usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontsize(self):
-        print '\n   Procedure: Change the font size of given component, or overall scaling factor\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n'
+        print('\n   Procedure: Change the font size of given component, or overall scaling factor\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
 
 
     ## Generate a gaussian function ##
@@ -4361,11 +4359,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print 'error - usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]'
+            print('error - usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_gaussian(self):
-        print '\n   Procedure: Generate a gaussian function.\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n'
+        print('\n   Procedure: Generate a gaussian function.\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n')
 
 
     ##change the window size and location##
@@ -4373,17 +4371,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         try:
             line = line.split()
             if len(line) != 4:
-                raise RuntimeError, "Wrong number of arguments, expecting 4 but received %d." % len(line)
+                raise RuntimeError("Wrong number of arguments, expecting 4 but received %d." % len(line))
 
             self.geometry = int(line[0]), int(line[1]), int(line[2]), int(line[3])
             self.plotter.updateGeometry(self.geometry)
         except:
             self.redraw = False
-            print 'error - usage: geometry <xsize> <ysize> <xlocation> <ylocation>'
+            print('error - usage: geometry <xsize> <ysize> <xlocation> <ylocation>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_geometry(self):
-        print '\n   Procedure: Change the PDV window size and location in pixels\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>\n   Shortcuts: geom\n'
+        print('\n   Procedure: Change the PDV window size and location in pixels\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>\n   Shortcuts: geom\n')
 
 
     ##re-id command re-identifies all the curves into continuous alphabetical order##
@@ -4396,11 +4394,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     c.plotname = '@'+str(i+1) # after first 26 curves, go to @N labels
         except:
-            print 'error - usage: re-id or reid'
+            print('error - usage: re-id or reid')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_reid(self):
-        print '\n   Procedure: relabel all the curves in order.\n   Usage: re-id\n'
+        print('\n   Procedure: relabel all the curves in order.\n   Usage: re-id\n')
 
 
     ##change label for a curve##
@@ -4416,11 +4414,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     break
             self.plotedit = True
         except:
-            print 'error - usage: label <curve> <new-label>'
+            print('error - usage: label <curve> <new-label>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_label(self):
-        print '\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n'
+        print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
 
 
     ##change label for a curve to the filename##
@@ -4433,11 +4431,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     cur.name += ' - ' + cur.filename
                     self.plotedit = True
         except:
-            print 'error - usage: labelFileNames'
+            print('error - usage: labelFileNames')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_labelFileNames(self):
-        print '\n   Procedure: Change the key and list labels for all curves to append the filename\n   Usage: labelFileNames\n'
+        print('\n   Procedure: Change the key and list labels for all curves to append the filename\n   Usage: labelFileNames\n')
 
 
     ##run a list of commands from a file##
@@ -4464,7 +4462,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 except SystemExit:
                     self.do_quit(line)
                 except:
-                    print 'invalid command: ' + fline.strip()
+                    print('invalid command: ' + fline.strip())
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
             self.plotedit = True
@@ -4472,10 +4470,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         except SystemExit:
             self.do_quit(line)
         except:
-            print 'error - usage: run <filename>'
+            print('error - usage: run <filename>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_run(self):
-        print '\n   Procedure: Execute a list of commands from a file\n   Usage: run <filename>\n'
+        print('\n   Procedure: Execute a list of commands from a file\n   Usage: run <filename>\n')
 
 
     ##move given curves to the front of the plot##
@@ -4497,11 +4495,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.plotprecedence = highest + 1
                 self.plotedit = True
         except:
-            print 'error - usage: movefront <curve-list>'
+            print('error - usage: movefront <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_movefront(self):
-        print '\n   Procedure: Move the given curves so they are plotted on top\n   Usage: movefront <curve-list>\n'
+        print('\n   Procedure: Move the given curves so they are plotted on top\n   Usage: movefront <curve-list>\n')
 
 
     ##read in a file of custom functions##
@@ -4514,21 +4512,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 f = open(fname, 'r')
                 funcfile = f.read()
                 funcs = re.findall('do_\w+', funcfile)
-                exec funcfile
+                exec(funcfile)
                 #print locals()
 
                 for func in funcs:
-                    exec 'self.'+func+' = new.instancemethod('+func+', self, Command)'
+                    exec('self.'+func+' = new.instancemethod('+func+', self, Command)')
             except:
-                print 'error - invalid file: '+fname
+                print('error - invalid file: '+fname)
                 if(self.debug): traceback.print_exc(file=sys.stdout)
         except:
-            print 'error - usage: custom <file-name>'
+            print('error - usage: custom <file-name>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_custom(self):
-        print '\n   Procedure: Load a file of custom functions to extend PDV. Functions must be of the form \'def do_commandname(self, line): ...\n   Usage: custom <file-name>\n'
+        print('\n   Procedure: Load a file of custom functions to extend PDV. Functions must be of the form \'def do_commandname(self, line): ...\n   Usage: custom <file-name>\n')
 
 
     ##allow user defined command synonyms##
@@ -4538,16 +4536,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             alias = line.split()[1]
 
             function = 'def do_'+alias+'(self, line): self.do_'+cmd+'(line)'
-            exec function
-            exec 'self.do_'+alias+' = new.instancemethod(do_'+alias+', self, Command)'
+            exec(function)
+            exec('self.do_'+alias+' = new.instancemethod(do_'+alias+', self, Command)')
         except:
-            print 'error - usage: alias <command> <alias>'
+            print('error - usage: alias <command> <alias>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_alias(self):
-        print '\n   Procedure: Define a synonym for an existing command\n   Usage: alias <command> <alias>\n'
+        print('\n   Procedure: Define a synonym for an existing command\n   Usage: alias <command> <alias>\n')
 
 
     ##plot copies of the given curves##
@@ -4568,10 +4566,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             curout.color = ''
                             self.addtoplot(curout)
         except:
-            print 'error - usage: copy <curve-list>'
+            print('error - usage: copy <curve-list>')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_copy(self):
-        print '\n   Procedure: Copy and plot the given curves\n   Usage: copy <curve-list>\n'
+        print('\n   Procedure: Copy and plot the given curves\n   Usage: copy <curve-list>\n')
 
 
     ##Set the y-values such that y[i] *= (x[i+1] - x[i])
@@ -4594,11 +4592,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
         except:
-            print 'error - usage: makeextensive <curve-list>\n  Shortcut: mkext'
+            print('error - usage: makeextensive <curve-list>\n  Shortcut: mkext')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_makeextensive(self):
-        print '\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) \n   Usage: makeextensive <curve-list>\n   Shortcut: mkext'
+        print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) \n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
 
 
     ##Set the y-values such that y[i] /= (x[i+1] - x[i])
@@ -4621,12 +4619,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
         except:
-            print 'error - usage: makeintensive <curve-list>\n  Shortcut: mkint'
+            print('error - usage: makeintensive <curve-list>\n  Shortcut: mkint')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_makeintensive(self):
-        print '\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) \n   Usage: makeintensive <curve-list>\n   Shortcut: mkint'
+        print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) \n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
 
 
     ##Duplicate the x-values such that y = x for each of the given curves##
@@ -4650,11 +4648,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
         except:
-            print 'error - usage: dupx <curve-list>'
+            print('error - usage: dupx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dupx(self):
-        print '\n   Procedure: Duplicate the x-values such that y = x for each of the given curves\n   Usage: dupx <curve-list>\n'
+        print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves\n   Usage: dupx <curve-list>\n')
 
     ##Create curves with y-values vs. integer index values##
     def do_xindex(self, line):
@@ -4677,11 +4675,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
         except:
-            print 'error - usage: xindex <curve-list>'
+            print('error - usage: xindex <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xindex(self):
-        print '\n   Procedure: Create curves with y-values vs. integer index values\n   Usage: xindex <curve-list>\n'
+        print('\n   Procedure: Create curves with y-values vs. integer index values\n   Usage: xindex <curve-list>\n')
 
     ##set the number of ticks on the axes##
     def do_ticks(self, line):
@@ -4695,11 +4693,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 if(self.numticks < 2):
                     self.numticks = 2
         except:
-            print 'error - usage: ticks <quantity> or ticks de'
+            print('error - usage: ticks <quantity> or ticks de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ticks(self):
-        print '\n   Variable: Set the maximum number of major ticks on the axes\n   Usage: ticks <quantity> or\n   Usage: ticks de\n'
+        print('\n   Variable: Set the maximum number of major ticks on the axes\n   Usage: ticks <quantity> or\n   Usage: ticks de\n')
 
     ##set the yticks explicitly##
     def do_yticks(self, line):
@@ -4715,11 +4713,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                    locs, labels = eval(line)
                    self.yticks = (locs, labels)
         except:
-            print 'error - usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>'
+            print('error - usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yticks(self):
-        print '\n   Variable: Set the locations of major ticks on the y axis\n   Usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>'
+        print('\n   Variable: Set the locations of major ticks on the y axis\n   Usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
 
     ## set the xticks explicitly ##
     def do_xticks(self, line):
@@ -4735,11 +4733,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                    locs, labels = eval(line)
                    self.xticks = (locs, labels)
         except:
-            print 'error - usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>'
+            print('error - usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xticks(self):
-        print '\n   Variable: Set the locations of major ticks on the x axis\n   Usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>'
+        print('\n   Variable: Set the locations of major ticks on the x axis\n   Usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
 
     ## set the color for the x ticks ##
     def do_xtickcolor(self, line):
@@ -4774,15 +4772,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: xtickcolor color [which: major | minor | both]'
+            print('error - usage: xtickcolor color [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xtickcolor(self):
-        print '\n   Variable: Set the color of the ticks on the x axis. Default is apply to major ticks only.\n' \
+        print('\n   Variable: Set the color of the ticks on the x axis. Default is apply to major ticks only.\n' \
               '   Usage: xtickcolor color [which: major | minor | both]\n\n' \
               '   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
               'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
-              'to see the available named colors!'
+              'to see the available named colors!')
 
     ## set the color for the ticks on the y axis ##
     def do_ytickcolor(self, line):
@@ -4817,15 +4815,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: ytickcolor color [which: major | minor | both]'
+            print('error - usage: ytickcolor color [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ytickcolor(self):
-        print '\n   Variable: Set the color of the ticks on the y axis. Default is apply to major ticks only.\n' \
+        print('\n   Variable: Set the color of the ticks on the y axis. Default is apply to major ticks only.\n' \
               '   Usage: ytickcolor color [which: major | minor | both]\n\n' \
               '   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
               'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
-              'to see the available named colors!'
+              'to see the available named colors!')
 
     ## set the xticks length explicitly ##
     def do_xticklength(self, line):
@@ -4860,12 +4858,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: xticklength number [which: major | minor | both]'
+            print('error - usage: xticklength number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xticklength(self):
-        print '\n   Variable: Set the length (in points) of x ticks on the x axis. Default is apply to major ticks' \
-              ' only.\n   Usage: xticklength number [which: major | minor | both]'
+        print('\n   Variable: Set the length (in points) of x ticks on the x axis. Default is apply to major ticks' \
+              ' only.\n   Usage: xticklength number [which: major | minor | both]')
 
     ## set the yticks length explicitly ##
     def do_yticklength(self, line):
@@ -4900,12 +4898,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: yticklength number [which: major | minor | both]'
+            print('error - usage: yticklength number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yticklength(self):
-        print '\n   Variable: Set the length (in points) of y ticks on the y axis. Default is apply to major ticks ' \
-              'only.\n   Usage: yticklength number [which: major | minor | both]'
+        print('\n   Variable: Set the length (in points) of y ticks on the y axis. Default is apply to major ticks ' \
+              'only.\n   Usage: yticklength number [which: major | minor | both]')
 
     ## set the xticks width explicitly ##
     def do_xtickwidth(self, line):
@@ -4940,12 +4938,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: xtickwidth number [which: major | minor | both]'
+            print('error - usage: xtickwidth number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xtickwidth(self):
-        print '\n   Variable: Set the width (in points) of x ticks on the x axis. Default is apply to major ticks' \
-              ' only.\n   Usage: xtickwidth number [which: major | minor | both]'
+        print('\n   Variable: Set the width (in points) of x ticks on the x axis. Default is apply to major ticks' \
+              ' only.\n   Usage: xtickwidth number [which: major | minor | both]')
 
     ## set the yticks width explicitly ##
     def do_ytickwidth(self, line):
@@ -4980,12 +4978,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print 'error - usage: ytickwidth number [which: major | minor | both]'
+            print('error - usage: ytickwidth number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ytickwidth(self):
-        print '\n   Variable: Set the width (in points) of y ticks on the y axis. Default is apply to major ticks' \
-              ' only.\n   Usage: ytickwidth number [which: major | minor | both]'
+        print('\n   Variable: Set the width (in points) of y ticks on the y axis. Default is apply to major ticks' \
+              ' only.\n   Usage: ytickwidth number [which: major | minor | both]')
 
     ##set the ytickformat explicitly##
     def do_ytickformat(self, line):
@@ -4995,13 +4993,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 self.ytickformat = line.strip()
         except:
-            print 'error - usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.'
+            print('error - usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ytickformat(self):
-        print '\n   Variable: Set the format of major ticks on the y axis\n   Usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  \n          Default is plain. ' \
+        print('\n   Variable: Set the format of major ticks on the y axis\n   Usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  \n          Default is plain. ' \
               '%[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).' \
-              '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style formating only applies when ylogscale is set to off.'
+              '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style formating only applies when ylogscale is set to off.')
 
     ##set the xtickformat explicitly##
     def do_xtickformat(self, line):
@@ -5011,24 +5009,24 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 self.xtickformat = line.strip()
         except:
-            print 'error - usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.'
+            print('error - usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xtickformat(self):
-        print '\n   Variable: Set the format of major ticks on the x axis\n   Usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  \n          Default is plain. ' \
+        print('\n   Variable: Set the format of major ticks on the x axis\n   Usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  \n          Default is plain. ' \
               '%[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).' \
-              '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style formating only applies when xlogscale is set to off.'
+              '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style formating only applies when xlogscale is set to off.')
 
     ##set the font family##
     def do_fontstyle(self, line):
         try:
             matplotlib.rc('font', family=line.strip())
         except:
-            print 'error - usage: fontstyle <serif | sans-serif | monospace>'
+            print('error - usage: fontstyle <serif | sans-serif | monospace>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontstyle(self):
-        print '\n   Variable: Set the fontstyle family\n   Usage: fontstyle <serif | sans-serif | monospace>\n'
+        print('\n   Variable: Set the fontstyle family\n   Usage: fontstyle <serif | sans-serif | monospace>\n')
 
     ##subsample the curves, i.e., reduce to every nth value.
     def do_subsample(self, line):
@@ -5058,17 +5056,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                 curvelist.append(cur)
 
                     if len(curvelist) > 0:
-                        print "\nSubsampling the data by stride %i...\n" % stride
+                        print("\nSubsampling the data by stride %i...\n" % stride)
                         pydvif.subsample(curvelist, stride, True)
 
                     self.plotedit = True
             except:
-                print 'error - usage: subsample <curve-list> [stride]'
+                print('error - usage: subsample <curve-list> [stride]')
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_subsample(self):
-        print '\n   subsample <curve-list> [stride]'
-        print '   Subsample the curves by the optional stride. If stride is not specified defaults to 2.'
+        print('\n   subsample <curve-list> [stride]')
+        print('   Subsample the curves by the optional stride. If stride is not specified defaults to 2.')
 
     ########################################################################################################
     #helper functions#
@@ -5261,26 +5259,26 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                 getxvalues = pydvif.getx(cur, float(modvalue))
 
                                 if getxvalues:
-                                    print '\nCurve ' + cur.plotname
+                                    print('\nCurve ' + cur.plotname)
 
-                                    for i in xrange(len(getxvalues)):
+                                    for i in range(len(getxvalues)):
                                         x, y = getxvalues[i]
-                                        print '    x: %.6e    y: %.6e\n' % (x, y)
+                                        print('    x: %.6e    y: %.6e\n' % (x, y))
                             except ValueError as detail:
-                                print 'Error: %s' % detail
+                                print('Error: %s' % detail)
 
                         elif(flag == 'gety'):
                             try:
                                 getyvalues = pydvif.gety(cur, float(modvalue))
 
                                 if getyvalues:
-                                    print '\nCurve ' + cur.plotname
+                                    print('\nCurve ' + cur.plotname)
 
-                                    for i in xrange(len(getyvalues)):
+                                    for i in range(len(getyvalues)):
                                         x, y = getyvalues[i]
-                                        print '    x: %.6e    y: %.6e' % (x, y)
+                                        print('    x: %.6e    y: %.6e' % (x, y))
                             except ValueError as detail:
-                                print 'Error: %s' % detail
+                                print('Error: %s' % detail)
                         elif(flag == 'xmin'):
                             nx = []
                             ny = []
@@ -5645,11 +5643,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         style.use(styles[idx])
                     except:
                         if len(styles) > 0:
-                            print "\nStyle Error: %s doesn't exist, defaulting to %s\n" % (self.plotter.style, styles[0])
+                            print("\nStyle Error: %s doesn't exist, defaulting to %s\n" % (self.plotter.style, styles[0]))
                             self.plotter.style = styles[0]
                             style.use(styles[0])
                         else:
-                            print "\nStyle Error: no styles available\n"
+                            print("\nStyle Error: no styles available\n")
 
                     self.updatestyle = False
 
@@ -5857,9 +5855,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 leg = plt.legend(fancybox=True, numpoints=1, loc=self.key_loc, ncol=self.key_ncol, handlelength=self.handlelength)
                 if leg is not None:
                     leg.get_frame().set_alpha(0.9)
-                    #leg = plt.gca().get_legend()
-                    leg.draggable(state=True)
-                    ltext  = leg.get_texts()
+                    leg.set_draggable(state=True)
+                    ltext = leg.get_texts()
                     plt.setp(ltext, fontsize=self.keyfont)
                     plt.setp(ltext, color=self.keycolor)
 
@@ -5872,14 +5869,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotter.canvas.draw()
         except RuntimeError as detail:
             if(detail[-1].split()[0] == 'LaTeX'):
-                print 'error: invalid LaTeX syntax'
+                print('error: invalid LaTeX syntax')
             else:
-                print 'error: draw may not have completed properly: %s' % detail
+                print('error: draw may not have completed properly: %s' % detail)
             if(self.debug): traceback.print_exc(file=sys.stdout)
         except OverflowError:
-            print 'Caught overflow error attempting to plot.  Try using "subsample" to reduce the data.'
+            print('Caught overflow error attempting to plot.  Try using "subsample" to reduce the data.')
         except:
-            print 'error: draw may not have completed properly'
+            print('error: draw may not have completed properly')
             if(self.debug):
                 traceback.print_exc(file=sys.stdout)
         finally:
@@ -5965,15 +5962,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 axis.set_major_formatter(matplotlib.ticker.LogFormatterMathtext())
             else:
                 if tickformat[0] == '%':
-                    print '\nWarning: C-style formating can not be applied when logscale is on'
+                    print('\nWarning: C-style formating can not be applied when logscale is on')
                 else:
-                    print '\nError: Unknown xtick format (%s)' % tickformat
+                    print('\nError: Unknown xtick format (%s)' % tickformat)
 
                 axis.set_major_formatter(matplotlib.ticker.LogFormatter())
         else:
             if tickformat == 'de' or tickformat == 'exp' or tickformat == '10**':
                 if tickformat == 'exp' or tickformat == '10**':
-                    print '\nWarning: logscale is off. exp and 10** only apply when logscale is on'
+                    print('\nWarning: logscale is off. exp and 10** only apply when logscale is on')
 
                 axis.set_major_formatter(matplotlib.ticker.ScalarFormatter())
             elif tickformat == 'sci':
@@ -5983,10 +5980,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     if tickformat[-1] in ('d', 'e', 'E', 'f', 'F'):
                         axis.set_major_formatter(matplotlib.ticker.FormatStrFormatter(tickformat))
                     else:
-                        print '\nError: %s is an unsupported xtickformat type' % tickformat[-1]
+                        print('\nError: %s is an unsupported xtickformat type' % tickformat[-1])
                         axis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%d'))
                 else:
-                    print "\nError: Unknown xtick format. Try adding '%' to the beginning of your format string"
+                    print("\nError: Unknown xtick format. Try adding '%' to the beginning of your format string")
                     axis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%d'))
 
         # if ticks is set, figure out what user wants for ticks
@@ -6004,13 +6001,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     axis.set_major_locator(matplotlib.ticker.FixedLocator(ticks[0]))
                     axis.set_major_formatter(matplotlib.ticker.FixedFormatter(ticks[1]))
             else: # I can't figure this out, throw an exception
-                print "CAN'T SET TICKS!!!"
+                print("CAN'T SET TICKS!!!")
                 raise RuntimeError('ticks set to bad value')
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 2.4.3.1  -  11.21.2019\n\tType "help" for more information.\n\n')
-            print '\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n'
+            self.cmdloop('\n\tPython Data Visualizer 3.0  -  TBD\n\tType "help" for more information.\n\n')
+            print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
 
@@ -6021,19 +6018,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def __qtMsgHandler(self, msgtype, context, msg):
         if self.debug:
             if msgtype == QtDebugMsg:
-                print "\nQt Debug: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt Debug: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtWarningMsg:
-                print "\nQt Warning: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt Warning: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtCriticalMsg:
-                print "\nQt Critical: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt Critical: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtFatalMsg:
-                print "\nQt Fatal: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt Fatal: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtSystemMsg:
-                print "\nQt System: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt System: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtInfoMsg:
-                print "\nQt Info: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nQt Info: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             else:
-                print "\nUnknown Message Type: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function)
+                print("\nUnknown Message Type: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
 
 
 ################################################################################################
@@ -6059,7 +6056,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         # throw into column format mode if there is a -gnu or -csv arg
         gnu = False
         csv = False
-        for i in xrange(len(sys.argv[1:])):
+        for i in range(len(sys.argv[1:])):
             if sys.argv[i] == '-gnu':
                 gnu = True
                 try:
@@ -6079,7 +6076,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 sys.argv.remove('-csv')
                 break
         if gnu or csv:
-            print 'Going to column format, using ', self.xCol, ' for x-axis data'
+            print('Going to column format, using ', self.xCol, ' for x-axis data')
 
         initarg = False
         for i in range(len(sys.argv)):  # look for command line args:

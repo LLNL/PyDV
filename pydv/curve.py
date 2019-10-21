@@ -142,7 +142,7 @@ class Curve(object):
 
             c.y = ia.y / ib.y
             for idx in zero_indices:
-                c.y[idx] = float(sys.maxint)
+                c.y[idx] = float(sys.maxsize)
 
         return c
 
@@ -308,7 +308,7 @@ def append(a, b):
     a_list = a.x.tolist()
     b_list = b.x.tolist()
 
-    for i in xrange(len(aub.x)):
+    for i in range(len(aub.x)):
         xval = aub.x[i]
 
         try:
