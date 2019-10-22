@@ -62,6 +62,7 @@
 import cmd
 import sys, os, re, time
 import string
+import types
 
 from threading import Thread
 
@@ -4510,13 +4511,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def help_movefront(self):
         print('\n   Procedure: Move the given curves so they are plotted on top\n   Usage: movefront <curve-list>\n')
 
-
     ##read in a file of custom functions##
     def do_custom(self, line):
         try:
             fname = line.strip()
             try:
-                if(fname[0] == '~'):
+                if fname[0] == '~':
                     fname = os.getenv('HOME') + fname[1:]
                 f = open(fname, 'r')
                 funcfile = f.read()
@@ -4525,18 +4525,20 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 #print locals()
 
                 for func in funcs:
-                    exec('self.'+func+' = new.instancemethod('+func+', self, Command)')
+                    exec('self.' + func + ' = types.MethodType(' + func + ', self, Command)')
             except:
-                print('error - invalid file: '+fname)
-                if(self.debug): traceback.print_exc(file=sys.stdout)
+                print("error - invalid file: {}".format(fname))
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
         except:
             print('error - usage: custom <file-name>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_custom(self):
-        print('\n   Procedure: Load a file of custom functions to extend PDV. Functions must be of the form \'def do_commandname(self, line): ...\n   Usage: custom <file-name>\n')
-
+        print('\n   Procedure: Load a file of custom functions to extend PDV. '
+              'Functions must be of the form \'def do_commandname(self, line): ...\n   Usage: custom <file-name>\n')
 
     ##allow user defined command synonyms##
     def do_alias(self, line):
@@ -4544,9 +4546,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             cmd = line.split()[0]
             alias = line.split()[1]
 
-            function = 'def do_'+alias+'(self, line): self.do_'+cmd+'(line)'
+            function = 'def do_' + alias + '(self, line): self.do_' + cmd + '(line)'
             exec(function)
-            exec('self.do_'+alias+' = new.instancemethod(do_'+alias+', self, Command)')
+            exec('self.do_' + alias + ' = types.MethodType(do_' + alias + ', self)')
         except:
             print('error - usage: alias <command> <alias>')
             if self.debug:
@@ -4555,7 +4557,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.redraw = False
     def help_alias(self):
         print('\n   Procedure: Define a synonym for an existing command\n   Usage: alias <command> <alias>\n')
-
 
     ##plot copies of the given curves##
     def do_copy(self, line):
