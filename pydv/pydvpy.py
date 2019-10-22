@@ -505,7 +505,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 else:
                     first = 0
 
-                curvename = string.strip(line.strip()[1:])
+                curvename = line.strip()[1:]
+                curvename = curvename.strip()
 
                 if regex is not None:
                     if regex.search(curvename) is not None:
@@ -636,7 +637,7 @@ def readcsv(fname, xcol=0, verbose=False):
             print('WARNING: columns have no labels, labels will be assigned...someday')
         alllabels = lines[iLine] # this line has the labels on it.
         colLabels = alllabels.split(',')
-        colLabels = [string.strip(w) for w in colLabels]
+        colLabels = [w.strip() for w in colLabels]
         for w in colLabels:  # if someone made labels with quotes, kill the quotes
             if '"' in w: w.replace('"','')
         # check that we have a label for every column
