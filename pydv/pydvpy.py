@@ -3610,7 +3610,7 @@ def xindex(curvelist):
 
 def appendcurves(curvelist):
     """
-    Merge a two curves over the union of their domains. Where domains overlap, take the
+    Merge two or more curves over the union of their domains. Where domains overlap, take the
     average of the curve's y-values.
 
     >>> curves = pydvif.read('testData.txt')
@@ -3621,7 +3621,16 @@ def appendcurves(curvelist):
     :type curvelist: list
     :return: Curve -- the merging of the two curves c1 and c2
     """
-    nc = average(curvelist)
+    if len(curvelist) < 2:
+        if len(curvelist) == 1:
+            return curvelist[0]
+        else:
+            return
+    else:
+        nc = curve.append(curvelist[0], curvelist[1])
+
+        for i in range(2, len(curvelist)):
+            nc = curve.append(nc, curvelist[i])
 
     suffix = ''
     for c in curvelist:
