@@ -3080,22 +3080,24 @@ class Command(cmd.Cmd, object):
                     reg = re.compile(r"%s" % line)
                     # reg = re.compile(line)
                 except:
-                    print('error: invalid expression')
+                    print("error: invalid expression")
                     return 0
 
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
-                    index = string.rjust(str(i+1),5)
-                    name = pdvutil.truncate(string.ljust(self.curvelist[i].name, self.namewidth),self.namewidth)
+                    index = str(i+1)
+                    name = self.curvelist[i].name
+                    name = name.ljust(self.namewidth)
+                    name = pdvutil.truncate(name, self.namewidth)
                     fname = self.curvelist[i].filename
-                    xmin = string.ljust('%.2e' % min(self.curvelist[i].x), 9)
-                    xmax = string.ljust('%.2e' % max(self.curvelist[i].x), 9)
-                    ymin = string.ljust('%.2e' % min(self.curvelist[i].y), 9)
-                    ymax = string.ljust('%.2e' % max(self.curvelist[i].y), 9)
-                    print('%s  %s   %s   %s   %s   %s  %s' % (index, name, xmin, xmax, ymin, ymax, fname))
+                    xmin = "%.2e" % min(self.curvelist[i].x)
+                    xmax = "%.2e" % max(self.curvelist[i].x)
+                    ymin = "%.2e" % min(self.curvelist[i].y)
+                    ymax = "%.2e" % max(self.curvelist[i].y)
+                    print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(index, name, xmin, xmax, ymin, ymax, fname))
         except:
-            print('error - usage: menu [<regex>]')
+            print("error - usage: menu [<regex>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
