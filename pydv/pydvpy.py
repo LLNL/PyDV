@@ -3620,11 +3620,20 @@ def appendcurves(curvelist):
     :type curvelist: list
     :return: Curve -- the merging of the two curves c1 and c2
     """
-    nc = average(curvelist)
+    if len(curvelist) < 2:
+        if len(curvelist) == 1:
+            return curvelist[0]
+        else:
+            return
+    else:
+        nc = curve.append(curvelist[0], curvelist[1])
+
+        for i in range(2, len(curvelist)):
+            nc = curve.append(nc, curvelist[i])
 
     suffix = ''
     for c in curvelist:
-         suffix += "%s" % c.plotname
+        suffix += "%s" % c.plotname
 
     nc.name = 'Append(' + suffix + ')'
 
