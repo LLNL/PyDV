@@ -3942,8 +3942,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_appendcurves(self):
-        print('\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take' \
-              '\n              the average of the curve\'s y-values.' \
+        print('\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take'
+              '\n              the average of the curve\'s y-values.'
               '\n   Usage: appendcurves <curve-list>\n')
 
 
