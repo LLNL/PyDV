@@ -1256,11 +1256,11 @@ class Command(cmd.Cmd, object):
             c = a - b  # new numpy.array object
             c.y = abs(c.y) # absolute value
             if args[2].lower() != "inf":
-                N = string.atof(args[2]) # order of the norm
+                N = int(args[2]) # order of the norm
                 c = c**N
             if len(args) == 5:
-                xmin = string.atof(args[3])
-                xmax = string.atof(args[4])
+                xmin = float(args[3])
+                xmax = float(args[4])
                 if xmax <= xmin:
                     raise RuntimeError("xmin > xmax or xmin == xmax in do_norm()")
             else:
@@ -1269,16 +1269,16 @@ class Command(cmd.Cmd, object):
             if args[2].lower() == "inf":
                 Linf = 0.0
                 for xi, yi in zip(c.x, c.y):
-                    if xi >= xmin and xi <= xmax:
+                    if xmin <= xi <= xmax:
                         Linf = max(Linf, yi)
-                print("Linf norm = ", Linf)
+                print("Linf norm = {:.4f}".format(Linf))
                 d = c
                 d.y = numpy.array([Linf]*c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
                 d = pydvif.integrate(c, xmin, xmax)[0] # d = integral( c**N )
                 d = d**(1.0/N)
-                print("L%d norm = " % N, max(d.y))
+                print("L{:d} norm = {:.4f}".format(N, max(d.y)))
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
             self.addtoplot(d)
         except:
@@ -1286,7 +1286,10 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_norm(self):
-        print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is \n (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]\n   where p=order.  Also prints value of integral to command line.\n')
+        print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is '
+              '\n   (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .'
+              '\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]'
+              '\n   where p=order which can be "inf" or an integer. Also prints value of integral to command line.\n')
 
     ## make a new curve - the max of the specified curves ##
     def do_max(self, line):

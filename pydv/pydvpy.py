@@ -1604,7 +1604,7 @@ def norm(c1, c2, p, xmin=None, xmax=None):
     c.y = np.abs(c.y)
 
     if p.lower() != "inf":
-        N = string.atof(p)
+        N = int(p)
         c = c**N
 
     if xmin is not None and xmax is not None:
@@ -1617,7 +1617,7 @@ def norm(c1, c2, p, xmin=None, xmax=None):
     if p.lower() == "inf":
         Linf = 0.0
         for xi, yi in zip(c.x, c.y):
-            if xi >= xmin and xi <= xmax:
+            if xmin <= xi <= xmax:
                 Linf = max(Linf, yi)
         d = c
         d.y = np.array([Linf] * c.y.shape[0])
