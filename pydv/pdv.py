@@ -1410,9 +1410,9 @@ class Command(cmd.Cmd, object):
     def do_fit(self, line):
         try:
             """fit curve to line: usage is 'fit curve [n] [logx] [logy]', where n=order of fit, default is linear"""
-            print("fitting curve:", line)
+            print("fitting curve: {}".format(line))
             args = line.strip().split()
-            if len(args) == 0 or len(args) > 4 :
+            if len(args) == 0 or len(args) > 4:
                 raise RuntimeError("wrong number of args to fit")
 
             c = self.curvefromlabel(args[0])
@@ -1428,7 +1428,7 @@ class Command(cmd.Cmd, object):
 
             assert len(args) in (1, 2)
             if len(args) == 2:
-                n = string.atof(args[1])
+                n = int(args[1])
             else:
                 n = 1
 
@@ -1440,8 +1440,10 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fit(self):
-        print('\n   Procedure: make new curve that is polynomial fit to argument.\n   Usage: fit <curve> [n] [logx] [logy]\n   n=1 by default, logy means take log(y-values) before fitting, \n   logx means take log(x-values) before fitting\n')
-
+        print('\n   Procedure: make new curve that is polynomial fit to argument.'
+              '\n   Usage: fit <curve> [n] [logx] [logy]'
+              '\n   n=1 by default, logy means take log(y-values) before fitting,'
+              '\n   logx means take log(x-values) before fitting\n')
 
     ##return x values on curves at y value##
     def do_getx(self, line):
