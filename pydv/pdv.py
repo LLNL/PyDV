@@ -3003,7 +3003,6 @@ class Command(cmd.Cmd, object):
     def help_domain(self):
         print('\n   Procedure: Set the domain for plotting\n   Usage: domain <low-lim> <high-lim> or\n   Usage: domain de\n   Shortcuts: dom\n')
 
-
     ##list currently graphed curves##
     def do_list(self, line):
         try:
@@ -3012,31 +3011,33 @@ class Command(cmd.Cmd, object):
                 try:
                     reg = re.compile(r"%s" % line)
                 except:
-                    print('error - invalid label-pattern')
+                    print("error - invalid label-pattern")
                     return 0
 
             for curve in self.plotlist:
                 searchline = curve.name + ' ' + curve.filename
                 if not line or reg.search(searchline):
-                    plotname = ''
+                    plotname = ""
                     if curve.edited:
-                        plotname = '*'
-                    plotname = string.rjust(plotname + curve.plotname, 5)
-                    name = pdvutil.truncate(string.ljust(curve.name, self.namewidth),self.namewidth)
+                        plotname = "*"
+                    plotname = plotname + curve.plotname
+                    name = pdvutil.truncate(curve.name.ljust(self.namewidth), self.namewidth)
                     fname = curve.filename
-                    xmin = string.ljust('%.2e' % min(curve.x), 9)
-                    xmax = string.ljust('%.2e' % max(curve.x), 9)
-                    ymin = string.ljust('%.2e' % min(curve.y), 9)
-                    ymax = string.ljust('%.2e' % max(curve.y), 9)
-                    print('%s  %s   %s   %s   %s   %s  %s' % (plotname, name, xmin, xmax, ymin, ymax, fname))
+                    xmin = "%.2e" % min(curve.x)
+                    xmax = "%.2e" % max(curve.x)
+                    ymin = "%.2e" % min(curve.y)
+                    ymax = "%.2e" % max(curve.y)
+                    print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(plotname, name, xmin, xmax, ymin, ymax, fname))
         except:
-            print('error - usage: list [<label-pattern>]')
+            print("error - usage: list [<label-pattern>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_list(self):
-        print('\n   Macro: Display curves in list\n   Usage: list [<label-pattern>]\n   Shortcuts: lst\n')
+        print("\n    {}\n    {}\n    {}\n".format("Macro: Display curves in list",
+                                                  "Usage: list [<label-pattern>]",
+                                                  "Shortcuts: lst"))
 
     ## Delete the specified entries from the menu ##
     def do_kill(self, line):
