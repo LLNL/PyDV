@@ -298,33 +298,36 @@ def append(a, b):
     :type b: curve
     :return: a new curve resulting from the merging of curve a and curve b
     """
-    ux = list(set(a.x).union(set(b.x)))  #get union of xvals
+    ux = list(set(a.x).union(set(b.x)))  # get union of xvals
     ux.sort()
 
-    aub = Curve('','')
+    aub = Curve('', '')
     aub.x = np.array(ux)
     aub.y = np.zeros(len(aub.x))
 
-    a_list = a.x.tolist()
-    b_list = b.x.tolist()
-
-    for i in xrange(len(aub.x)):
+    for i in range(len(aub.x)):
         xval = aub.x[i]
 
-        try:
-            # Overlapping Domains
-            aidx = a_list.index(xval)
-            bidx = b_list.index(xval)
+        aidx = np.where(a.x == xval)[0]
+        bidx = np.where(b.x == xval)[0]
 
-            aub.y[i] = float(a.y[aidx] + b.y[bidx]) / float(2)
-        except ValueError:
-            # Domains don't overlap so get the value from one of the curves
-            try:
-                aidx = a_list.index(xval)
-                aub.y[i] = a.y[aidx]
-            except:
-                bidx = b_list.index(xval)
-                aub.y[i] = b.y[bidx]
+        has_a = len(aidx) != 0
+        has_b = len(bidx) != 0
+
+        sum = float(0)
+        tot = 0
+
+        if has_a:
+            for idx in aidx:
+                sum += float(a.y[idx])
+                tot += 1
+
+        if has_b:
+            for idx in bidx:
+                sum += float(b.y[idx])
+                tot += 1
+
+        aub.y[i] = sum / float(tot)
 
     return aub
 
