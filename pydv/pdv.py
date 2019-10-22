@@ -762,17 +762,17 @@ class Command(cmd.Cmd, object):
         try:
             line = line.split()
             if len(line) > 1:
-                print('error - usage: setxcolumn n')
+                print("error - usage: setxcolumn n")
             else:
-                self.xCol = string.atoi(line[0])
+                self.xCol = int(line[0])
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_setxcolumn(self):
-        print ('\n set x column for reading column formatted data files (.gnu or .csv).\n'
-               'usage: setxcolumn n, where n is an integer.')
+        print("\n set x column for reading column formatted data files (.gnu or .csv)."
+              "\n usage: setxcolumn n, where n is an integer.")
 
     #graph the given curves##
     def do_curve(self, line):
