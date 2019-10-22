@@ -1198,7 +1198,6 @@ class Command(cmd.Cmd, object):
     def help_dy(self):
         print('\n   Procedure: Shift y values of curves by a constant\n   Usage: dy <curve-list> <value>\n')
 
-
     ## take L2 norm of two curves
     def do_L2(self, line):
         try:
@@ -1210,16 +1209,17 @@ class Command(cmd.Cmd, object):
             # to indicate the order of norm to take
             args.insert(2, '2')
             # put args back into a line
-            line = string.join(args)
+            line = " ".join(args)
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print('error - usage: L2 <curve> <curve> [<xmin> <xmax>]')
+            print("error - usage: L2 <curve> <curve> [<xmin> <xmax>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_L2(self):
-        print('\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is \n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
-
+        print('\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is '
+              '\n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .'
+              '\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
     ## take L1 norm of two curves
     def do_L1(self, line):
@@ -1232,16 +1232,17 @@ class Command(cmd.Cmd, object):
             # to indicate the order of norm to take
             args.insert(2, '1')
             # put args back into a line
-            line = string.join(args)
+            line = " ".join(args)
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print('error - usage: L1 <curve> <curve> [<xmin> <xmax>]')
+            print("error - usage: L1 <curve> <curve> [<xmin> <xmax>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_L1(self):
-        print('\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is \n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
-
+        print('\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is '
+              '\n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .'
+              '\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
     ## take arbitrary order norm of two curves
     def do_norm(self, line):
