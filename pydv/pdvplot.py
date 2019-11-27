@@ -195,6 +195,7 @@ class Plotter(QMainWindow):
     # SLOTS
     ########################################################################################################
 
+    @Slot()
     def showCurvelistDialog(self):
         """
         Shows a dialog with the output of the list command in a table.
@@ -307,6 +308,7 @@ class Plotter(QMainWindow):
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
+    @Slot() 
     def showMenuDialog(self):
         """
         Shows a dialog with the output of the menu command in a table.
