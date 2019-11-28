@@ -3263,18 +3263,17 @@ def getdomain(curvelist):
 
 def disp(c, domain=True):
     """
-    Create a tuple for the given curve that contains the name of the curve and a string formatted list of the curve's
-    x- or y-values.
+    Create a string formatted list of the curve's x-values if domain is True, otherwise y-values.
 
     >>> c = pydvif.span(1, 10)
 
-    >>> name, yvalues = pydvif.disp(c, False)
+    >>> yvalues = pydvif.disp(c, False)
 
     :param c: The given curve
     :type curvelist: Curve
     :param domain: if True, display the x-values of the curve. Otherwise, display the y-values of the curve
     :type domain: bool, optional
-    :return: tuple -- A tuple consisting of the curve name and the list of x- or y-values as strings
+    :return: list -- The list of x- or y-values as strings
     """
     ss = list()
 
@@ -3284,7 +3283,7 @@ def disp(c, domain=True):
         else:
             ss.append('y[%d]: %.4f' % (i, c.y[i]))
 
-    return __toCurveString(c), ss
+    return ss
 
 
 def getnumpoints(curve):

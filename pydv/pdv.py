@@ -1405,7 +1405,7 @@ class Command(cmd.Cmd, object):
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_average(self):
-        print('\n   Procedure: Average the specified curvelist over the intersection of their domains.' \
+        print('\n   Procedure: Average the specified curvelist over the intersection of their domains.'
               '\n   Usage: average <curvelist>\n')
 
     ## fit a curve with a polynomial function ##
@@ -1705,8 +1705,8 @@ class Command(cmd.Cmd, object):
                     for j in range(len(self.plotlist)):
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
-                            dispname, ss = pydvif.disp(cur, False)
-                            self.print_topics('Curve %s: %s' % (dispname, cur.name), ss, 15, 100)
+                            ss = pydvif.disp(cur, False)
+                            self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
         except:
             print('error - usage: disp <curve-list>')
             if self.debug:
@@ -1730,8 +1730,8 @@ class Command(cmd.Cmd, object):
                     for j in range(len(self.plotlist)):
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
-                            dispname, ss = pydvif.disp(cur)
-                            self.print_topics('Curve %s: %s' % (dispname, cur.name), ss, 15, 100)
+                            ss = pydvif.disp(cur)
+                            self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
         except:
             print('error - usage: dispx <curve-list>')
             if self.debug:
@@ -2048,7 +2048,6 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
     def help_acosx(self):
         print('\n   Procedure: Take arccosine of x values of curves\n   Usage: acosx <curve-list>\n')
-
 
     ##take the arcsine of the curve##
     def do_asin(self, line):
