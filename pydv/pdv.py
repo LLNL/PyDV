@@ -348,8 +348,6 @@ class Command(cmd.Cmd, object):
         self.do_sqrx(line)
     def do_convol(self, line):
         self.do_convolve(line)
-    def do_convolf(self, line):
-        self.do_convolvef(line)
     def do_convolb(self, line):
         self.do_convolveb(line)
     def do_convolc(self, line):
@@ -885,7 +883,7 @@ class Command(cmd.Cmd, object):
             line = line.split()
             color = line.pop(-1)
             line = ' '.join(line)
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_color(pdvutil.getletterargs(line) + color)
                 return 0
             else:
@@ -893,8 +891,8 @@ class Command(cmd.Cmd, object):
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         name = self.plotlist[j].plotname
-                        if(name == line[i].upper()):
-                            if(mclr.is_color_like(color)):
+                        if name == line[i].upper():
+                            if mclr.is_color_like(color):
                                 self.plotlist[j].color = color
                             else:
                                 print('error: invalid color ' + color)
@@ -906,9 +904,9 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_color(self):
-        print('\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   ' \
-              'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue ' \
-              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" ' \
+        print('\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   '
+              'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue '
+              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" '
               'to see the available named colors!')
 
     ##return a curves mean and standard deviation##
@@ -3986,7 +3984,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_alpha(self):
-        print('\n   Procedure: Find the alpha' \
+        print('\n   Procedure: Find the alpha'
               '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
 
 
@@ -4024,10 +4022,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_convolve(self):
-        print('\n   Procedure: Computes the convolution of the two given curves' \
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))' \
-              '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect' \
-              '\n              results due to improper padding - use with caution.' \
+        print('\n   Procedure: Computes the convolution of the two given curves'
+              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
+              '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect'
+              '\n              results due to improper padding - use with caution.'
               '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol')
 
     ##make a new curve - slower convolution which doesn't use FFT's
@@ -4064,11 +4062,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_convolveb(self):
-        print('\n   Procedure: Computes the convolution of the two given curves' \
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/' \
-              '\n                         Int(-inf, inf, dt*h(t))' \
-              '\n   This slower method uses direct integration and minimal interpolations.' \
-              '\n   curve2 is normalized to unit area before doing the convolution.' \
+        print('\n   Procedure: Computes the convolution of the two given curves'
+              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
+              '\n                         Int(-inf, inf, dt*h(t))'
+              '\n   This slower method uses direct integration and minimal interpolations.'
+              '\n   curve2 is normalized to unit area before doing the convolution.'
               '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb')
 
     ##make a new curve - slower convolution which doesn't use FFT's
@@ -4106,10 +4104,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
 
     def help_convolvec(self):
-        print('\n   Procedure: Computes the convolution of the two given curves' \
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/' \
-              '\n                         Int(-inf, inf, dt*h(t))' \
-              '\n   This slower method uses direct integration and minimal interpolations.' \
+        print('\n   Procedure: Computes the convolution of the two given curves'
+              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
+              '\n                         Int(-inf, inf, dt*h(t))'
+              '\n   This slower method uses direct integration and minimal interpolations.'
               '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc')
 
     ##make two new curves - the diff-measure of two given curves##
@@ -4226,9 +4224,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_bkgcolor(self):
-        print("\n    Procedure: Change the background color of the given component. If no component name is specified, then both components " \
-              "\n    will be given the same color. See (https://matplotlib.org/users/colors.html) for all the different ways to specify color-name." \
-              "\n    \'reset\' will return the plot and window colors to their original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>\n")
+        print("\n    Procedure: Change the background color of the given component. If no component name is specified,"
+              " then both components will be given the same color. See (https://matplotlib.org/users/colors.html) for "
+              "all the different ways to specify color-name. \'reset\' will return the plot and window colors to their"
+              " original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>")
 
     ##edits the font color for various text components##
     def do_fontcolor(self, line):
