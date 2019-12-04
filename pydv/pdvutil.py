@@ -59,8 +59,6 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
-import numpy
-
 ## getCurveIndex returns integer index to curve in plotlist from plotname
 def getCurveIndex(plotname, plotlist):
     for j in range(len(plotlist)):

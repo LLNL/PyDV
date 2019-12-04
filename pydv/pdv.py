@@ -4553,23 +4553,24 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##plot copies of the given curves##
     def do_copy(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_copy(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if(name == line[i].upper()):    #operate on each curve found in args
-                            cur = self.plotlist[j]
-                            curout = cur.copy()
-                            curout.plotname = ''
-                            curout.color = ''
-                            self.addtoplot(curout)
+                    plotidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[plotidx]
+                    curout = cur.copy()
+                    curout.plotname = ''
+                    curout.color = ''
+                    self.addtoplot(curout)
+
+                self.plotedit = True
         except:
             print 'error - usage: copy <curve-list>'
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug: 
+                traceback.print_exc(file=sys.stdout)
     def help_copy(self):
         print '\n   Procedure: Copy and plot the given curves\n   Usage: copy <curve-list>\n'
 
