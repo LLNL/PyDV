@@ -1963,6 +1963,7 @@ class Command(cmd.Cmd, object):
     def help_cos(self):
         print('\n   Procedure: Take cosine of y values of curves\n   Usage: cos <curve-list>\n')
 
+
     def do_cosx(self, line):
         try:
             self.func_curve(line, 'cos', 1)
@@ -5347,7 +5348,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         import scipy.special
         # scipy.special.errprint(1)
 
-        if(not line):
+        if not line:
             return 0
         if len(line.split(':')) > 1:
             self.func_curve(pdvutil.getletterargs(line), flag, do_x, args)
@@ -5355,236 +5356,235 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         else:
             line = line.split()
             for i in range(len(line)):
-                for j in range(len(self.plotlist)):
-                    name = self.plotlist[j].plotname
-                    if(name == line[i].upper()):    #operate on each curve found in args
-                        cur = self.plotlist[j]
-                        if (flag == 'abs'):
-                            if (do_x == 0):
-                                cur.y = numpy.abs(cur.y)
-                                cur.name = 'abs(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.abs(cur.x)
-                                cur.name = 'absx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'exp'):
-                            if (do_x == 0):
-                                cur.y = numpy.exp(cur.y)
-                                cur.name = 'exp(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.exp(cur.x)
-                                cur.name = 'expx(' + cur.name + ')'
-                                cur.edited = True
-                        elif(flag == 'sin'):
-                            if (do_x == 0):
-                                cur.y = numpy.sin(cur.y)
-                                cur.name = 'sin(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.sin(cur.x)
-                                cur.name = 'sinx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'cos'):
-                            if (do_x == 0):
-                                cur.y = numpy.cos(cur.y)
-                                cur.name = 'cos(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.cos(cur.x)
-                                cur.name = 'cosx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'tan'):
-                            if (do_x == 0):
-                                cur.y = numpy.tan(cur.y)
-                                cur.name = 'tan(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.tan(cur.x)
-                                cur.name = 'tanx(' + cur.name + ')'
-                                cur.edited = True
-                        elif(flag == 'asin'):
-                            if (do_x == 0):
-                                cur.y = numpy.arcsin(cur.y)
-                                cur.name = 'asin(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arcsin(cur.x)
-                                cur.name = 'asinx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'acos'):
-                            if (do_x == 0):
-                                cur.y = numpy.arccos(cur.y)
-                                cur.name = 'acos(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arccos(cur.x)
-                                cur.name = 'acosx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'atan'):
-                            if (do_x == 0):
-                                cur.y = numpy.arctan(cur.y)
-                                cur.name = 'atan(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arctan(cur.x)
-                                cur.name = 'atanx(' + cur.name + ')'
-                                cur.edited = True
-                        elif(flag == 'sinh'):
-                            if (do_x == 0):
-                                cur.y = numpy.sinh(cur.y)
-                                cur.name = 'sinh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.sinh(cur.x)
-                                cur.name = 'sinhx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'cosh'):
-                            if (do_x == 0):
-                                cur.y = numpy.cosh(cur.y)
-                                cur.name = 'cosh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.cosh(cur.x)
-                                cur.name = 'coshx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'tanh'):
-                            if (do_x == 0):
-                                cur.y = numpy.tanh(cur.y)
-                                cur.name = 'tanh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.tanh(cur.x)
-                                cur.name = 'tanhx(' + cur.name + ')'
-                                cur.edited = True
-                        elif(flag == 'asinh'):
-                            if (do_x == 0):
-                                cur.y = numpy.arcsinh(cur.y)
-                                cur.name = 'asinh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arcsinh(cur.x)
-                                cur.name = 'asinhx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'acosh'):
-                            if (do_x == 0):
-                                cur.y = numpy.arccosh(cur.y)
-                                cur.name = 'acosh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arccosh(cur.x)
-                                cur.name = 'acoshx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'atanh'):
-                            if (do_x == 0):
-                                cur.y = numpy.arctanh(cur.y)
-                                cur.name = 'atanh(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.arctanh(cur.x)
-                                cur.name = 'atanhx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'j0'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.j0(cur.y)
-                                cur.name = 'j0(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.j0(cur.x)
-                                cur.name = 'j0x(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'j1'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.j1(cur.y)
-                                cur.name = 'j1(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.j1(cur.x)
-                                cur.name = 'j1x(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'jn'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.jn(float(args[0]),cur.y)
-                                cur.name = 'jn(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.jn(float(args[0]),cur.x)
-                                cur.name = 'jnx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'y0'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.y0(cur.y)
-                                cur.name = 'y0(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.y0(cur.x)
-                                cur.name = 'y0x(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'y1'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.y1(cur.y)
-                                cur.name = 'y1(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.y1(cur.x)
-                                cur.name = 'y1x(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'yn'):
-                            if (do_x == 0):
-                                cur.y = scipy.special.yn(int(args[0]),cur.y)
-                                cur.name = 'yn(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = scipy.special.yn(int(args[0]),cur.x)
-                                cur.name = 'ynx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'powa'):
-                            if (do_x == 0):
-                                cur.y = numpy.power(float(args[0]),cur.y)
-                                cur.name = 'powa(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.power(float(args[0]),cur.x)
-                                cur.name = 'powax(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'powr'):
-                            if (do_x == 0):
-                                cur.y = numpy.power(cur.y,float(args[0]))
-                                cur.name = 'powr(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.power(cur.x,float(args[0]))
-                                cur.name = 'powrx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'recip'):
-                            if (do_x == 0):
-                                cur.y = numpy.reciprocal(cur.y)
-                                cur.name = 'recip(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.reciprocal(cur.x)
-                                cur.name = 'recipx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'sqr'):
-                            if (do_x == 0):
-                                cur.y = numpy.square(cur.y)
-                                cur.name = 'sqr(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.square(cur.x)
-                                cur.name = 'sqrx(' + cur.name + ')'
-                                cur.edited = True
-                        elif (flag == 'sqrt'):
-                            if (do_x == 0):
-                                cur.y = numpy.sqrt(cur.y)
-                                cur.name = 'sqrt(' + cur.name + ')'
-                                cur.edited = True
-                            else:
-                                cur.x = numpy.sqrt(cur.x)
-                                cur.name = 'sqrtx(' + cur.name + ')'
-                                cur.edited = True
-                        break
+                idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                cur = self.plotlist[idx]
+
+                if (flag == 'abs'):
+                    if (do_x == 0):
+                        cur.y = numpy.abs(cur.y)
+                        cur.name = 'abs(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.abs(cur.x)
+                        cur.name = 'absx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'exp'):
+                    if (do_x == 0):
+                        cur.y = numpy.exp(cur.y)
+                        cur.name = 'exp(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.exp(cur.x)
+                        cur.name = 'expx(' + cur.name + ')'
+                        cur.edited = True
+                elif(flag == 'sin'):
+                    if (do_x == 0):
+                        cur.y = numpy.sin(cur.y)
+                        cur.name = 'sin(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.sin(cur.x)
+                        cur.name = 'sinx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'cos'):
+                    if (do_x == 0):
+                        cur.y = numpy.cos(cur.y)
+                        cur.name = 'cos(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.cos(cur.x)
+                        cur.name = 'cosx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'tan'):
+                    if (do_x == 0):
+                        cur.y = numpy.tan(cur.y)
+                        cur.name = 'tan(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.tan(cur.x)
+                        cur.name = 'tanx(' + cur.name + ')'
+                        cur.edited = True
+                elif(flag == 'asin'):
+                    if (do_x == 0):
+                        cur.y = numpy.arcsin(cur.y)
+                        cur.name = 'asin(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arcsin(cur.x)
+                        cur.name = 'asinx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'acos'):
+                    if (do_x == 0):
+                        cur.y = numpy.arccos(cur.y)
+                        cur.name = 'acos(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arccos(cur.x)
+                        cur.name = 'acosx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'atan'):
+                    if (do_x == 0):
+                        cur.y = numpy.arctan(cur.y)
+                        cur.name = 'atan(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arctan(cur.x)
+                        cur.name = 'atanx(' + cur.name + ')'
+                        cur.edited = True
+                elif(flag == 'sinh'):
+                    if (do_x == 0):
+                        cur.y = numpy.sinh(cur.y)
+                        cur.name = 'sinh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.sinh(cur.x)
+                        cur.name = 'sinhx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'cosh'):
+                    if (do_x == 0):
+                        cur.y = numpy.cosh(cur.y)
+                        cur.name = 'cosh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.cosh(cur.x)
+                        cur.name = 'coshx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'tanh'):
+                    if (do_x == 0):
+                        cur.y = numpy.tanh(cur.y)
+                        cur.name = 'tanh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.tanh(cur.x)
+                        cur.name = 'tanhx(' + cur.name + ')'
+                        cur.edited = True
+                elif(flag == 'asinh'):
+                    if (do_x == 0):
+                        cur.y = numpy.arcsinh(cur.y)
+                        cur.name = 'asinh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arcsinh(cur.x)
+                        cur.name = 'asinhx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'acosh'):
+                    if (do_x == 0):
+                        cur.y = numpy.arccosh(cur.y)
+                        cur.name = 'acosh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arccosh(cur.x)
+                        cur.name = 'acoshx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'atanh'):
+                    if (do_x == 0):
+                        cur.y = numpy.arctanh(cur.y)
+                        cur.name = 'atanh(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.arctanh(cur.x)
+                        cur.name = 'atanhx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'j0'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.j0(cur.y)
+                        cur.name = 'j0(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.j0(cur.x)
+                        cur.name = 'j0x(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'j1'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.j1(cur.y)
+                        cur.name = 'j1(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.j1(cur.x)
+                        cur.name = 'j1x(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'jn'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.jn(float(args[0]),cur.y)
+                        cur.name = 'jn(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.jn(float(args[0]),cur.x)
+                        cur.name = 'jnx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'y0'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.y0(cur.y)
+                        cur.name = 'y0(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.y0(cur.x)
+                        cur.name = 'y0x(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'y1'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.y1(cur.y)
+                        cur.name = 'y1(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.y1(cur.x)
+                        cur.name = 'y1x(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'yn'):
+                    if (do_x == 0):
+                        cur.y = scipy.special.yn(int(args[0]),cur.y)
+                        cur.name = 'yn(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = scipy.special.yn(int(args[0]),cur.x)
+                        cur.name = 'ynx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'powa'):
+                    if (do_x == 0):
+                        cur.y = numpy.power(float(args[0]),cur.y)
+                        cur.name = 'powa(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.power(float(args[0]),cur.x)
+                        cur.name = 'powax(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'powr'):
+                    if (do_x == 0):
+                        cur.y = numpy.power(cur.y,float(args[0]))
+                        cur.name = 'powr(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.power(cur.x,float(args[0]))
+                        cur.name = 'powrx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'recip'):
+                    if (do_x == 0):
+                        cur.y = numpy.reciprocal(cur.y)
+                        cur.name = 'recip(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.reciprocal(cur.x)
+                        cur.name = 'recipx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'sqr'):
+                    if (do_x == 0):
+                        cur.y = numpy.square(cur.y)
+                        cur.name = 'sqr(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.square(cur.x)
+                        cur.name = 'sqrx(' + cur.name + ')'
+                        cur.edited = True
+                elif (flag == 'sqrt'):
+                    if (do_x == 0):
+                        cur.y = numpy.sqrt(cur.y)
+                        cur.name = 'sqrt(' + cur.name + ')'
+                        cur.edited = True
+                    else:
+                        cur.x = numpy.sqrt(cur.x)
+                        cur.name = 'sqrtx(' + cur.name + ')'
+                        cur.edited = True
+
 
     def apply_uichanges(self):
         """
