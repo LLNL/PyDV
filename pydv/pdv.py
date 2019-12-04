@@ -4155,18 +4155,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if len(line) != 2:
                 raise RuntimeError("Wrong number of arguments, expecting 2 but received %d." % len(line))
 
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[0].upper():
-                    c1 = self.plotlist[i]
-                    break
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            c1 = self.plotlist[idx]
 
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[1].upper():
-                    c2 = self.plotlist[i]
-                    break
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            c2 = self.plotlist[idx]
 
             nc = pydvif.correlate(c1, c2, 'same')
-
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
@@ -4179,7 +4174,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_correl(self):
-        print('\n   Procedure: Compute the correlation function of the two curves.\n   Usage: correl <curve1> <curve2>\n')
+        print('\n   Procedure: Compute the correlation function of the two curves.'
+              '\n   Usage: correl <curve1> <curve2>\n')
 
     ## Changes background color of the plot, window, or both. ##
     def do_bkgcolor(self, line):
