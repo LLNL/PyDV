@@ -556,14 +556,14 @@ class Command(cmd.Cmd, object):
     def do_debug(self, line):
         try:
             line = line.strip()
-            if(line == '0' or line.upper() == 'OFF'):
+            if line == '0' or line.upper() == 'OFF':
                 self.debug = False
-            elif(line == '1' or line.upper() == 'ON'):
+            elif line == '1' or line.upper() == 'ON':
                 self.debug = True
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            if(self.debug):
+            if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
@@ -778,7 +778,7 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            if(len(line.split(')')) > 1):   #check for regular expression
+            if len(line.split(')')) > 1:   #check for regular expression
                 line = line.strip().split(')')
                 reg = re.compile(r"")
                 for i in range(len(line)):
@@ -801,7 +801,7 @@ class Command(cmd.Cmd, object):
                 self.do_curve(line) # call curve again but with regexp results
                 self.redraw = True
                 return 0
-            if(len(line.split(':')) > 1):   #check for list notation
+            if len(line.split(':')) > 1:   #check for list notation
                 # call curve again with list expanded
                 self.do_curve(pdvutil.getnumberargs(line, self.filelist))
                 return 0
@@ -810,7 +810,7 @@ class Command(cmd.Cmd, object):
                 for i in range(len(line)):
                     curvedex = 0
                     skip = False
-                    if(ord(line[i][0].upper()) >= ord('A') and ord(line[i][0].upper()) <= ord('Z')):  #check for a.% b.% file index notation
+                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  #check for a.% b.% file index notation
                         filedex = ord(line[i][0].upper()) - ord('A') # file index we want
                         prevfile = '' # set prevfile to impossible value
                         filecounter = 0
@@ -823,12 +823,12 @@ class Command(cmd.Cmd, object):
                                 print("error: in curve list did not find matching file for %s" % line[i])
                         curvedex -= 1 # back curvedex up to point to start of file's curves
                         curvedex += int(line[i].split('.')[-1])-1
-                    elif(int(line[i]) > 0 and int(line[i]) <= len(self.curvelist)):
+                    elif 0 < int(line[i]) <= len(self.curvelist):
                         curvedex = int(line[i])-1
                     else:
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
-                    if(not skip):
+                    if not skip:
                         current = self.curvelist[curvedex].copy()
                         self.addtoplot(current)
                 self.plotedit = True
@@ -837,7 +837,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_curve(self):
-        print('\n   Procedure: Select curves from the menu for plotting\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
+        print('\n   Procedure: Select curves from the menu for plotting'
+              '\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
 
     ##remove all curves from the graph##
     def do_erase(self, line):
@@ -1969,11 +1970,11 @@ class Command(cmd.Cmd, object):
             self.func_curve(line, 'cos', 1)
             self.plotedit = True
         except:
-            print('error - usage: cos <curve-list>')
+            print('error - usage: cosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cosx(self):
-        print('\n   Procedure: Take cosine of x values of curves\n   Usage: cos <curve-list>\n')
+        print('\n   Procedure: Take cosine of x values of curves\n   Usage: cosx <curve-list>\n')
 
 
     ##take the sine of the curve##
@@ -2732,9 +2733,9 @@ class Command(cmd.Cmd, object):
     def do_dataid(self, line):
         try:
             line = line.strip()
-            if(line == '0' or line.upper() == 'OFF'):
+            if line == '0' or line.upper() == 'OFF':
                 self.showletters = False
-            elif(line == '1' or line.upper() == 'ON'):
+            elif line == '1' or line.upper() == 'ON':
                 self.showletters = True
             else:
                 print('invalid input: requires on or off as argument')
@@ -2744,7 +2745,6 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
     def help_dataid(self):
         print('\n   Variable: Show curve identifiers if True\n   Usage: dataid on | off\n   Shortcuts: data-id\n')
-
 
     ##show the x axis on a log scale##
     def do_xlogscale(self, line):
@@ -2906,6 +2906,15 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Set the draw style of the curves\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
 
     ##set dash style of given curves##
+    def do_dashstyle(self, line):
+        try:
+            self.modcurve(line, 'dashstyle', [line[line.index("["):], ])
+            self.plotedit = True
+        except:
+            print("ERROR : dashstyle usage")
+            self.help_dashstyle()
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_dashstyle(self):
         print('''
    Procedure: Set the style of dash or dot dash lines
@@ -2917,15 +2926,6 @@ class Command(cmd.Cmd, object):
         [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
    See matplotlib 'set_dashes' command for more information.
 ''')
-    def do_dashstyle(self, line):
-        try:
-            self.modcurve(line, 'dashstyle', [line[line.index("["):],])
-            self.plotedit = True
-        except:
-            print("ERROR : dashstyle usage")
-            self.help_dashstyle()
-            if(self.debug): traceback.print_exc(file=sys.stdout)
-
 
     ##turn hiding on for given curves##
     def do_hide(self, line):
@@ -3329,10 +3329,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##Remove the specified annotations##
     def do_delannot(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
-            if(len(line.split(':')) > 1):   #check for list notation
+            if len(line.split(':')) > 1:   #check for list notation
                 self.do_delannot(pdvutil.getnumberargs(line, self.filelist))
                 return 0
             else:
@@ -3345,7 +3345,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.usertexts.remove(text)
         except:
             print('error - usage: delannot <number-list-of-annotations>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_delannot(self):
         print('\n   Procedure: Delete annotations from list\n   Usage: delannot <number-list-of-annotations>\n')
 
