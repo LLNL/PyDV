@@ -147,8 +147,22 @@ class Curve(object):
         return c
 
     def __truediv__(a,b):
-        return __div__(a,b)  #future proofing for python 3.0
-    
+        c = Curve('', '')
+        c.drawstyle = a.drawstyle
+        c.plotname = str(a.plotname + ' / ' + b.plotname + ' ').strip('  ')
+        ia, ib = getinterp(a, b)
+        if ia.x is not None and ib.x is not None:
+            c.x = ia.x
+
+            zero_indices = np.where(ib.y == 0)
+            for idx in zero_indices:
+                ib.y[idx] = 0.000000001
+
+            c.y = ia.y / ib.y
+            for idx in zero_indices:
+                c.y[idx] = float(sys.maxsize)
+
+        return c
     
     def __pow__(a, b):
         c = Curve('', '')

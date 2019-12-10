@@ -855,19 +855,16 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_delete(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if(name == line[i].upper()):
-                            curve.plotname = ''
-                            self.plotlist.pop(j)
-                            break
-            self.plotedit = True
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    self.plotlist.pop(idx)
+
+                self.plotedit = True
         except:
             print('error - usage: del <curve-list>')
             if self.debug:
@@ -1694,18 +1691,17 @@ class Command(cmd.Cmd, object):
     ##Display the y-values in the specified curves##
     def do_disp(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_disp(pdvutil.getletterargs(line))
                 return 0
             else:
                 print('\n')
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if cur.plotname == line[i].upper():
-                            ss = pydvif.disp(cur, False)
-                            self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    ss = pydvif.disp(cur, False)
+                    self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
         except:
             print('error - usage: disp <curve-list>')
             if self.debug:
@@ -1719,18 +1715,17 @@ class Command(cmd.Cmd, object):
     ##Display the x-values in the specified curves##
     def do_dispx(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_dispx(pdvutil.getletterargs(line))
                 return 0
             else:
                 print('\n')
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if cur.plotname == line[i].upper():
-                            ss = pydvif.disp(cur)
-                            self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    ss = pydvif.disp(cur)
+                    self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
         except:
             print('error - usage: dispx <curve-list>')
             if self.debug:
@@ -3531,26 +3526,25 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##take derivative of the curve##
     def do_derivative(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_derivative(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():
-                            cur = self.plotlist[j]
-                            nc = self.derivative(cur)
-                            self.addtoplot(nc)
-                            break
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    nc = self.derivative(cur)
+                    self.addtoplot(nc)
+
                 self.plotedit = True
         except:
             print('error - usage: der <curve-list>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_derivative(self):
         print('\n   Procedure: Take derivative of curves\n   Usage: derivative <curve-list>\n   Shortcuts: der\n')
 
@@ -4117,7 +4111,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         if not line:
             return 0
         try:
-            tolerance = 1e-8
             try:
                 tolerance = float(line.split()[-1])
                 line = line.split()
@@ -4125,15 +4118,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 line = ' '.join(line)
             except:
                 tolerance = 1e-8
+
             line = line.split()
-            for i in range(len(self.plotlist)):
-                if(self.plotlist[i].plotname == line[0].upper()):
-                    c1 = self.plotlist[i]
-                    break
-            for i in range(len(self.plotlist)):
-                if(self.plotlist[i].plotname == line[1].upper()):
-                    c2 = self.plotlist[i]
-                    break
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            c1 = self.plotlist[idx]
+
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            c2 = self.plotlist[idx]
 
             cdiff, cint = pydvif.diffMeasure(c1, c2, tolerance)
             self.addtoplot(cdiff)
@@ -4142,9 +4133,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('Difference measure for curves ' + c1.plotname + ' and ' + c2.plotname + ': ' + str(cint.y[-1]))
         except:
             print('error: requires exactly two curves as arguments')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_diffMeasure(self):
-        print('\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n')
+        print('\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its '
+              'average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n')
 
     ## Compute the correlation function of the two curves ##
     def do_correl(self, line):
