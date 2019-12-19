@@ -547,7 +547,8 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
         except:
             print('error - usage: eval <curve-operations>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_eval(self):
         print('\n   Procedure: Evaluate mathematical operations on curves\n   Usage: eval <curve-operations>\n')
 
@@ -840,6 +841,7 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Select curves from the menu for plotting'
               '\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
 
+
     ##remove all curves from the graph##
     def do_erase(self, line):
         self.plotlist = []
@@ -847,7 +849,8 @@ class Command(cmd.Cmd, object):
 
         self.plotedit = True
     def help_erase(self):
-        print('\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase\n   Shortcuts: era\n')
+        print('\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase'
+              '\n   Shortcuts: era\n')
 
 
     ##remove a curve from the graph##
@@ -1115,7 +1118,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_showcolormap(self):
-        print('\n   Procedure: show the available named colors\n   Usage: showcolormap\n   Hit <return> after viewing to go back to regular plotting')
+        print('\n   Procedure: show the available named colors\n   Usage: showcolormap'
+              '\n   Hit <return> after viewing to go back to regular plotting')
 
 
     ##scale curve x values by given factor##
@@ -2895,10 +2899,11 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
         except:
             print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
-            if(self.debug):
+            if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_drawstyle(self):
-        print('\n   Procedure: Set the draw style of the curves\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
+        print('\n   Procedure: Set the draw style of the curves'
+              '\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
 
     ##set dash style of given curves##
     def do_dashstyle(self, line):
@@ -3668,34 +3673,28 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def do_errorbar(self, line):
         if not line:
             return 0
-        for i in range(len(self.plotlist)):
-            if self.plotlist[i].plotname == line.split()[0].upper():
-                scur = self.plotlist[i]
-                break
+        line = line.split()
+
         try:
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            scur = self.plotlist[idx]
+
             # y-error-curve, y+error-curve
-            line = line.split()
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[1].upper():
-                    cury1 = self.plotlist[i]
-                    break
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[2].upper():
-                    cury2 = self.plotlist[i]
-                    break
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            cury1 = self.plotlist[idx]
+
+            idx = pdvutil.getCurveIndex(line[2], self.plotlist)
+            cury2 = self.plotlist[idx]
 
             # x-error-curve, x+error-curve
             curx1 = None
             curx2 = None
             if len(line) >= 5:
-                for i in range(len(self.plotlist)):
-                    if self.plotlist[i].plotname == line[3].upper():
-                        curx1 = self.plotlist[i]
-                        break
-                for i in range(len(self.plotlist)):
-                    if self.plotlist[i].plotname == line[4].upper():
-                        curx2 = self.plotlist[i]
-                        break
+                idx = pdvutil.getCurveIndex(line[3], self.plotlist)
+                curx1 = self.plotlist[idx]
+
+                idx = pdvutil.getCurveIndex(line[4], self.plotlist)
+                curx2 = self.plotlist[idx]
 
             # point-skip
             mod = 1
@@ -3707,40 +3706,38 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             pydvif.errorbar(scur, cury1, cury2, curx1, curx2, mod)
             self.plotedit = True
         except:
-            scur.ebar = None
-            print('error - usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            # scur.ebar = None
+            print('error - usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>]'
+                  ' [<point-skip>]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_errorbar(self):
-        print('\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves and not scalars.\n' \
-              '   Usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n')
+        print('\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves'
+              ' and not scalars.\n   Usage: errorbar <curve> <y-error-curve> <y+error-curve> '
+              '[<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n')
 
 
     ##Define a shaded error range for a curve##
     def do_errorrange(self, line):
-        if(not line):
+        if not line:
             return 0
-        for i in range(len(self.plotlist)):
-            if(self.plotlist[i].plotname == line.split()[0].upper()):
-                scur = self.plotlist[i]
-                break
         try:
-            #if(scur.ebar == None):
-            #    ebartemp = None
-            #else:
-            #    ebartemp = [numpy.array(scur.ebar[0]), numpy.array(scur.ebar[1]), numpy.array(scur.ebar[2]), numpy.array(scur.ebar[3])]
+            idx = pdvutil.getCurveIndex(line.split()[0], self.plotlist)
+            scur = self.plotlist[idx]
 
             self.do_errorbar(line)
             scur.erange = [scur.ebar[0], scur.ebar[1]]
-            #scur.ebar = ebartemp
             scur.ebar = None
             self.plotedit = True
         except:
-            scur.erange = None
+            # scur.erange = None
             print('error - usage: errorrange <curve> <y-error-curve> <y+error-curve>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_errorrange(self):
-        print('\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are curves and not scalars\n' \
-              '   Usage: errorrange <curve> <y-error-curve> <y+error-curve>\n   Shortcuts: error-range\n')
+        print('\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are '
+              'curves and not scalars\n   Usage: errorrange <curve> <y-error-curve> <y+error-curve>'
+              '\n   Shortcuts: error-range\n')
 
 
     ##set the marker for scatter plots##
@@ -3880,23 +3877,20 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             try:
                 line = line.split()
                 for item in line:
-                    for i in range(len(self.plotlist)):
-                        if self.plotlist[i].plotname == item.upper():
-                            c1 = self.plotlist[i]
-
-                            nc1, nc2 = pydvif.fft(c1, norm="ortho")
-                            self.addtoplot(nc1)
-                            self.addtoplot(nc2)
-
-                            breakc
+                    idx = pdvutil.getCurveIndex(item, self.plotlist)
+                    c1 = self.plotlist[idx]
+                    nc1, nc2 = pydvif.fft(c1, norm="ortho")
+                    self.addtoplot(nc1)
+                    self.addtoplot(nc2)
 
                 self.plotedit = True
             except:
                 print('error - usage: fft <curve-list>')
-                if self.debug: traceback.print_exc(file=sys.stdout)
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
     def help_fft(self):
-        print('\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.' \
-              '\n              Return real and imaginary parts.' \
+        print('\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.'
+              '\n              Return real and imaginary parts.'
               '\n   Usage: fft <curve-list>\n')
 
     ## Merge list of curves##
@@ -4637,21 +4631,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 line = line.split()
 
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():    #operate on each curve found in args
-                            curves.append(self.plotlist[j])
+                    plotidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[plotidx])
 
                 if len(curves) > 0:
                     pydvif.dupx(curves)
-                else:
-                    raise RuntimeError('Need to specify a valid curve or curves')
         except:
             print('error - usage: dupx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dupx(self):
-        print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves\n   Usage: dupx <curve-list>\n')
+        print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves'
+              '\n   Usage: dupx <curve-list>\n')
+
 
     ##Create curves with y-values vs. integer index values##
     def do_xindex(self, line):
@@ -5179,10 +5171,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##operate on given curves by constant value depending on given operation flag##
     def modcurve(self, line, flag, args=[]):
-        if(not line):
+        if not line:
             return 0
         modvalue = args[0]
-        if(len(line.split(':')) > 1):
+        if len(line.split(':')) > 1:
             self.modcurve(pdvutil.getletterargs(line), flag, args)
             return 0
         else:
@@ -6024,11 +6016,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             elif msgtype == QtFatalMsg:
                 print("\nQt Fatal: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtSystemMsg:
-                print("\nQt System: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
+                print("\nQt System: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             elif msgtype == QtInfoMsg:
-                print("\nQt Info: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
+                print("\nQt Info: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             else:
-                print("\nUnknown Message Type: (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
+                print("\nUnknown Message Type: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
 
 
 ################################################################################################
