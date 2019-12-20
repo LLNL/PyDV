@@ -940,54 +940,53 @@ class Command(cmd.Cmd, object):
         print ('\n   Display the mean and standard deviation for the given curves.\n   usage: stats <curve-list>\n')
 
     ##return a curve's attributes##
-    def do_getattributes(self,line):
+    def do_getattributes(self, line):
+        if not line:
+            return 0
         try:
             line = line.split()
-            found = False
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    print('\n')
-                    print('    Plot name = {}'.format(cur.plotname))
-                    print('    Color = {}'.format(cur.color))
-                    #pretty print line style
-                    if cur.linestyle == '-':
-                        pp_linestyle = 'solid'
-                    elif cur.linestyle == ':':
-                        pp_linestyle = 'dot'
-                    elif cur.linestyle == '--':
-                        pp_linestyle= 'dash'
-                    elif cur.linestyle == '-.':
-                        pp_linestyle = 'dashdot'
-                    print('    Style = {}'.format(pp_linestyle))
-                    print('    Curve width = {} '.format(cur.linewidth))
-                    print('    Edited = {}'.format(cur.edited))
-                    print('    Scatter = {}'.format(cur.scatter))
-                    print('    Linespoints = {}'.format(cur.linespoints))
-                    print('    Drawstyle = {}'.format (cur.drawstyle))
-                    print('    Dashes = {}'.format (cur.dashes))
-                    print('    Hidden = {}'.format (cur.hidden))
-                    print('    Marker = {}'.format (cur.marker))
-                    print('    Markersize = {}'.format (cur.markersize))
-                    print('    Markeredgecolor = {}'.format (cur.markeredgecolor))
-                    print('    Markerfacecolor = {}'.format (cur.markerfacecolor))
-                    print('    Ebar = {}'.format (cur.ebar))
-                    print('    Erange = {}'.format (cur.erange))
-                    print('    Plotprecedence = {}'.format (cur.plotprecedence))
-                    print('\n')
-                    found = True
-                    break
-
-            if not found:
-                print('\nerror - Curve %s does not exist - usage: getattributes <curve>\n' % line[0])
+            if len(line) == 1:
+                idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+                cur = self.plotlist[idx]
+                print('\n')
+                print('    Plot name = {}'.format(cur.plotname))
+                print('    Color = {}'.format(cur.color))
+                if cur.linestyle == '-':
+                    pp_linestyle = 'solid'
+                elif cur.linestyle == ':':
+                    pp_linestyle = 'dot'
+                elif cur.linestyle == '--':
+                    pp_linestyle= 'dash'
+                elif cur.linestyle == '-.':
+                    pp_linestyle = 'dashdot'
+                print('    Style = {}'.format(pp_linestyle))
+                print('    Curve width = {} '.format(cur.linewidth))
+                print('    Edited = {}'.format(cur.edited))
+                print('    Scatter = {}'.format(cur.scatter))
+                print('    Linespoints = {}'.format(cur.linespoints))
+                print('    Drawstyle = {}'.format (cur.drawstyle))
+                print('    Dashes = {}'.format(cur.dashes))
+                print('    Hidden = {}'.format(cur.hidden))
+                print('    Marker = {}'.format(cur.marker))
+                print('    Markersize = {}'.format(cur.markersize))
+                print('    Markeredgecolor = {}'.format(cur.markeredgecolor))
+                print('    Markerfacecolor = {}'.format(cur.markerfacecolor))
+                print('    Ebar = {}'.format(cur.ebar))
+                print('    Erange = {}'.format(cur.erange))
+                print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                print('\n')
+            else:
+                raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
-
     def help_getattributes(self):
-        print ('\n   Display the given curve\'s attributes, such as: color, style, and width.   usage: getattributes <curve>')
+        print('\n   Display the given curve\'s attributes, such as: color, style, and width.'
+              '\n   usage: getattributes <curve>')
+
+
     ##set the markerface color for a list of curves##
     def do_markerfacecolor(self, line):
         if not line:
@@ -1449,6 +1448,8 @@ class Command(cmd.Cmd, object):
 
     ##return x values on curves at y value##
     def do_getx(self, line):
+        if not line:
+            return
         try:
             self.modcurve(line, 'getx', [line.split()[-1]])
             print('')
@@ -1464,6 +1465,8 @@ class Command(cmd.Cmd, object):
 
     ##return y values on curves at x value##
     def do_gety(self, line):
+        if not line:
+            return
         try:
             self.modcurve(line, 'gety', [line.split()[-1]])
             print('')
@@ -1479,20 +1482,21 @@ class Command(cmd.Cmd, object):
 
     ##get the range of the given curves##
     def do_getrange(self, line):
+        if not line:
+            return
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_getrange(pdvutil.getletterargs(line))
                 return 0
             else:
                 print('\n   Get Range')
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if(cur.plotname == line[i].upper()):
-                            plotname, miny, maxy = pydvif.getrange(cur)[0]
-                            print('\nCurve ' + plotname)
-                            print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, miny, maxy = pydvif.getrange(cur)[0]
+                    print('\nCurve ' + plotname)
+                    print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
                 print('')
         except:
             print('error - usage: getrange <curve-list>')
@@ -1507,19 +1511,19 @@ class Command(cmd.Cmd, object):
     ##get the domain of the given curves##
     def do_getdomain(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_getdomain(pdvutil.getletterargs(line))
                 return 0
             else:
                 print('\n   Get Domain')
                 line = line.split()
+
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if cur.plotname == line[i].upper():
-                            plotname, minx, maxx = pydvif.getdomain(cur)[0]
-                            print('\nCurve ' + plotname)
-                            print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, minx, maxx = pydvif.getdomain(cur)[0]
+                    print('\nCurve ' + plotname)
+                    print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
                 print('')
         except:
             print('error - usage: getdomain <curve-list>')
@@ -1553,12 +1557,11 @@ class Command(cmd.Cmd, object):
             if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
                 raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    plotname, maxy = pydvif.getymax(cur, xlow, xhi)
-                    print('\nCurve ' + plotname)
-                    print('    ymax: %.6f' % maxy)
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            cur = self.plotlist[idx]
+            plotname, maxy = pydvif.getymax(cur, xlow, xhi)
+            print('\nCurve ' + plotname)
+            print('    ymax: %.6f' % maxy)
             print('')
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
@@ -1568,7 +1571,8 @@ class Command(cmd.Cmd, object):
             self.redraw = False
 
     def help_getymax(self):
-        print('\n   Procedure: Return the maximum y-value for the curve within the specified domain.\n   Usage: getymax <curve> [<xmin> <xmax>]\n')
+        print('\n   Procedure: Return the maximum y-value for the curve within the specified domain.'
+              '\n   Usage: getymax <curve> [<xmin> <xmax>]\n')
 
 
     ##get the min y-value for the given curve##
@@ -1593,12 +1597,11 @@ class Command(cmd.Cmd, object):
             if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
                 raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    plotname, miny = pydvif.getymin(cur, xlow, xhi)
-                    print('\nCurve ' + plotname)
-                    print('    ymin: %.6f' % miny)
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            cur = self.plotlist[idx]
+            plotname, miny = pydvif.getymin(cur, xlow, xhi)
+            print('\nCurve ' + plotname)
+            print('    ymin: %.6f' % miny)
             print('')
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
@@ -1606,9 +1609,9 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
-
     def help_getymin(self):
-        print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
+        print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.'
+              '\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
 
 
     ##get the label of a given curve##
@@ -1741,19 +1744,14 @@ class Command(cmd.Cmd, object):
 
     ## Display the number of points for the given curve ##
     def do_getnumpoints(self, line):
+        if not line:
+            return 0
         try:
             line = line.split()
-            found = False
 
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    print('\n    Number of points = %d\n' % pydvif.getnumpoints(cur))
-                    found = True
-                    break
-
-            if not found:
-                print('\nerror - Curve %s does not exist - usage: getnumpoints <curve>\n' % line[0])
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            cur = self.plotlist[idx]
+            print('\n    Number of points = %d\n' % pydvif.getnumpoints(cur))
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -2660,9 +2658,9 @@ class Command(cmd.Cmd, object):
     def do_grid(self, line):
         try:
             line = line.strip()
-            if(line == '0' or line.upper() == 'OFF'):
+            if line == '0' or line.upper() == 'OFF':
                 self.showgrid = False
-            elif(line == '1' or line.upper() == 'ON'):
+            elif line == '1' or line.upper() == 'ON':
                 self.showgrid = True
             else:
                 print('invalid input: requires on or off as argument')
@@ -2689,9 +2687,9 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_gridcolor(self):
-            print('\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>\n   ' \
-                  'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).\n   ' \
-                  'The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!')
+            print('\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>'
+                  '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).'
+                  '\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!')
 
     ## Change the grid style ##
     def do_gridstyle(self, line):
@@ -2712,7 +2710,8 @@ class Command(cmd.Cmd, object):
             print('error: invalid style ' + style)
             return 0
     def help_gridstyle(self):
-        print('\n   Procedure: Set the line style for the grid.\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n')
+        print('\n   Procedure: Set the line style for the grid.'
+              '\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n')
 
     ## Set the grid line width ##
     def do_gridwidth(self, line):
@@ -4260,15 +4259,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontcolor(self):
-        print('\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.\n   ' \
-              'Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
+        print('\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.'
+              '\n   Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
 
     ##edits the font size for various text components##
     def do_fontsize(self, line):
         try:
             line = line.split()
             size = line[-1]
-            if(size != 'default' and size != 'de' and size != 'x-small' and size != 'small' and size != 'medium' and size != 'large' and size != 'x-large'):
+            if size != 'default' and size != 'de' and size != 'x-small' and size != 'small' and size != 'medium' and size != 'large' and size != 'x-large':
                 size = float(size)
                 if(size > 40):
                     size = 40
@@ -4312,21 +4311,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 else:
                     self.annotationfont = size
         except:
-            print('error - usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>')
+            print('error - usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] '
+                  '<numerical-size | small | medium | large | default>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_fontsize(self):
-        print('\n   Procedure: Change the font size of given component, or overall scaling factor\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
+        print('\n   Procedure: Change the font size of given component, or overall scaling factor'
+              '\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
 
 
     ## Generate a gaussian function ##
     def do_gaussian(self, line):
-        """
-        Generates a gaussian function.
-
-        :param line: User Command-Line Input
-        :type line: string
-        """
         if not line:
             return 0
         try:
@@ -4374,7 +4369,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_geometry(self):
-        print('\n   Procedure: Change the PDV window size and location in pixels\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>\n   Shortcuts: geom\n')
+        print('\n   Procedure: Change the window size and location in pixels'
+              '\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>\n   Shortcuts: geom\n')
 
 
     ##re-id command re-identifies all the curves into continuous alphabetical order##
