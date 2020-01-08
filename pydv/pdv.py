@@ -285,7 +285,7 @@ class Command(cmd.Cmd, object):
             self.histptr += 1
             self.history.append(self.oldlist)#(self.histptr, self.oldlist)
 
-            if(len(self.history) > 15):
+            if len(self.history) > 15:
                 self.history.pop(0)
                 self.histptr -= 1
 
@@ -2797,14 +2797,17 @@ class Command(cmd.Cmd, object):
                 self.ylim = None
             elif line == '1' or line.upper() == 'ON':
                 self.guilims = True
+                self.xlim = plt.gca().get_xlim()
+                self.ylim = plt.gca().get_ylim()
             else:
-                print('invalid input: requires on or off as argument')
+                raise RuntimeError("{} is not a valid input.".format(line))
         except:
-            print('error - usage: guilims on | off')
+            print('error - usage: guilims on | off | 1 | 0')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_guilims(self):
-        print('\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.\n   Usage: guilims on | off\n')
+        print('\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.'
+              '\n   Usage: guilims on | off | 1 | 0\n')
 
     ##set whether to update after each command##
     def do_update(self, line):
@@ -5599,7 +5602,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.ylabel = cur_axes.get_ylabel()
 
         #Update Curves
-        orderlist = sorted(self.plotlist, key= lambda x: x.plotprecedence)
+        orderlist = sorted(self.plotlist, key=lambda x: x.plotprecedence)
         plotcurvelist = cur_axes.get_lines()
 
         for i in range(len(plotcurvelist)):
