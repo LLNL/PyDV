@@ -2317,26 +2317,31 @@ class Command(cmd.Cmd, object):
     ##take the nth order Bessel function of the curve##
     def do_jn(self, line):
         try:
-            print "do_jn: "+line+"  '"+line.split()[-1]+"' "
-            self.func_curve(line, 'jn', 0, [line.split()[-1]])
+            line = line.split()
+            n = line.pop(-1)
+            line = ' '.join(line)
+            self.func_curve(line, 'jn', 0, [n])
             self.plotedit = True
         except:
-            print 'error - usage: jn <curve-list> n'
+            print 'error - usage: jn <curve-list> <n>'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jn(self):
-        print '\n   Procedure: Take the nth order Bessel function of y values of curves\n   Usage: jn <curve-list> n\n'
+        print '\n   Procedure: Take the nth order Bessel function of y values of curves\n   Usage: jn <curve-list> <n>\n'
 
     def do_jnx(self, line):
         try:
-            self.func_curve(line, 'jn', 1, [line.split()[-1]])
+            line = line.split()
+            n = line.pop(-1)
+            line = ' '.join(line)
+            self.func_curve(line, 'jn', 1, [n])
             self.plotedit = True
         except:
-            print 'error - usage: jnx <curve-list>'
+            print 'error - usage: jnx <curve-list> <n>'
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jnx(self):
-        print '\n   Procedure: Take the nth order Bessel function of x values of curves\n   Usage: jnx <curve-list> n\n'
+        print '\n   Procedure: Take the nth order Bessel function of x values of curves\n   Usage: jnx <curve-list> <n>\n'
 
 
     ##take the zeroth order Bessel function of the second kind of the curve##
