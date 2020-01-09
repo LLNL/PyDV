@@ -2277,7 +2277,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j0(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of y values of curves\n   Usage: j0 <curve-list>\n')
+        print('\n   Procedure: Take the zeroth order Bessel function of y values of curves'
+              '\n   Usage: j0 <curve-list>\n')
 
     def do_j0x(self, line):
         try:
@@ -2288,7 +2289,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j0x(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of x values of curves\n   Usage: j0x <curve-list>\n')
+        print('\n   Procedure: Take the zeroth order Bessel function of x values of curves'
+              '\n   Usage: j0x <curve-list>\n')
 
 
     ##take the first order Bessel function of the curve##
@@ -2312,32 +2314,40 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j1x(self):
-        print('\n   Procedure: Take the first order Bessel function of x values of curves\n   Usage: j1x <curve-list>\n')
+        print('\n   Procedure: Take the first order Bessel function of x values of curves'
+              '\n   Usage: j1x <curve-list>\n')
 
 
     ##take the nth order Bessel function of the curve##
     def do_jn(self, line):
         try:
-            print("do_jn: "+line+"  '"+line.split()[-1]+"' ")
-            self.func_curve(line, 'jn', 0, [line.split()[-1]])
+            line = line.split()
+            n = line.pop(-1)
+            line = ' '.join(line)
+            self.func_curve(line, 'jn', 0, [n])
             self.plotedit = True
         except:
-            print('error - usage: jn <curve-list> n')
+            print('error - usage: jn <curve-list> <n>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jn(self):
-        print('\n   Procedure: Take the nth order Bessel function of y values of curves\n   Usage: jn <curve-list> n\n')
+        print('\n   Procedure: Take the nth order Bessel function of y values of curves'
+              '\n   Usage: jn <curve-list> <n>\n')
 
     def do_jnx(self, line):
         try:
-            self.func_curve(line, 'jn', 1, [line.split()[-1]])
+            line = line.split()
+            n = line.pop(-1)
+            line = ' '.join(line)
+            self.func_curve(line, 'jn', 1, [n])
             self.plotedit = True
         except:
-            print('error - usage: jnx <curve-list>')
+            print('error - usage: jnx <curve-list> <n>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_jnx(self):
-        print('\n   Procedure: Take the nth order Bessel function of x values of curves\n   Usage: jnx <curve-list> n\n')
+        print('\n   Procedure: Take the nth order Bessel function of x values of curves'
+              '\n   Usage: jnx <curve-list> <n>\n')
 
 
     ##take the zeroth order Bessel function of the second kind of the curve##
@@ -2635,6 +2645,7 @@ class Command(cmd.Cmd, object):
     def help_handlelength(self):
         print('\n   Command: change the length of the lines in the legend')
         print('     Usage: handlelength <integer>')
+
 
     ##show or hide minor ticks##
     def do_minorticks(self, line):
@@ -3075,7 +3086,7 @@ class Command(cmd.Cmd, object):
             self.redraw = False
             self.plotter.updateDialogs()
     def help_kill(self):
-        print('\n   Procedure: Delete the specified entries from the menu. ' \
+        print('\n   Procedure: Delete the specified entries from the menu. '
               'number-list is a space separated list of menu indexes\n   Usage: kill [all | number-list]')
 
     ##print out curves loaded from files##
@@ -3183,20 +3194,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             line = line.split()
             filename = 'plot'
             filetype = 'pdf'
-            if(len(line) > 1):
+            if len(line) > 1:
                 filetype = line.pop(-1)
                 filename = line.pop(-1)
-            elif(len(line) > 0):
+            elif len(line) > 0:
                 filename = line.pop(-1)
             plt.savefig(filename+'.'+filetype, format=filetype)
         except:
-            print('error - usage: image <file-name> <file-type: png | ps | pdf | svg>')
+            print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_image(self):
-        print('\n   Macro: Save the current figure to image file\n   Usage: image <file-name> <file-type: png | ps | pdf | svg>\n')
+        print("\n   Macro: Save the current figure to an image file. The file name and file type are both optional."
+              "\n          The default file name is 'plot' and the default file type is 'pdf'"
+              "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]\n")
 
 
     ##save given curves to a new ultra file##
@@ -3600,7 +3613,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_integrate(self):
-        print('\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]\n   Shortcuts: int\n')
+        print('\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]'
+              '\n   Shortcuts: int\n')
 
 
     ##plot y of one curve against y of another curve
@@ -5471,7 +5485,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         cur.name = 'atanhx(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'j0'):
-                    if (do_x == 0):
+                    if do_x == 0:
                         cur.y = scipy.special.j0(cur.y)
                         cur.name = 'j0(' + cur.name + ')'
                         cur.edited = True
@@ -5490,11 +5504,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         cur.edited = True
                 elif (flag == 'jn'):
                     if (do_x == 0):
-                        cur.y = scipy.special.jn(float(args[0]),cur.y)
+                        cur.y = scipy.special.jn(float(args[0]), cur.y)
                         cur.name = 'jn(' + cur.name + ')'
                         cur.edited = True
                     else:
-                        cur.x = scipy.special.jn(float(args[0]),cur.x)
+                        cur.x = scipy.special.jn(float(args[0]), cur.x)
                         cur.name = 'jnx(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'y0'):
