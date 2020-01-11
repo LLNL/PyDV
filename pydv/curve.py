@@ -86,7 +86,7 @@ class Curve(object):
     erange = None   #errorrange
     marker = '.'    # Use matplotlib markers when setting directly
     markerstyle = None
-    markersize = 6
+    markersize = 3
     markerfacecolor = None
     markeredgecolor = None
     plotprecedence = 0
