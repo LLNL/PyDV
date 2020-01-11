@@ -2583,7 +2583,7 @@ class Command(cmd.Cmd, object):
     ##show or hide the key/legend##
     def do_legend(self, line):
         try:
-            locs = {'best':0, 'ur':1, 'ul':2, 'll':3, 'lr':4, 'cl':6, 'cr':7, 'lc':8, 'uc':9, 'c':10}
+            locs = {'best': 0, 'ur': 1, 'ul': 2, 'll': 3, 'lr': 4, 'cl': 6, 'cr': 7, 'lc': 8, 'uc': 9, 'c': 10}
             line = line.strip().split()
 
             for i in range(len(line)):
@@ -2605,7 +2605,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_legend(self):
-        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n')
+        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n')
 
 
     ## adjust the width of the label column in 'menu' and 'lst' commands
@@ -2841,18 +2842,20 @@ class Command(cmd.Cmd, object):
     def do_latex(self, line):
         try:
             line = line.strip()
-            if(line == '0' or line.upper() == 'OFF'):
+
+            if line == '0' or line.upper() == 'OFF':
                 matplotlib.rc('text', usetex=False)
-            elif(line == '1' or line.upper() == 'ON'):
+            elif line == '1' or line.upper() == 'ON':
                 matplotlib.rc('text', usetex=True)
             else:
-                print('invalid input: requires on or off as argument')
+                print('invalid input: requires on, off, 1, or 0 as argument')
         except:
-            print('latex on | off')
+            print('latex on | off | 1 | 0')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_latex(self):
-        print('\n   Variable: Use LaTeX font rendering if True\n   Usage: latex on | off\n')
+        print('\n   Variable: Use LaTeX font rendering if True. By default, LaTeX font rendering is off.'
+              '\n   Usage: latex on | off | 1 | 0\n')
 
 
     ##show given curves as points rather than continuous line##
@@ -3396,12 +3399,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##generate y = mx + b line##
     def do_line(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
             line = line.split()
             numpts = 100
-            if(len(line) == 5):
+            if len(line) == 5:
                 numpts = int(line.pop(-1))
             slope = float(line[0])
             yint = float(line[1])
@@ -3416,7 +3419,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_line(self):
-        print('\n   Procedure: Generate a line with y = mx + b and an optional number of points\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n')
+        print('\n   Procedure: Generate a line with y = mx + b and an optional number of points'
+              '\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n')
 
 
     ##generate curve from given x and y points##
@@ -3802,31 +3806,24 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
 
     ##set the marker symbol for the curves##
-    def help_linemarker(self):
-        print('''
-   Procedure: Set the marker symbol for the curves
-   Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
-   Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
-         Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-''')
     def do_linemarker(self, line):
         if not line:
             return 0
         try:
+            markersize = None
+
             if len(line.split(':')) > 1:
                 self.do_linemarker(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
-                ultra_markers = {'circle' : 'o',
-                                 'square' : 's',
-                                 'diamond' : 'd'}
+                ultra_markers = {'circle': 'o', 'square': 's', 'diamond': 'd'}
                 try:
                     try:
-                        size = float(line[-1])
+                        markersize = float(line[-1])
                         marker = line[-2]
                     except:
-                        size = None
+                        markersize = None
                         marker = line[-1]
                     if marker in ultra_markers:
                         marker = ultra_markers[marker]
@@ -3840,14 +3837,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
                             cur.markerstyle = marker
-                            if(size):
-                                cur.markersize = size
+                            if(markersize):
+                                cur.markersize = markersize
                             break
             self.plotedit = True
         except:
             self.help_linemarker()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+    def help_linemarker(self):
+        print('''
+       Procedure: Set the marker symbol for the curves
+       Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
+       Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
+             Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
+    ''')
 
     ##smooth the curve to given degree##
     def do_smooth(self, line):
@@ -4413,11 +4417,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             line = line.split()
             c = line.pop(0)
             line = ' '.join(line)
-            for j in range(len(self.plotlist)):
-                cur = self.plotlist[j]
-                if(cur.plotname == c.upper()):
-                    cur.name = line
-                    break
+
+            idx = pdvutil.getCurveIndex(c, self.plotlist)
+            cur = self.plotlist[idx]
+            cur.name = line
             self.plotedit = True
         except:
             print('error - usage: label <curve> <new-label>')
@@ -4441,7 +4444,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_labelFileNames(self):
-        print('\n   Procedure: Change the key and list labels for all curves to append the filename\n   Usage: labelFileNames\n')
+        print('\n   Procedure: Change the key and list labels for all curves to append the filename'
+              '\n   Usage: labelFileNames\n')
 
 
     ##run a list of commands from a file##
