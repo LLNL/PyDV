@@ -2874,7 +2874,15 @@ class Command(cmd.Cmd, object):
     ##show given curves as points and a line rather than continuous line##
     def do_linespoints(self, line):
         try:
-            self.modcurve(line, 'linespoints', [line.split()[-1]])
+            line = line.split()
+            flag = line.pop(-1)
+
+            if len(line) > 0:
+                line = ' '.join(line)
+            else:
+                raise RuntimeError("Need to specify at least one curve")
+
+            self.modcurve(line, 'linespoints', [flag])
             self.plotedit = True
         except:
             print('error - usage: linespoints <curve-list> on | off')
@@ -2887,31 +2895,57 @@ class Command(cmd.Cmd, object):
     ##set line width of given curves##
     def do_lnwidth(self, line):
         try:
-            self.modcurve(line, 'lnwidth', [line.split()[-1]])
+            line = line.split()
+            width = line.pop(-1)
+
+            if len(line) > 0:
+                line = ' '.join(line)
+            else:
+                raise RuntimeError("Need to specify at least one curve")
+
+            self.modcurve(line, 'lnwidth', [width])
             self.plotedit = True
         except:
-            print('error - usage: lnwidth <curve-list> <width-number>')
+            print('error - usage: lnwidth <curve-list> <width>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_lnwidth(self):
-        print('\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width-number>\n')
+        print('\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width>\n')
 
 
     ##set line style of given curves##
     def do_lnstyle(self, line):
         try:
-            self.modcurve(line, 'lnstyle', [line.split()[-1]])
+            line = line.split()
+            lnstyle = line.pop(-1)
+
+            if len(line) > 0:
+                line = ' '.join(line)
+            else:
+                raise RuntimeError("Need to specify at least one curve")
+
+            self.modcurve(line, 'lnstyle', [lnstyle])
             self.plotedit = True
         except:
             print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_lnstyle(self):
-        print('\n   Procedure: Set the line style of curves\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n')
+        print('\n   Procedure: Set the line style of curves'
+              '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n')
 
     ##set draw style of given curves##
     def do_drawstyle(self, line):
         try:
-            self.modcurve(line, 'drawstyle', [line.split()[-1]])
+            line = line.split()
+            drawstyle = line.pop(-1)
+
+            if len(line) > 0:
+                line = ' '.join(line)
+            else:
+                raise RuntimeError("Need to specify at least one curve")
+
+            self.modcurve(line, 'drawstyle', [drawstyle])
             self.plotedit = True
         except:
             print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
@@ -2924,7 +2958,9 @@ class Command(cmd.Cmd, object):
     ##set dash style of given curves##
     def do_dashstyle(self, line):
         try:
-            self.modcurve(line, 'dashstyle', [line[line.index("["):], ])
+            options = [line[line.index("["):]]
+            line = line[0:line.index("[")]
+            self.modcurve(line, 'dashstyle', options)
             self.plotedit = True
         except:
             print("ERROR : dashstyle usage")
@@ -2946,7 +2982,6 @@ class Command(cmd.Cmd, object):
     ##turn hiding on for given curves##
     def do_hide(self, line):
         try:
-            line = line + ' ON'
             self.modcurve(line, 'hide', ['ON'])
         except:
             print('error - usage: hide <curve-list>')
@@ -2959,7 +2994,6 @@ class Command(cmd.Cmd, object):
     ##turn hiding off for given curves##
     def do_show(self, line):
         try:
-            line = line + ' OFF'
             self.modcurve(line, 'hide', ['OFF'])
         except:
             print('error - usage: show <curve-list>')
@@ -5197,154 +5231,151 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         else:
             line = line.split()
             for i in range(len(line)):
-                for j in range(len(self.plotlist)):
-                    name = self.plotlist[j].plotname
-                    if(name == line[i].upper()):    #operate on each curve found in args
-                        cur = self.plotlist[j]
-                        if(flag == 'my'):
-                            cur.y *= float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'mx'):
-                            cur.x *= float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'divy'):
-                            if(float(modvalue) == 0):
-                                modvalue = '1e-10'
-                            cur.y /= float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'divx'):
-                            if(float(modvalue) == 0):
-                                modvalue = '1e-10'
-                            cur.x /= float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'dy'):
-                            cur.y += float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'dx'):
-                            cur.x += float(modvalue)
-                            cur.edited = True
-                        elif(flag == 'scatter'):
-                            if(modvalue == '0' or modvalue.upper() == 'OFF'):
-                                cur.scatter = False
-                            elif(modvalue == '1' or modvalue.upper() == 'ON'):
-                                cur.scatter = True
-                        elif(flag == 'linespoints'):
-                            if(modvalue == '0' or modvalue.upper() == 'OFF'):
-                                cur.linespoints = False
-                            elif(modvalue == '1' or modvalue.upper() == 'ON'):
-                                cur.linespoints = True
-                        elif(flag == 'lnwidth'):
-                            cur.linewidth = float(modvalue)
-                        elif flag == 'lnstyle':
-                            if modvalue == 'solid':
-                                cur.linestyle = '-'
-                            elif modvalue == 'dot':
-                                cur.linestyle = ':'
-                            elif modvalue == 'dash':
-                                cur.linestyle = '--'
-                            elif modvalue == 'dashdot':
-                                cur.linestyle = '-.'
-                            cur.dashes = None      # Restore default dash behaviour
-                        elif(flag == 'drawstyle'):
-                            # default, steps, steps-pre, steps-post
-                            cur.drawstyle = modvalue
-                        elif(flag == 'dashstyle'):
-                            if modvalue[:2].upper() == 'DE':
-                                cur.dashes = None
-                            else:
-                                val = eval(modvalue)
-                                assert type(val) == list
-                                assert len(val) % 2 == 0
-                                assert min(val) > 0
-                                cur.dashes = val
-                        elif(flag == 'hide'):
-                            if(modvalue == 'OFF'):
-                                cur.hidden = False
-                            elif(modvalue == 'ON'):
-                                cur.hidden = True
-                        elif(flag == 'getx'):
-                            try:
-                                getxvalues = pydvif.getx(cur, float(modvalue))
+                curidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                cur = self.plotlist[curidx]
 
-                                if getxvalues:
-                                    print('\nCurve ' + cur.plotname)
+                if(flag == 'my'):
+                    cur.y *= float(modvalue)
+                    cur.edited = True
+                elif(flag == 'mx'):
+                    cur.x *= float(modvalue)
+                    cur.edited = True
+                elif(flag == 'divy'):
+                    if(float(modvalue) == 0):
+                        modvalue = '1e-10'
+                    cur.y /= float(modvalue)
+                    cur.edited = True
+                elif(flag == 'divx'):
+                    if(float(modvalue) == 0):
+                        modvalue = '1e-10'
+                    cur.x /= float(modvalue)
+                    cur.edited = True
+                elif(flag == 'dy'):
+                    cur.y += float(modvalue)
+                    cur.edited = True
+                elif(flag == 'dx'):
+                    cur.x += float(modvalue)
+                    cur.edited = True
+                elif(flag == 'scatter'):
+                    if(modvalue == '0' or modvalue.upper() == 'OFF'):
+                        cur.scatter = False
+                    elif(modvalue == '1' or modvalue.upper() == 'ON'):
+                        cur.scatter = True
+                elif(flag == 'linespoints'):
+                    if(modvalue == '0' or modvalue.upper() == 'OFF'):
+                        cur.linespoints = False
+                    elif(modvalue == '1' or modvalue.upper() == 'ON'):
+                        cur.linespoints = True
+                elif(flag == 'lnwidth'):
+                    cur.linewidth = float(modvalue)
+                elif flag == 'lnstyle':
+                    if modvalue == 'solid':
+                        cur.linestyle = '-'
+                    elif modvalue == 'dot':
+                        cur.linestyle = ':'
+                    elif modvalue == 'dash':
+                        cur.linestyle = '--'
+                    elif modvalue == 'dashdot':
+                        cur.linestyle = '-.'
+                    cur.dashes = None      # Restore default dash behaviour
+                elif(flag == 'drawstyle'):
+                    # default, steps, steps-pre, steps-post
+                    cur.drawstyle = modvalue
+                elif(flag == 'dashstyle'):
+                    if modvalue[:2].upper() == 'DE':
+                        cur.dashes = None
+                    else:
+                        val = eval(modvalue)
+                        assert type(val) == list
+                        assert len(val) % 2 == 0
+                        assert min(val) > 0
+                        cur.dashes = val
+                elif(flag == 'hide'):
+                    if(modvalue == 'OFF'):
+                        cur.hidden = False
+                    elif(modvalue == 'ON'):
+                        cur.hidden = True
+                elif(flag == 'getx'):
+                    try:
+                        getxvalues = pydvif.getx(cur, float(modvalue))
 
-                                    for i in range(len(getxvalues)):
-                                        x, y = getxvalues[i]
-                                        print('    x: %.6e    y: %.6e\n' % (x, y))
-                            except ValueError as detail:
-                                print('Error: %s' % detail)
+                        if getxvalues:
+                            print('\nCurve ' + cur.plotname)
 
-                        elif(flag == 'gety'):
-                            try:
-                                getyvalues = pydvif.gety(cur, float(modvalue))
+                            for i in range(len(getxvalues)):
+                                x, y = getxvalues[i]
+                                print('    x: %.6e    y: %.6e\n' % (x, y))
+                    except ValueError as detail:
+                        print('Error: %s' % detail)
 
-                                if getyvalues:
-                                    print('\nCurve ' + cur.plotname)
+                elif(flag == 'gety'):
+                    try:
+                        getyvalues = pydvif.gety(cur, float(modvalue))
 
-                                    for i in range(len(getyvalues)):
-                                        x, y = getyvalues[i]
-                                        print('    x: %.6e    y: %.6e' % (x, y))
-                            except ValueError as detail:
-                                print('Error: %s' % detail)
-                        elif(flag == 'xmin'):
-                            nx = []
-                            ny = []
-                            for dex in range(len(cur.x)):
-                                if(cur.x[dex] >= float(modvalue)):
-                                    nx.append(cur.x[dex])
-                                    ny.append(cur.y[dex])
-                            if(len(nx) >= 2):
-                                cur.x = numpy.array(nx)
-                                cur.y = numpy.array(ny)
-                                cur.edited = True
-                            else:
-                                cur.plotname = ''
-                                self.plotlist.pop(j)
-                        elif(flag == 'xmax'):
-                            nx = []
-                            ny = []
-                            for dex in range(len(cur.x)):
-                                if(cur.x[dex] <= float(modvalue)):
-                                    nx.append(cur.x[dex])
-                                    ny.append(cur.y[dex])
-                            if(len(nx) >= 2):
-                                cur.x = numpy.array(nx)
-                                cur.y = numpy.array(ny)
-                                cur.edited = True
-                            else:
-                                cur.plotname = ''
-                                self.plotlist.pop(j)
-                        elif(flag == 'ymin'):
-                            nx = []
-                            ny = []
-                            for dex in range(len(cur.y)):
-                                if(cur.y[dex] >= float(modvalue)):
-                                    nx.append(cur.x[dex])
-                                    ny.append(cur.y[dex])
-                            if(len(nx) >= 2):
-                                cur.x = numpy.array(nx)
-                                cur.y = numpy.array(ny)
-                                cur.edited = True
-                            else:
-                                cur.plotname = ''
-                                self.plotlist.pop(j)
-                        elif(flag == 'ymax'):
-                            nx = []
-                            ny = []
-                            for dex in range(len(cur.y)):
-                                if(cur.y[dex] <= float(modvalue)):
-                                    nx.append(cur.x[dex])
-                                    ny.append(cur.y[dex])
-                            if(len(nx) >= 2):
-                                cur.x = numpy.array(nx)
-                                cur.y = numpy.array(ny)
-                                cur.edited = True
-                            else:
-                                cur.plotname = ''
-                                self.plotlist.pop(j)
-                        break
+                        if getyvalues:
+                            print('\nCurve ' + cur.plotname)
 
+                            for i in range(len(getyvalues)):
+                                x, y = getyvalues[i]
+                                print('    x: %.6e    y: %.6e' % (x, y))
+                    except ValueError as detail:
+                        print('Error: %s' % detail)
+                elif(flag == 'xmin'):
+                    nx = []
+                    ny = []
+                    for dex in range(len(cur.x)):
+                        if(cur.x[dex] >= float(modvalue)):
+                            nx.append(cur.x[dex])
+                            ny.append(cur.y[dex])
+                    if(len(nx) >= 2):
+                        cur.x = numpy.array(nx)
+                        cur.y = numpy.array(ny)
+                        cur.edited = True
+                    else:
+                        cur.plotname = ''
+                        self.plotlist.pop(j)
+                elif(flag == 'xmax'):
+                    nx = []
+                    ny = []
+                    for dex in range(len(cur.x)):
+                        if(cur.x[dex] <= float(modvalue)):
+                            nx.append(cur.x[dex])
+                            ny.append(cur.y[dex])
+                    if(len(nx) >= 2):
+                        cur.x = numpy.array(nx)
+                        cur.y = numpy.array(ny)
+                        cur.edited = True
+                    else:
+                        cur.plotname = ''
+                        self.plotlist.pop(j)
+                elif(flag == 'ymin'):
+                    nx = []
+                    ny = []
+                    for dex in range(len(cur.y)):
+                        if(cur.y[dex] >= float(modvalue)):
+                            nx.append(cur.x[dex])
+                            ny.append(cur.y[dex])
+                    if(len(nx) >= 2):
+                        cur.x = numpy.array(nx)
+                        cur.y = numpy.array(ny)
+                        cur.edited = True
+                    else:
+                        cur.plotname = ''
+                        self.plotlist.pop(j)
+                elif(flag == 'ymax'):
+                    nx = []
+                    ny = []
+                    for dex in range(len(cur.y)):
+                        if(cur.y[dex] <= float(modvalue)):
+                            nx.append(cur.x[dex])
+                            ny.append(cur.y[dex])
+                    if(len(nx) >= 2):
+                        cur.x = numpy.array(nx)
+                        cur.y = numpy.array(ny)
+                        cur.edited = True
+                    else:
+                        cur.plotname = ''
+                        self.plotlist.pop(j)
 
     ##operate on given curves by a function##
     def func_curve(self, line, flag, do_x=0, args=[]):
