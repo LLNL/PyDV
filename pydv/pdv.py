@@ -1124,7 +1124,7 @@ class Command(cmd.Cmd, object):
     ##scale curve x values by given factor##
     def do_mx(self, line):
         try:
-            self.modcurve(line, 'mx', [line.split()[-1]])
+            self.__mod_curve(line, 'mx')
             self.plotedit = True
         except:
             print('error - usage: mx <curve-list> <value>')
@@ -1137,7 +1137,7 @@ class Command(cmd.Cmd, object):
     ##scale curve x values by given factor##
     def do_divx(self, line):
         try:
-            self.modcurve(line, 'divx', [line.split()[-1]])
+            self.__mod_curve(line, 'divx')
             self.plotedit = True
         except:
             print('error - usage: divx <curve-list> <value>')
@@ -1150,7 +1150,7 @@ class Command(cmd.Cmd, object):
     ##scale curve y values by given factor##
     def do_my(self, line):
         try:
-            self.modcurve(line, 'my', [line.split()[-1]])
+            self.__mod_curve(line, 'my')
             self.plotedit = True
         except:
             print('error - usage: my <curve-list> <value>')
@@ -1163,7 +1163,7 @@ class Command(cmd.Cmd, object):
     ##scale curve y values by given factor##
     def do_divy(self, line):
         try:
-            self.modcurve(line, 'divy', [line.split()[-1]])
+            self.__mod_curve(line, 'divy')
             self.plotedit = True
         except:
             print('error - usage: divy <curve-list> <value>')
@@ -1176,7 +1176,7 @@ class Command(cmd.Cmd, object):
     ##shift curve x values by given factor##
     def do_dx(self, line):
         try:
-            self.modcurve(line, 'dx', [line.split()[-1]])
+            self.__mod_curve(line, 'dx')
             self.plotedit = True
         except:
             print('error - usage: dx <curve-list> <value>')
@@ -1189,7 +1189,7 @@ class Command(cmd.Cmd, object):
     ##shift curve y values by given factor##
     def do_dy(self, line):
         try:
-            self.modcurve(line, 'dy', [line.split()[-1]])
+            self.__mod_curve(line, 'dy')
             self.plotedit = True
         except:
             print('error - usage: dy <curve-list> <value>')
@@ -1446,12 +1446,11 @@ class Command(cmd.Cmd, object):
               '\n   n=1 by default, logy means take log(y-values) before fitting,'
               '\n   logx means take log(x-values) before fitting\n')
 
+
     ##return x values on curves at y value##
     def do_getx(self, line):
-        if not line:
-            return
         try:
-            self.modcurve(line, 'getx', [line.split()[-1]])
+            self.__mod_curve(line, 'getx')
             print('')
         except:
             print('error - usage: getx <curve-list> <value>')
@@ -1465,10 +1464,8 @@ class Command(cmd.Cmd, object):
 
     ##return y values on curves at x value##
     def do_gety(self, line):
-        if not line:
-            return
         try:
-            self.modcurve(line, 'gety', [line.split()[-1]])
+            self.__mod_curve(line, 'gety')
             print('')
         except:
             print('error - usage: gety <curve-list> <value>')
@@ -2861,7 +2858,7 @@ class Command(cmd.Cmd, object):
     ##show given curves as points rather than continuous line##
     def do_scatter(self, line):
         try:
-            self.modcurve(line, 'scatter', [line.split()[-1]])
+            self.__mod_curve(line, 'scatter')
             self.plotedit = True
         except:
             print('error - usage: scatter <curve-list> on | off')
@@ -2874,15 +2871,7 @@ class Command(cmd.Cmd, object):
     ##show given curves as points and a line rather than continuous line##
     def do_linespoints(self, line):
         try:
-            line = line.split()
-            flag = line.pop(-1)
-
-            if len(line) > 0:
-                line = ' '.join(line)
-            else:
-                raise RuntimeError("Need to specify at least one curve")
-
-            self.modcurve(line, 'linespoints', [flag])
+            self.__mod_curve(line, 'linespoints')
             self.plotedit = True
         except:
             print('error - usage: linespoints <curve-list> on | off')
@@ -2895,15 +2884,7 @@ class Command(cmd.Cmd, object):
     ##set line width of given curves##
     def do_lnwidth(self, line):
         try:
-            line = line.split()
-            width = line.pop(-1)
-
-            if len(line) > 0:
-                line = ' '.join(line)
-            else:
-                raise RuntimeError("Need to specify at least one curve")
-
-            self.modcurve(line, 'lnwidth', [width])
+            self.__mod_curve(line, 'lnwidth')
             self.plotedit = True
         except:
             print('error - usage: lnwidth <curve-list> <width>')
@@ -2916,15 +2897,7 @@ class Command(cmd.Cmd, object):
     ##set line style of given curves##
     def do_lnstyle(self, line):
         try:
-            line = line.split()
-            lnstyle = line.pop(-1)
-
-            if len(line) > 0:
-                line = ' '.join(line)
-            else:
-                raise RuntimeError("Need to specify at least one curve")
-
-            self.modcurve(line, 'lnstyle', [lnstyle])
+            self.__mod_curve(line, 'lnstyle')
             self.plotedit = True
         except:
             print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>')
@@ -2937,15 +2910,7 @@ class Command(cmd.Cmd, object):
     ##set draw style of given curves##
     def do_drawstyle(self, line):
         try:
-            line = line.split()
-            drawstyle = line.pop(-1)
-
-            if len(line) > 0:
-                line = ' '.join(line)
-            else:
-                raise RuntimeError("Need to specify at least one curve")
-
-            self.modcurve(line, 'drawstyle', [drawstyle])
+            self.__mod_curve(line, 'drawstyle')
             self.plotedit = True
         except:
             print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
@@ -2982,7 +2947,8 @@ class Command(cmd.Cmd, object):
     ##turn hiding on for given curves##
     def do_hide(self, line):
         try:
-            self.modcurve(line, 'hide', ['ON'])
+            line = line + ' ' + 'ON'
+            self.__mod_curve(line, 'hide')
         except:
             print('error - usage: hide <curve-list>')
             if self.debug:
@@ -2994,7 +2960,8 @@ class Command(cmd.Cmd, object):
     ##turn hiding off for given curves##
     def do_show(self, line):
         try:
-            self.modcurve(line, 'hide', ['OFF'])
+            line = line + ' ' + 'OFF'
+            self.__mod_curve(line, 'hide')
         except:
             print('error - usage: show <curve-list>')
             if self.debug:
@@ -3484,53 +3451,57 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##filter out points##
     def do_ymin(self, line):
         try:
-            self.modcurve(line, 'ymin', [line.split()[-1]])
+            self.__mod_curve(line, 'ymin')
             self.plotedit = True
         except:
             print('error - usage: ymin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ymin(self):
-        print('\n   Procedure: Filter out points in curves whose y-values < limit\n   Usage: ymin <curve-list> <limit>\n')
+        print('\n   Procedure: Filter out points in curves whose y-values < limit'
+              '\n   Usage: ymin <curve-list> <limit>\n')
 
 
     ##filter out points##
     def do_ymax(self, line):
         try:
-            self.modcurve(line, 'ymax', [line.split()[-1]])
+            self.__mod_curve(line, 'ymax')
             self.plotedit = True
         except:
             print('error - usage: ymax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ymax(self):
-        print('\n   Procedure: Filter out points in curves whose y-values > limit\n   Usage: ymax <curve-list> <limit>\n')
+        print('\n   Procedure: Filter out points in curves whose y-values > limit'
+              '\n   Usage: ymax <curve-list> <limit>\n')
 
 
     ##filter out points##
     def do_xmin(self, line):
         try:
-            self.modcurve(line, 'xmin', [line.split()[-1]])
+            self.__mod_curve(line, 'xmin')
             self.plotedit = True
         except:
             print('error - usage: xmin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xmin(self):
-        print('\n   Procedure: Filter out points in curves whose x-values < limit\n   Usage: xmin <curve-list> <limit>\n')
+        print('\n   Procedure: Filter out points in curves whose x-values < limit'
+              '\n   Usage: xmin <curve-list> <limit>\n')
 
 
     ##filter out points##
     def do_xmax(self, line):
         try:
-            self.modcurve(line, 'xmax', [line.split()[-1]])
+            self.__mod_curve(line, 'xmax')
             self.plotedit = True
         except:
             print('error - usage: xmax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_xmax(self):
-        print('\n   Procedure: Filter out points in curves whose x-values > limit\n   Usage: xmax <curve-list> <limit>\n')
+        print('\n   Procedure: Filter out points in curves whose x-values > limit'
+              '\n   Usage: xmax <curve-list> <limit>\n')
 
 
     ##filter out points; this is the only filter points function that returns a new curve.
@@ -5221,12 +5192,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
 
     ##operate on given curves by constant value depending on given operation flag##
-    def modcurve(self, line, flag, args=[]):
+    def modcurve(self, line, flag, arg):
         if not line:
             return 0
-        modvalue = args[0]
+        modvalue = arg
         if len(line.split(':')) > 1:
-            self.modcurve(pdvutil.getletterargs(line), flag, args)
+            self.modcurve(pdvutil.getletterargs(line), flag, arg)
             return 0
         else:
             line = line.split()
@@ -6052,6 +6023,20 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 ################################################################################################
 #####  private functions
 ################################################################################################
+
+    def __mod_curve(self, line, func, idx=-1):
+        if not line:
+            return
+
+        line = line.split()
+        value = line.pop(idx)
+
+        if len(line) > 0:
+            line = ' '.join(line)
+        else:
+            raise RuntimeError("Unexpected empty line")
+
+        self.modcurve(line, func, value)
 
     def __qtMsgHandler(self, msgtype, context, msg):
         if self.debug:
