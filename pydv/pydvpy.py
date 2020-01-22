@@ -1703,16 +1703,18 @@ def log(curvelist, keep=True):
         curves.append(curvelist)
 
     for c in curves:
-        if keep:
-            c.y = np.log(c.y)
-        else:
+        y = np.copy(c.y)
+        x = np.copy(c.x)
+
+        if not keep:
             skiplist = np.where(c.y <= 0)[0]
             if len(skiplist) > 0:
-                c.y = np.delete(c.y, skiplist)
-                c.x = np.delete(c.x, skiplist)
-                c.y = np.log(c.y)
-            else:
-                c.y = np.log(c.y)
+                y = np.delete(y, skiplist)
+                x = np.delete(x, skiplist)
+
+        y_log = np.log(y)
+        c.y = y_log
+        c.x = x
 
 
 def logx(curvelist, keep=True):
