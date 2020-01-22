@@ -202,8 +202,9 @@ def getletterargs(line):
 
 ##truncate a string to given length##
 def truncate(string, size):
-    if(len(string) > size):
+    if len(string) > size:
         string = string[:size]
+
     return string
 
 
