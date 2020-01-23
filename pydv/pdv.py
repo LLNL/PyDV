@@ -1011,25 +1011,26 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():
-                            if mclr.is_color_like(color):
-                                self.plotlist[j].markerfacecolor = color
-                            else:
-                                print('error: invalid markerface color ' + color)
-                                return 0
-                            break
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    if mclr.is_color_like(color):
+                        cur.markerfacecolor = color
+                    else:
+                        print('error: invalid marker face color ' + color)
+                        return 0
+
             self.plotedit = True
         except:
             print('error - usage: markerfacecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_markerfacecolor(self):
-        print('\n   Procedure: Set the markerface color of curves\n   Usage: markerfacecolor <curve-list> '
-              '<color-name>\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   '
-              'of hexadecimal red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names '
-              'is available.\n   Try "showcolormap" to see the available named colors!')
+        print('\n   Procedure: Set the markerface color of curves'
+              '\n   Usage: markerfacecolor <curve-list> <color-name>'
+              '\n          Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
+              '\n          of hexadecimal red-green-blue values (RRGGBB).'
+              '\n          The entire set of HTML-standard color names is available.'
+              '\n          Try "showcolormap" to see the available named colors!')
 
     ##set the markeredge color for a list of curves##
     def do_markeredgecolor(self, line):
@@ -1045,25 +1046,26 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():
-                            if mclr.is_color_like(color):
-                                self.plotlist[j].markeredgecolor = color
-                            else:
-                                print('error: invalid markeredge color ' + color)
-                                return 0
-                            break
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    if mclr.is_color_like(color):
+                        cur.markeredgecolor = color
+                    else:
+                        print('error: invalid marker edge color ' + color)
+                        return 0
+
             self.plotedit = True
         except:
             print('error - usage: markeredgecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_markeredgecolor(self):
-        print("\n   Procedure: Set the markeredge color of curves\n   Usage: markeredgecolor <curve-list> <color-name>"
-              "\n   Color names can be 'blue', 'red', etc, or '#eb70aa', a 6 digit set\n   of hexadecimal "
-              "red-green-blue values (RRGGBB).\n   The entire set of HTML-standard color names is available."
-              "\n   Try 'showcolormap' to see the available named colors!")
+        print("\n   Procedure: Set the markeredge color of curves"
+              "\n   Usage: markeredgecolor <curve-list> <color-name>"
+              "\n          Color names can be 'blue', 'red', etc, or '#eb70aa', a 6 digit set"
+              "\n          of hexadecimal red-green-blue values (RRGGBB)."
+              "\n          The entire set of HTML-standard color names is available."
+              "\n          Try 'showcolormap' to see the available named colors!")
 
     ## show available matplotlib styles
     def do_showstyles(self, line):
@@ -3358,15 +3360,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##generate curve from given x and y points##
     def do_makecurve(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
             line = line.strip().split(')')
             x = numpy.fromstring(line[0].strip().strip('('), dtype=float, sep=' ')
             y = numpy.fromstring(line[1].strip().strip('('), dtype=float, sep=' ')
-            if(len(x) != len(y)):
-                print('error: must have same number of x and y values')
-                return 0
+
+            if len(x) != len(y):
+                raise RuntimeError('Must have same number of x and y values')
+
             c = curve.Curve('', 'Curve')
             c.x = x
             c.y = y
@@ -3377,7 +3380,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_makecurve(self):
-        print('\n   Macro: Generate a curve from two lists of numbers\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n')
+        print('\n   Macro: Generate a curve from two lists of numbers'
+              '\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n')
 
 
     ##filter out points##
@@ -3706,10 +3710,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
          Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
 ''')
     def do_marker(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_marker(pdvutil.getletterargs(line))
                 return 0
             else:
@@ -3729,18 +3733,18 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 except:
                     self.help_marker()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if(cur.plotname == line[i].upper()):
-                            cur.marker = marker
-                            if(size):
-                                cur.markersize = size
-                            break
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    cur.marker = marker
+                    if (size):
+                        cur.markersize = size
+
             self.plotedit = True
         except:
             self.help_marker()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
 
     ##set the marker symbol for the curves##
     def do_linemarker(self, line):
@@ -4529,10 +4533,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 curves = list()
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():
-                            curves.append(self.plotlist[j])
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
 
                 if len(curves) > 0:
                     pydvif.makeextensive(curves)
@@ -4543,7 +4545,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_makeextensive(self):
-        print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) \n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
+        print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) '
+              '\n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
 
 
     ##Set the y-values such that y[i] /= (x[i+1] - x[i])
@@ -4556,10 +4559,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 curves = list()
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        name = self.plotlist[j].plotname
-                        if name == line[i].upper():
-                            curves.append(self.plotlist[j])
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
 
                 if len(curves) > 0:
                     pydvif.makeintensive(curves)
@@ -4569,9 +4570,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: makeintensive <curve-list>\n  Shortcut: mkint')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
-
     def help_makeintensive(self):
-        print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) \n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
+        print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) '
+              '\n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
 
 
     ##Duplicate the x-values such that y = x for each of the given curves##
