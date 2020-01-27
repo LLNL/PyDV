@@ -63,9 +63,6 @@ import sys
 import numpy as np
 from scipy import interpolate
 
-import pdvutil
-
-
 class Curve(object):
 
     name = ''

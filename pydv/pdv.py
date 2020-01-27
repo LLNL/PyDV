@@ -1320,11 +1320,9 @@ class Command(cmd.Cmd, object):
                     return
 
                 curves = list()
-                for i in range(len(self.plotlist)):
-                    for j in range(len(line)):
-                        if self.plotlist[i].plotname == line[j].upper():
-                            curves.append(self.plotlist[i])
-                            break
+                for i in range(len(line)):
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
 
                 nc = pydvif.max_curve(curves)
 
@@ -1340,7 +1338,8 @@ class Command(cmd.Cmd, object):
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_max(self):
-        print('\n   Procedure: makes new curve with max y values of curves.\n   Usage: max <curve-list>\n')
+        print('\n   Procedure: makes new curve with max y values of curves.'
+              '\n   Usage: max <curve-list>\n')
 
     ## make a new curve - the min of the specified curves ##
     def do_min(self, line):
@@ -1358,11 +1357,9 @@ class Command(cmd.Cmd, object):
                     return
 
                 curves = list()
-                for i in range(len(self.plotlist)):
-                    for j in range(len(line)):
-                        if self.plotlist[i].plotname == line[j].upper():
-                            curves.append(self.plotlist[i])
-                            break
+                for i in range(len(line)):
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
 
                 nc = pydvif.min_curve(curves)
 
@@ -1378,7 +1375,8 @@ class Command(cmd.Cmd, object):
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
     def help_min(self):
-        print('\n   Procedure: makes new curve with min y values of curves.\n   Usage: min <curve-list>\n')
+        print('\n   Procedure: makes new curve with min y values of curves.'
+              '\n   Usage: min <curve-list>\n')
 
     ## make a new curve - the average of the specified curves ##
     def do_average(self, line):
