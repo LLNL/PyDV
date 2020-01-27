@@ -84,7 +84,6 @@ import scipy.integrate
 import scipy.special
 import scipy.signal
 import scipy.misc
-from scipy import interpolate
 
 import matplotlib.pyplot as plt
 
