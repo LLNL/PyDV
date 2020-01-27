@@ -1774,25 +1774,27 @@ class Command(cmd.Cmd, object):
     ##modify curve to absolute all y values##
     def do_abs(self, line):
         try:
-            self.func_curve(line, 'abs', 0)
+            self.__func_curve(line, 'abs', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: abs <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_abs(self):
-        print('\n   Procedure: Take absolute value of y values of curves\n   Usage: abs <curve-list>\n')
+        print('\n   Procedure: Take absolute value of y values of curves'
+              '\n   Usage: abs <curve-list>\n')
 
     def do_absx(self, line):
         try:
-            self.func_curve(line, 'abs', 1)
+            self.__func_curve(line, 'abs', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: absx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_absx(self):
-        print('\n   Procedure: Take absolute value of x values of curves\n   Usage: absx <curve-list>\n')
+        print('\n   Procedure: Take absolute value of x values of curves'
+              '\n   Usage: absx <curve-list>\n')
 
     ## take the natural logarithm of the curve y-values##
     def do_log(self, line):
@@ -1857,135 +1859,146 @@ class Command(cmd.Cmd, object):
     ## exponentiate the curve##
     def do_exp(self, line):
         try:
-            self.func_curve(line, 'exp', 0)
+            self.__func_curve(line, 'exp', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: exp <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_exp(self):
-        print('\n   Procedure: e**y, exponentiate y values of curves\n   Usage: exp <curve-list>\n')
+        print('\n   Procedure: e**y, exponentiate y values of curves'
+              '\n   Usage: exp <curve-list>\n')
 
     def do_expx(self, line):
         try:
-            self.func_curve(line, 'exp', 1)
+            self.__func_curve(line, 'exp', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: expx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_expx(self):
-        print('\n   Procedure: e**y, exponentiate x values of curves\n   Usage: expx <curve-list>\n')
+        print('\n   Procedure: e**y, exponentiate x values of curves'
+              '\n   Usage: expx <curve-list>\n')
 
 
     ##take the cosine of the curve##
     def do_cos(self, line):
         try:
-            self.func_curve(line, 'cos', 0)
+            self.__func_curve(line, 'cos', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: cos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cos(self):
-        print('\n   Procedure: Take cosine of y values of curves\n   Usage: cos <curve-list>\n')
+        print('\n   Procedure: Take cosine of y values of curves'
+              '\n   Usage: cos <curve-list>\n')
 
 
     def do_cosx(self, line):
         try:
-            self.func_curve(line, 'cos', 1)
+            self.__func_curve(line, 'cos', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: cosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cosx(self):
-        print('\n   Procedure: Take cosine of x values of curves\n   Usage: cosx <curve-list>\n')
+        print('\n   Procedure: Take cosine of x values of curves'
+              '\n   Usage: cosx <curve-list>\n')
 
 
     ##take the sine of the curve##
     def do_sin(self, line):
         try:
-            self.func_curve(line, 'sin', 0)
+            self.__func_curve(line, 'sin', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: sin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sin(self):
-        print('\n   Procedure: Take sine of y values of curves\n   Usage: sin <curve-list>\n')
+        print('\n   Procedure: Take sine of y values of curves'
+              '\n   Usage: sin <curve-list>\n')
 
 
     def do_sinx(self, line):
         try:
-            self.func_curve(line, 'sin', 1)
+            self.__func_curve(line, 'sin', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: sinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinx(self):
-        print('\n   Procedure: Take sine of x values of curves\n   Usage: sinx <curve-list>\n')
+        print('\n   Procedure: Take sine of x values of curves'
+              '\n   Usage: sinx <curve-list>\n')
 
 
     ##take the tangent of the curve##
     def do_tan(self, line):
         try:
-            self.func_curve(line, 'tan', 0)
+            self.__func_curve(line, 'tan', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: tan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tan(self):
-        print('\n   Procedure: Take tangent of y values of curves\n   Usage: tan <curve-list>\n')
+        print('\n   Procedure: Take tangent of y values of curves'
+              '\n   Usage: tan <curve-list>\n')
 
     def do_tanx(self, line):
         try:
-            self.func_curve(line, 'tan', 1)
+            self.__func_curve(line, 'tan', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: tanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanx(self):
-        print('\n   Procedure: Take tangent of x values of curves\n   Usage: tanx <curve-list>\n')
+        print('\n   Procedure: Take tangent of x values of curves'
+              '\n   Usage: tanx <curve-list>\n')
 
 
     ##take the arccosine of the curve##
     def do_acos(self, line):
         try:
-            self.func_curve(line, 'acos', 0)
+            self.__func_curve(line, 'acos', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: acos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acos(self):
-        print('\n   Procedure: Take arccosine of y values of curves\n   Usage: acos <curve-list>\n')
+        print('\n   Procedure: Take arccosine of y values of curves'
+              '\n   Usage: acos <curve-list>\n')
 
     def do_acosx(self, line):
         try:
-            self.func_curve(line, 'acos', 1)
+            self.__func_curve(line, 'acos', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: acosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acosx(self):
-        print('\n   Procedure: Take arccosine of x values of curves\n   Usage: acosx <curve-list>\n')
+        print('\n   Procedure: Take arccosine of x values of curves'
+              '\n   Usage: acosx <curve-list>\n')
 
     ##take the arcsine of the curve##
     def do_asin(self, line):
         try:
-            self.func_curve(line, 'asin', 0)
+            self.__func_curve(line, 'asin', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: asin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asin(self):
-        print('\n   Procedure: Take arcsine of y values of curves\n   Usage: asin <curve-list>\n')
+        print('\n   Procedure: Take arcsine of y values of curves'
+              '\n   Usage: asin <curve-list>\n')
 
     def do_asinx(self, line):
         """
@@ -1995,39 +2008,40 @@ class Command(cmd.Cmd, object):
         :type line: string
         """
         try:
-            self.func_curve(line, 'asin', 1)
+            self.__func_curve(line, 'asin', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: asinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinx(self):
-        print('\n   Procedure: Take arcsine of x values of curves\n   Usage: asinx <curve-list>\n')
-
+        print('\n   Procedure: Take arcsine of x values of curves'
+              '\n   Usage: asinx <curve-list>\n')
 
     ##take the arctangent of the curve##
     def do_atan(self, line):
         try:
-            self.func_curve(line, 'atan', 0)
+            self.__func_curve(line, 'atan', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: atan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atan(self):
-        print('\n   Procedure: Take arctangent of y values of curves\n   Usage: atan <curve-list>\n')
+        print('\n   Procedure: Take arctangent of y values of curves'
+              '\n   Usage: atan <curve-list>\n')
 
     def do_atanx(self, line):
         try:
-            self.func_curve(line, 'atan', 1)
+            self.__func_curve(line, 'atan', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: atanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanx(self):
-        print('\n   Procedure: Take arctangent of x values of curves\n   Usage: atanx <curve-list>\n')
-
+        print('\n   Procedure: Take arctangent of x values of curves'
+              '\n   Usage: atanx <curve-list>\n')
 
     ##peform the atan2 method for a pair of curves##
     # Note we currently only support atan2 for two distinct curves.
@@ -2049,157 +2063,170 @@ class Command(cmd.Cmd, object):
             print('error - usage: atan curve1 curve2')
             if(self.debug): traceback.print_exc(file=sys.stdout)
     def help_atan2(self):
-        print('\n   Procedure: Take atan2 of two curves\n   Usage: atan2 curve1 curve2\n')
+        print('\n   Procedure: Take atan2 of two curves'
+              '\n   Usage: atan2 curve1 curve2\n')
 
 
     ##take the hyperbolic cosine of the curve##
     def do_cosh(self, line):
         try:
-            self.func_curve(line, 'cosh', 0)
+            self.__func_curve(line, 'cosh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: cosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_cosh(self):
-        print('\n   Procedure: Take hyperbolic cosine of y values of curves\n   Usage: cosh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic cosine of y values of curves'
+              '\n   Usage: cosh <curve-list>\n')
 
     def do_coshx(self, line):
         try:
-            self.func_curve(line, 'cosh', 1)
+            self.__func_curve(line, 'cosh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: coshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_coshx(self):
-        print('\n   Procedure: Take hyperbolic cosine of x values of curves\n   Usage: coshx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic cosine of x values of curves'
+              '\n   Usage: coshx <curve-list>\n')
 
 
     ##take the hyperbolic sine of the curve##
     def do_sinh(self, line):
         try:
-            self.func_curve(line, 'sinh', 0)
+            self.__func_curve(line, 'sinh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: sinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinh(self):
-        print('\n   Procedure: Take hyperbolic sine of y values of curves\n   Usage: sinh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic sine of y values of curves'
+              '\n   Usage: sinh <curve-list>\n')
 
     def do_sinhx(self, line):
         try:
-            self.func_curve(line, 'sinh', 1)
+            self.__func_curve(line, 'sinh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: sinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sinhx(self):
-        print('\n   Procedure: Take hyperbolic sine of x values of curves\n   Usage: sinhx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic sine of x values of curves'
+              '\n   Usage: sinhx <curve-list>\n')
 
 
     ##take the hyperbolic tangent of the curve##
     def do_tanh(self, line):
         try:
-            self.func_curve(line, 'tanh', 0)
+            self.__func_curve(line, 'tanh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: tanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanh(self):
-        print('\n   Procedure: Take hyperbolic tangent of y values of curves\n   Usage: tanh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic tangent of y values of curves'
+              '\n   Usage: tanh <curve-list>\n')
 
     def do_tanhx(self, line):
         try:
-            self.func_curve(line, 'tanh', 1)
+            self.__func_curve(line, 'tanh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: tanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_tanhx(self):
-        print('\n   Procedure: Take hyperbolic tangent of x values of curves\n   Usage: tanhx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic tangent of x values of curves'
+              '\n   Usage: tanhx <curve-list>\n')
 
 
     ##take the inverse hyperbolic cosine of the curve##
     def do_acosh(self, line):
         try:
-            self.func_curve(line, 'acosh', 0)
+            self.__func_curve(line, 'acosh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: acosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acosh(self):
-        print('\n   Procedure: Take hyperbolic arccosine of y values of curves\n   Usage: acosh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arccosine of y values of curves'
+              '\n   Usage: acosh <curve-list>\n')
 
     def do_acoshx(self, line):
         try:
-            self.func_curve(line, 'acosh', 1)
+            self.__func_curve(line, 'acosh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: acoshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_acoshx(self):
-        print('\n   Procedure: Take hyperbolic arccosine of x values of curves\n   Usage: acoshx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arccosine of x values of curves'
+              '\n   Usage: acoshx <curve-list>\n')
 
 
     ##take the hyperbolic arcsine of the curve##
     def do_asinh(self, line):
         try:
-            self.func_curve(line, 'asinh', 0)
+            self.__func_curve(line, 'asinh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: asinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinh(self):
-        print('\n   Procedure: Take hyperbolic arcsine of y values of curves\n   Usage: asinh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arcsine of y values of curves'
+              '\n   Usage: asinh <curve-list>\n')
 
     def do_asinhx(self, line):
         try:
-            self.func_curve(line, 'asinh', 1)
+            self.__func_curve(line, 'asinh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: asinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_asinhx(self):
-        print('\n   Procedure: Take hyperbolic arcsine of x values of curves\n   Usage: asinhx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arcsine of x values of curves'
+              '\n   Usage: asinhx <curve-list>\n')
 
 
     ##take the hyperbolic arctangent of the curve##
     def do_atanh(self, line):
         try:
-            self.func_curve(line, 'atanh', 0)
+            self.__func_curve(line, 'atanh', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: atanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanh(self):
-        print('\n   Procedure: Take hyperbolic arctangent of y values of curves\n   Usage: atanh <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arctangent of y values of curves'
+              '\n   Usage: atanh <curve-list>\n')
 
     def do_atanhx(self, line):
         try:
-            self.func_curve(line, 'atanh', 1)
+            self.__func_curve(line, 'atanh', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: atanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_atanhx(self):
-        print('\n   Procedure: Take hyperbolic arctangent of x values of curves\n   Usage: atanhx <curve-list>\n')
+        print('\n   Procedure: Take hyperbolic arctangent of x values of curves'
+              '\n   Usage: atanhx <curve-list>\n')
 
 
     ##take the zeroth order Bessel function of the curve##
     def do_j0(self, line):
         try:
-            self.func_curve(line, 'j0', 0)
+            self.__func_curve(line, 'j0', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: j0 <curve-list>')
@@ -2211,7 +2238,7 @@ class Command(cmd.Cmd, object):
 
     def do_j0x(self, line):
         try:
-            self.func_curve(line, 'j0', 1)
+            self.__func_curve(line, 'j0', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: j0x <curve-list>')
@@ -2225,18 +2252,19 @@ class Command(cmd.Cmd, object):
     ##take the first order Bessel function of the curve##
     def do_j1(self, line):
         try:
-            self.func_curve(line, 'j1', 0)
+            self.__func_curve(line, 'j1', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: j1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_j1(self):
-        print('\n   Procedure: Take the first order Bessel function of y values of curves\n   Usage: j1 <curve-list>\n')
+        print('\n   Procedure: Take the first order Bessel function of y values of curves'
+              '\n   Usage: j1 <curve-list>\n')
 
     def do_j1x(self, line):
         try:
-            self.func_curve(line, 'j1', 1)
+            self.__func_curve(line, 'j1', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: j1x <curve-list>')
@@ -2250,10 +2278,7 @@ class Command(cmd.Cmd, object):
     ##take the nth order Bessel function of the curve##
     def do_jn(self, line):
         try:
-            line = line.split()
-            n = line.pop(-1)
-            line = ' '.join(line)
-            self.func_curve(line, 'jn', 0, [n])
+            self.__func_curve(line, 'jn', do_x=0, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: jn <curve-list> <n>')
@@ -2265,10 +2290,7 @@ class Command(cmd.Cmd, object):
 
     def do_jnx(self, line):
         try:
-            line = line.split()
-            n = line.pop(-1)
-            line = ' '.join(line)
-            self.func_curve(line, 'jn', 1, [n])
+            self.__func_curve(line, 'jn', do_x=1, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: jnx <curve-list> <n>')
@@ -2282,196 +2304,210 @@ class Command(cmd.Cmd, object):
     ##take the zeroth order Bessel function of the second kind of the curve##
     def do_y0(self, line):
         try:
-            self.func_curve(line, 'y0', 0)
+            self.__func_curve(line, 'y0', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: y0 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y0(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves\n   Usage: y0 <curve-list>\n')
+        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves'
+              '\n   Usage: y0 <curve-list>\n')
 
     def do_y0x(self, line):
         try:
-            self.func_curve(line, 'y0', 1)
+            self.__func_curve(line, 'y0', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: y0x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y0x(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves\n   Usage: y0x <curve-list>\n')
+        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves'
+              '\n   Usage: y0x <curve-list>\n')
 
 
     ##take the first order Bessel function of the second kind of the curve##
     def do_y1(self, line):
         try:
-            self.func_curve(line, 'y1', 0)
+            self.__func_curve(line, 'y1', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: y1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y1(self):
-        print('\n   Procedure: Take the first order Bessel function of the second kind of y values of curves\n   Usage: y1 <curve-list>\n')
+        print('\n   Procedure: Take the first order Bessel function of the second kind of y values of curves'
+              '\n   Usage: y1 <curve-list>\n')
 
     def do_y1x(self, line):
         try:
-            self.func_curve(line, 'y1', 1)
+            self.__func_curve(line, 'y1', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: y1x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_y1x(self):
-        print('\n   Procedure: Take the first order Bessel function of the second kind of x values of curves\n   Usage: y1x <curve-list>\n')
+        print('\n   Procedure: Take the first order Bessel function of the second kind of x values of curves'
+              '\n   Usage: y1x <curve-list>\n')
 
 
     ##take the nth order Bessel function of the second kind of the curve##
     def do_yn(self, line):
         try:
-            self.func_curve(line, 'yn', 0, [line.split()[-1]])
+            self.__func_curve(line, 'yn', do_x=0, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: yn <curve-list> n')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_yn(self):
-        print('\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves\n   Usage: yn <curve-list> <n>\n')
+        print('\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves'
+              '\n   Usage: yn <curve-list> <n>\n')
 
     def do_ynx(self, line):
         try:
-            self.func_curve(line, 'yn', 1, [line.split()[-1]])
+            self.__func_curve(line, 'yn', do_x=1, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: ynx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_ynx(self):
-        print('\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves\n   Usage: ynx <curve-list> <n>\n')
+        print('\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves'
+              '\n   Usage: ynx <curve-list> <n>\n')
 
 
     ##Raise a fixed value, a, to the power of the y values of the curves
     def do_powa(self, line):
         try:
-            self.func_curve(line, 'powa', 0, [line.split()[-1]])
+            self.__func_curve(line, 'powa', do_x=0, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: powa <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powa(self):
-        print('\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves\n   Usage: powa <curve-list> a\n')
+        print('\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves'
+              '\n   Usage: powa <curve-list> a\n')
 
     def do_powax(self, line):
         try:
-            self.func_curve(line, 'powa', 1, [line.split()[-1]])
+            self.__func_curve(line, 'powa', do_x=1, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: powax <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powax(self):
-        print('\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves\n   Usage: powax <curve-list> a\n')
+        print('\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves'
+              '\n   Usage: powax <curve-list> a\n')
 
 
     ##Raise the y values of the curves  to a fixed power
     def do_powr(self, line):
         try:
-            self.func_curve(line, 'powr', 0, [line.split()[-1]])
+            self.__func_curve(line, 'powr', do_x=0, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: powr <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powr(self):
-        print('\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n')
+        print('\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p'
+              '\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n')
 
     def do_powrx(self, line):
         try:
-            self.func_curve(line, 'powr', 1, [line.split()[-1]])
+            self.__func_curve(line, 'powr', do_x=1, idx=-1)
             self.plotedit = True
         except:
             print('error - usage: powrx <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_powrx(self):
-        print('\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n')
+        print('\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p'
+              '\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n')
 
 
     ##Take the reciprocal of the y values of the curves
     def do_recip(self, line):
         try:
-            self.func_curve(line, 'recip', 0)
+            self.__func_curve(line, 'recip', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: recip <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_recip(self):
-        print('\n   Procedure: Take the reciprocal of the y values of the curves\n   Usage: recip <curve-list>\n')
+        print('\n   Procedure: Take the reciprocal of the y values of the curves'
+              '\n   Usage: recip <curve-list>\n')
 
     def do_recipx(self, line):
         try:
-            self.func_curve(line, 'recip', 1)
+            self.__func_curve(line, 'recip', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: recipx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_recipx(self):
-        print('\n   Procedure: Take the reciprocal of the x values of the curves\n   Usage: recipx <curve-list>\n')
+        print('\n   Procedure: Take the reciprocal of the x values of the curves'
+              '\n   Usage: recipx <curve-list>\n')
 
 
     ##Take the square of the y values of the curves
     def do_sqr(self, line):
         try:
-            self.func_curve(line, 'sqr', 0)
+            self.__func_curve(line, 'sqr', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: sqr <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqr(self):
-        print('\n   Procedure: Take the square of the y values of the curves\n   Usage: square <curve-list>\n   Shortcut: sqr\n')
+        print('\n   Procedure: Take the square of the y values of the curves'
+              '\n   Usage: square <curve-list>\n   Shortcut: sqr\n')
 
     def do_sqrx(self, line):
         try:
-            self.func_curve(line, 'sqr', 1)
+            self.__func_curve(line, 'sqr', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: sqrx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrx(self):
-        print('\n   Procedure: Take the square of the x values of the curves\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n')
+        print('\n   Procedure: Take the square of the x values of the curves'
+              '\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n')
 
     ##Take the square root of the y values of the curves
 
     ##Take the square root of the y values of the curves
     def do_sqrt(self, line):
         try:
-            self.func_curve(line, 'sqrt', 0)
+            self.__func_curve(line, 'sqrt', do_x=0)
             self.plotedit = True
         except:
             print('error - usage: sqrt <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrt(self):
-        print('\n   Procedure: Take the square root of the y values of the curves\n   Usage: sqrt <curve-list>\n')
-
-
+        print('\n   Procedure: Take the square root of the y values of the curves'
+              '\n   Usage: sqrt <curve-list>\n')
 
     def do_sqrtx(self, line):
         try:
-            self.func_curve(line, 'sqrt', 1)
+            self.__func_curve(line, 'sqrt', do_x=1)
             self.plotedit = True
         except:
             print('error - usage: sqrtx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sqrtx(self):
-        print('\n   Procedure: Take the square root of the x values of the curves\n   Usage: sqrtx <curve-list>\n')
+        print('\n   Procedure: Take the square root of the x values of the curves'
+              '\n   Usage: sqrtx <curve-list>\n')
 
 
     ##set labels and titles##
@@ -5289,14 +5325,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         self.plotlist.pop(j)
 
     ##operate on given curves by a function##
-    def func_curve(self, line, flag, do_x=0, args=[]):
+    def func_curve(self, line, flag, do_x=0, arg=0):
         import scipy.special
         # scipy.special.errprint(1)
 
         if not line:
             return 0
         if len(line.split(':')) > 1:
-            self.func_curve(pdvutil.getletterargs(line), flag, do_x, args)
+            self.func_curve(pdvutil.getletterargs(line), flag, do_x, arg)
             return 0
         else:
             line = line.split()
@@ -5450,11 +5486,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         cur.edited = True
                 elif (flag == 'jn'):
                     if (do_x == 0):
-                        cur.y = scipy.special.jn(float(args[0]), cur.y)
+                        cur.y = scipy.special.jn(float(arg), cur.y)
                         cur.name = 'jn(' + cur.name + ')'
                         cur.edited = True
                     else:
-                        cur.x = scipy.special.jn(float(args[0]), cur.x)
+                        cur.x = scipy.special.jn(float(arg), cur.x)
                         cur.name = 'jnx(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'y0'):
@@ -5477,29 +5513,29 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         cur.edited = True
                 elif (flag == 'yn'):
                     if (do_x == 0):
-                        cur.y = scipy.special.yn(int(args[0]),cur.y)
+                        cur.y = scipy.special.yn(int(arg),cur.y)
                         cur.name = 'yn(' + cur.name + ')'
                         cur.edited = True
                     else:
-                        cur.x = scipy.special.yn(int(args[0]),cur.x)
+                        cur.x = scipy.special.yn(int(arg),cur.x)
                         cur.name = 'ynx(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'powa'):
                     if (do_x == 0):
-                        cur.y = numpy.power(float(args[0]),cur.y)
+                        cur.y = numpy.power(float(arg),cur.y)
                         cur.name = 'powa(' + cur.name + ')'
                         cur.edited = True
                     else:
-                        cur.x = numpy.power(float(args[0]),cur.x)
+                        cur.x = numpy.power(float(arg),cur.x)
                         cur.name = 'powax(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'powr'):
                     if (do_x == 0):
-                        cur.y = numpy.power(cur.y,float(args[0]))
+                        cur.y = numpy.power(cur.y,float(arg))
                         cur.name = 'powr(' + cur.name + ')'
                         cur.edited = True
                     else:
-                        cur.x = numpy.power(cur.x,float(args[0]))
+                        cur.x = numpy.power(cur.x,float(arg))
                         cur.name = 'powrx(' + cur.name + ')'
                         cur.edited = True
                 elif (flag == 'recip'):
@@ -6010,6 +6046,23 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             raise RuntimeError("Unexpected empty line")
 
         self.modcurve(line, func, value)
+
+    def __func_curve(self, line, func, do_x=0, idx=None):
+        if not line:
+            return
+
+        value = 0
+        line = line.split()
+
+        if idx is not None:
+            value = line.pop(idx)
+
+        if len(line) > 0:
+            line = ' '.join(line)
+        else:
+            raise RuntimeError("Unexpected empty line")
+
+        self.func_curve(line, func, do_x, value)
 
     def __qtMsgHandler(self, msgtype, context, msg):
         if self.debug:
