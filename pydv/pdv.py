@@ -487,10 +487,9 @@ class Command(cmd.Cmd, object):
     def do_newcurve (self, line):
         try:
             # check for obvious input errors
-            if(not line):
-                print('error - no arguments to newcurve, do not tease me this way')
+            if not line:
                 return 0
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 print('error - NOT HANDLING RANGES YET, not even sure what that would mean yet')
                 return 0
             else: # ok, got through input error checking, let's get to work
@@ -512,7 +511,7 @@ class Command(cmd.Cmd, object):
                 newYArray = eval(newline) # line returns a new numpy.array
 
                 # make newYArray into a legitimate curve
-                c = curve.Curve(filename = '', name = line) # we name the curve with the input 'line'
+                c = curve.Curve(filename='', name=line) # we name the curve with the input 'line'
                 c.plotname = self.getcurvename() # get the next available data ID label
                 c.y = newYArray
                 # get the x-values from one of the curves used in the expression
@@ -523,7 +522,7 @@ class Command(cmd.Cmd, object):
         except:
             print('error - usage: newcurve <expression>')
             print('try "help newcurve" for much more info')
-            if(self.debug):
+            if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_newcurve(self):
         print('\n   newcurve creats a new curve from an expression\n   Usage: newcurve <numpy expression>\n')
@@ -667,20 +666,22 @@ class Command(cmd.Cmd, object):
     ##multiply one or more curves##
     def do_multiply(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_multiply(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
                 line = ' * '.join(line)
-                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
             self.plotedit = True
         except:
             print('error - usage: mult <curve-list>')
-            if(self.debug):
+            if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_multiply(self):
-        print('\n   Procedure: Take product of curves\n   Usage: multiply <curve-list>\n   Shortcuts: * , mult\n')
+        print('\n   Procedure: Take product of curves'
+              '\n   Usage: multiply <curve-list>'
+              '\n   Shortcuts: * , mult\n')
 
 
     ##divide one or more curves##
@@ -1143,7 +1144,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_mx(self):
-        print('\n   Procedure: Scale x values of curves by a constant\n   Usage: mx <curve-list> <value>\n')
+        print('\n   Procedure: Scale x values of curves by a constant'
+              '\n   Usage: mx <curve-list> <value>\n')
 
 
     ##scale curve x values by given factor##
@@ -1169,7 +1171,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_my(self):
-        print('\n   Procedure: Scale y values of curves by a constant\n   Usage: my <curve-list> <value>\n')
+        print('\n   Procedure: Scale y values of curves by a constant'
+              '\n   Usage: my <curve-list> <value>\n')
 
 
     ##scale curve y values by given factor##
@@ -1300,9 +1303,10 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
     def help_norm(self):
         print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is '
-              '\n   (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .'
+              '\n              (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .'
               '\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]'
-              '\n   where p=order which can be "inf" or an integer. Also prints value of integral to command line.\n')
+              '\n          where p=order which can be "inf" or an integer. '
+              'Also prints value of integral to command line.\n')
 
     ## make a new curve - the max of the specified curves ##
     def do_max(self, line):
@@ -2540,18 +2544,20 @@ class Command(cmd.Cmd, object):
             if len(line) == 0:
                 print('label column width is currently', self.namewidth)
             else:
-                line = line.strip().split()
+                line = line.split()
                 width = int(line[0])
                 if width < 0:
                     width = 0
                 self.namewidth = width
                 print('changing label column width to ', self.namewidth)
         except:
-            print('error - usage: namewidth <integer>')
+            print('error - usage: namewidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_namewidth(self):
-        print('\n   Command: change the width of the first column of the menu and lst output\n  Usage:  namewidth <integer>')
+        print('\n   Command: change the width of the first column of the menu and lst output. If no width is given, the'
+              '\n            current column width will be displayed.'
+              '\n   Usage:  namewidth [width]')
 
 
     ##adjust the length of the lines in the legend##
@@ -4429,27 +4435,29 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##move given curves to the front of the plot##
     def do_movefront(self, line):
         try:
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_movefront(pdvutil.getletterargs(line))
                 return 0
             else:
                 highest = 0
                 for c in self.plotlist:
-                    if(c.plotprecedence > highest):
+                    if c.plotprecedence > highest:
                         highest = c.plotprecedence
+
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if(cur.plotname == line[i].upper()):
-                            cur.plotprecedence = highest + 1
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    cur.plotprecedence = highest + 1
+
                 self.plotedit = True
         except:
             print('error - usage: movefront <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_movefront(self):
-        print('\n   Procedure: Move the given curves so they are plotted on top\n   Usage: movefront <curve-list>\n')
+        print('\n   Procedure: Move the given curves so they are plotted on top'
+              '\n   Usage: movefront <curve-list>\n')
 
     ##read in a file of custom functions##
     def do_custom(self, line):
