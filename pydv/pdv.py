@@ -2582,14 +2582,15 @@ class Command(cmd.Cmd, object):
             elif line == '1' or line.upper() == 'ON':
                 self.showminorticks = True
             else:
-                print('invalid input: requires on or off as argument')
+                print('invalid input: requires on, off, 1, or 0 as argument')
         except:
-            print('error - usage: minorticks on | off')
+            print('error - usage: minorticks <on | off | 1 | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_minorticks(self):
-        print('\n   Variable: Minor ticks are not visible by default. On will make the minor ticks visible and off will' \
-              ' hide the minor ticks.\n   Usage: minorticks on | off\n')
+        print('\n   Variable: Minor ticks are not visible by default.'
+              '\n   On or 1 will make the minor ticks visible and off or 0 will hide the minor ticks.'
+              '\n   Usage: minorticks <on | off | 1 | 0>')
 
     ##show or hide the grid##
     def do_grid(self, line):
@@ -3025,10 +3026,9 @@ class Command(cmd.Cmd, object):
     def do_menu(self, line):
         try:
             reg = re.compile(r"")
-            if(line):
+            if line:
                 try:
                     reg = re.compile(r"%s" % line)
-                    # reg = re.compile(line)
                 except:
                     print("error: invalid expression")
                     return 0
@@ -3094,7 +3094,8 @@ AX[deh-z]  matches 'myAXjob', 'yourAXexit', 'AXnow', but not 'AXfoo'
 For a painfully complete explanation of the regex syntax, type 'help regex'.
 """)
     def help_regex(self):
-        print("This is the Python help for the 're' module.  'help menu' will give you\n a shorter version.")
+        print("\n    This is the Python help for the 're' module."
+              "\n    'help menu' will give you a shorter version.")
         help(re)
 
 
