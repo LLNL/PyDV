@@ -476,7 +476,8 @@ class Command(cmd.Cmd, object):
     def do_shell(self, line):
         os.system(line)
     def help_shell(self):
-        print("\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'.\n   Usage: <shell | system> <command>\n")
+        print("\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'."
+              "\n   Usage: <shell | system> <command>\n")
 
     ########################################################################################################
     #command functions#
@@ -608,7 +609,7 @@ class Command(cmd.Cmd, object):
     ##redo last curve operation undo##
     def do_redo(self, line):
         try:
-            if(self.histptr < len(self.history)-2):
+            if self.histptr < len(self.history)-2:
                 self.histptr += 1
                 self.plotlist = self.history[self.histptr+1]
 
@@ -618,9 +619,11 @@ class Command(cmd.Cmd, object):
                 print('error - cannot redo further')
         except:
             print('error - usage: redo')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_redo(self):
-        print('\n   Procedure: Redo the last undone curve operation\n   Usage: redo\n')
+        print('\n   Procedure: Redo the last undone curve operation'
+              '\n   Usage: redo\n')
 
 
     ##add one or more curves and plot resulting curve##
@@ -739,24 +742,21 @@ class Command(cmd.Cmd, object):
             self.redraw = False
             self.plotter.updateDialogs()
     def help_read(self):
-        print ('\n   Macro: Read curve data file\n   Usage: read [(regex) matches] [x-col] <file-name>\n   Shortcuts: rd\n'
-               '  If using regex, set matches equal to a negative number for unlimited matches.\n'
-               '  For column oriented (.gnu) files optionally specify the x-column number before the file name.')
-
+        print ('\n    Macro: Read curve data file'
+               '\n    Usage: read [(regex) matches] [x-col] <file-name>'
+               '\n    Shortcuts: rd\n'
+               '\n    If using regex, set matches equal to a negative number for unlimited matches.'
+               '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n')
 
     ##read in a csv file##
     def do_readcsv(self, line):
         try:
             line = line.split()
-            n = len(line)
-            i = 0
-            while i < n:
-                if line[i].isdigit():
-                    assert i < n - 1
-                    self.xCol = int(line[i])
-                    i += 1
-                self.load_csv(line[i])
-                i += 1
+
+            if len(line) == 2:
+                self.xCol = int(line.pop(-1))
+
+            self.load_csv(line[0])
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -764,26 +764,29 @@ class Command(cmd.Cmd, object):
             self.redraw = False
             self.plotter.updateDialogs()
     def help_readcsv(self):
-        print ('\n   Macro: Read csv data file\n   Usage: readcsv <file-name>\n   Shortcuts: rdcsv\n'
-               '   For column oriented (.gnu) files optionally specify the x-column number '
-               'before the file name, as in "rdcsv 1 file.csv".\n')
+        print('\n   Macro: Read csv data file. For column oriented (.gnu) files optionally specify the x-column'
+              '\n          number (e.g., readcsv file.csv 1).'
+              '\n   Usage: readcsv <file-name> [xcol]'
+              '\n   Shortcuts: rdcsv\n')
 
     ## set x-column for cxv or gnu files explicitly
     def do_setxcolumn(self, line):
         try:
             line = line.split()
-            if len(line) > 1:
-                print("error - usage: setxcolumn n")
-            else:
+
+            if len(line) == 1:
                 self.xCol = int(line[0])
+            else:
+                raise RuntimeError("Expecting 1 argument but received {}".format(len(line)))
         except:
+            print("error - usage: setxcolumn <n>")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
     def help_setxcolumn(self):
-        print("\n set x column for reading column formatted data files (.gnu or .csv)."
-              "\n usage: setxcolumn n, where n is an integer.")
+        print("\n    Variable: set x column for reading column formatted data files (.gnu or .csv)."
+              "\n    Usage: setxcolumn <n>, where n is an integer.")
 
     #graph the given curves##
     def do_curve(self, line):
@@ -933,14 +936,14 @@ class Command(cmd.Cmd, object):
             try:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if cur.plotname == line[i].upper():
-                            yval = numpy.array(cur.y)
-                            mean = (sum(yval)/len(yval))
-                            ystd = numpy.std(yval, ddof = 1)
-                            print('\nCurve ' + cur.plotname)
-                            print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    yval = numpy.array(cur.y)
+                    mean = (sum(yval) / len(yval))
+                    ystd = numpy.std(yval, ddof=1)
+                    print('\nCurve ' + cur.plotname)
+                    print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+
                 print('\n')
             except:
                 if self.debug:
@@ -948,7 +951,8 @@ class Command(cmd.Cmd, object):
             finally:
                 self.redraw = False
     def help_stats(self):
-        print ('\n   Display the mean and standard deviation for the given curves.\n   usage: stats <curve-list>\n')
+        print ('\n   Display the mean and standard deviation for the given curves.'
+               '\n   usage: stats <curve-list>\n')
 
     ##return a curve's attributes##
     def do_getattributes(self, line):
@@ -1083,7 +1087,8 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
     def help_showstyles(self):
-        print("\n   Procedure: show the available pre-defined styles provided by matplotlib.\n   Usage: showstyles\n")
+        print("\n   Procedure: show the available pre-defined styles provided by matplotlib."
+              "\n   Usage: showstyles\n")
 
     ## show color map
     def do_showcolormap(self, line):
@@ -1110,7 +1115,7 @@ class Command(cmd.Cmd, object):
                 rectangle = plt.Rectangle(pos, w, h, color=c)
                 patches.append(rectangle)
                 ax.add_artist(rectangle) # needed for colors to show up, sigh :-(
-                ax.annotate(c, xy=pos)
+                ax.annotate(c, xy=pos, fontsize='xx-small', verticalalignment='bottom', horizontalalignment='left')
                 if y >= y_count-1:
                     x += 1
                     y = 0
@@ -1130,8 +1135,9 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_showcolormap(self):
-        print('\n   Procedure: show the available named colors\n   Usage: showcolormap'
-              '\n   Hit <return> after viewing to go back to regular plotting')
+        print('\n   Procedure: show the available named colors'
+              '\n   Usage: showcolormap'
+              '\n   Hit <return> after viewing to go back to regular plotting\n')
 
 
     ##scale curve x values by given factor##
@@ -1661,8 +1667,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_sort(self):
-        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x ' \
-              'values. \n   Usage: sort <curve-list>\n')
+        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x values.'
+              '\n   Usage: sort <curve-list>\n')
 
     ## swap x and y values for the specified curves ##
     def do_rev(self, line):
@@ -1682,8 +1688,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_rev(self):
-        print('\n   Procedure: Swap x and y values for the specified curves. You may want to sort after this one. \n' \
-              '   Usage: rev <curve-list>\n')
+        print('\n    Procedure: Swap x and y values for the specified curves. You may want to sort after this one. '
+              '\n    Usage: rev <curve-list>\n')
 
     ## generate random y values between -1 and 1 ##
     def do_random(self, line):
@@ -1703,8 +1709,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_random(self):
-        print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. \n' \
-              '   Usage: random <curve-list>\n')
+        print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. '
+              '\n   Usage: random <curve-list>\n')
 
     ##Display the y-values in the specified curves##
     def do_disp(self, line):
@@ -2832,11 +2838,12 @@ class Command(cmd.Cmd, object):
             self.__mod_curve(line, 'scatter')
             self.plotedit = True
         except:
-            print('error - usage: scatter <curve-list> on | off')
+            print('error - usage: scatter <curve-list> <on | 1 | off | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_scatter(self):
-        print('\n   Procedure: Plot curves as scatter plots\n   Usage: scatter <curve-list> on | off\n')
+        print('\n   Procedure: Plot curves as scatter plots'
+              '\n   Usage: scatter <curve-list> <on | 1 | off | 0>\n')
 
 
     ##show given curves as points and a line rather than continuous line##
@@ -2894,7 +2901,7 @@ class Command(cmd.Cmd, object):
     ##set dash style of given curves##
     def do_dashstyle(self, line):
         try:
-            options = [line[line.index("["):]]
+            options = line[line.index("["):]
             line = line[0:line.index("[")]
             self.modcurve(line, 'dashstyle', options)
             self.plotedit = True
@@ -2938,7 +2945,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_show(self):
-        print('\n   Procedure: Reveal curves hidden by hide command\n   Usage: show <curve-list>\n')
+        print('\n   Procedure: Reveal curves hidden by hide command'
+              '\n   Usage: show <curve-list>\n')
 
 
     ##Use matplotlib style settings##
@@ -2965,9 +2973,9 @@ class Command(cmd.Cmd, object):
     def do_range(self, line):
         try:
             line = line.split()
-            if(line and line[0] == 'de'):
+            if line and line[0] == 'de':
                 self.ylim = None
-            elif(len(line) == 2):
+            elif len(line) == 2:
                 self.ylim = (float(line[0]), float(line[1]))
             else:
                 print('error: exactly two arguments required or de for default')
@@ -2976,7 +2984,9 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_range(self):
-        print('\n   Procedure: Set the range for plotting\n   Usage: range <low-lim> <high-lim> or\n   Usage: range de\n   Shortcuts: ran\n')
+        print("\n   Procedure: Set the range for plotting. Use 'de' for using the default limits (none)."
+              "\n   Usage: range <low-lim> <high-lim> or range de"
+              "\n   Shortcuts: ran\n")
 
 
     ##change the x domain on the graph##
@@ -3189,26 +3199,27 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##save given curves to a new ultra file##
     def do_save(self, line):
-        if(not line):
+        if not line:
             return 0
         try:
             line = line.split()
             filename = line.pop(0)
             line = ' '.join(line)
-            if(len(line.split(':')) > 1):
+            if len(line.split(':')) > 1:
                 self.do_save(filename + ' ' + pdvutil.getletterargs(line))
                 return 0
             else:
                 f = open(filename, 'w')
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        pname = self.plotlist[j].plotname
-                        if(pname == line[i].upper()):
-                            f.write('#' + self.plotlist[j].name + '\n')
-                            for dex in range(len(self.plotlist[j].x)):
-                                f.write(' ' + str(self.plotlist[j].x[dex]) + ' ' + str(self.plotlist[j].y[dex]) + '\n')
-                            break
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        f.write('#' + cur.name + '\n')
+                        for dex in range(len(cur.x)):
+                            f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
+                    except RuntimeError as rte:
+                        print("I/O error: {}".format(rte))
         except:
             print('error - usage: save <file-name> <curve-list>')
             if self.debug:
@@ -3216,7 +3227,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         finally:
             self.redraw = False
     def help_save(self):
-        print('\n   Macro: Save curves to file\n   Usage: save <file-name> <curve-list>\n')
+        print('\n   Macro: Save curves to file'
+              '\n   Usage: save <file-name> <curve-list>\n')
 
 
     ##save given curves to a CSV file##
@@ -3277,7 +3289,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         finally:
             self.redraw = False
     def help_savecsv(self):
-        print('\n   Macro: Save curves to file in comma separated values (csv) format\n   Assumes all curves have the same x basis\n   CSV file generated with number rows equal to number of points in first curve passed.\n   Usage: savecsv <file-name> <curve-list>\n')
+        print('\n   Macro: Save curves to file in comma separated values (csv) format. Assumes all curves have the '
+              '\n   same x basis. CSV file generated with number rows equal to number of points in first curve passed.'
+              '\n   Usage: savecsv <file-name> <curve-list>\n')
 
 
     ##Display text on the plot at the given plot location##
@@ -3353,12 +3367,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         :param line: User Command-Line Input (span <xmin> <xmax> [<# pts>])
         :type line: string
         """
-        if(not line):
+        if not line:
             return 0
         try:
             line = line.split()
             numpts = 100
-            if(len(line) == 3):
+            if len(line) == 3:
                 numpts = int(line.pop(-1))
             xmin = float(line[0])
             xmax = float(line[1])
@@ -3370,7 +3384,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_span(self):
-        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points\n   Usage: span <xmin> <xmax> [<# pts>]\n')
+        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points'
+              '\n   Usage: span <xmin> <xmax> [<# pts>]\n')
 
 
     ##generate y = mx + b line##
@@ -3759,26 +3774,27 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 return 0
             else:
                 line = line.split()
-                ultra_markers = {'circle' : 'o',
-                                 'square' : 's',
-                                 'diamond' : 'd'}
-                try:
-                    try:
-                        size = float(line[-1])
-                        marker = line[-2]
-                    except:
-                        size = None
-                        marker = line[-1]
-                    if marker in ultra_markers:
-                        marker = ultra_markers[marker]
-                except:
-                    self.help_marker()
-                for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    cur.marker = marker
-                    if (size):
-                        cur.markersize = size
+                ultra_markers = {'circle': 'o',
+                                 'square': 's',
+                                 'diamond': 'd'}
+
+            size = None
+
+            try:
+                size = float(line.pop(-1))
+                marker = line.pop(-1)
+            except:
+                marker = line.pop(-1)
+
+            if marker in ultra_markers:
+                marker = ultra_markers[marker]
+
+            for i in range(len(line)):
+                curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                cur = self.plotlist[curvidx]
+                cur.marker = marker
+                if size is not None:
+                    cur.markersize = size
 
             self.plotedit = True
         except:
@@ -3840,32 +3856,32 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         if not line:
             return 0
         try:
-            factor = 1
             try:
-                factor = int(line.split()[-1])
                 line = line.split()
-                line.pop(-1)
+                factor = int(line.pop(-1))
                 line = ' '.join(line)
             except:
                 factor = 1
+
             if len(line.split(':')) > 1:
                 self.do_smooth(pdvutil.getletterargs(line) + str(factor))
                 return 0
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        cur = self.plotlist[j]
-                        if cur.plotname == line[i].upper():    #operate on each curve found in args
-                            pydvif.smooth(cur, factor)
-                            cur.edited = True
-                            break
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[curvidx]
+                    pydvif.smooth(cur, factor)
+                    cur.edited = True
+
             self.plotedit = True
         except:
             print('error - usage: smooth <curve-list> [<smooth-factor>]')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_smooth(self):
-        print('\n   Procedure: Smooth the curve to the given degree.\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
+        print('\n   Procedure: Smooth the curve to the given degree.'
+              '\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
 
     ##make a new curve - the Fourier Transform of y-values the given curves##
     def do_fft(self, line):
@@ -4390,7 +4406,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_reid(self):
-        print('\n   Procedure: relabel all the curves in order.\n   Usage: re-id\n')
+        print('\n   Procedure: relabel all the curves in order.'
+              '\n   Usage: re-id\n')
 
 
     ##change label for a curve##
