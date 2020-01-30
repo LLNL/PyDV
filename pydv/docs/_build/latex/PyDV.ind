@@ -1,0 +1,779 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter A
+  \item \spxentry{abs()}\spxextra{in module pydvpy}, \hyperpage{41}
+  \item \spxentry{absx()}\spxextra{in module pydvpy}, \hyperpage{41}
+  \item \spxentry{acos()}\spxextra{in module pydvpy}, \hyperpage{41}
+  \item \spxentry{acosh()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{acoshx()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{acosx()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{add()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{addtoplot()}\spxextra{pdv.Command method}, \hyperpage{69}
+  \item \spxentry{alpha()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{annotationfont}\spxextra{pdv.Command attribute}, \hyperpage{69}
+  \item \spxentry{app}\spxextra{pdv.Command attribute}, \hyperpage{69}
+  \item \spxentry{append()}\spxextra{in module curve}, \hyperpage{68}
+  \item \spxentry{appendcurves()}\spxextra{in module pydvpy}, \hyperpage{42}
+  \item \spxentry{apply\_uichanges()}\spxextra{pdv.Command method}, \hyperpage{69}
+  \item \spxentry{asin()}\spxextra{in module pydvpy}, \hyperpage{43}
+  \item \spxentry{asinh()}\spxextra{in module pydvpy}, \hyperpage{43}
+  \item \spxentry{asinhx()}\spxextra{in module pydvpy}, \hyperpage{43}
+  \item \spxentry{asinx()}\spxextra{in module pydvpy}, \hyperpage{43}
+  \item \spxentry{atan()}\spxextra{in module pydvpy}, \hyperpage{43}
+  \item \spxentry{atan2()}\spxextra{in module pydvpy}, \hyperpage{44}
+  \item \spxentry{atanh()}\spxextra{in module pydvpy}, \hyperpage{44}
+  \item \spxentry{atanhx()}\spxextra{in module pydvpy}, \hyperpage{44}
+  \item \spxentry{atanx()}\spxextra{in module pydvpy}, \hyperpage{44}
+  \item \spxentry{average\_curve()}\spxextra{in module pydvpy}, \hyperpage{44}
+  \item \spxentry{axistickfont}\spxextra{pdv.Command attribute}, \hyperpage{69}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{canvas}\spxextra{pdvplot.Plotter attribute}, \hyperpage{84}
+  \item \spxentry{closeEvent()}\spxextra{pdvplot.Plotter method}, \hyperpage{85}
+  \item \spxentry{color}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{Command}\spxextra{class in pdv}, \hyperpage{69}
+  \item \spxentry{console\_run()}\spxextra{pdv.Command method}, \hyperpage{69}
+  \item \spxentry{convolve()}\spxextra{in module pydvpy}, \hyperpage{45}
+  \item \spxentry{convolve\_int()}\spxextra{in module pydvpy}, \hyperpage{45}
+  \item \spxentry{convolveb()}\spxextra{in module pydvpy}, \hyperpage{45}
+  \item \spxentry{convolvec()}\spxextra{in module pydvpy}, \hyperpage{45}
+  \item \spxentry{copy()}\spxextra{curve.Curve method}, \hyperpage{68}
+  \item \spxentry{correlate()}\spxextra{in module pydvpy}, \hyperpage{46}
+  \item \spxentry{cos()}\spxextra{in module pydvpy}, \hyperpage{46}
+  \item \spxentry{cosh()}\spxextra{in module pydvpy}, \hyperpage{46}
+  \item \spxentry{coshx()}\spxextra{in module pydvpy}, \hyperpage{46}
+  \item \spxentry{cosx()}\spxextra{in module pydvpy}, \hyperpage{47}
+  \item \spxentry{create\_plot()}\spxextra{in module pydvpy}, \hyperpage{47}
+  \item \spxentry{Curve}\spxextra{class in curve}, \hyperpage{68}
+  \item \spxentry{curve}\spxextra{module}, \hyperpage{68}
+  \item \spxentry{curvefromlabel()}\spxextra{pdv.Command method}, \hyperpage{69}
+  \item \spxentry{curvelabelfont}\spxextra{pdv.Command attribute}, \hyperpage{69}
+  \item \spxentry{curvelist}\spxextra{pdv.Command attribute}, \hyperpage{69}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{dashes}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{debug}\spxextra{pdv.Command attribute}, \hyperpage{69}
+  \item \spxentry{default()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{derivative()}\spxextra{in module pydvpy}, \hyperpage{47}
+  \item \spxentry{derivative()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{diffMeasure()}\spxextra{in module pydvpy}, \hyperpage{48}
+  \item \spxentry{disp()}\spxextra{in module pydvpy}, \hyperpage{48}
+  \item \spxentry{divide()}\spxextra{in module pydvpy}, \hyperpage{48}
+  \item \spxentry{divx()}\spxextra{in module pydvpy}, \hyperpage{48}
+  \item \spxentry{divy()}\spxextra{in module pydvpy}, \hyperpage{49}
+  \item \spxentry{do\_abs()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_absx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_acos()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_acosh()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_acoshx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_acosx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_add()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_alias()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_alpha()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_annot()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_appendcurves()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_asin()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_asinh()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_asinhx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_asinx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_atan()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_atan2()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_atanh()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_atanhx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_atanx()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_average()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_bkgcolor()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_color()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convol()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convolb()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convolc()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convolve()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convolveb()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_convolvec()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_copy()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_correl()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_cos()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_cosh()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_coshx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_cosx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_cur()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_curve()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_custom()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dashstyle()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dataid()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_debug()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_del()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_delannot()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_delete()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_der()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_derivative()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_diffMeasure()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_disp()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dispx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_div()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_divide()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_divx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_divy()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dom()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_domain()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_drawstyle()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_drop()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dupx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dx()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_dy()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_era()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_erase()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_errorbar()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_errorrange()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_eval()}\spxextra{pdv.Command method}, \hyperpage{71}
+  \item \spxentry{do\_exp()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_expx()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_fft()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_fit()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_fontcolor()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_fontsize()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_fontstyle()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_gaussian()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_geom()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_geometry()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getattributes()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getdomain()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getlabel()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getnumpoints()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getrange()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getx()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_gety()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getymax()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_getymin()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_grid()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_gridcolor()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_gridstyle()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_gridwidth()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_guilims()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_handlelength()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_help()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_hide()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_image()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_int()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_integrate()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_j0()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_j0x()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_j1()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_j1x()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_jn()}\spxextra{pdv.Command method}, \hyperpage{72}
+  \item \spxentry{do\_jnx()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_key()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_kill()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_L1()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_L2()}\spxextra{pdv.Command method}, \hyperpage{70}
+  \item \spxentry{do\_label()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_labelFileNames()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_latex()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_leg()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_legend()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_line()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_linemarker()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_linespoints()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_list()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_listannot()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_ln()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_lnstyle()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_lnwidth()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_lnx()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_log()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_log10()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_log10x()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_logx()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_lst()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_makecurve()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_makeextensive()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_makeintensive()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_marker()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_markeredgecolor()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_markerfacecolor()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_max()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_menu()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_min()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_minorticks()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_mkext()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_mkint()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_movefront()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_mult()}\spxextra{pdv.Command method}, \hyperpage{73}
+  \item \spxentry{do\_multiply()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_mx()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_my()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_namewidth()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_nc()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_newcurve()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_norm()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_pow()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powa()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powax()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_power()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powerx()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powr()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powrx()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_powx()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_q()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_quit()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_ran()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_random()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_range()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_rd()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_rdcsv()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_read()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_readcsv()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_recip()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_recipx()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_redo()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_reid()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_rev()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_run()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_save()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_savecsv()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_scatter()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_setxcolumn()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_shell()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_show()}\spxextra{pdv.Command method}, \hyperpage{74}
+  \item \spxentry{do\_showcolormap()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_showstyles()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sin()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sinh()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sinhx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sinx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_smooth()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sort()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_span()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sqr()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sqrt()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sqrtx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sqrx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_square()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_squarex()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_stats()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_style()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_sub()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_subsample()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_subtract()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_system()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_tan()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_tanh()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_tanhx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_tanx()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_ticks()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_title()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_undo()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_update()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_vs()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_xindex()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_xlabel()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_xlogscale()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_xls()}\spxextra{pdv.Command method}, \hyperpage{75}
+  \item \spxentry{do\_xmax()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xmin()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xminmax()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xmm()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xtickcolor()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xtickformat()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xticklength()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xticks()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_xtickwidth()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_y0()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_y0x()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_y1()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_y1x()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ylabel()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ylogscale()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_yls()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ymax()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ymin()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_yminmax()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ymm()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_yn()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ynx()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ytickcolor()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ytickformat()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_yticklength()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_yticks()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{do\_ytickwidth()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{drawstyle}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{dupx()}\spxextra{in module pydvpy}, \hyperpage{49}
+  \item \spxentry{dx()}\spxextra{in module pydvpy}, \hyperpage{49}
+  \item \spxentry{dy()}\spxextra{in module pydvpy}, \hyperpage{49}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{ebar}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{edit\_parameters()}\spxextra{pdvnavbar.PyDVToolbar method}, \hyperpage{85}
+  \item \spxentry{edited}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{emptyline()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{erange}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{errorbar()}\spxextra{in module pydvpy}, \hyperpage{50}
+  \item \spxentry{errorrange()}\spxextra{in module pydvpy}, \hyperpage{50}
+  \item \spxentry{exp()}\spxextra{in module pydvpy}, \hyperpage{51}
+  \item \spxentry{expx()}\spxextra{in module pydvpy}, \hyperpage{51}
+
+  \indexspace
+  \bigletter F
+  \item \spxentry{fft()}\spxextra{in module pydvpy}, \hyperpage{51}
+  \item \spxentry{fig}\spxextra{pdvplot.Plotter attribute}, \hyperpage{85}
+  \item \spxentry{figcolor}\spxextra{pdv.Command attribute}, \hyperpage{76}
+  \item \spxentry{figcolor}\spxextra{pdvplot.Plotter attribute}, \hyperpage{85}
+  \item \spxentry{filelist}\spxextra{pdv.Command attribute}, \hyperpage{76}
+  \item \spxentry{filename}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{filtercurves()}\spxextra{in module pydvpy}, \hyperpage{52}
+  \item \spxentry{find\_xrange()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{find\_yrange()}\spxextra{pdv.Command method}, \hyperpage{76}
+  \item \spxentry{fit()}\spxextra{in module pydvpy}, \hyperpage{52}
+  \item \spxentry{func\_curve()}\spxextra{pdv.Command method}, \hyperpage{76}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{gaussian()}\spxextra{in module pydvpy}, \hyperpage{52}
+  \item \spxentry{geometry}\spxextra{pdv.Command attribute}, \hyperpage{76}
+  \item \spxentry{get\_actual\_index()}\spxextra{in module pdvutil}, \hyperpage{85}
+  \item \spxentry{get\_styles()}\spxextra{in module pydvpy}, \hyperpage{53}
+  \item \spxentry{getclosest()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{getCurveIndex()}\spxextra{in module pdvutil}, \hyperpage{85}
+  \item \spxentry{getcurvename()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{getdomain()}\spxextra{in module pydvpy}, \hyperpage{53}
+  \item \spxentry{getinterp()}\spxextra{in module curve}, \hyperpage{69}
+  \item \spxentry{getletterargs()}\spxextra{in module pdvutil}, \hyperpage{85}
+  \item \spxentry{getnumberargs()}\spxextra{in module pdvutil}, \hyperpage{85}
+  \item \spxentry{getnumpoints()}\spxextra{in module pydvpy}, \hyperpage{53}
+  \item \spxentry{getrange()}\spxextra{in module pydvpy}, \hyperpage{53}
+  \item \spxentry{getx()}\spxextra{in module pydvpy}, \hyperpage{53}
+  \item \spxentry{gety()}\spxextra{in module pydvpy}, \hyperpage{54}
+  \item \spxentry{getymax()}\spxextra{in module pydvpy}, \hyperpage{54}
+  \item \spxentry{getymin()}\spxextra{in module pydvpy}, \hyperpage{54}
+  \item \spxentry{gridcolor}\spxextra{pdv.Command attribute}, \hyperpage{77}
+  \item \spxentry{gridstyle}\spxextra{pdv.Command attribute}, \hyperpage{77}
+  \item \spxentry{gridwidth}\spxextra{pdv.Command attribute}, \hyperpage{77}
+  \item \spxentry{guilims}\spxextra{pdv.Command attribute}, \hyperpage{77}
+
+  \indexspace
+  \bigletter H
+  \item \spxentry{handlelength}\spxextra{pdv.Command attribute}, \hyperpage{77}
+  \item \spxentry{help\_abs()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_absx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_acos()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_acosh()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_acoshx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_acosx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_add()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_alias()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_alpha()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_annot()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_appendcurves()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_asin()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_asinh()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_asinhx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_asinx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_atan()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_atan2()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_atanh()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_atanhx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_atanx()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_average()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_bkgcolor()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_color()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_convolve()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_convolveb()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_convolvec()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_copy()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_correl()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_cos()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_cosh()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_coshx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_cosx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_curve()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_custom()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dashstyle()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dataid()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_debug()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_delannot()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_delete()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_derivative()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_diffMeasure()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_disp()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dispx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_divide()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_divx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_divy()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_domain()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_drawstyle()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_drop()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dupx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_dy()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_erase()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_errorbar()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_errorrange()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_eval()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_exp()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_expx()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_fft()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_fit()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_fontcolor()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_fontsize()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_fontstyle()}\spxextra{pdv.Command method}, \hyperpage{78}
+  \item \spxentry{help\_gaussian()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_geometry()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getattributes()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getdomain()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getlabel()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getnumpoints()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getrange()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getx()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_gety()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getymax()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_getymin()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_grid()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_gridcolor()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_gridstyle()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_gridwidth()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_guilims()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_handlelength()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_hide()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_image()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_integrate()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_j0()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_j0x()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_j1()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_j1x()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_jn()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_jnx()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_kill()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_L1()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_L2()}\spxextra{pdv.Command method}, \hyperpage{77}
+  \item \spxentry{help\_label()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_labelFileNames()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_latex()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_legend()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_line()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_linemarker()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_linespoints()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_list()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_listannot()}\spxextra{pdv.Command method}, \hyperpage{79}
+  \item \spxentry{help\_lnstyle()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_lnwidth()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_log()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_log10()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_log10x()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_logx()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_makecurve()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_makeextensive()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_makeintensive()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_marker()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_markeredgecolor()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_markerfacecolor()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_max()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_menu()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_min()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_minorticks()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_movefront()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_multiply()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_mx()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_my()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_namewidth()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_newcurve()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_norm()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_powa()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_powax()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_powr()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_powrx()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_quit()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_random()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_range()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_read()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_readcsv()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_recip()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_recipx()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_redo()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_regex()}\spxextra{pdv.Command method}, \hyperpage{80}
+  \item \spxentry{help\_reid()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_rev()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_run()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_save()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_savecsv()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_scatter()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_setxcolumn()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_shell()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_show()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_showcolormap()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_showstyles()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sin()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sinh()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sinhx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sinx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_smooth()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sort()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_span()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sqr()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sqrt()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sqrtx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_sqrx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_stats()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_style()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_subsample()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_subtract()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_tan()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_tanh()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_tanhx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_tanx()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_ticks()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_title()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_undo()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_update()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_vs()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_xindex()}\spxextra{pdv.Command method}, \hyperpage{81}
+  \item \spxentry{help\_xlabel()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xlogscale()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xmax()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xmin()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xminmax()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xtickcolor()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xtickformat()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xticklength()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xticks()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_xtickwidth()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_y0()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_y0x()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_y1()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_y1x()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ylabel()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ylogscale()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ymax()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ymin()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_yminmax()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_yn()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ynx()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ytickcolor()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ytickformat()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_yticklength()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_yticks()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{help\_ytickwidth()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{hidden}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{history}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{histptr}\spxextra{pdv.Command attribute}, \hyperpage{82}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{initrun}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{integrate()}\spxextra{in module pydvpy}, \hyperpage{54}
+  \item \spxentry{interp1d()}\spxextra{in module curve}, \hyperpage{69}
+
+  \indexspace
+  \bigletter J
+  \item \spxentry{j0()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{j0x()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{j1()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{j1x()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{jn()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{jnx()}\spxextra{in module pydvpy}, \hyperpage{55}
+
+  \indexspace
+  \bigletter K
+  \item \spxentry{key\_loc}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{key\_ncol}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{keycolor}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{keyfont}\spxextra{pdv.Command attribute}, \hyperpage{82}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{l1()}\spxextra{in module pydvpy}, \hyperpage{55}
+  \item \spxentry{l2()}\spxextra{in module pydvpy}, \hyperpage{56}
+  \item \spxentry{line()}\spxextra{in module pydvpy}, \hyperpage{56}
+  \item \spxentry{linespoints}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{linestyle}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{linewidth}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{linewidth}\spxextra{pdv.Command attribute}, \hyperpage{82}
+  \item \spxentry{load()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{load\_csv()}\spxextra{pdv.Command method}, \hyperpage{82}
+  \item \spxentry{loadrc()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{LOG}\spxextra{pdv.LogEnum attribute}, \hyperpage{84}
+  \item \spxentry{log()}\spxextra{in module pydvpy}, \hyperpage{56}
+  \item \spxentry{LOG10}\spxextra{pdv.LogEnum attribute}, \hyperpage{84}
+  \item \spxentry{log10()}\spxextra{in module pydvpy}, \hyperpage{57}
+  \item \spxentry{LOG10X}\spxextra{pdv.LogEnum attribute}, \hyperpage{84}
+  \item \spxentry{log10x()}\spxextra{in module pydvpy}, \hyperpage{57}
+  \item \spxentry{LogEnum}\spxextra{class in pdv}, \hyperpage{84}
+  \item \spxentry{LOGX}\spxextra{pdv.LogEnum attribute}, \hyperpage{84}
+  \item \spxentry{logx()}\spxextra{in module pydvpy}, \hyperpage{57}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{main()}\spxextra{in module pdv}, \hyperpage{84}
+  \item \spxentry{main()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{makecurve()}\spxextra{in module pydvpy}, \hyperpage{57}
+  \item \spxentry{makeextensive()}\spxextra{in module pydvpy}, \hyperpage{58}
+  \item \spxentry{makeintensive()}\spxextra{in module pydvpy}, \hyperpage{58}
+  \item \spxentry{marker}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{markeredgecolor}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{markerfacecolor}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{markersize}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{markerstyle}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{max\_curve()}\spxextra{in module pydvpy}, \hyperpage{58}
+  \item \spxentry{min\_curve()}\spxextra{in module pydvpy}, \hyperpage{58}
+  \item \spxentry{modcurve()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{multiply()}\spxextra{in module pydvpy}, \hyperpage{58}
+  \item \spxentry{mx()}\spxextra{in module pydvpy}, \hyperpage{59}
+  \item \spxentry{my()}\spxextra{in module pydvpy}, \hyperpage{59}
+
+  \indexspace
+  \bigletter N
+  \item \spxentry{name}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{namewidth}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{norm()}\spxextra{in module pydvpy}, \hyperpage{59}
+  \item \spxentry{normalize()}\spxextra{curve.Curve method}, \hyperpage{68}
+
+  \indexspace
+  \bigletter O
+  \item \spxentry{oldlist}\spxextra{pdv.Command attribute}, \hyperpage{83}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{parsemath()}\spxextra{in module pdvutil}, \hyperpage{85}
+  \item \spxentry{pdv}\spxextra{module}, \hyperpage{69}
+  \item \spxentry{pdvnavbar}\spxextra{module}, \hyperpage{85}
+  \item \spxentry{pdvplot}\spxextra{module}, \hyperpage{84}
+  \item \spxentry{pdvutil}\spxextra{module}, \hyperpage{85}
+  \item \spxentry{plotChanged}\spxextra{pdvplot.Plotter attribute}, \hyperpage{85}
+  \item \spxentry{plotcolor}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{plotedit}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{plotfirst}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{plotlist}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{plotname}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{plotprecedence}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{Plotter}\spxextra{class in pdvplot}, \hyperpage{84}
+  \item \spxentry{plotter}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{postcmd()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{powa()}\spxextra{in module pydvpy}, \hyperpage{60}
+  \item \spxentry{powax()}\spxextra{in module pydvpy}, \hyperpage{60}
+  \item \spxentry{powr()}\spxextra{in module pydvpy}, \hyperpage{60}
+  \item \spxentry{powrx()}\spxextra{in module pydvpy}, \hyperpage{60}
+  \item \spxentry{precmd()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{prompt}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{pydvpy}\spxextra{module}, \hyperpage{41}
+  \item \spxentry{PyDVToolbar}\spxextra{class in pdvnavbar}, \hyperpage{85}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{random()}\spxextra{in module pydvpy}, \hyperpage{61}
+  \item \spxentry{read()}\spxextra{in module pydvpy}, \hyperpage{61}
+  \item \spxentry{readcsv()}\spxextra{in module pydvpy}, \hyperpage{61}
+  \item \spxentry{recip()}\spxextra{in module pydvpy}, \hyperpage{61}
+  \item \spxentry{recipx()}\spxextra{in module pydvpy}, \hyperpage{62}
+  \item \spxentry{redraw}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{rev()}\spxextra{in module pydvpy}, \hyperpage{62}
+  \item \spxentry{ruler}\spxextra{pdv.Command attribute}, \hyperpage{83}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{save()}\spxextra{in module pydvpy}, \hyperpage{62}
+  \item \spxentry{savecsv()}\spxextra{in module pydvpy}, \hyperpage{63}
+  \item \spxentry{scatter}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{showCurvelistDialog()}\spxextra{pdvplot.Plotter method}, \hyperpage{85}
+  \item \spxentry{showgrid}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{showkey}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{showletters}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{showMenuDialog()}\spxextra{pdvplot.Plotter method}, \hyperpage{85}
+  \item \spxentry{showminorticks}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{sin()}\spxextra{in module pydvpy}, \hyperpage{63}
+  \item \spxentry{sinh()}\spxextra{in module pydvpy}, \hyperpage{63}
+  \item \spxentry{sinhx()}\spxextra{in module pydvpy}, \hyperpage{63}
+  \item \spxentry{sinx()}\spxextra{in module pydvpy}, \hyperpage{63}
+  \item \spxentry{smooth()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{sort()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{span()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{sqr()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{sqrt()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{sqrtx()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{sqrx()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{style}\spxextra{pdvplot.Plotter attribute}, \hyperpage{85}
+  \item \spxentry{subsample()}\spxextra{in module pydvpy}, \hyperpage{64}
+  \item \spxentry{subtract()}\spxextra{in module pydvpy}, \hyperpage{65}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{tan()}\spxextra{in module pydvpy}, \hyperpage{65}
+  \item \spxentry{tanh()}\spxextra{in module pydvpy}, \hyperpage{65}
+  \item \spxentry{tanhx()}\spxextra{in module pydvpy}, \hyperpage{65}
+  \item \spxentry{tanx()}\spxextra{in module pydvpy}, \hyperpage{66}
+  \item \spxentry{tickFormat()}\spxextra{pdv.Command method}, \hyperpage{83}
+  \item \spxentry{title}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{titlecolor}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{titlefont}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{truncate()}\spxextra{in module pdvutil}, \hyperpage{85}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{undoc\_header}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{update}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{updateDialogs()}\spxextra{pdvplot.Plotter method}, \hyperpage{85}
+  \item \spxentry{updateGeometry()}\spxextra{pdvplot.Plotter method}, \hyperpage{85}
+  \item \spxentry{updateplot()}\spxextra{pdv.Command property}, \hyperpage{83}
+  \item \spxentry{updatestyle}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{usertexts}\spxextra{pdv.Command attribute}, \hyperpage{83}
+
+  \indexspace
+  \bigletter V
+  \item \spxentry{vs()}\spxextra{in module pydvpy}, \hyperpage{66}
+
+  \indexspace
+  \bigletter X
+  \item \spxentry{x}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{xCol}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xindex()}\spxextra{in module pydvpy}, \hyperpage{66}
+  \item \spxentry{xlabel}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xlabelcolor}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xlabelfont}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xlim}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xlogscale}\spxextra{pdv.Command attribute}, \hyperpage{83}
+  \item \spxentry{xmajortickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xmax()}\spxextra{in module pydvpy}, \hyperpage{66}
+  \item \spxentry{xmin()}\spxextra{in module pydvpy}, \hyperpage{66}
+  \item \spxentry{xminmax()}\spxextra{in module pydvpy}, \hyperpage{66}
+  \item \spxentry{xminortickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xminorticklength}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xminortickwidth}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xtickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xtickformat}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xticklength}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xticks}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{xtickwidth}\spxextra{pdv.Command attribute}, \hyperpage{84}
+
+  \indexspace
+  \bigletter Y
+  \item \spxentry{y}\spxextra{curve.Curve attribute}, \hyperpage{68}
+  \item \spxentry{y0()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{y0x()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{y1()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{y1x()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{ylabel}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ylabelcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ylabelfont}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ylim}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ylogscale}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ymajortickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ymax()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{ymin()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{yminmax()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{yminortickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{yminorticklength}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{yminortickwidth}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{yn()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{ynx()}\spxextra{in module pydvpy}, \hyperpage{67}
+  \item \spxentry{ytickcolor}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ytickformat}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{yticklength}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{yticks}\spxextra{pdv.Command attribute}, \hyperpage{84}
+  \item \spxentry{ytickwidth}\spxextra{pdv.Command attribute}, \hyperpage{84}
+
+\end{sphinxtheindex}

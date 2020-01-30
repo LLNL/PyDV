@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Curve Control Commands &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="UI Features" href="ui_features.html" />
+    <link rel="prev" title="Plot Control Commands" href="plot_control_cmds.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ui_features.html" title="UI Features"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plot_control_cmds.html" title="Plot Control Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="curve-control-commands">
+<span id="id1"></span><h1>Curve Control Commands<a class="headerlink" href="#curve-control-commands" title="Permalink to this headline">¶</a></h1>
+<p>These functions control the individual curves that are currently being displayed. They range in type from controlling the appearance of the curve to deleting it. They also include the “non-mathematical” mechanisms which may generate curves.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>&lt; &gt;</strong> = Required user input.</p>
+<p><strong>[ ]</strong> = Optional user input.</p>
+<p><strong>[PyDV]:</strong> = Python Data Visualizer command-line prompt.</p>
+</div>
+<div class="section" id="appendcurves-2-4">
+<h2><strong>appendcurves - 2.4</strong><a class="headerlink" href="#appendcurves-2-4" title="Permalink to this headline">¶</a></h2>
+<p>Merge a list of curves over the union of their domains. Where the domains overlap, take the average of the curve’s y-values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">appendcurves</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="color">
+<h2>color<a class="headerlink" href="#color" title="Permalink to this headline">¶</a></h2>
+<p>Set the color of curves. Color names can be “blue”, “red”, etc., or “#eb70aa”, a 6 digit set of hexadecimal red-green-blue values (RRGGBB). The entire set of HTML-standard color names is available. Type <em>showcolormap</em> to see the available named colors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">color</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">color</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="curve">
+<h2>curve<a class="headerlink" href="#curve" title="Permalink to this headline">¶</a></h2>
+<p>Select curves from the menu for plotting. <strong>Shortcut: cur</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">curve</span> <span class="p">[</span><span class="n">menu</span> <span class="o">&lt;</span><span class="n">regex</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">&lt;</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">menu</span><span class="o">-</span><span class="n">numbers</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dupx-2-4">
+<h2><strong>dupx - 2.4</strong><a class="headerlink" href="#dupx-2-4" title="Permalink to this headline">¶</a></h2>
+<p>Duplicate x-values so that y=x for each of the specified curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dupx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="linemarker">
+<h2>linemarker<a class="headerlink" href="#linemarker" title="Permalink to this headline">¶</a></h2>
+<p>Set the marker symbol for the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">linemarker</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">marker</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="o">+</span> <span class="o">|</span> <span class="o">.</span> <span class="o">|</span> <span class="n">circle</span> <span class="o">|</span> <span class="n">square</span> <span class="o">|</span> <span class="n">diamond</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">marker</span><span class="o">-</span><span class="n">size</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When setting this value through the interface or the curve object directly,
+use ONLY matplotlib supported marker types. Matplotlib marker types are also
+supported here as well. See matplotlib documentation on markers for further
+information.</p>
+</div>
+</div>
+<div class="section" id="markerfacecolor">
+<h2>markerfacecolor<a class="headerlink" href="#markerfacecolor" title="Permalink to this headline">¶</a></h2>
+<p>Set the markerface color of curves. Color names can be “blue”, “red”, etc, or “#eb70aa”, a 6 digit set of hexadecimal red-green-blue values (RRGGBB). The entire set of HTML-standard color names is available. Try “showcolormap” to see the available named colors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">markerfacecolor</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="markeredgecolor">
+<h2>markeredgecolor<a class="headerlink" href="#markeredgecolor" title="Permalink to this headline">¶</a></h2>
+<p>Set the markeredge color of curves. Color names can be “blue”, “red”, etc, or “#eb70aa”, a 6 digit set of hexadecimal red-green-blue values (RRGGBB). The entire set of HTML-standard color names is available. Try “showcolormap” to see the available named colors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">markeredgecolor</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="showcolormap">
+<h2>showcolormap<a class="headerlink" href="#showcolormap" title="Permalink to this headline">¶</a></h2>
+<p>Show the available named colors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">showcolormap</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="showstyles">
+<h2>showstyles<a class="headerlink" href="#showstyles" title="Permalink to this headline">¶</a></h2>
+<p>Show the available plot styles.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">showstyles</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="copy">
+<h2>copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h2>
+<p>Copy and plot the given curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">copy</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="del">
+<h2>del<a class="headerlink" href="#del" title="Permalink to this headline">¶</a></h2>
+<p>Delete the specified curves. <strong>Shortcut: del</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">delete</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><strong>dupx - 2.4</strong><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Duplicate the x-values such that y=x for each of the given curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dupx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="hide">
+<h2>hide<a class="headerlink" href="#hide" title="Permalink to this headline">¶</a></h2>
+<p>Hide the specified curves from view.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">hide</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="line">
+<h2>line<a class="headerlink" href="#line" title="Permalink to this headline">¶</a></h2>
+<p>Generate a line with y = mx + b and an optional number of points.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">line</span> <span class="o">&lt;</span><span class="n">m</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span> <span class="p">[</span><span class="c1"># pts]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="linespoints">
+<h2>linespoints<a class="headerlink" href="#linespoints" title="Permalink to this headline">¶</a></h2>
+<p>Plot curves as linespoints plots.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">linespoints</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="n">on</span> <span class="o">|</span> <span class="n">off</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="makecurve">
+<h2>makecurve<a class="headerlink" href="#makecurve" title="Permalink to this headline">¶</a></h2>
+<p>Generate a curve from two lists of numbers. Each list must be delimited by parentheses. <strong>Alternative Form: make-curve</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">makecurve</span> <span class="p">(</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">x</span><span class="o">-</span><span class="n">values</span><span class="p">)</span> <span class="p">(</span><span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">y</span><span class="o">-</span><span class="n">values</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="newcurve">
+<h2>newcurve<a class="headerlink" href="#newcurve" title="Permalink to this headline">¶</a></h2>
+<p>Creates a new curve from an expression.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">newcurve</span> <span class="o">&lt;</span><span class="n">numpy</span> <span class="n">expression</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For convenience, both math and numpy modules have been imported into the namespace.
+Just FYI, this feature is way outside the ULTRA syntax that PyDV is mostly based on.
+EXAMPLE:</p>
+<p>[PyDV]: newcurve sin(a.x*2*pi)/(h.y**2)</p>
+<p>This creates a new curve according to the above expression. <strong>Shortcut: nc</strong></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>Currently, newcurve is hard-wired to only handle single-letter labels.
+Curve names used in the expression cannot be the &#64;N type we use after
+we run out of letters. Sorry (April 2015).</p></li>
+<li><p>A common error is to forget the .x or .y on the curve label name.</p></li>
+<li><p>All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve
+will generate a curve from different domains (with no error message), and that curve
+will almost certainly not be what you intended.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="random">
+<h2>random<a class="headerlink" href="#random" title="Permalink to this headline">¶</a></h2>
+<p>Generate random y values between -1 and 1 for the specified curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">random</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="redo">
+<h2>redo<a class="headerlink" href="#redo" title="Permalink to this headline">¶</a></h2>
+<p>Redo the last undo curve operation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">redo</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reid">
+<h2>reid<a class="headerlink" href="#reid" title="Permalink to this headline">¶</a></h2>
+<p>Relabel all the curves in order. <strong>Alternative Form: re-id</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">reid</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rev">
+<h2>rev<a class="headerlink" href="#rev" title="Permalink to this headline">¶</a></h2>
+<p>Swap x and y values for the specified curves. You may want to sort after this one.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">rev</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scatter">
+<h2>scatter<a class="headerlink" href="#scatter" title="Permalink to this headline">¶</a></h2>
+<p>Plot curves as scatter diagrams or connected lines.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">scatter</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="show">
+<h2>show<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
+<p>Reveal the specified curves hidden by the hide command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">show</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sort">
+<h2>sort<a class="headerlink" href="#sort" title="Permalink to this headline">¶</a></h2>
+<p>Sort the specified curves so that their points are plotted in order of ascending x values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sort</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subsample">
+<h2>subsample<a class="headerlink" href="#subsample" title="Permalink to this headline">¶</a></h2>
+<p>Subsample the curves by the optional stride. Default value for stride is 2.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">subsample</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">stride</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="undo">
+<h2>undo<a class="headerlink" href="#undo" title="Permalink to this headline">¶</a></h2>
+<p>Undo the last operation on plotted curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">undo</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xindex-2-4">
+<h2><strong>xindex - 2.4</strong><a class="headerlink" href="#xindex-2-4" title="Permalink to this headline">¶</a></h2>
+<p>Create curves with y-values vs. integer index values.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xindex</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xminmax">
+<h2>xminmax<a class="headerlink" href="#xminmax" title="Permalink to this headline">¶</a></h2>
+<p>Trim the specified curves. <strong>Shortcut: xmm</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xminmax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">low</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">high</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Curve Control Commands</a><ul>
+<li><a class="reference internal" href="#appendcurves-2-4"><strong>appendcurves - 2.4</strong></a></li>
+<li><a class="reference internal" href="#color">color</a></li>
+<li><a class="reference internal" href="#curve">curve</a></li>
+<li><a class="reference internal" href="#dupx-2-4"><strong>dupx - 2.4</strong></a></li>
+<li><a class="reference internal" href="#linemarker">linemarker</a></li>
+<li><a class="reference internal" href="#markerfacecolor">markerfacecolor</a></li>
+<li><a class="reference internal" href="#markeredgecolor">markeredgecolor</a></li>
+<li><a class="reference internal" href="#showcolormap">showcolormap</a></li>
+<li><a class="reference internal" href="#showstyles">showstyles</a></li>
+<li><a class="reference internal" href="#copy">copy</a></li>
+<li><a class="reference internal" href="#del">del</a></li>
+<li><a class="reference internal" href="#id2"><strong>dupx - 2.4</strong></a></li>
+<li><a class="reference internal" href="#hide">hide</a></li>
+<li><a class="reference internal" href="#line">line</a></li>
+<li><a class="reference internal" href="#linespoints">linespoints</a></li>
+<li><a class="reference internal" href="#makecurve">makecurve</a></li>
+<li><a class="reference internal" href="#newcurve">newcurve</a></li>
+<li><a class="reference internal" href="#random">random</a></li>
+<li><a class="reference internal" href="#redo">redo</a></li>
+<li><a class="reference internal" href="#reid">reid</a></li>
+<li><a class="reference internal" href="#rev">rev</a></li>
+<li><a class="reference internal" href="#scatter">scatter</a></li>
+<li><a class="reference internal" href="#show">show</a></li>
+<li><a class="reference internal" href="#sort">sort</a></li>
+<li><a class="reference internal" href="#subsample">subsample</a></li>
+<li><a class="reference internal" href="#undo">undo</a></li>
+<li><a class="reference internal" href="#xindex-2-4"><strong>xindex - 2.4</strong></a></li>
+<li><a class="reference internal" href="#xminmax">xminmax</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="plot_control_cmds.html"
+                        title="previous chapter">Plot Control Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ui_features.html"
+                        title="next chapter">UI Features</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/curve_control_cmds.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ui_features.html" title="UI Features"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plot_control_cmds.html" title="Plot Control Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

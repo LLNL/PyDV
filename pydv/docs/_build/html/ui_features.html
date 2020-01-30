@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UI Features &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="PyDV 3.0 API Specification" href="pydv.html" />
+    <link rel="prev" title="Curve Control Commands" href="curve_control_cmds.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydv.html" title="PyDV 3.0 API Specification"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="curve_control_cmds.html" title="Curve Control Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ui-features">
+<span id="id1"></span><h1>UI Features<a class="headerlink" href="#ui-features" title="Permalink to this headline">¶</a></h1>
+<p>The PyDV User Interface (UI) has many different windows and toolbar items that provide information and alternative ways of executing PyDV commands (see <a class="reference internal" href="#pydv"><span class="std std-numref">Figure 1</span></a>). Below is a description of the different UI components that are available.</p>
+<div class="figure align-default" id="id3">
+<span id="pydv"></span><a class="reference internal image-reference" href="_images/pydv.png"><img alt="_images/pydv.png" src="_images/pydv.png" style="width: 738.4000000000001px; height: 641.6px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">PyDV User Interface</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="toolbar">
+<h2>Toolbar<a class="headerlink" href="#toolbar" title="Permalink to this headline">¶</a></h2>
+<p>An annotated toolbar for the PyDV UI is shown in <a class="reference internal" href="#id2"><span class="std std-numref">Figure 2</span></a>. Button <strong>1</strong> allows the user to reset the plot window to the original view, button <strong>2</strong> allows the user to step back to the previous view, and button <strong>3</strong> allows the user to step through to the next view. Button <strong>4</strong> allows panning the axis with the left mouse button and zooming the axis with the right mouse button. Button <strong>5</strong> allows zooming to a rectangle. Button <strong>6</strong> allows configuring of the subplots, button <strong>7</strong> is for saving the displayed figure, and button <strong>8</strong> is for editing curve lines and axes parameters. The area highlighted in <strong>9</strong> tracks the mouse location over the plot.</p>
+<div class="figure align-default" id="id4">
+<span id="id2"></span><a class="reference internal image-reference" href="_images/toolbar.png"><img alt="_images/toolbar.png" src="_images/toolbar.png" style="width: 620.5px; height: 218.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">UI Toolbar</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="help-menu">
+<h2>Help Menu<a class="headerlink" href="#help-menu" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>Help</strong> menu contains three items for displaying information to the user. The <strong>Copyright …</strong> menu item displays the copyright information for PyDV (see <a class="reference internal" href="#copyright"><span class="std std-numref">Figure 3</span></a>). The <strong>About PyDV</strong> window, <a class="reference internal" href="#about-1"><span class="std std-numref">Figure 4</span></a>, displays information about the current release of PyDV and provides developer contact information. The <strong>About Qt</strong> window, <a class="reference internal" href="#about-2"><span class="std std-numref">Figure 5</span></a>, displays information about the <em>Qt</em> version that PyDV is using.</p>
+<div class="figure align-default" id="id5">
+<span id="copyright"></span><a class="reference internal image-reference" href="_images/copyright.png"><img alt="_images/copyright.png" src="_images/copyright.png" style="width: 528.0px; height: 753.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">PyDV Copyright</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="id6">
+<span id="about-1"></span><a class="reference internal image-reference" href="_images/about1.png"><img alt="_images/about1.png" src="_images/about1.png" style="width: 532.0px; height: 434.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">About PyDV Window</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<div class="figure align-default" id="id7">
+<span id="about-2"></span><a class="reference internal image-reference" href="_images/about2.png"><img alt="_images/about2.png" src="_images/about2.png" style="width: 726.0px; height: 555.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">About Qt Window</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="view-menu">
+<h2>View Menu<a class="headerlink" href="#view-menu" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>View</strong> menu contains the <strong>List</strong> and <strong>Menu</strong> dialogs. The <strong>List</strong> dialog displays the information from the <strong>list</strong> command and also allows the user to deleted selected curves from the plot window (see <a class="reference internal" href="#list"><span class="std std-numref">Figure 6</span></a>).</p>
+<div class="figure align-default" id="id8">
+<span id="list"></span><a class="reference internal image-reference" href="_images/list.png"><img alt="_images/list.png" src="_images/list.png" style="width: 944.0px; height: 358.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">List of plotted curves</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>The <strong>Menu</strong> dialog lists the available curves read from a file. The user can delete or plot curves from this dialog (see <a class="reference internal" href="#menu"><span class="std std-numref">Figure 7</span></a>).</p>
+<div class="figure align-default" id="id9">
+<span id="menu"></span><a class="reference internal image-reference" href="_images/menu.png"><img alt="_images/menu.png" src="_images/menu.png" style="width: 917.0px; height: 358.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">List of available curves</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">UI Features</a><ul>
+<li><a class="reference internal" href="#toolbar">Toolbar</a></li>
+<li><a class="reference internal" href="#help-menu">Help Menu</a></li>
+<li><a class="reference internal" href="#view-menu">View Menu</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="curve_control_cmds.html"
+                        title="previous chapter">Curve Control Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pydv.html"
+                        title="next chapter">PyDV 3.0 API Specification</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/ui_features.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pydv.html" title="PyDV 3.0 API Specification"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="curve_control_cmds.html" title="Curve Control Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>
