@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Curve Inquiry Commands &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Environmental Control Commands" href="env_control_cmds.html" />
+    <link rel="prev" title="Environmental Inquiry Commands" href="env_inquiry_cmds.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="env_control_cmds.html" title="Environmental Control Commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="curve-inquiry-commands">
+<span id="id1"></span><h1>Curve Inquiry Commands<a class="headerlink" href="#curve-inquiry-commands" title="Permalink to this headline">¶</a></h1>
+<p>These functions provide a mechanism for obtaining information about specified curves.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>&lt; &gt;</strong> = Required user input.</p>
+<p><strong>[ ]</strong> = Optional user input.</p>
+<p><strong>[PyDV]:</strong> = Python Data Visualizer command-line prompt.</p>
+</div>
+<div class="section" id="disp">
+<h2>disp<a class="headerlink" href="#disp" title="Permalink to this headline">¶</a></h2>
+<p>Display the y-values in the specified curve(s).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">disp</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dispx">
+<h2>dispx<a class="headerlink" href="#dispx" title="Permalink to this headline">¶</a></h2>
+<p>Display the x-values in the specified curve(s).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dispx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="eval">
+<h2>eval<a class="headerlink" href="#eval" title="Permalink to this headline">¶</a></h2>
+<p>Evaluate mathematical operations on curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="nb">eval</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="n">operations</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getattributes">
+<h2>getattributes<a class="headerlink" href="#getattributes" title="Permalink to this headline">¶</a></h2>
+<p>Return (to the terminal) the attributes of a curve, such as: color, style, width, etc.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getattributes</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getdomain">
+<h2>getdomain<a class="headerlink" href="#getdomain" title="Permalink to this headline">¶</a></h2>
+<p>Return (to the terminal) the domains for the list of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getdomain</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getlabel">
+<h2>getlabel<a class="headerlink" href="#getlabel" title="Permalink to this headline">¶</a></h2>
+<p>Return (to the terminal) the given curve’s label.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getlabel</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getnumpoints">
+<h2>getnumpoints<a class="headerlink" href="#getnumpoints" title="Permalink to this headline">¶</a></h2>
+<p>Display the number of points for the given curve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getnumpoints</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getrange">
+<h2>getrange<a class="headerlink" href="#getrange" title="Permalink to this headline">¶</a></h2>
+<p>Return (to the terminal) the ranges for the list of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getrange</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getx">
+<h2>getx<a class="headerlink" href="#getx" title="Permalink to this headline">¶</a></h2>
+<p>Return the x values for a given y</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gety">
+<h2>gety<a class="headerlink" href="#gety" title="Permalink to this headline">¶</a></h2>
+<p>Return the y values for a given x</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gety</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">x</span><span class="o">-</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stats">
+<h2>stats<a class="headerlink" href="#stats" title="Permalink to this headline">¶</a></h2>
+<p>Calculate the mean and standard deviation for the curves and display the results on the terminal.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">stats</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getymin-2-4-2">
+<h2><strong>getymin - 2.4.2</strong><a class="headerlink" href="#getymin-2-4-2" title="Permalink to this headline">¶</a></h2>
+<p>Return the minimum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getymin</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getymax-2-4-2">
+<h2><strong>getymax - 2.4.2</strong><a class="headerlink" href="#getymax-2-4-2" title="Permalink to this headline">¶</a></h2>
+<p>Return the maximum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">getymax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Curve Inquiry Commands</a><ul>
+<li><a class="reference internal" href="#disp">disp</a></li>
+<li><a class="reference internal" href="#dispx">dispx</a></li>
+<li><a class="reference internal" href="#eval">eval</a></li>
+<li><a class="reference internal" href="#getattributes">getattributes</a></li>
+<li><a class="reference internal" href="#getdomain">getdomain</a></li>
+<li><a class="reference internal" href="#getlabel">getlabel</a></li>
+<li><a class="reference internal" href="#getnumpoints">getnumpoints</a></li>
+<li><a class="reference internal" href="#getrange">getrange</a></li>
+<li><a class="reference internal" href="#getx">getx</a></li>
+<li><a class="reference internal" href="#gety">gety</a></li>
+<li><a class="reference internal" href="#stats">stats</a></li>
+<li><a class="reference internal" href="#getymin-2-4-2"><strong>getymin - 2.4.2</strong></a></li>
+<li><a class="reference internal" href="#getymax-2-4-2"><strong>getymax - 2.4.2</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="env_inquiry_cmds.html"
+                        title="previous chapter">Environmental Inquiry Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="env_control_cmds.html"
+                        title="next chapter">Environmental Control Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/curve_inquiry_cmds.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="env_control_cmds.html" title="Environmental Control Commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

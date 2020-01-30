@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Environmental Control Commands &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Plot Control Commands" href="plot_control_cmds.html" />
+    <link rel="prev" title="Curve Inquiry Commands" href="curve_inquiry_cmds.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plot_control_cmds.html" title="Plot Control Commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="curve_inquiry_cmds.html" title="Curve Inquiry Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="environmental-control-commands">
+<span id="env-control-commands"></span><h1>Environmental Control Commands<a class="headerlink" href="#environmental-control-commands" title="Permalink to this headline">¶</a></h1>
+<p>These functions allow you to manipulate the environment of PyDV on a global level. They are useful to avoid repeated use of other commands or to change the state of PyDV in dramatic ways.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>&lt; &gt;</strong> = Required user input.</p>
+<p><strong>[ ]</strong> = Optional user input.</p>
+<p><strong>[PyDV]:</strong> = Python Data Visualizer command-line prompt.</p>
+</div>
+<div class="section" id="alias">
+<h2>alias<a class="headerlink" href="#alias" title="Permalink to this headline">¶</a></h2>
+<p>Define a synonym for  an existing command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">alias</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">alias</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom">
+<h2>custom<a class="headerlink" href="#custom" title="Permalink to this headline">¶</a></h2>
+<p>Load a file of custom functions to extend PyDV. Functions must be of the form ‘def do_commandname(self, line): …</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">custom</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2>debug<a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
+<p>Show debug tracebacks if True</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">debug</span> <span class="n">on</span> <span class="o">|</span> <span class="n">off</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="drop">
+<h2>drop<a class="headerlink" href="#drop" title="Permalink to this headline">¶</a></h2>
+<p>Start the Python Interactive Console</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">drop</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="erase">
+<h2>erase<a class="headerlink" href="#erase" title="Permalink to this headline">¶</a></h2>
+<p>Erase all curves on the screen but leave the limits untouched. <strong>Shortcut: era</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">erase</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="kill">
+<h2>kill<a class="headerlink" href="#kill" title="Permalink to this headline">¶</a></h2>
+<p>Delete the specified entries from the menu.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">kill</span> <span class="p">[</span><span class="nb">all</span> <span class="o">|</span> <span class="n">number</span><span class="o">-</span><span class="nb">list</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="namewidth">
+<h2>namewidth<a class="headerlink" href="#namewidth" title="Permalink to this headline">¶</a></h2>
+<p>Change the width of the first column of the <strong>menu</strong> and <strong>lst</strong> output.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">namewidth</span> <span class="o">&lt;</span><span class="n">integer</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quit">
+<h2>quit<a class="headerlink" href="#quit" title="Permalink to this headline">¶</a></h2>
+<p>Exit PyDV. <strong>Shortcut: q</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">quit</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Environmental Control Commands</a><ul>
+<li><a class="reference internal" href="#alias">alias</a></li>
+<li><a class="reference internal" href="#custom">custom</a></li>
+<li><a class="reference internal" href="#debug">debug</a></li>
+<li><a class="reference internal" href="#drop">drop</a></li>
+<li><a class="reference internal" href="#erase">erase</a></li>
+<li><a class="reference internal" href="#kill">kill</a></li>
+<li><a class="reference internal" href="#namewidth">namewidth</a></li>
+<li><a class="reference internal" href="#quit">quit</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="curve_inquiry_cmds.html"
+                        title="previous chapter">Curve Inquiry Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="plot_control_cmds.html"
+                        title="next chapter">Plot Control Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/env_control_cmds.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="plot_control_cmds.html" title="Plot Control Commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="curve_inquiry_cmds.html" title="Curve Inquiry Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

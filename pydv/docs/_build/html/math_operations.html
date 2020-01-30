@@ -1,0 +1,878 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Math Operations &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Environmental Inquiry Commands" href="env_inquiry_cmds.html" />
+    <link rel="prev" title="I/O Commands" href="io_commands.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="io_commands.html" title="I/O Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="math-operations">
+<span id="id1"></span><h1>Math Operations<a class="headerlink" href="#math-operations" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>&lt; &gt;</strong> = Required user input.</p>
+<p><strong>[ ]</strong> = Optional user input.</p>
+<p><strong>[PyDV]:</strong> = Python Data Visualizer command-line prompt.</p>
+</div>
+<div class="section" id="abs">
+<h2>abs<a class="headerlink" href="#abs" title="Permalink to this headline">¶</a></h2>
+<p>Take the absolute value of the y values of the curves. Modifies the existing curve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="nb">abs</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="absx">
+<h2>absx<a class="headerlink" href="#absx" title="Permalink to this headline">¶</a></h2>
+<p>Take the absolute value of the x values of the curves. Modifies the existing curve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">absx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acos">
+<h2>acos<a class="headerlink" href="#acos" title="Permalink to this headline">¶</a></h2>
+<p>Take arccosine of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">acos</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acosh">
+<h2>acosh<a class="headerlink" href="#acosh" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arccosine of y values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">acosh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acoshx">
+<h2>acoshx<a class="headerlink" href="#acoshx" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arccosine of x values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">acoshx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="acosx">
+<h2>acosx<a class="headerlink" href="#acosx" title="Permalink to this headline">¶</a></h2>
+<p>Take arccosine of x values of curves
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">acosx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add">
+<h2>add<a class="headerlink" href="#add" title="Permalink to this headline">¶</a></h2>
+<p>Take the sum of curves. <strong>Shortcut:</strong> +</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">add</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="alpha">
+<h2>alpha<a class="headerlink" href="#alpha" title="Permalink to this headline">¶</a></h2>
+<p>Find the alpha.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">alpha</span> <span class="o">&lt;</span><span class="n">calculated</span><span class="o">-</span><span class="n">a</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">calculated</span><span class="o">-</span><span class="n">i</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">response</span><span class="o">&gt;</span> <span class="p">[</span><span class="c1"># points]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asin">
+<h2>asin<a class="headerlink" href="#asin" title="Permalink to this headline">¶</a></h2>
+<p>Take arcsine of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">asin</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asinx">
+<h2>asinx<a class="headerlink" href="#asinx" title="Permalink to this headline">¶</a></h2>
+<p>Take arcsine of x values of curves
+.. code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">asinx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asinh">
+<h2>asinh<a class="headerlink" href="#asinh" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arcsine of y values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">asinh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="asinhx">
+<h2>asinhx<a class="headerlink" href="#asinhx" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arcsine of x values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">asinhx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atan">
+<h2>atan<a class="headerlink" href="#atan" title="Permalink to this headline">¶</a></h2>
+<p>Take arctangent of y values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">atan</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atanx">
+<h2>atanx<a class="headerlink" href="#atanx" title="Permalink to this headline">¶</a></h2>
+<p>Take arctangent of x values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">atanx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atan2">
+<h2>atan2<a class="headerlink" href="#atan2" title="Permalink to this headline">¶</a></h2>
+<p>Take atan2 of two curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">atan2</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atanh">
+<h2>atanh<a class="headerlink" href="#atanh" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arctangent of y values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">atanh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="atanhx">
+<h2>atanhx<a class="headerlink" href="#atanhx" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic arctangent of x values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">atanhx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="average">
+<h2>average<a class="headerlink" href="#average" title="Permalink to this headline">¶</a></h2>
+<p>Average the specified curvelist over the intersection of their domains.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">average</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convolve">
+<h2>convolve<a class="headerlink" href="#convolve" title="Permalink to this headline">¶</a></h2>
+<p>Computes the convolution of the two given curves. This is similar to the slower <strong>convolc</strong> method in ULTRA that uses direct integration and minimal interpolations. <strong>Shortcut:</strong> convol</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">convolve</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convolveb">
+<h2>convolveb<a class="headerlink" href="#convolveb" title="Permalink to this headline">¶</a></h2>
+<p>Computes the convolution of the two given curves and normalizing the second curve by the area under the curve. This computes the integrals directly which avoid padding and aliasing problems associated with FFT methods (it is however slower). <strong>Shortcut:</strong> convolb</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">convolveb</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convolvec">
+<h2>convolvec<a class="headerlink" href="#convolvec" title="Permalink to this headline">¶</a></h2>
+<p>Computes the convolution of the two given curves with no normalization. This computes the integrals directly which avoid padding and aliasing problems associated with FFT methods (it is however slower). <strong>Shortcut:</strong> convolb</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">convolveb</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="correl-2-4-2">
+<h2><strong>correl - 2.4.2</strong><a class="headerlink" href="#correl-2-4-2" title="Permalink to this headline">¶</a></h2>
+<p>Computes the cross-correlation of two curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">correl</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cos">
+<h2>cos<a class="headerlink" href="#cos" title="Permalink to this headline">¶</a></h2>
+<p>Take the cosine of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">cos</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cosx">
+<h2>cosx<a class="headerlink" href="#cosx" title="Permalink to this headline">¶</a></h2>
+<p>Take the cosine of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">cosx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cosh">
+<h2>cosh<a class="headerlink" href="#cosh" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic cosine of y values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">cosh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="coshx">
+<h2>coshx<a class="headerlink" href="#coshx" title="Permalink to this headline">¶</a></h2>
+<p>Take hyperbolic cosine of x values of curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">coshx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dx">
+<h2>dx<a class="headerlink" href="#dx" title="Permalink to this headline">¶</a></h2>
+<p>Shift x values of curves by a constant.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dy">
+<h2>dy<a class="headerlink" href="#dy" title="Permalink to this headline">¶</a></h2>
+<p>Shift y values of curves by a constant.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dy</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="divx">
+<h2>divx<a class="headerlink" href="#divx" title="Permalink to this headline">¶</a></h2>
+<p>Procedure: Divide x values of curves by a constant.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="divy">
+<h2>divy<a class="headerlink" href="#divy" title="Permalink to this headline">¶</a></h2>
+<p>Procedure: Divide y values of curves by a constant.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divy</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="error-bar">
+<h2>error-bar<a class="headerlink" href="#error-bar" title="Permalink to this headline">¶</a></h2>
+<p>Plot error bars on the given curve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">errorbar</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">+</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span> <span class="n">x</span><span class="o">+</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span><span class="p">]</span> <span class="p">[</span><span class="n">point</span><span class="o">-</span><span class="n">skip</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="errorrange">
+<h2>errorrange<a class="headerlink" href="#errorrange" title="Permalink to this headline">¶</a></h2>
+<p>Plot shaded error region on given curve, <strong>Shortcut: error-range</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">errorrange</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">+</span><span class="n">error</span><span class="o">-</span><span class="n">curve</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="exp">
+<h2>exp<a class="headerlink" href="#exp" title="Permalink to this headline">¶</a></h2>
+<p>e**y, exponentiate y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">exp</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="expx">
+<h2>expx<a class="headerlink" href="#expx" title="Permalink to this headline">¶</a></h2>
+<p>e**y, exponentiate x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">expx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fft">
+<h2>fft<a class="headerlink" href="#fft" title="Permalink to this headline">¶</a></h2>
+<p>Compute the one-dimensional discrete Fourier Transform for the y-values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fft</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fftx">
+<h2>fftx<a class="headerlink" href="#fftx" title="Permalink to this headline">¶</a></h2>
+<p>Compute the one-dimensional discrete Fourier Transform for the x-values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fftx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gaussian">
+<h2>gaussian<a class="headerlink" href="#gaussian" title="Permalink to this headline">¶</a></h2>
+<p>Generate a gaussian function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gaussian</span> <span class="o">&lt;</span><span class="n">amplitude</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">center</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="c1"># points&gt; [&lt;# half-widths&gt;]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="j0">
+<h2>j0<a class="headerlink" href="#j0" title="Permalink to this headline">¶</a></h2>
+<p>Take the zeroth order Bessel function of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">j0</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="j0x">
+<h2>j0x<a class="headerlink" href="#j0x" title="Permalink to this headline">¶</a></h2>
+<p>Take the zeroth order Bessel function of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">j0x</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="j1">
+<h2>j1<a class="headerlink" href="#j1" title="Permalink to this headline">¶</a></h2>
+<p>Take the first order Bessel function of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">j1</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="j1x">
+<h2>j1x<a class="headerlink" href="#j1x" title="Permalink to this headline">¶</a></h2>
+<p>Take the first order Bessel function of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">j1x</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jn">
+<h2>jn<a class="headerlink" href="#jn" title="Permalink to this headline">¶</a></h2>
+<p>Take the nth order Bessel function of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">jn</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jnx">
+<h2>jnx<a class="headerlink" href="#jnx" title="Permalink to this headline">¶</a></h2>
+<p>Take the nth order Bessel function of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">jnx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="n">n</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="l1">
+<h2>L1<a class="headerlink" href="#l1" title="Permalink to this headline">¶</a></h2>
+<p>Makes new curve that is the L1 norm of two args; the L1 norm is integral( |curve1 - curve2| ) over the interval [xmin,xmax]. Also prints value of integral to command-line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">L1</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="l2">
+<h2>L2<a class="headerlink" href="#l2" title="Permalink to this headline">¶</a></h2>
+<p>Makes new curve that is the L2 norm of two args; the L2 norm is integral( (curve1 - curve2)**2 )**(1/2) over the interval [xmin,xmax]. Also prints value of integral to command-line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">L2</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="log">
+<h2>log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h2>
+<p>Take the natural logarithm of the y values of the curves. If the optional argument <em>keep-neg-vals</em> is set to false, then zero and negative y-values will be discarded. <em>keep-neg-vals</em> is true by default. <strong>Shortcut: ln</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">log</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">keep</span><span class="o">-</span><span class="n">neg</span><span class="o">-</span><span class="n">vals</span><span class="p">:</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="logx">
+<h2>logx<a class="headerlink" href="#logx" title="Permalink to this headline">¶</a></h2>
+<p>Take the natural logarithm of the x values of the curves. If the optional argument <em>keep-neg-vals</em> is set to false, then zero and negative x-values will be discarded. <em>keep-neg-vals</em> is true by default. <strong>Shortcut: lnx</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">logx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">keep</span><span class="o">-</span><span class="n">neg</span><span class="o">-</span><span class="n">vals</span><span class="p">:</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="log10">
+<h2>log10<a class="headerlink" href="#log10" title="Permalink to this headline">¶</a></h2>
+<p>Take the base 10 logarithm of the y values of the curves. If the optional argument <em>keep-neg-vals</em> is set to false, then zero and negative y-values will be discarded. <em>keep-neg-vals</em> is true by default.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">log10</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">keep</span><span class="o">-</span><span class="n">neg</span><span class="o">-</span><span class="n">vals</span><span class="p">:</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="log10x">
+<h2>log10x<a class="headerlink" href="#log10x" title="Permalink to this headline">¶</a></h2>
+<p>Take the base 10 logarithm of the x values of the curves. If the optional argument <em>keep-neg-vals</em> is set to false, then zero and negative y-values will be discarded. <em>keep-neg-vals</em> is true by default.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">log10x</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">keep</span><span class="o">-</span><span class="n">neg</span><span class="o">-</span><span class="n">vals</span><span class="p">:</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="makeintensive-2-4-2">
+<h2><strong>makeintensive - 2.4.2</strong><a class="headerlink" href="#makeintensive-2-4-2" title="Permalink to this headline">¶</a></h2>
+<p>Set the y-values such that y[i] = y[i] / (x[i+1] - x[i]). <strong>Shortcut: mkint</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">makeintensive</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="makeextensive-2-4-2">
+<h2><strong>makeextensive - 2.4.2</strong><a class="headerlink" href="#makeextensive-2-4-2" title="Permalink to this headline">¶</a></h2>
+<p>Set the y-values such that y[i] = y[i] * (x[i+1] - x[i]). <strong>Shortcut: mkext</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">makeextensive</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max">
+<h2>max<a class="headerlink" href="#max" title="Permalink to this headline">¶</a></h2>
+<p>Makes a new curve with max y values of curves passed in curvelist.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="nb">max</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="min">
+<h2>min<a class="headerlink" href="#min" title="Permalink to this headline">¶</a></h2>
+<p>Makes a new curve with min y values of curves passed in curvelist.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="nb">min</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mx">
+<h2>mx<a class="headerlink" href="#mx" title="Permalink to this headline">¶</a></h2>
+<p>Scale the x values of the curves by a fixed value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">mx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="my">
+<h2>my<a class="headerlink" href="#my" title="Permalink to this headline">¶</a></h2>
+<p>Scale the y values of the curves by a fixed value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">my</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="norm">
+<h2>norm<a class="headerlink" href="#norm" title="Permalink to this headline">¶</a></h2>
+<p>Makes a new curve that is the norm of two args. Also prints the value of the integral to command line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">norm</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The p-norm is (integral( (curve1 - curve2)**p )**(1/p) over the interval [xmin, xmax],
+where p = order.</p>
+</div>
+</div>
+<div class="section" id="powa">
+<h2>powa<a class="headerlink" href="#powa" title="Permalink to this headline">¶</a></h2>
+<p>Raise a fixed value, a, to the power of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">powa</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">a</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="powax">
+<h2>powax<a class="headerlink" href="#powax" title="Permalink to this headline">¶</a></h2>
+<p>Raise a fixed value, a, to the power of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">powax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">a</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="powr">
+<h2>powr<a class="headerlink" href="#powr" title="Permalink to this headline">¶</a></h2>
+<p>Raise the y values of the curves to a fixed power p.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">powr</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="powrx">
+<h2>powrx<a class="headerlink" href="#powrx" title="Permalink to this headline">¶</a></h2>
+<p>Raise the x values of the curves to a fixed power p.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">powrx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="recip">
+<h2>recip<a class="headerlink" href="#recip" title="Permalink to this headline">¶</a></h2>
+<p>Take the reciprocal of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">recip</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="recipx">
+<h2>recipx<a class="headerlink" href="#recipx" title="Permalink to this headline">¶</a></h2>
+<p>Take the reciprocal of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">recipx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sin">
+<h2>sin<a class="headerlink" href="#sin" title="Permalink to this headline">¶</a></h2>
+<p>Take the sine of the y values of the curve</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sin</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sinx">
+<h2>sinx<a class="headerlink" href="#sinx" title="Permalink to this headline">¶</a></h2>
+<p>Take the sine of the x values of the curve</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sinx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sinh">
+<h2>sinh<a class="headerlink" href="#sinh" title="Permalink to this headline">¶</a></h2>
+<p>Take the hyperbolic sine of the y values of the curve</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sinh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="smooth">
+<h2>smooth<a class="headerlink" href="#smooth" title="Permalink to this headline">¶</a></h2>
+<p>Smooth the curve to the given degree.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">smooth</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">smooth</span><span class="o">-</span><span class="n">factor</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqr">
+<h2>sqr<a class="headerlink" href="#sqr" title="Permalink to this headline">¶</a></h2>
+<p>Take the square of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sqr</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqrx">
+<h2>sqrx<a class="headerlink" href="#sqrx" title="Permalink to this headline">¶</a></h2>
+<p>Take the square of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sqrx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqrt">
+<h2>sqrt<a class="headerlink" href="#sqrt" title="Permalink to this headline">¶</a></h2>
+<p>Take the squre root of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sqrt</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sqrtx">
+<h2>sqrtx<a class="headerlink" href="#sqrtx" title="Permalink to this headline">¶</a></h2>
+<p>Take the squre root of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sqrtx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tan">
+<h2>tan<a class="headerlink" href="#tan" title="Permalink to this headline">¶</a></h2>
+<p>Take the tangent of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">tan</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tanx">
+<h2>tanx<a class="headerlink" href="#tanx" title="Permalink to this headline">¶</a></h2>
+<p>Take the tangent of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">tanx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tanh">
+<h2>tanh<a class="headerlink" href="#tanh" title="Permalink to this headline">¶</a></h2>
+<p>Take the hyperbolic tangent of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">tanh</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tanhx">
+<h2>tanhx<a class="headerlink" href="#tanhx" title="Permalink to this headline">¶</a></h2>
+<p>Take the hyperbolic tangent of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">tanhx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xmax">
+<h2>xmax<a class="headerlink" href="#xmax" title="Permalink to this headline">¶</a></h2>
+<p>Filter out points in curves whose x-values greater than limit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xmax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">limit</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xmin">
+<h2>xmin<a class="headerlink" href="#xmin" title="Permalink to this headline">¶</a></h2>
+<p>Filter out points in curves whose x-values less than limit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xmin</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">limit</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="y0">
+<h2>y0<a class="headerlink" href="#y0" title="Permalink to this headline">¶</a></h2>
+<p>Take the zeroth order Bessel function of the second kind of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">y0</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="y0x">
+<h2>y0x<a class="headerlink" href="#y0x" title="Permalink to this headline">¶</a></h2>
+<p>Take the zeroth order Bessel function of the second kind of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">y0x</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="y1">
+<h2>y1<a class="headerlink" href="#y1" title="Permalink to this headline">¶</a></h2>
+<p>Take the first order Bessel function of the second kind of the y values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">y1</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="y1x">
+<h2>y1x<a class="headerlink" href="#y1x" title="Permalink to this headline">¶</a></h2>
+<p>Take the first order Bessel function of the second kind of the x values of the curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">y1x</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ymax">
+<h2>ymax<a class="headerlink" href="#ymax" title="Permalink to this headline">¶</a></h2>
+<p>Filter out points in curves whose y-values greater than limit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ymax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">limit</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ymin">
+<h2>ymin<a class="headerlink" href="#ymin" title="Permalink to this headline">¶</a></h2>
+<p>Filter out points in curves whose y-values less than limit</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ymin</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">limit</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yminmax">
+<h2>yminmax<a class="headerlink" href="#yminmax" title="Permalink to this headline">¶</a></h2>
+<p>Trim the selected curves. <strong>Shortcut: ymm</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">yminmax</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">low</span><span class="o">-</span><span class="n">limit</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">high</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yn">
+<h2>yn<a class="headerlink" href="#yn" title="Permalink to this headline">¶</a></h2>
+<p>Take the nth order Bessel function of the second kind of y values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">yn</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ynx">
+<h2>ynx<a class="headerlink" href="#ynx" title="Permalink to this headline">¶</a></h2>
+<p>Take the nth order Bessel function of the second kind of x values of curves</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ynx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subtract">
+<h2>subtract<a class="headerlink" href="#subtract" title="Permalink to this headline">¶</a></h2>
+<p>Take the difference of curves. <strong>Shortcuts:</strong> –, sub</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">subtract</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiply">
+<h2>multiply<a class="headerlink" href="#multiply" title="Permalink to this headline">¶</a></h2>
+<p>Take the product of curves. <strong>Shortcuts:</strong> *, mult</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">multiply</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="divide">
+<h2>divide<a class="headerlink" href="#divide" title="Permalink to this headline">¶</a></h2>
+<p>Take quotient of curves. <strong>Shortcuts:</strong> /, div</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divide</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="derivative">
+<h2>derivative<a class="headerlink" href="#derivative" title="Permalink to this headline">¶</a></h2>
+<p>Take the derivative of curves. <strong>Shortcut:</strong> der</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">derivative</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="diffmeasure">
+<h2>diffMeasure<a class="headerlink" href="#diffmeasure" title="Permalink to this headline">¶</a></h2>
+<p>Compare two curves. For the given curves a fractional difference measure and its average is computed</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">diffMeasure</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">tolerance</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fit">
+<h2>fit<a class="headerlink" href="#fit" title="Permalink to this headline">¶</a></h2>
+<p>Make new curve that is polynomial fit to argument. n=1 by default, logy means take log(y-values) before fitting, logx means take log(x-values) before fitting</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fit</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="n">logx</span><span class="p">]</span> <span class="p">[</span><span class="n">logy</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="integrate">
+<h2>integrate<a class="headerlink" href="#integrate" title="Permalink to this headline">¶</a></h2>
+<p>Compute the definite integral of each curve in the list over the specified domain. <strong>Shortcut:</strong> int</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">integrate</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">low</span><span class="o">-</span><span class="n">limit</span> <span class="n">high</span><span class="o">-</span><span class="n">limit</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="span">
+<h2>span<a class="headerlink" href="#span" title="Permalink to this headline">¶</a></h2>
+<p>Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">span</span> <span class="o">&lt;</span><span class="n">xmin</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xmax</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">points</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="vs">
+<h2>vs<a class="headerlink" href="#vs" title="Permalink to this headline">¶</a></h2>
+<p>Plot the range of the first curve against the range of the second curve</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">vs</span> <span class="o">&lt;</span><span class="n">curve1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">curve2</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Math Operations</a><ul>
+<li><a class="reference internal" href="#abs">abs</a></li>
+<li><a class="reference internal" href="#absx">absx</a></li>
+<li><a class="reference internal" href="#acos">acos</a></li>
+<li><a class="reference internal" href="#acosh">acosh</a></li>
+<li><a class="reference internal" href="#acoshx">acoshx</a></li>
+<li><a class="reference internal" href="#acosx">acosx</a></li>
+<li><a class="reference internal" href="#add">add</a></li>
+<li><a class="reference internal" href="#alpha">alpha</a></li>
+<li><a class="reference internal" href="#asin">asin</a></li>
+<li><a class="reference internal" href="#asinx">asinx</a></li>
+<li><a class="reference internal" href="#asinh">asinh</a></li>
+<li><a class="reference internal" href="#asinhx">asinhx</a></li>
+<li><a class="reference internal" href="#atan">atan</a></li>
+<li><a class="reference internal" href="#atanx">atanx</a></li>
+<li><a class="reference internal" href="#atan2">atan2</a></li>
+<li><a class="reference internal" href="#atanh">atanh</a></li>
+<li><a class="reference internal" href="#atanhx">atanhx</a></li>
+<li><a class="reference internal" href="#average">average</a></li>
+<li><a class="reference internal" href="#convolve">convolve</a></li>
+<li><a class="reference internal" href="#convolveb">convolveb</a></li>
+<li><a class="reference internal" href="#convolvec">convolvec</a></li>
+<li><a class="reference internal" href="#correl-2-4-2"><strong>correl - 2.4.2</strong></a></li>
+<li><a class="reference internal" href="#cos">cos</a></li>
+<li><a class="reference internal" href="#cosx">cosx</a></li>
+<li><a class="reference internal" href="#cosh">cosh</a></li>
+<li><a class="reference internal" href="#coshx">coshx</a></li>
+<li><a class="reference internal" href="#dx">dx</a></li>
+<li><a class="reference internal" href="#dy">dy</a></li>
+<li><a class="reference internal" href="#divx">divx</a></li>
+<li><a class="reference internal" href="#divy">divy</a></li>
+<li><a class="reference internal" href="#error-bar">error-bar</a></li>
+<li><a class="reference internal" href="#errorrange">errorrange</a></li>
+<li><a class="reference internal" href="#exp">exp</a></li>
+<li><a class="reference internal" href="#expx">expx</a></li>
+<li><a class="reference internal" href="#fft">fft</a></li>
+<li><a class="reference internal" href="#fftx">fftx</a></li>
+<li><a class="reference internal" href="#gaussian">gaussian</a></li>
+<li><a class="reference internal" href="#j0">j0</a></li>
+<li><a class="reference internal" href="#j0x">j0x</a></li>
+<li><a class="reference internal" href="#j1">j1</a></li>
+<li><a class="reference internal" href="#j1x">j1x</a></li>
+<li><a class="reference internal" href="#jn">jn</a></li>
+<li><a class="reference internal" href="#jnx">jnx</a></li>
+<li><a class="reference internal" href="#l1">L1</a></li>
+<li><a class="reference internal" href="#l2">L2</a></li>
+<li><a class="reference internal" href="#log">log</a></li>
+<li><a class="reference internal" href="#logx">logx</a></li>
+<li><a class="reference internal" href="#log10">log10</a></li>
+<li><a class="reference internal" href="#log10x">log10x</a></li>
+<li><a class="reference internal" href="#makeintensive-2-4-2"><strong>makeintensive - 2.4.2</strong></a></li>
+<li><a class="reference internal" href="#makeextensive-2-4-2"><strong>makeextensive - 2.4.2</strong></a></li>
+<li><a class="reference internal" href="#max">max</a></li>
+<li><a class="reference internal" href="#min">min</a></li>
+<li><a class="reference internal" href="#mx">mx</a></li>
+<li><a class="reference internal" href="#my">my</a></li>
+<li><a class="reference internal" href="#norm">norm</a></li>
+<li><a class="reference internal" href="#powa">powa</a></li>
+<li><a class="reference internal" href="#powax">powax</a></li>
+<li><a class="reference internal" href="#powr">powr</a></li>
+<li><a class="reference internal" href="#powrx">powrx</a></li>
+<li><a class="reference internal" href="#recip">recip</a></li>
+<li><a class="reference internal" href="#recipx">recipx</a></li>
+<li><a class="reference internal" href="#sin">sin</a></li>
+<li><a class="reference internal" href="#sinx">sinx</a></li>
+<li><a class="reference internal" href="#sinh">sinh</a></li>
+<li><a class="reference internal" href="#smooth">smooth</a></li>
+<li><a class="reference internal" href="#sqr">sqr</a></li>
+<li><a class="reference internal" href="#sqrx">sqrx</a></li>
+<li><a class="reference internal" href="#sqrt">sqrt</a></li>
+<li><a class="reference internal" href="#sqrtx">sqrtx</a></li>
+<li><a class="reference internal" href="#tan">tan</a></li>
+<li><a class="reference internal" href="#tanx">tanx</a></li>
+<li><a class="reference internal" href="#tanh">tanh</a></li>
+<li><a class="reference internal" href="#tanhx">tanhx</a></li>
+<li><a class="reference internal" href="#xmax">xmax</a></li>
+<li><a class="reference internal" href="#xmin">xmin</a></li>
+<li><a class="reference internal" href="#y0">y0</a></li>
+<li><a class="reference internal" href="#y0x">y0x</a></li>
+<li><a class="reference internal" href="#y1">y1</a></li>
+<li><a class="reference internal" href="#y1x">y1x</a></li>
+<li><a class="reference internal" href="#ymax">ymax</a></li>
+<li><a class="reference internal" href="#ymin">ymin</a></li>
+<li><a class="reference internal" href="#yminmax">yminmax</a></li>
+<li><a class="reference internal" href="#yn">yn</a></li>
+<li><a class="reference internal" href="#ynx">ynx</a></li>
+<li><a class="reference internal" href="#subtract">subtract</a></li>
+<li><a class="reference internal" href="#multiply">multiply</a></li>
+<li><a class="reference internal" href="#divide">divide</a></li>
+<li><a class="reference internal" href="#derivative">derivative</a></li>
+<li><a class="reference internal" href="#diffmeasure">diffMeasure</a></li>
+<li><a class="reference internal" href="#fit">fit</a></li>
+<li><a class="reference internal" href="#integrate">integrate</a></li>
+<li><a class="reference internal" href="#span">span</a></li>
+<li><a class="reference internal" href="#vs">vs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="io_commands.html"
+                        title="previous chapter">I/O Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="env_inquiry_cmds.html"
+                        title="next chapter">Environmental Inquiry Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/math_operations.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="io_commands.html" title="I/O Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,707 @@
+\indexentry{pydvpy (module)@\spxentry{pydvpy}\spxextra{module}|hyperpage}{41}
+\indexentry{abs() (in module pydvpy)@\spxentry{abs()}\spxextra{in module pydvpy}|hyperpage}{41}
+\indexentry{absx() (in module pydvpy)@\spxentry{absx()}\spxextra{in module pydvpy}|hyperpage}{41}
+\indexentry{acos() (in module pydvpy)@\spxentry{acos()}\spxextra{in module pydvpy}|hyperpage}{41}
+\indexentry{acosh() (in module pydvpy)@\spxentry{acosh()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{acoshx() (in module pydvpy)@\spxentry{acoshx()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{acosx() (in module pydvpy)@\spxentry{acosx()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{add() (in module pydvpy)@\spxentry{add()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{alpha() (in module pydvpy)@\spxentry{alpha()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{appendcurves() (in module pydvpy)@\spxentry{appendcurves()}\spxextra{in module pydvpy}|hyperpage}{42}
+\indexentry{asin() (in module pydvpy)@\spxentry{asin()}\spxextra{in module pydvpy}|hyperpage}{43}
+\indexentry{asinh() (in module pydvpy)@\spxentry{asinh()}\spxextra{in module pydvpy}|hyperpage}{43}
+\indexentry{asinhx() (in module pydvpy)@\spxentry{asinhx()}\spxextra{in module pydvpy}|hyperpage}{43}
+\indexentry{asinx() (in module pydvpy)@\spxentry{asinx()}\spxextra{in module pydvpy}|hyperpage}{43}
+\indexentry{atan() (in module pydvpy)@\spxentry{atan()}\spxextra{in module pydvpy}|hyperpage}{43}
+\indexentry{atan2() (in module pydvpy)@\spxentry{atan2()}\spxextra{in module pydvpy}|hyperpage}{44}
+\indexentry{atanh() (in module pydvpy)@\spxentry{atanh()}\spxextra{in module pydvpy}|hyperpage}{44}
+\indexentry{atanhx() (in module pydvpy)@\spxentry{atanhx()}\spxextra{in module pydvpy}|hyperpage}{44}
+\indexentry{atanx() (in module pydvpy)@\spxentry{atanx()}\spxextra{in module pydvpy}|hyperpage}{44}
+\indexentry{average\_curve() (in module pydvpy)@\spxentry{average\_curve()}\spxextra{in module pydvpy}|hyperpage}{44}
+\indexentry{convolve() (in module pydvpy)@\spxentry{convolve()}\spxextra{in module pydvpy}|hyperpage}{45}
+\indexentry{convolve\_int() (in module pydvpy)@\spxentry{convolve\_int()}\spxextra{in module pydvpy}|hyperpage}{45}
+\indexentry{convolveb() (in module pydvpy)@\spxentry{convolveb()}\spxextra{in module pydvpy}|hyperpage}{45}
+\indexentry{convolvec() (in module pydvpy)@\spxentry{convolvec()}\spxextra{in module pydvpy}|hyperpage}{45}
+\indexentry{correlate() (in module pydvpy)@\spxentry{correlate()}\spxextra{in module pydvpy}|hyperpage}{46}
+\indexentry{cos() (in module pydvpy)@\spxentry{cos()}\spxextra{in module pydvpy}|hyperpage}{46}
+\indexentry{cosh() (in module pydvpy)@\spxentry{cosh()}\spxextra{in module pydvpy}|hyperpage}{46}
+\indexentry{coshx() (in module pydvpy)@\spxentry{coshx()}\spxextra{in module pydvpy}|hyperpage}{46}
+\indexentry{cosx() (in module pydvpy)@\spxentry{cosx()}\spxextra{in module pydvpy}|hyperpage}{47}
+\indexentry{create\_plot() (in module pydvpy)@\spxentry{create\_plot()}\spxextra{in module pydvpy}|hyperpage}{47}
+\indexentry{derivative() (in module pydvpy)@\spxentry{derivative()}\spxextra{in module pydvpy}|hyperpage}{47}
+\indexentry{diffMeasure() (in module pydvpy)@\spxentry{diffMeasure()}\spxextra{in module pydvpy}|hyperpage}{48}
+\indexentry{disp() (in module pydvpy)@\spxentry{disp()}\spxextra{in module pydvpy}|hyperpage}{48}
+\indexentry{divide() (in module pydvpy)@\spxentry{divide()}\spxextra{in module pydvpy}|hyperpage}{48}
+\indexentry{divx() (in module pydvpy)@\spxentry{divx()}\spxextra{in module pydvpy}|hyperpage}{48}
+\indexentry{divy() (in module pydvpy)@\spxentry{divy()}\spxextra{in module pydvpy}|hyperpage}{49}
+\indexentry{dupx() (in module pydvpy)@\spxentry{dupx()}\spxextra{in module pydvpy}|hyperpage}{49}
+\indexentry{dx() (in module pydvpy)@\spxentry{dx()}\spxextra{in module pydvpy}|hyperpage}{49}
+\indexentry{dy() (in module pydvpy)@\spxentry{dy()}\spxextra{in module pydvpy}|hyperpage}{49}
+\indexentry{errorbar() (in module pydvpy)@\spxentry{errorbar()}\spxextra{in module pydvpy}|hyperpage}{50}
+\indexentry{errorrange() (in module pydvpy)@\spxentry{errorrange()}\spxextra{in module pydvpy}|hyperpage}{50}
+\indexentry{exp() (in module pydvpy)@\spxentry{exp()}\spxextra{in module pydvpy}|hyperpage}{51}
+\indexentry{expx() (in module pydvpy)@\spxentry{expx()}\spxextra{in module pydvpy}|hyperpage}{51}
+\indexentry{fft() (in module pydvpy)@\spxentry{fft()}\spxextra{in module pydvpy}|hyperpage}{51}
+\indexentry{filtercurves() (in module pydvpy)@\spxentry{filtercurves()}\spxextra{in module pydvpy}|hyperpage}{52}
+\indexentry{fit() (in module pydvpy)@\spxentry{fit()}\spxextra{in module pydvpy}|hyperpage}{52}
+\indexentry{gaussian() (in module pydvpy)@\spxentry{gaussian()}\spxextra{in module pydvpy}|hyperpage}{52}
+\indexentry{get\_styles() (in module pydvpy)@\spxentry{get\_styles()}\spxextra{in module pydvpy}|hyperpage}{53}
+\indexentry{getdomain() (in module pydvpy)@\spxentry{getdomain()}\spxextra{in module pydvpy}|hyperpage}{53}
+\indexentry{getnumpoints() (in module pydvpy)@\spxentry{getnumpoints()}\spxextra{in module pydvpy}|hyperpage}{53}
+\indexentry{getrange() (in module pydvpy)@\spxentry{getrange()}\spxextra{in module pydvpy}|hyperpage}{53}
+\indexentry{getx() (in module pydvpy)@\spxentry{getx()}\spxextra{in module pydvpy}|hyperpage}{53}
+\indexentry{gety() (in module pydvpy)@\spxentry{gety()}\spxextra{in module pydvpy}|hyperpage}{54}
+\indexentry{getymax() (in module pydvpy)@\spxentry{getymax()}\spxextra{in module pydvpy}|hyperpage}{54}
+\indexentry{getymin() (in module pydvpy)@\spxentry{getymin()}\spxextra{in module pydvpy}|hyperpage}{54}
+\indexentry{integrate() (in module pydvpy)@\spxentry{integrate()}\spxextra{in module pydvpy}|hyperpage}{54}
+\indexentry{j0() (in module pydvpy)@\spxentry{j0()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{j0x() (in module pydvpy)@\spxentry{j0x()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{j1() (in module pydvpy)@\spxentry{j1()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{j1x() (in module pydvpy)@\spxentry{j1x()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{jn() (in module pydvpy)@\spxentry{jn()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{jnx() (in module pydvpy)@\spxentry{jnx()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{l1() (in module pydvpy)@\spxentry{l1()}\spxextra{in module pydvpy}|hyperpage}{55}
+\indexentry{l2() (in module pydvpy)@\spxentry{l2()}\spxextra{in module pydvpy}|hyperpage}{56}
+\indexentry{line() (in module pydvpy)@\spxentry{line()}\spxextra{in module pydvpy}|hyperpage}{56}
+\indexentry{log() (in module pydvpy)@\spxentry{log()}\spxextra{in module pydvpy}|hyperpage}{56}
+\indexentry{log10() (in module pydvpy)@\spxentry{log10()}\spxextra{in module pydvpy}|hyperpage}{57}
+\indexentry{log10x() (in module pydvpy)@\spxentry{log10x()}\spxextra{in module pydvpy}|hyperpage}{57}
+\indexentry{logx() (in module pydvpy)@\spxentry{logx()}\spxextra{in module pydvpy}|hyperpage}{57}
+\indexentry{makecurve() (in module pydvpy)@\spxentry{makecurve()}\spxextra{in module pydvpy}|hyperpage}{57}
+\indexentry{makeextensive() (in module pydvpy)@\spxentry{makeextensive()}\spxextra{in module pydvpy}|hyperpage}{58}
+\indexentry{makeintensive() (in module pydvpy)@\spxentry{makeintensive()}\spxextra{in module pydvpy}|hyperpage}{58}
+\indexentry{max\_curve() (in module pydvpy)@\spxentry{max\_curve()}\spxextra{in module pydvpy}|hyperpage}{58}
+\indexentry{min\_curve() (in module pydvpy)@\spxentry{min\_curve()}\spxextra{in module pydvpy}|hyperpage}{58}
+\indexentry{multiply() (in module pydvpy)@\spxentry{multiply()}\spxextra{in module pydvpy}|hyperpage}{58}
+\indexentry{mx() (in module pydvpy)@\spxentry{mx()}\spxextra{in module pydvpy}|hyperpage}{59}
+\indexentry{my() (in module pydvpy)@\spxentry{my()}\spxextra{in module pydvpy}|hyperpage}{59}
+\indexentry{norm() (in module pydvpy)@\spxentry{norm()}\spxextra{in module pydvpy}|hyperpage}{59}
+\indexentry{powa() (in module pydvpy)@\spxentry{powa()}\spxextra{in module pydvpy}|hyperpage}{60}
+\indexentry{powax() (in module pydvpy)@\spxentry{powax()}\spxextra{in module pydvpy}|hyperpage}{60}
+\indexentry{powr() (in module pydvpy)@\spxentry{powr()}\spxextra{in module pydvpy}|hyperpage}{60}
+\indexentry{powrx() (in module pydvpy)@\spxentry{powrx()}\spxextra{in module pydvpy}|hyperpage}{60}
+\indexentry{random() (in module pydvpy)@\spxentry{random()}\spxextra{in module pydvpy}|hyperpage}{61}
+\indexentry{read() (in module pydvpy)@\spxentry{read()}\spxextra{in module pydvpy}|hyperpage}{61}
+\indexentry{readcsv() (in module pydvpy)@\spxentry{readcsv()}\spxextra{in module pydvpy}|hyperpage}{61}
+\indexentry{recip() (in module pydvpy)@\spxentry{recip()}\spxextra{in module pydvpy}|hyperpage}{61}
+\indexentry{recipx() (in module pydvpy)@\spxentry{recipx()}\spxextra{in module pydvpy}|hyperpage}{62}
+\indexentry{rev() (in module pydvpy)@\spxentry{rev()}\spxextra{in module pydvpy}|hyperpage}{62}
+\indexentry{save() (in module pydvpy)@\spxentry{save()}\spxextra{in module pydvpy}|hyperpage}{62}
+\indexentry{savecsv() (in module pydvpy)@\spxentry{savecsv()}\spxextra{in module pydvpy}|hyperpage}{63}
+\indexentry{sin() (in module pydvpy)@\spxentry{sin()}\spxextra{in module pydvpy}|hyperpage}{63}
+\indexentry{sinh() (in module pydvpy)@\spxentry{sinh()}\spxextra{in module pydvpy}|hyperpage}{63}
+\indexentry{sinhx() (in module pydvpy)@\spxentry{sinhx()}\spxextra{in module pydvpy}|hyperpage}{63}
+\indexentry{sinx() (in module pydvpy)@\spxentry{sinx()}\spxextra{in module pydvpy}|hyperpage}{63}
+\indexentry{smooth() (in module pydvpy)@\spxentry{smooth()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{sort() (in module pydvpy)@\spxentry{sort()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{span() (in module pydvpy)@\spxentry{span()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{sqr() (in module pydvpy)@\spxentry{sqr()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{sqrt() (in module pydvpy)@\spxentry{sqrt()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{sqrtx() (in module pydvpy)@\spxentry{sqrtx()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{sqrx() (in module pydvpy)@\spxentry{sqrx()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{subsample() (in module pydvpy)@\spxentry{subsample()}\spxextra{in module pydvpy}|hyperpage}{64}
+\indexentry{subtract() (in module pydvpy)@\spxentry{subtract()}\spxextra{in module pydvpy}|hyperpage}{65}
+\indexentry{tan() (in module pydvpy)@\spxentry{tan()}\spxextra{in module pydvpy}|hyperpage}{65}
+\indexentry{tanh() (in module pydvpy)@\spxentry{tanh()}\spxextra{in module pydvpy}|hyperpage}{65}
+\indexentry{tanhx() (in module pydvpy)@\spxentry{tanhx()}\spxextra{in module pydvpy}|hyperpage}{65}
+\indexentry{tanx() (in module pydvpy)@\spxentry{tanx()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{vs() (in module pydvpy)@\spxentry{vs()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{xindex() (in module pydvpy)@\spxentry{xindex()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{xmax() (in module pydvpy)@\spxentry{xmax()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{xmin() (in module pydvpy)@\spxentry{xmin()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{xminmax() (in module pydvpy)@\spxentry{xminmax()}\spxextra{in module pydvpy}|hyperpage}{66}
+\indexentry{y0() (in module pydvpy)@\spxentry{y0()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{y0x() (in module pydvpy)@\spxentry{y0x()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{y1() (in module pydvpy)@\spxentry{y1()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{y1x() (in module pydvpy)@\spxentry{y1x()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{ymax() (in module pydvpy)@\spxentry{ymax()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{ymin() (in module pydvpy)@\spxentry{ymin()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{yminmax() (in module pydvpy)@\spxentry{yminmax()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{yn() (in module pydvpy)@\spxentry{yn()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{ynx() (in module pydvpy)@\spxentry{ynx()}\spxextra{in module pydvpy}|hyperpage}{67}
+\indexentry{curve (module)@\spxentry{curve}\spxextra{module}|hyperpage}{68}
+\indexentry{Curve (class in curve)@\spxentry{Curve}\spxextra{class in curve}|hyperpage}{68}
+\indexentry{color (curve.Curve attribute)@\spxentry{color}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{copy() (curve.Curve method)@\spxentry{copy()}\spxextra{curve.Curve method}|hyperpage}{68}
+\indexentry{dashes (curve.Curve attribute)@\spxentry{dashes}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{drawstyle (curve.Curve attribute)@\spxentry{drawstyle}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{ebar (curve.Curve attribute)@\spxentry{ebar}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{edited (curve.Curve attribute)@\spxentry{edited}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{erange (curve.Curve attribute)@\spxentry{erange}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{filename (curve.Curve attribute)@\spxentry{filename}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{hidden (curve.Curve attribute)@\spxentry{hidden}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{linespoints (curve.Curve attribute)@\spxentry{linespoints}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{linestyle (curve.Curve attribute)@\spxentry{linestyle}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{linewidth (curve.Curve attribute)@\spxentry{linewidth}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{marker (curve.Curve attribute)@\spxentry{marker}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{markeredgecolor (curve.Curve attribute)@\spxentry{markeredgecolor}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{markerfacecolor (curve.Curve attribute)@\spxentry{markerfacecolor}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{markersize (curve.Curve attribute)@\spxentry{markersize}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{markerstyle (curve.Curve attribute)@\spxentry{markerstyle}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{name (curve.Curve attribute)@\spxentry{name}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{normalize() (curve.Curve method)@\spxentry{normalize()}\spxextra{curve.Curve method}|hyperpage}{68}
+\indexentry{plotname (curve.Curve attribute)@\spxentry{plotname}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{plotprecedence (curve.Curve attribute)@\spxentry{plotprecedence}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{scatter (curve.Curve attribute)@\spxentry{scatter}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{x (curve.Curve attribute)@\spxentry{x}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{y (curve.Curve attribute)@\spxentry{y}\spxextra{curve.Curve attribute}|hyperpage}{68}
+\indexentry{append() (in module curve)@\spxentry{append()}\spxextra{in module curve}|hyperpage}{68}
+\indexentry{getinterp() (in module curve)@\spxentry{getinterp()}\spxextra{in module curve}|hyperpage}{69}
+\indexentry{interp1d() (in module curve)@\spxentry{interp1d()}\spxextra{in module curve}|hyperpage}{69}
+\indexentry{pdv (module)@\spxentry{pdv}\spxextra{module}|hyperpage}{69}
+\indexentry{Command (class in pdv)@\spxentry{Command}\spxextra{class in pdv}|hyperpage}{69}
+\indexentry{addtoplot() (pdv.Command method)@\spxentry{addtoplot()}\spxextra{pdv.Command method}|hyperpage}{69}
+\indexentry{annotationfont (pdv.Command attribute)@\spxentry{annotationfont}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{app (pdv.Command attribute)@\spxentry{app}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{apply\_uichanges() (pdv.Command method)@\spxentry{apply\_uichanges()}\spxextra{pdv.Command method}|hyperpage}{69}
+\indexentry{axistickfont (pdv.Command attribute)@\spxentry{axistickfont}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{console\_run() (pdv.Command method)@\spxentry{console\_run()}\spxextra{pdv.Command method}|hyperpage}{69}
+\indexentry{curvefromlabel() (pdv.Command method)@\spxentry{curvefromlabel()}\spxextra{pdv.Command method}|hyperpage}{69}
+\indexentry{curvelabelfont (pdv.Command attribute)@\spxentry{curvelabelfont}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{curvelist (pdv.Command attribute)@\spxentry{curvelist}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{debug (pdv.Command attribute)@\spxentry{debug}\spxextra{pdv.Command attribute}|hyperpage}{69}
+\indexentry{default() (pdv.Command method)@\spxentry{default()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{derivative() (pdv.Command method)@\spxentry{derivative()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_L1() (pdv.Command method)@\spxentry{do\_L1()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_L2() (pdv.Command method)@\spxentry{do\_L2()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_abs() (pdv.Command method)@\spxentry{do\_abs()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_absx() (pdv.Command method)@\spxentry{do\_absx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_acos() (pdv.Command method)@\spxentry{do\_acos()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_acosh() (pdv.Command method)@\spxentry{do\_acosh()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_acoshx() (pdv.Command method)@\spxentry{do\_acoshx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_acosx() (pdv.Command method)@\spxentry{do\_acosx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_add() (pdv.Command method)@\spxentry{do\_add()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_alias() (pdv.Command method)@\spxentry{do\_alias()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_alpha() (pdv.Command method)@\spxentry{do\_alpha()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_annot() (pdv.Command method)@\spxentry{do\_annot()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_appendcurves() (pdv.Command method)@\spxentry{do\_appendcurves()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_asin() (pdv.Command method)@\spxentry{do\_asin()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_asinh() (pdv.Command method)@\spxentry{do\_asinh()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_asinhx() (pdv.Command method)@\spxentry{do\_asinhx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_asinx() (pdv.Command method)@\spxentry{do\_asinx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_atan() (pdv.Command method)@\spxentry{do\_atan()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_atan2() (pdv.Command method)@\spxentry{do\_atan2()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_atanh() (pdv.Command method)@\spxentry{do\_atanh()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_atanhx() (pdv.Command method)@\spxentry{do\_atanhx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_atanx() (pdv.Command method)@\spxentry{do\_atanx()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_average() (pdv.Command method)@\spxentry{do\_average()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_bkgcolor() (pdv.Command method)@\spxentry{do\_bkgcolor()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_color() (pdv.Command method)@\spxentry{do\_color()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convol() (pdv.Command method)@\spxentry{do\_convol()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convolb() (pdv.Command method)@\spxentry{do\_convolb()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convolc() (pdv.Command method)@\spxentry{do\_convolc()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convolve() (pdv.Command method)@\spxentry{do\_convolve()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convolveb() (pdv.Command method)@\spxentry{do\_convolveb()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_convolvec() (pdv.Command method)@\spxentry{do\_convolvec()}\spxextra{pdv.Command method}|hyperpage}{70}
+\indexentry{do\_copy() (pdv.Command method)@\spxentry{do\_copy()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_correl() (pdv.Command method)@\spxentry{do\_correl()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_cos() (pdv.Command method)@\spxentry{do\_cos()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_cosh() (pdv.Command method)@\spxentry{do\_cosh()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_coshx() (pdv.Command method)@\spxentry{do\_coshx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_cosx() (pdv.Command method)@\spxentry{do\_cosx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_cur() (pdv.Command method)@\spxentry{do\_cur()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_curve() (pdv.Command method)@\spxentry{do\_curve()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_custom() (pdv.Command method)@\spxentry{do\_custom()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dashstyle() (pdv.Command method)@\spxentry{do\_dashstyle()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dataid() (pdv.Command method)@\spxentry{do\_dataid()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_debug() (pdv.Command method)@\spxentry{do\_debug()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_del() (pdv.Command method)@\spxentry{do\_del()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_delannot() (pdv.Command method)@\spxentry{do\_delannot()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_delete() (pdv.Command method)@\spxentry{do\_delete()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_der() (pdv.Command method)@\spxentry{do\_der()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_derivative() (pdv.Command method)@\spxentry{do\_derivative()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_diffMeasure() (pdv.Command method)@\spxentry{do\_diffMeasure()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_disp() (pdv.Command method)@\spxentry{do\_disp()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dispx() (pdv.Command method)@\spxentry{do\_dispx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_div() (pdv.Command method)@\spxentry{do\_div()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_divide() (pdv.Command method)@\spxentry{do\_divide()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_divx() (pdv.Command method)@\spxentry{do\_divx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_divy() (pdv.Command method)@\spxentry{do\_divy()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dom() (pdv.Command method)@\spxentry{do\_dom()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_domain() (pdv.Command method)@\spxentry{do\_domain()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_drawstyle() (pdv.Command method)@\spxentry{do\_drawstyle()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_drop() (pdv.Command method)@\spxentry{do\_drop()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dupx() (pdv.Command method)@\spxentry{do\_dupx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dx() (pdv.Command method)@\spxentry{do\_dx()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_dy() (pdv.Command method)@\spxentry{do\_dy()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_era() (pdv.Command method)@\spxentry{do\_era()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_erase() (pdv.Command method)@\spxentry{do\_erase()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_errorbar() (pdv.Command method)@\spxentry{do\_errorbar()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_errorrange() (pdv.Command method)@\spxentry{do\_errorrange()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_eval() (pdv.Command method)@\spxentry{do\_eval()}\spxextra{pdv.Command method}|hyperpage}{71}
+\indexentry{do\_exp() (pdv.Command method)@\spxentry{do\_exp()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_expx() (pdv.Command method)@\spxentry{do\_expx()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_fft() (pdv.Command method)@\spxentry{do\_fft()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_fit() (pdv.Command method)@\spxentry{do\_fit()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_fontcolor() (pdv.Command method)@\spxentry{do\_fontcolor()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_fontsize() (pdv.Command method)@\spxentry{do\_fontsize()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_fontstyle() (pdv.Command method)@\spxentry{do\_fontstyle()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_gaussian() (pdv.Command method)@\spxentry{do\_gaussian()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_geom() (pdv.Command method)@\spxentry{do\_geom()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_geometry() (pdv.Command method)@\spxentry{do\_geometry()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getattributes() (pdv.Command method)@\spxentry{do\_getattributes()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getdomain() (pdv.Command method)@\spxentry{do\_getdomain()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getlabel() (pdv.Command method)@\spxentry{do\_getlabel()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getnumpoints() (pdv.Command method)@\spxentry{do\_getnumpoints()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getrange() (pdv.Command method)@\spxentry{do\_getrange()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getx() (pdv.Command method)@\spxentry{do\_getx()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_gety() (pdv.Command method)@\spxentry{do\_gety()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getymax() (pdv.Command method)@\spxentry{do\_getymax()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_getymin() (pdv.Command method)@\spxentry{do\_getymin()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_grid() (pdv.Command method)@\spxentry{do\_grid()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_gridcolor() (pdv.Command method)@\spxentry{do\_gridcolor()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_gridstyle() (pdv.Command method)@\spxentry{do\_gridstyle()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_gridwidth() (pdv.Command method)@\spxentry{do\_gridwidth()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_guilims() (pdv.Command method)@\spxentry{do\_guilims()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_handlelength() (pdv.Command method)@\spxentry{do\_handlelength()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_help() (pdv.Command method)@\spxentry{do\_help()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_hide() (pdv.Command method)@\spxentry{do\_hide()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_image() (pdv.Command method)@\spxentry{do\_image()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_int() (pdv.Command method)@\spxentry{do\_int()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_integrate() (pdv.Command method)@\spxentry{do\_integrate()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_j0() (pdv.Command method)@\spxentry{do\_j0()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_j0x() (pdv.Command method)@\spxentry{do\_j0x()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_j1() (pdv.Command method)@\spxentry{do\_j1()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_j1x() (pdv.Command method)@\spxentry{do\_j1x()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_jn() (pdv.Command method)@\spxentry{do\_jn()}\spxextra{pdv.Command method}|hyperpage}{72}
+\indexentry{do\_jnx() (pdv.Command method)@\spxentry{do\_jnx()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_key() (pdv.Command method)@\spxentry{do\_key()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_kill() (pdv.Command method)@\spxentry{do\_kill()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_label() (pdv.Command method)@\spxentry{do\_label()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_labelFileNames() (pdv.Command method)@\spxentry{do\_labelFileNames()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_latex() (pdv.Command method)@\spxentry{do\_latex()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_leg() (pdv.Command method)@\spxentry{do\_leg()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_legend() (pdv.Command method)@\spxentry{do\_legend()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_line() (pdv.Command method)@\spxentry{do\_line()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_linemarker() (pdv.Command method)@\spxentry{do\_linemarker()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_linespoints() (pdv.Command method)@\spxentry{do\_linespoints()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_list() (pdv.Command method)@\spxentry{do\_list()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_listannot() (pdv.Command method)@\spxentry{do\_listannot()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_ln() (pdv.Command method)@\spxentry{do\_ln()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_lnstyle() (pdv.Command method)@\spxentry{do\_lnstyle()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_lnwidth() (pdv.Command method)@\spxentry{do\_lnwidth()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_lnx() (pdv.Command method)@\spxentry{do\_lnx()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_log() (pdv.Command method)@\spxentry{do\_log()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_log10() (pdv.Command method)@\spxentry{do\_log10()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_log10x() (pdv.Command method)@\spxentry{do\_log10x()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_logx() (pdv.Command method)@\spxentry{do\_logx()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_lst() (pdv.Command method)@\spxentry{do\_lst()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_makecurve() (pdv.Command method)@\spxentry{do\_makecurve()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_makeextensive() (pdv.Command method)@\spxentry{do\_makeextensive()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_makeintensive() (pdv.Command method)@\spxentry{do\_makeintensive()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_marker() (pdv.Command method)@\spxentry{do\_marker()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_markeredgecolor() (pdv.Command method)@\spxentry{do\_markeredgecolor()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_markerfacecolor() (pdv.Command method)@\spxentry{do\_markerfacecolor()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_max() (pdv.Command method)@\spxentry{do\_max()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_menu() (pdv.Command method)@\spxentry{do\_menu()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_min() (pdv.Command method)@\spxentry{do\_min()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_minorticks() (pdv.Command method)@\spxentry{do\_minorticks()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_mkext() (pdv.Command method)@\spxentry{do\_mkext()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_mkint() (pdv.Command method)@\spxentry{do\_mkint()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_movefront() (pdv.Command method)@\spxentry{do\_movefront()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_mult() (pdv.Command method)@\spxentry{do\_mult()}\spxextra{pdv.Command method}|hyperpage}{73}
+\indexentry{do\_multiply() (pdv.Command method)@\spxentry{do\_multiply()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_mx() (pdv.Command method)@\spxentry{do\_mx()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_my() (pdv.Command method)@\spxentry{do\_my()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_namewidth() (pdv.Command method)@\spxentry{do\_namewidth()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_nc() (pdv.Command method)@\spxentry{do\_nc()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_newcurve() (pdv.Command method)@\spxentry{do\_newcurve()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_norm() (pdv.Command method)@\spxentry{do\_norm()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_pow() (pdv.Command method)@\spxentry{do\_pow()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powa() (pdv.Command method)@\spxentry{do\_powa()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powax() (pdv.Command method)@\spxentry{do\_powax()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_power() (pdv.Command method)@\spxentry{do\_power()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powerx() (pdv.Command method)@\spxentry{do\_powerx()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powr() (pdv.Command method)@\spxentry{do\_powr()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powrx() (pdv.Command method)@\spxentry{do\_powrx()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_powx() (pdv.Command method)@\spxentry{do\_powx()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_q() (pdv.Command method)@\spxentry{do\_q()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_quit() (pdv.Command method)@\spxentry{do\_quit()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_ran() (pdv.Command method)@\spxentry{do\_ran()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_random() (pdv.Command method)@\spxentry{do\_random()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_range() (pdv.Command method)@\spxentry{do\_range()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_rd() (pdv.Command method)@\spxentry{do\_rd()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_rdcsv() (pdv.Command method)@\spxentry{do\_rdcsv()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_read() (pdv.Command method)@\spxentry{do\_read()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_readcsv() (pdv.Command method)@\spxentry{do\_readcsv()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_recip() (pdv.Command method)@\spxentry{do\_recip()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_recipx() (pdv.Command method)@\spxentry{do\_recipx()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_redo() (pdv.Command method)@\spxentry{do\_redo()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_reid() (pdv.Command method)@\spxentry{do\_reid()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_rev() (pdv.Command method)@\spxentry{do\_rev()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_run() (pdv.Command method)@\spxentry{do\_run()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_save() (pdv.Command method)@\spxentry{do\_save()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_savecsv() (pdv.Command method)@\spxentry{do\_savecsv()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_scatter() (pdv.Command method)@\spxentry{do\_scatter()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_setxcolumn() (pdv.Command method)@\spxentry{do\_setxcolumn()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_shell() (pdv.Command method)@\spxentry{do\_shell()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_show() (pdv.Command method)@\spxentry{do\_show()}\spxextra{pdv.Command method}|hyperpage}{74}
+\indexentry{do\_showcolormap() (pdv.Command method)@\spxentry{do\_showcolormap()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_showstyles() (pdv.Command method)@\spxentry{do\_showstyles()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sin() (pdv.Command method)@\spxentry{do\_sin()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sinh() (pdv.Command method)@\spxentry{do\_sinh()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sinhx() (pdv.Command method)@\spxentry{do\_sinhx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sinx() (pdv.Command method)@\spxentry{do\_sinx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_smooth() (pdv.Command method)@\spxentry{do\_smooth()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sort() (pdv.Command method)@\spxentry{do\_sort()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_span() (pdv.Command method)@\spxentry{do\_span()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sqr() (pdv.Command method)@\spxentry{do\_sqr()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sqrt() (pdv.Command method)@\spxentry{do\_sqrt()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sqrtx() (pdv.Command method)@\spxentry{do\_sqrtx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sqrx() (pdv.Command method)@\spxentry{do\_sqrx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_square() (pdv.Command method)@\spxentry{do\_square()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_squarex() (pdv.Command method)@\spxentry{do\_squarex()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_stats() (pdv.Command method)@\spxentry{do\_stats()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_style() (pdv.Command method)@\spxentry{do\_style()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_sub() (pdv.Command method)@\spxentry{do\_sub()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_subsample() (pdv.Command method)@\spxentry{do\_subsample()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_subtract() (pdv.Command method)@\spxentry{do\_subtract()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_system() (pdv.Command method)@\spxentry{do\_system()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_tan() (pdv.Command method)@\spxentry{do\_tan()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_tanh() (pdv.Command method)@\spxentry{do\_tanh()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_tanhx() (pdv.Command method)@\spxentry{do\_tanhx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_tanx() (pdv.Command method)@\spxentry{do\_tanx()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_ticks() (pdv.Command method)@\spxentry{do\_ticks()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_title() (pdv.Command method)@\spxentry{do\_title()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_undo() (pdv.Command method)@\spxentry{do\_undo()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_update() (pdv.Command method)@\spxentry{do\_update()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_vs() (pdv.Command method)@\spxentry{do\_vs()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_xindex() (pdv.Command method)@\spxentry{do\_xindex()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_xlabel() (pdv.Command method)@\spxentry{do\_xlabel()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_xlogscale() (pdv.Command method)@\spxentry{do\_xlogscale()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_xls() (pdv.Command method)@\spxentry{do\_xls()}\spxextra{pdv.Command method}|hyperpage}{75}
+\indexentry{do\_xmax() (pdv.Command method)@\spxentry{do\_xmax()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xmin() (pdv.Command method)@\spxentry{do\_xmin()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xminmax() (pdv.Command method)@\spxentry{do\_xminmax()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xmm() (pdv.Command method)@\spxentry{do\_xmm()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xtickcolor() (pdv.Command method)@\spxentry{do\_xtickcolor()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xtickformat() (pdv.Command method)@\spxentry{do\_xtickformat()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xticklength() (pdv.Command method)@\spxentry{do\_xticklength()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xticks() (pdv.Command method)@\spxentry{do\_xticks()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_xtickwidth() (pdv.Command method)@\spxentry{do\_xtickwidth()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_y0() (pdv.Command method)@\spxentry{do\_y0()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_y0x() (pdv.Command method)@\spxentry{do\_y0x()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_y1() (pdv.Command method)@\spxentry{do\_y1()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_y1x() (pdv.Command method)@\spxentry{do\_y1x()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ylabel() (pdv.Command method)@\spxentry{do\_ylabel()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ylogscale() (pdv.Command method)@\spxentry{do\_ylogscale()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_yls() (pdv.Command method)@\spxentry{do\_yls()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ymax() (pdv.Command method)@\spxentry{do\_ymax()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ymin() (pdv.Command method)@\spxentry{do\_ymin()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_yminmax() (pdv.Command method)@\spxentry{do\_yminmax()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ymm() (pdv.Command method)@\spxentry{do\_ymm()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_yn() (pdv.Command method)@\spxentry{do\_yn()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ynx() (pdv.Command method)@\spxentry{do\_ynx()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ytickcolor() (pdv.Command method)@\spxentry{do\_ytickcolor()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ytickformat() (pdv.Command method)@\spxentry{do\_ytickformat()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_yticklength() (pdv.Command method)@\spxentry{do\_yticklength()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_yticks() (pdv.Command method)@\spxentry{do\_yticks()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{do\_ytickwidth() (pdv.Command method)@\spxentry{do\_ytickwidth()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{emptyline() (pdv.Command method)@\spxentry{emptyline()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{figcolor (pdv.Command attribute)@\spxentry{figcolor}\spxextra{pdv.Command attribute}|hyperpage}{76}
+\indexentry{filelist (pdv.Command attribute)@\spxentry{filelist}\spxextra{pdv.Command attribute}|hyperpage}{76}
+\indexentry{find\_xrange() (pdv.Command method)@\spxentry{find\_xrange()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{find\_yrange() (pdv.Command method)@\spxentry{find\_yrange()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{func\_curve() (pdv.Command method)@\spxentry{func\_curve()}\spxextra{pdv.Command method}|hyperpage}{76}
+\indexentry{geometry (pdv.Command attribute)@\spxentry{geometry}\spxextra{pdv.Command attribute}|hyperpage}{76}
+\indexentry{getclosest() (pdv.Command method)@\spxentry{getclosest()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{getcurvename() (pdv.Command method)@\spxentry{getcurvename()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{gridcolor (pdv.Command attribute)@\spxentry{gridcolor}\spxextra{pdv.Command attribute}|hyperpage}{77}
+\indexentry{gridstyle (pdv.Command attribute)@\spxentry{gridstyle}\spxextra{pdv.Command attribute}|hyperpage}{77}
+\indexentry{gridwidth (pdv.Command attribute)@\spxentry{gridwidth}\spxextra{pdv.Command attribute}|hyperpage}{77}
+\indexentry{guilims (pdv.Command attribute)@\spxentry{guilims}\spxextra{pdv.Command attribute}|hyperpage}{77}
+\indexentry{handlelength (pdv.Command attribute)@\spxentry{handlelength}\spxextra{pdv.Command attribute}|hyperpage}{77}
+\indexentry{help\_L1() (pdv.Command method)@\spxentry{help\_L1()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_L2() (pdv.Command method)@\spxentry{help\_L2()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_abs() (pdv.Command method)@\spxentry{help\_abs()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_absx() (pdv.Command method)@\spxentry{help\_absx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_acos() (pdv.Command method)@\spxentry{help\_acos()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_acosh() (pdv.Command method)@\spxentry{help\_acosh()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_acoshx() (pdv.Command method)@\spxentry{help\_acoshx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_acosx() (pdv.Command method)@\spxentry{help\_acosx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_add() (pdv.Command method)@\spxentry{help\_add()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_alias() (pdv.Command method)@\spxentry{help\_alias()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_alpha() (pdv.Command method)@\spxentry{help\_alpha()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_annot() (pdv.Command method)@\spxentry{help\_annot()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_appendcurves() (pdv.Command method)@\spxentry{help\_appendcurves()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_asin() (pdv.Command method)@\spxentry{help\_asin()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_asinh() (pdv.Command method)@\spxentry{help\_asinh()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_asinhx() (pdv.Command method)@\spxentry{help\_asinhx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_asinx() (pdv.Command method)@\spxentry{help\_asinx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_atan() (pdv.Command method)@\spxentry{help\_atan()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_atan2() (pdv.Command method)@\spxentry{help\_atan2()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_atanh() (pdv.Command method)@\spxentry{help\_atanh()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_atanhx() (pdv.Command method)@\spxentry{help\_atanhx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_atanx() (pdv.Command method)@\spxentry{help\_atanx()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_average() (pdv.Command method)@\spxentry{help\_average()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_bkgcolor() (pdv.Command method)@\spxentry{help\_bkgcolor()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_color() (pdv.Command method)@\spxentry{help\_color()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_convolve() (pdv.Command method)@\spxentry{help\_convolve()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_convolveb() (pdv.Command method)@\spxentry{help\_convolveb()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_convolvec() (pdv.Command method)@\spxentry{help\_convolvec()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_copy() (pdv.Command method)@\spxentry{help\_copy()}\spxextra{pdv.Command method}|hyperpage}{77}
+\indexentry{help\_correl() (pdv.Command method)@\spxentry{help\_correl()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_cos() (pdv.Command method)@\spxentry{help\_cos()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_cosh() (pdv.Command method)@\spxentry{help\_cosh()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_coshx() (pdv.Command method)@\spxentry{help\_coshx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_cosx() (pdv.Command method)@\spxentry{help\_cosx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_curve() (pdv.Command method)@\spxentry{help\_curve()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_custom() (pdv.Command method)@\spxentry{help\_custom()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dashstyle() (pdv.Command method)@\spxentry{help\_dashstyle()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dataid() (pdv.Command method)@\spxentry{help\_dataid()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_debug() (pdv.Command method)@\spxentry{help\_debug()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_delannot() (pdv.Command method)@\spxentry{help\_delannot()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_delete() (pdv.Command method)@\spxentry{help\_delete()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_derivative() (pdv.Command method)@\spxentry{help\_derivative()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_diffMeasure() (pdv.Command method)@\spxentry{help\_diffMeasure()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_disp() (pdv.Command method)@\spxentry{help\_disp()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dispx() (pdv.Command method)@\spxentry{help\_dispx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_divide() (pdv.Command method)@\spxentry{help\_divide()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_divx() (pdv.Command method)@\spxentry{help\_divx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_divy() (pdv.Command method)@\spxentry{help\_divy()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_domain() (pdv.Command method)@\spxentry{help\_domain()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_drawstyle() (pdv.Command method)@\spxentry{help\_drawstyle()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_drop() (pdv.Command method)@\spxentry{help\_drop()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dupx() (pdv.Command method)@\spxentry{help\_dupx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dx() (pdv.Command method)@\spxentry{help\_dx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_dy() (pdv.Command method)@\spxentry{help\_dy()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_erase() (pdv.Command method)@\spxentry{help\_erase()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_errorbar() (pdv.Command method)@\spxentry{help\_errorbar()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_errorrange() (pdv.Command method)@\spxentry{help\_errorrange()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_eval() (pdv.Command method)@\spxentry{help\_eval()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_exp() (pdv.Command method)@\spxentry{help\_exp()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_expx() (pdv.Command method)@\spxentry{help\_expx()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_fft() (pdv.Command method)@\spxentry{help\_fft()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_fit() (pdv.Command method)@\spxentry{help\_fit()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_fontcolor() (pdv.Command method)@\spxentry{help\_fontcolor()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_fontsize() (pdv.Command method)@\spxentry{help\_fontsize()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_fontstyle() (pdv.Command method)@\spxentry{help\_fontstyle()}\spxextra{pdv.Command method}|hyperpage}{78}
+\indexentry{help\_gaussian() (pdv.Command method)@\spxentry{help\_gaussian()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_geometry() (pdv.Command method)@\spxentry{help\_geometry()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getattributes() (pdv.Command method)@\spxentry{help\_getattributes()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getdomain() (pdv.Command method)@\spxentry{help\_getdomain()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getlabel() (pdv.Command method)@\spxentry{help\_getlabel()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getnumpoints() (pdv.Command method)@\spxentry{help\_getnumpoints()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getrange() (pdv.Command method)@\spxentry{help\_getrange()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getx() (pdv.Command method)@\spxentry{help\_getx()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_gety() (pdv.Command method)@\spxentry{help\_gety()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getymax() (pdv.Command method)@\spxentry{help\_getymax()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_getymin() (pdv.Command method)@\spxentry{help\_getymin()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_grid() (pdv.Command method)@\spxentry{help\_grid()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_gridcolor() (pdv.Command method)@\spxentry{help\_gridcolor()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_gridstyle() (pdv.Command method)@\spxentry{help\_gridstyle()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_gridwidth() (pdv.Command method)@\spxentry{help\_gridwidth()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_guilims() (pdv.Command method)@\spxentry{help\_guilims()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_handlelength() (pdv.Command method)@\spxentry{help\_handlelength()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_hide() (pdv.Command method)@\spxentry{help\_hide()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_image() (pdv.Command method)@\spxentry{help\_image()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_integrate() (pdv.Command method)@\spxentry{help\_integrate()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_j0() (pdv.Command method)@\spxentry{help\_j0()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_j0x() (pdv.Command method)@\spxentry{help\_j0x()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_j1() (pdv.Command method)@\spxentry{help\_j1()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_j1x() (pdv.Command method)@\spxentry{help\_j1x()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_jn() (pdv.Command method)@\spxentry{help\_jn()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_jnx() (pdv.Command method)@\spxentry{help\_jnx()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_kill() (pdv.Command method)@\spxentry{help\_kill()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_label() (pdv.Command method)@\spxentry{help\_label()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_labelFileNames() (pdv.Command method)@\spxentry{help\_labelFileNames()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_latex() (pdv.Command method)@\spxentry{help\_latex()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_legend() (pdv.Command method)@\spxentry{help\_legend()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_line() (pdv.Command method)@\spxentry{help\_line()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_linemarker() (pdv.Command method)@\spxentry{help\_linemarker()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_linespoints() (pdv.Command method)@\spxentry{help\_linespoints()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_list() (pdv.Command method)@\spxentry{help\_list()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_listannot() (pdv.Command method)@\spxentry{help\_listannot()}\spxextra{pdv.Command method}|hyperpage}{79}
+\indexentry{help\_lnstyle() (pdv.Command method)@\spxentry{help\_lnstyle()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_lnwidth() (pdv.Command method)@\spxentry{help\_lnwidth()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_log() (pdv.Command method)@\spxentry{help\_log()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_log10() (pdv.Command method)@\spxentry{help\_log10()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_log10x() (pdv.Command method)@\spxentry{help\_log10x()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_logx() (pdv.Command method)@\spxentry{help\_logx()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_makecurve() (pdv.Command method)@\spxentry{help\_makecurve()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_makeextensive() (pdv.Command method)@\spxentry{help\_makeextensive()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_makeintensive() (pdv.Command method)@\spxentry{help\_makeintensive()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_marker() (pdv.Command method)@\spxentry{help\_marker()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_markeredgecolor() (pdv.Command method)@\spxentry{help\_markeredgecolor()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_markerfacecolor() (pdv.Command method)@\spxentry{help\_markerfacecolor()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_max() (pdv.Command method)@\spxentry{help\_max()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_menu() (pdv.Command method)@\spxentry{help\_menu()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_min() (pdv.Command method)@\spxentry{help\_min()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_minorticks() (pdv.Command method)@\spxentry{help\_minorticks()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_movefront() (pdv.Command method)@\spxentry{help\_movefront()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_multiply() (pdv.Command method)@\spxentry{help\_multiply()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_mx() (pdv.Command method)@\spxentry{help\_mx()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_my() (pdv.Command method)@\spxentry{help\_my()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_namewidth() (pdv.Command method)@\spxentry{help\_namewidth()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_newcurve() (pdv.Command method)@\spxentry{help\_newcurve()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_norm() (pdv.Command method)@\spxentry{help\_norm()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_powa() (pdv.Command method)@\spxentry{help\_powa()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_powax() (pdv.Command method)@\spxentry{help\_powax()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_powr() (pdv.Command method)@\spxentry{help\_powr()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_powrx() (pdv.Command method)@\spxentry{help\_powrx()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_quit() (pdv.Command method)@\spxentry{help\_quit()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_random() (pdv.Command method)@\spxentry{help\_random()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_range() (pdv.Command method)@\spxentry{help\_range()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_read() (pdv.Command method)@\spxentry{help\_read()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_readcsv() (pdv.Command method)@\spxentry{help\_readcsv()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_recip() (pdv.Command method)@\spxentry{help\_recip()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_recipx() (pdv.Command method)@\spxentry{help\_recipx()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_redo() (pdv.Command method)@\spxentry{help\_redo()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_regex() (pdv.Command method)@\spxentry{help\_regex()}\spxextra{pdv.Command method}|hyperpage}{80}
+\indexentry{help\_reid() (pdv.Command method)@\spxentry{help\_reid()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_rev() (pdv.Command method)@\spxentry{help\_rev()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_run() (pdv.Command method)@\spxentry{help\_run()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_save() (pdv.Command method)@\spxentry{help\_save()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_savecsv() (pdv.Command method)@\spxentry{help\_savecsv()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_scatter() (pdv.Command method)@\spxentry{help\_scatter()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_setxcolumn() (pdv.Command method)@\spxentry{help\_setxcolumn()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_shell() (pdv.Command method)@\spxentry{help\_shell()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_show() (pdv.Command method)@\spxentry{help\_show()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_showcolormap() (pdv.Command method)@\spxentry{help\_showcolormap()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_showstyles() (pdv.Command method)@\spxentry{help\_showstyles()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sin() (pdv.Command method)@\spxentry{help\_sin()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sinh() (pdv.Command method)@\spxentry{help\_sinh()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sinhx() (pdv.Command method)@\spxentry{help\_sinhx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sinx() (pdv.Command method)@\spxentry{help\_sinx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_smooth() (pdv.Command method)@\spxentry{help\_smooth()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sort() (pdv.Command method)@\spxentry{help\_sort()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_span() (pdv.Command method)@\spxentry{help\_span()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sqr() (pdv.Command method)@\spxentry{help\_sqr()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sqrt() (pdv.Command method)@\spxentry{help\_sqrt()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sqrtx() (pdv.Command method)@\spxentry{help\_sqrtx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_sqrx() (pdv.Command method)@\spxentry{help\_sqrx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_stats() (pdv.Command method)@\spxentry{help\_stats()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_style() (pdv.Command method)@\spxentry{help\_style()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_subsample() (pdv.Command method)@\spxentry{help\_subsample()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_subtract() (pdv.Command method)@\spxentry{help\_subtract()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_tan() (pdv.Command method)@\spxentry{help\_tan()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_tanh() (pdv.Command method)@\spxentry{help\_tanh()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_tanhx() (pdv.Command method)@\spxentry{help\_tanhx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_tanx() (pdv.Command method)@\spxentry{help\_tanx()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_ticks() (pdv.Command method)@\spxentry{help\_ticks()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_title() (pdv.Command method)@\spxentry{help\_title()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_undo() (pdv.Command method)@\spxentry{help\_undo()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_update() (pdv.Command method)@\spxentry{help\_update()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_vs() (pdv.Command method)@\spxentry{help\_vs()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_xindex() (pdv.Command method)@\spxentry{help\_xindex()}\spxextra{pdv.Command method}|hyperpage}{81}
+\indexentry{help\_xlabel() (pdv.Command method)@\spxentry{help\_xlabel()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xlogscale() (pdv.Command method)@\spxentry{help\_xlogscale()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xmax() (pdv.Command method)@\spxentry{help\_xmax()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xmin() (pdv.Command method)@\spxentry{help\_xmin()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xminmax() (pdv.Command method)@\spxentry{help\_xminmax()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xtickcolor() (pdv.Command method)@\spxentry{help\_xtickcolor()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xtickformat() (pdv.Command method)@\spxentry{help\_xtickformat()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xticklength() (pdv.Command method)@\spxentry{help\_xticklength()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xticks() (pdv.Command method)@\spxentry{help\_xticks()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_xtickwidth() (pdv.Command method)@\spxentry{help\_xtickwidth()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_y0() (pdv.Command method)@\spxentry{help\_y0()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_y0x() (pdv.Command method)@\spxentry{help\_y0x()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_y1() (pdv.Command method)@\spxentry{help\_y1()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_y1x() (pdv.Command method)@\spxentry{help\_y1x()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ylabel() (pdv.Command method)@\spxentry{help\_ylabel()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ylogscale() (pdv.Command method)@\spxentry{help\_ylogscale()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ymax() (pdv.Command method)@\spxentry{help\_ymax()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ymin() (pdv.Command method)@\spxentry{help\_ymin()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_yminmax() (pdv.Command method)@\spxentry{help\_yminmax()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_yn() (pdv.Command method)@\spxentry{help\_yn()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ynx() (pdv.Command method)@\spxentry{help\_ynx()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ytickcolor() (pdv.Command method)@\spxentry{help\_ytickcolor()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ytickformat() (pdv.Command method)@\spxentry{help\_ytickformat()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_yticklength() (pdv.Command method)@\spxentry{help\_yticklength()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_yticks() (pdv.Command method)@\spxentry{help\_yticks()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{help\_ytickwidth() (pdv.Command method)@\spxentry{help\_ytickwidth()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{history (pdv.Command attribute)@\spxentry{history}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{histptr (pdv.Command attribute)@\spxentry{histptr}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{initrun (pdv.Command attribute)@\spxentry{initrun}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{key\_loc (pdv.Command attribute)@\spxentry{key\_loc}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{key\_ncol (pdv.Command attribute)@\spxentry{key\_ncol}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{keycolor (pdv.Command attribute)@\spxentry{keycolor}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{keyfont (pdv.Command attribute)@\spxentry{keyfont}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{linewidth (pdv.Command attribute)@\spxentry{linewidth}\spxextra{pdv.Command attribute}|hyperpage}{82}
+\indexentry{load() (pdv.Command method)@\spxentry{load()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{load\_csv() (pdv.Command method)@\spxentry{load\_csv()}\spxextra{pdv.Command method}|hyperpage}{82}
+\indexentry{loadrc() (pdv.Command method)@\spxentry{loadrc()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{main() (pdv.Command method)@\spxentry{main()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{modcurve() (pdv.Command method)@\spxentry{modcurve()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{namewidth (pdv.Command attribute)@\spxentry{namewidth}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{oldlist (pdv.Command attribute)@\spxentry{oldlist}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{plotcolor (pdv.Command attribute)@\spxentry{plotcolor}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{plotedit (pdv.Command attribute)@\spxentry{plotedit}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{plotfirst (pdv.Command attribute)@\spxentry{plotfirst}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{plotlist (pdv.Command attribute)@\spxentry{plotlist}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{plotter (pdv.Command attribute)@\spxentry{plotter}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{postcmd() (pdv.Command method)@\spxentry{postcmd()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{precmd() (pdv.Command method)@\spxentry{precmd()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{prompt (pdv.Command attribute)@\spxentry{prompt}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{redraw (pdv.Command attribute)@\spxentry{redraw}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{ruler (pdv.Command attribute)@\spxentry{ruler}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{showgrid (pdv.Command attribute)@\spxentry{showgrid}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{showkey (pdv.Command attribute)@\spxentry{showkey}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{showletters (pdv.Command attribute)@\spxentry{showletters}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{showminorticks (pdv.Command attribute)@\spxentry{showminorticks}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{tickFormat() (pdv.Command method)@\spxentry{tickFormat()}\spxextra{pdv.Command method}|hyperpage}{83}
+\indexentry{title (pdv.Command attribute)@\spxentry{title}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{titlecolor (pdv.Command attribute)@\spxentry{titlecolor}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{titlefont (pdv.Command attribute)@\spxentry{titlefont}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{undoc\_header (pdv.Command attribute)@\spxentry{undoc\_header}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{update (pdv.Command attribute)@\spxentry{update}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{updateplot() (pdv.Command property)@\spxentry{updateplot()}\spxextra{pdv.Command property}|hyperpage}{83}
+\indexentry{updatestyle (pdv.Command attribute)@\spxentry{updatestyle}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{usertexts (pdv.Command attribute)@\spxentry{usertexts}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xCol (pdv.Command attribute)@\spxentry{xCol}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xlabel (pdv.Command attribute)@\spxentry{xlabel}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xlabelcolor (pdv.Command attribute)@\spxentry{xlabelcolor}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xlabelfont (pdv.Command attribute)@\spxentry{xlabelfont}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xlim (pdv.Command attribute)@\spxentry{xlim}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xlogscale (pdv.Command attribute)@\spxentry{xlogscale}\spxextra{pdv.Command attribute}|hyperpage}{83}
+\indexentry{xmajortickcolor (pdv.Command attribute)@\spxentry{xmajortickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xminortickcolor (pdv.Command attribute)@\spxentry{xminortickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xminorticklength (pdv.Command attribute)@\spxentry{xminorticklength}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xminortickwidth (pdv.Command attribute)@\spxentry{xminortickwidth}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xtickcolor (pdv.Command attribute)@\spxentry{xtickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xtickformat (pdv.Command attribute)@\spxentry{xtickformat}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xticklength (pdv.Command attribute)@\spxentry{xticklength}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xticks (pdv.Command attribute)@\spxentry{xticks}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{xtickwidth (pdv.Command attribute)@\spxentry{xtickwidth}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ylabel (pdv.Command attribute)@\spxentry{ylabel}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ylabelcolor (pdv.Command attribute)@\spxentry{ylabelcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ylabelfont (pdv.Command attribute)@\spxentry{ylabelfont}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ylim (pdv.Command attribute)@\spxentry{ylim}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ylogscale (pdv.Command attribute)@\spxentry{ylogscale}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ymajortickcolor (pdv.Command attribute)@\spxentry{ymajortickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{yminortickcolor (pdv.Command attribute)@\spxentry{yminortickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{yminorticklength (pdv.Command attribute)@\spxentry{yminorticklength}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{yminortickwidth (pdv.Command attribute)@\spxentry{yminortickwidth}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ytickcolor (pdv.Command attribute)@\spxentry{ytickcolor}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ytickformat (pdv.Command attribute)@\spxentry{ytickformat}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{yticklength (pdv.Command attribute)@\spxentry{yticklength}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{yticks (pdv.Command attribute)@\spxentry{yticks}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{ytickwidth (pdv.Command attribute)@\spxentry{ytickwidth}\spxextra{pdv.Command attribute}|hyperpage}{84}
+\indexentry{LogEnum (class in pdv)@\spxentry{LogEnum}\spxextra{class in pdv}|hyperpage}{84}
+\indexentry{LOG (pdv.LogEnum attribute)@\spxentry{LOG}\spxextra{pdv.LogEnum attribute}|hyperpage}{84}
+\indexentry{LOG10 (pdv.LogEnum attribute)@\spxentry{LOG10}\spxextra{pdv.LogEnum attribute}|hyperpage}{84}
+\indexentry{LOG10X (pdv.LogEnum attribute)@\spxentry{LOG10X}\spxextra{pdv.LogEnum attribute}|hyperpage}{84}
+\indexentry{LOGX (pdv.LogEnum attribute)@\spxentry{LOGX}\spxextra{pdv.LogEnum attribute}|hyperpage}{84}
+\indexentry{main() (in module pdv)@\spxentry{main()}\spxextra{in module pdv}|hyperpage}{84}
+\indexentry{pdvplot (module)@\spxentry{pdvplot}\spxextra{module}|hyperpage}{84}
+\indexentry{Plotter (class in pdvplot)@\spxentry{Plotter}\spxextra{class in pdvplot}|hyperpage}{84}
+\indexentry{canvas (pdvplot.Plotter attribute)@\spxentry{canvas}\spxextra{pdvplot.Plotter attribute}|hyperpage}{84}
+\indexentry{closeEvent() (pdvplot.Plotter method)@\spxentry{closeEvent()}\spxextra{pdvplot.Plotter method}|hyperpage}{85}
+\indexentry{fig (pdvplot.Plotter attribute)@\spxentry{fig}\spxextra{pdvplot.Plotter attribute}|hyperpage}{85}
+\indexentry{figcolor (pdvplot.Plotter attribute)@\spxentry{figcolor}\spxextra{pdvplot.Plotter attribute}|hyperpage}{85}
+\indexentry{plotChanged (pdvplot.Plotter attribute)@\spxentry{plotChanged}\spxextra{pdvplot.Plotter attribute}|hyperpage}{85}
+\indexentry{showCurvelistDialog() (pdvplot.Plotter method)@\spxentry{showCurvelistDialog()}\spxextra{pdvplot.Plotter method}|hyperpage}{85}
+\indexentry{showMenuDialog() (pdvplot.Plotter method)@\spxentry{showMenuDialog()}\spxextra{pdvplot.Plotter method}|hyperpage}{85}
+\indexentry{style (pdvplot.Plotter attribute)@\spxentry{style}\spxextra{pdvplot.Plotter attribute}|hyperpage}{85}
+\indexentry{updateDialogs() (pdvplot.Plotter method)@\spxentry{updateDialogs()}\spxextra{pdvplot.Plotter method}|hyperpage}{85}
+\indexentry{updateGeometry() (pdvplot.Plotter method)@\spxentry{updateGeometry()}\spxextra{pdvplot.Plotter method}|hyperpage}{85}
+\indexentry{pdvutil (module)@\spxentry{pdvutil}\spxextra{module}|hyperpage}{85}
+\indexentry{getCurveIndex() (in module pdvutil)@\spxentry{getCurveIndex()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{get\_actual\_index() (in module pdvutil)@\spxentry{get\_actual\_index()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{getletterargs() (in module pdvutil)@\spxentry{getletterargs()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{getnumberargs() (in module pdvutil)@\spxentry{getnumberargs()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{parsemath() (in module pdvutil)@\spxentry{parsemath()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{truncate() (in module pdvutil)@\spxentry{truncate()}\spxextra{in module pdvutil}|hyperpage}{85}
+\indexentry{pdvnavbar (module)@\spxentry{pdvnavbar}\spxextra{module}|hyperpage}{85}
+\indexentry{PyDVToolbar (class in pdvnavbar)@\spxentry{PyDVToolbar}\spxextra{class in pdvnavbar}|hyperpage}{85}
+\indexentry{edit\_parameters() (pdvnavbar.PyDVToolbar method)@\spxentry{edit\_parameters()}\spxextra{pdvnavbar.PyDVToolbar method}|hyperpage}{85}

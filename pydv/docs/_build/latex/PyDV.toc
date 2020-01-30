@@ -1,0 +1,250 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Users}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}Release Notes For PyDV 3.0}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}.pdvrc File Format}{3}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}xlabel=label}{3}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}ylabel=label}{3}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}title=str}{3}{subsection.1.2.3}
+\contentsline {subsection}{\numberline {1.2.4}key=ON \textbar {} OFF}{3}{subsection.1.2.4}
+\contentsline {subsection}{\numberline {1.2.5}letters=ON \textbar {} OFF}{3}{subsection.1.2.5}
+\contentsline {subsection}{\numberline {1.2.6}geometry=val1 val2 val3 val4}{4}{subsection.1.2.6}
+\contentsline {subsection}{\numberline {1.2.7}initcommands=filename}{4}{subsection.1.2.7}
+\contentsline {subsection}{\numberline {1.2.8}namewidth=width}{4}{subsection.1.2.8}
+\contentsline {subsection}{\numberline {1.2.9}fontsize=size}{4}{subsection.1.2.9}
+\contentsline {subsection}{\numberline {1.2.10}lnwidth=width}{4}{subsection.1.2.10}
+\contentsline {section}{\numberline {1.3}Getting started}{4}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Run PyDV}{4}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Run PyDV With a Command File}{4}{subsection.1.3.2}
+\contentsline {subsection}{\numberline {1.3.3}Run PyDV In Column Format Mode}{4}{subsection.1.3.3}
+\contentsline {subsection}{\numberline {1.3.4}Create a curve consisting of a straight line y=x over the interval (0,6.28).}{5}{subsection.1.3.4}
+\contentsline {subsection}{\numberline {1.3.5}Print a list of curves on the display.}{5}{subsection.1.3.5}
+\contentsline {subsection}{\numberline {1.3.6}Take the sine of curve A}{5}{subsection.1.3.6}
+\contentsline {subsection}{\numberline {1.3.7}Take the product of curves A and B}{5}{subsection.1.3.7}
+\contentsline {subsection}{\numberline {1.3.8}Write all of the curves to an ASCII file}{5}{subsection.1.3.8}
+\contentsline {subsection}{\numberline {1.3.9}Read file foo.txt}{5}{subsection.1.3.9}
+\contentsline {subsection}{\numberline {1.3.10}Display curves in all open files}{5}{subsection.1.3.10}
+\contentsline {subsection}{\numberline {1.3.11}Display curves from the menu on}{5}{subsection.1.3.11}
+\contentsline {subsection}{\numberline {1.3.12}Shift curve A by one unit to the right}{5}{subsection.1.3.12}
+\contentsline {subsection}{\numberline {1.3.13}Delete curve A from the display}{5}{subsection.1.3.13}
+\contentsline {subsection}{\numberline {1.3.14}Exit PyDV}{6}{subsection.1.3.14}
+\contentsline {section}{\numberline {1.4}I/O Commands}{6}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}read}{6}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}readcsv}{6}{subsection.1.4.2}
+\contentsline {subsection}{\numberline {1.4.3}run}{6}{subsection.1.4.3}
+\contentsline {subsection}{\numberline {1.4.4}save}{6}{subsection.1.4.4}
+\contentsline {subsection}{\numberline {1.4.5}savecsv}{7}{subsection.1.4.5}
+\contentsline {section}{\numberline {1.5}Math Operations}{7}{section.1.5}
+\contentsline {subsection}{\numberline {1.5.1}abs}{7}{subsection.1.5.1}
+\contentsline {subsection}{\numberline {1.5.2}absx}{7}{subsection.1.5.2}
+\contentsline {subsection}{\numberline {1.5.3}acos}{7}{subsection.1.5.3}
+\contentsline {subsection}{\numberline {1.5.4}acosh}{7}{subsection.1.5.4}
+\contentsline {subsection}{\numberline {1.5.5}acoshx}{7}{subsection.1.5.5}
+\contentsline {subsection}{\numberline {1.5.6}acosx}{8}{subsection.1.5.6}
+\contentsline {subsection}{\numberline {1.5.7}add}{8}{subsection.1.5.7}
+\contentsline {subsection}{\numberline {1.5.8}alpha}{8}{subsection.1.5.8}
+\contentsline {subsection}{\numberline {1.5.9}asin}{8}{subsection.1.5.9}
+\contentsline {subsection}{\numberline {1.5.10}asinx}{8}{subsection.1.5.10}
+\contentsline {subsection}{\numberline {1.5.11}asinh}{8}{subsection.1.5.11}
+\contentsline {subsection}{\numberline {1.5.12}asinhx}{8}{subsection.1.5.12}
+\contentsline {subsection}{\numberline {1.5.13}atan}{9}{subsection.1.5.13}
+\contentsline {subsection}{\numberline {1.5.14}atanx}{9}{subsection.1.5.14}
+\contentsline {subsection}{\numberline {1.5.15}atan2}{9}{subsection.1.5.15}
+\contentsline {subsection}{\numberline {1.5.16}atanh}{9}{subsection.1.5.16}
+\contentsline {subsection}{\numberline {1.5.17}atanhx}{9}{subsection.1.5.17}
+\contentsline {subsection}{\numberline {1.5.18}average}{9}{subsection.1.5.18}
+\contentsline {subsection}{\numberline {1.5.19}convolve}{9}{subsection.1.5.19}
+\contentsline {subsection}{\numberline {1.5.20}convolveb}{10}{subsection.1.5.20}
+\contentsline {subsection}{\numberline {1.5.21}convolvec}{10}{subsection.1.5.21}
+\contentsline {subsection}{\numberline {1.5.22}\sphinxstylestrong {correl - 2.4.2}}{10}{subsection.1.5.22}
+\contentsline {subsection}{\numberline {1.5.23}cos}{10}{subsection.1.5.23}
+\contentsline {subsection}{\numberline {1.5.24}cosx}{10}{subsection.1.5.24}
+\contentsline {subsection}{\numberline {1.5.25}cosh}{10}{subsection.1.5.25}
+\contentsline {subsection}{\numberline {1.5.26}coshx}{10}{subsection.1.5.26}
+\contentsline {subsection}{\numberline {1.5.27}dx}{11}{subsection.1.5.27}
+\contentsline {subsection}{\numberline {1.5.28}dy}{11}{subsection.1.5.28}
+\contentsline {subsection}{\numberline {1.5.29}divx}{11}{subsection.1.5.29}
+\contentsline {subsection}{\numberline {1.5.30}divy}{11}{subsection.1.5.30}
+\contentsline {subsection}{\numberline {1.5.31}error-bar}{11}{subsection.1.5.31}
+\contentsline {subsection}{\numberline {1.5.32}errorrange}{11}{subsection.1.5.32}
+\contentsline {subsection}{\numberline {1.5.33}exp}{11}{subsection.1.5.33}
+\contentsline {subsection}{\numberline {1.5.34}expx}{12}{subsection.1.5.34}
+\contentsline {subsection}{\numberline {1.5.35}fft}{12}{subsection.1.5.35}
+\contentsline {subsection}{\numberline {1.5.36}fftx}{12}{subsection.1.5.36}
+\contentsline {subsection}{\numberline {1.5.37}gaussian}{12}{subsection.1.5.37}
+\contentsline {subsection}{\numberline {1.5.38}j0}{12}{subsection.1.5.38}
+\contentsline {subsection}{\numberline {1.5.39}j0x}{12}{subsection.1.5.39}
+\contentsline {subsection}{\numberline {1.5.40}j1}{12}{subsection.1.5.40}
+\contentsline {subsection}{\numberline {1.5.41}j1x}{13}{subsection.1.5.41}
+\contentsline {subsection}{\numberline {1.5.42}jn}{13}{subsection.1.5.42}
+\contentsline {subsection}{\numberline {1.5.43}jnx}{13}{subsection.1.5.43}
+\contentsline {subsection}{\numberline {1.5.44}L1}{13}{subsection.1.5.44}
+\contentsline {subsection}{\numberline {1.5.45}L2}{13}{subsection.1.5.45}
+\contentsline {subsection}{\numberline {1.5.46}log}{13}{subsection.1.5.46}
+\contentsline {subsection}{\numberline {1.5.47}logx}{13}{subsection.1.5.47}
+\contentsline {subsection}{\numberline {1.5.48}log10}{14}{subsection.1.5.48}
+\contentsline {subsection}{\numberline {1.5.49}log10x}{14}{subsection.1.5.49}
+\contentsline {subsection}{\numberline {1.5.50}\sphinxstylestrong {makeintensive - 2.4.2}}{14}{subsection.1.5.50}
+\contentsline {subsection}{\numberline {1.5.51}\sphinxstylestrong {makeextensive - 2.4.2}}{14}{subsection.1.5.51}
+\contentsline {subsection}{\numberline {1.5.52}max}{14}{subsection.1.5.52}
+\contentsline {subsection}{\numberline {1.5.53}min}{14}{subsection.1.5.53}
+\contentsline {subsection}{\numberline {1.5.54}mx}{14}{subsection.1.5.54}
+\contentsline {subsection}{\numberline {1.5.55}my}{15}{subsection.1.5.55}
+\contentsline {subsection}{\numberline {1.5.56}norm}{15}{subsection.1.5.56}
+\contentsline {subsection}{\numberline {1.5.57}powa}{15}{subsection.1.5.57}
+\contentsline {subsection}{\numberline {1.5.58}powax}{15}{subsection.1.5.58}
+\contentsline {subsection}{\numberline {1.5.59}powr}{15}{subsection.1.5.59}
+\contentsline {subsection}{\numberline {1.5.60}powrx}{15}{subsection.1.5.60}
+\contentsline {subsection}{\numberline {1.5.61}recip}{15}{subsection.1.5.61}
+\contentsline {subsection}{\numberline {1.5.62}recipx}{16}{subsection.1.5.62}
+\contentsline {subsection}{\numberline {1.5.63}sin}{16}{subsection.1.5.63}
+\contentsline {subsection}{\numberline {1.5.64}sinx}{16}{subsection.1.5.64}
+\contentsline {subsection}{\numberline {1.5.65}sinh}{16}{subsection.1.5.65}
+\contentsline {subsection}{\numberline {1.5.66}smooth}{16}{subsection.1.5.66}
+\contentsline {subsection}{\numberline {1.5.67}sqr}{16}{subsection.1.5.67}
+\contentsline {subsection}{\numberline {1.5.68}sqrx}{16}{subsection.1.5.68}
+\contentsline {subsection}{\numberline {1.5.69}sqrt}{17}{subsection.1.5.69}
+\contentsline {subsection}{\numberline {1.5.70}sqrtx}{17}{subsection.1.5.70}
+\contentsline {subsection}{\numberline {1.5.71}tan}{17}{subsection.1.5.71}
+\contentsline {subsection}{\numberline {1.5.72}tanx}{17}{subsection.1.5.72}
+\contentsline {subsection}{\numberline {1.5.73}tanh}{17}{subsection.1.5.73}
+\contentsline {subsection}{\numberline {1.5.74}tanhx}{17}{subsection.1.5.74}
+\contentsline {subsection}{\numberline {1.5.75}xmax}{17}{subsection.1.5.75}
+\contentsline {subsection}{\numberline {1.5.76}xmin}{18}{subsection.1.5.76}
+\contentsline {subsection}{\numberline {1.5.77}y0}{18}{subsection.1.5.77}
+\contentsline {subsection}{\numberline {1.5.78}y0x}{18}{subsection.1.5.78}
+\contentsline {subsection}{\numberline {1.5.79}y1}{18}{subsection.1.5.79}
+\contentsline {subsection}{\numberline {1.5.80}y1x}{18}{subsection.1.5.80}
+\contentsline {subsection}{\numberline {1.5.81}ymax}{18}{subsection.1.5.81}
+\contentsline {subsection}{\numberline {1.5.82}ymin}{18}{subsection.1.5.82}
+\contentsline {subsection}{\numberline {1.5.83}yminmax}{19}{subsection.1.5.83}
+\contentsline {subsection}{\numberline {1.5.84}yn}{19}{subsection.1.5.84}
+\contentsline {subsection}{\numberline {1.5.85}ynx}{19}{subsection.1.5.85}
+\contentsline {subsection}{\numberline {1.5.86}subtract}{19}{subsection.1.5.86}
+\contentsline {subsection}{\numberline {1.5.87}multiply}{19}{subsection.1.5.87}
+\contentsline {subsection}{\numberline {1.5.88}divide}{19}{subsection.1.5.88}
+\contentsline {subsection}{\numberline {1.5.89}derivative}{19}{subsection.1.5.89}
+\contentsline {subsection}{\numberline {1.5.90}diffMeasure}{20}{subsection.1.5.90}
+\contentsline {subsection}{\numberline {1.5.91}fit}{20}{subsection.1.5.91}
+\contentsline {subsection}{\numberline {1.5.92}integrate}{20}{subsection.1.5.92}
+\contentsline {subsection}{\numberline {1.5.93}span}{20}{subsection.1.5.93}
+\contentsline {subsection}{\numberline {1.5.94}vs}{20}{subsection.1.5.94}
+\contentsline {section}{\numberline {1.6}Environmental Inquiry Commands}{20}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}help}{21}{subsection.1.6.1}
+\contentsline {subsection}{\numberline {1.6.2}lst}{21}{subsection.1.6.2}
+\contentsline {subsection}{\numberline {1.6.3}listannot}{21}{subsection.1.6.3}
+\contentsline {subsection}{\numberline {1.6.4}menu}{21}{subsection.1.6.4}
+\contentsline {subsection}{\numberline {1.6.5}\sphinxstylestrong {system - 2.4.2}}{21}{subsection.1.6.5}
+\contentsline {section}{\numberline {1.7}Curve Inquiry Commands}{21}{section.1.7}
+\contentsline {subsection}{\numberline {1.7.1}disp}{22}{subsection.1.7.1}
+\contentsline {subsection}{\numberline {1.7.2}dispx}{22}{subsection.1.7.2}
+\contentsline {subsection}{\numberline {1.7.3}eval}{22}{subsection.1.7.3}
+\contentsline {subsection}{\numberline {1.7.4}getattributes}{22}{subsection.1.7.4}
+\contentsline {subsection}{\numberline {1.7.5}getdomain}{22}{subsection.1.7.5}
+\contentsline {subsection}{\numberline {1.7.6}getlabel}{22}{subsection.1.7.6}
+\contentsline {subsection}{\numberline {1.7.7}getnumpoints}{22}{subsection.1.7.7}
+\contentsline {subsection}{\numberline {1.7.8}getrange}{23}{subsection.1.7.8}
+\contentsline {subsection}{\numberline {1.7.9}getx}{23}{subsection.1.7.9}
+\contentsline {subsection}{\numberline {1.7.10}gety}{23}{subsection.1.7.10}
+\contentsline {subsection}{\numberline {1.7.11}stats}{23}{subsection.1.7.11}
+\contentsline {subsection}{\numberline {1.7.12}\sphinxstylestrong {getymin - 2.4.2}}{23}{subsection.1.7.12}
+\contentsline {subsection}{\numberline {1.7.13}\sphinxstylestrong {getymax - 2.4.2}}{23}{subsection.1.7.13}
+\contentsline {section}{\numberline {1.8}Environmental Control Commands}{23}{section.1.8}
+\contentsline {subsection}{\numberline {1.8.1}alias}{24}{subsection.1.8.1}
+\contentsline {subsection}{\numberline {1.8.2}custom}{24}{subsection.1.8.2}
+\contentsline {subsection}{\numberline {1.8.3}debug}{24}{subsection.1.8.3}
+\contentsline {subsection}{\numberline {1.8.4}drop}{24}{subsection.1.8.4}
+\contentsline {subsection}{\numberline {1.8.5}erase}{24}{subsection.1.8.5}
+\contentsline {subsection}{\numberline {1.8.6}kill}{24}{subsection.1.8.6}
+\contentsline {subsection}{\numberline {1.8.7}namewidth}{24}{subsection.1.8.7}
+\contentsline {subsection}{\numberline {1.8.8}quit}{25}{subsection.1.8.8}
+\contentsline {section}{\numberline {1.9}Plot Control Commands}{25}{section.1.9}
+\contentsline {subsection}{\numberline {1.9.1}annot}{25}{subsection.1.9.1}
+\contentsline {subsection}{\numberline {1.9.2}\sphinxstylestrong {bkgcolor - 2.4}}{25}{subsection.1.9.2}
+\contentsline {subsection}{\numberline {1.9.3}dashstyle}{25}{subsection.1.9.3}
+\contentsline {subsection}{\numberline {1.9.4}dataid}{25}{subsection.1.9.4}
+\contentsline {subsection}{\numberline {1.9.5}delannot}{26}{subsection.1.9.5}
+\contentsline {subsection}{\numberline {1.9.6}domain}{26}{subsection.1.9.6}
+\contentsline {subsection}{\numberline {1.9.7}fontcolor}{26}{subsection.1.9.7}
+\contentsline {subsection}{\numberline {1.9.8}fontsize}{26}{subsection.1.9.8}
+\contentsline {subsection}{\numberline {1.9.9}fontstyle}{26}{subsection.1.9.9}
+\contentsline {subsection}{\numberline {1.9.10}geometry}{26}{subsection.1.9.10}
+\contentsline {subsection}{\numberline {1.9.11}grid}{27}{subsection.1.9.11}
+\contentsline {subsection}{\numberline {1.9.12}gridcolor}{27}{subsection.1.9.12}
+\contentsline {subsection}{\numberline {1.9.13}gridstyle}{27}{subsection.1.9.13}
+\contentsline {subsection}{\numberline {1.9.14}gridwidth}{27}{subsection.1.9.14}
+\contentsline {subsection}{\numberline {1.9.15}guilims}{27}{subsection.1.9.15}
+\contentsline {subsection}{\numberline {1.9.16}handlelength}{27}{subsection.1.9.16}
+\contentsline {subsection}{\numberline {1.9.17}image}{27}{subsection.1.9.17}
+\contentsline {subsection}{\numberline {1.9.18}label}{28}{subsection.1.9.18}
+\contentsline {subsection}{\numberline {1.9.19}labelFileNames}{28}{subsection.1.9.19}
+\contentsline {subsection}{\numberline {1.9.20}latex}{28}{subsection.1.9.20}
+\contentsline {subsection}{\numberline {1.9.21}legend}{28}{subsection.1.9.21}
+\contentsline {subsection}{\numberline {1.9.22}lnstyle}{28}{subsection.1.9.22}
+\contentsline {subsection}{\numberline {1.9.23}lnwidth}{28}{subsection.1.9.23}
+\contentsline {subsection}{\numberline {1.9.24}marker}{28}{subsection.1.9.24}
+\contentsline {subsection}{\numberline {1.9.25}minorticks}{29}{subsection.1.9.25}
+\contentsline {subsection}{\numberline {1.9.26}movefront}{29}{subsection.1.9.26}
+\contentsline {subsection}{\numberline {1.9.27}range}{29}{subsection.1.9.27}
+\contentsline {subsection}{\numberline {1.9.28}style}{29}{subsection.1.9.28}
+\contentsline {subsection}{\numberline {1.9.29}ticks}{29}{subsection.1.9.29}
+\contentsline {subsection}{\numberline {1.9.30}title}{29}{subsection.1.9.30}
+\contentsline {subsection}{\numberline {1.9.31}update}{29}{subsection.1.9.31}
+\contentsline {subsection}{\numberline {1.9.32}xlabel}{30}{subsection.1.9.32}
+\contentsline {subsection}{\numberline {1.9.33}xlogscale}{30}{subsection.1.9.33}
+\contentsline {subsection}{\numberline {1.9.34}xtickcolor}{30}{subsection.1.9.34}
+\contentsline {subsection}{\numberline {1.9.35}xticks}{30}{subsection.1.9.35}
+\contentsline {subsection}{\numberline {1.9.36}xtickformat}{30}{subsection.1.9.36}
+\contentsline {subsection}{\numberline {1.9.37}xticklength}{30}{subsection.1.9.37}
+\contentsline {subsection}{\numberline {1.9.38}xtickwidth}{30}{subsection.1.9.38}
+\contentsline {subsection}{\numberline {1.9.39}ylabel}{31}{subsection.1.9.39}
+\contentsline {subsection}{\numberline {1.9.40}ylogscale}{31}{subsection.1.9.40}
+\contentsline {subsection}{\numberline {1.9.41}ytickcolor}{31}{subsection.1.9.41}
+\contentsline {subsection}{\numberline {1.9.42}ytickformat}{31}{subsection.1.9.42}
+\contentsline {subsection}{\numberline {1.9.43}yticklength}{31}{subsection.1.9.43}
+\contentsline {subsection}{\numberline {1.9.44}ytickwidth}{31}{subsection.1.9.44}
+\contentsline {subsection}{\numberline {1.9.45}yticks}{31}{subsection.1.9.45}
+\contentsline {section}{\numberline {1.10}Curve Control Commands}{32}{section.1.10}
+\contentsline {subsection}{\numberline {1.10.1}\sphinxstylestrong {appendcurves - 2.4}}{32}{subsection.1.10.1}
+\contentsline {subsection}{\numberline {1.10.2}color}{32}{subsection.1.10.2}
+\contentsline {subsection}{\numberline {1.10.3}curve}{32}{subsection.1.10.3}
+\contentsline {subsection}{\numberline {1.10.4}\sphinxstylestrong {dupx - 2.4}}{32}{subsection.1.10.4}
+\contentsline {subsection}{\numberline {1.10.5}linemarker}{32}{subsection.1.10.5}
+\contentsline {subsection}{\numberline {1.10.6}markerfacecolor}{33}{subsection.1.10.6}
+\contentsline {subsection}{\numberline {1.10.7}markeredgecolor}{33}{subsection.1.10.7}
+\contentsline {subsection}{\numberline {1.10.8}showcolormap}{33}{subsection.1.10.8}
+\contentsline {subsection}{\numberline {1.10.9}showstyles}{33}{subsection.1.10.9}
+\contentsline {subsection}{\numberline {1.10.10}copy}{33}{subsection.1.10.10}
+\contentsline {subsection}{\numberline {1.10.11}del}{33}{subsection.1.10.11}
+\contentsline {subsection}{\numberline {1.10.12}\sphinxstylestrong {dupx - 2.4}}{34}{subsection.1.10.12}
+\contentsline {subsection}{\numberline {1.10.13}hide}{34}{subsection.1.10.13}
+\contentsline {subsection}{\numberline {1.10.14}line}{34}{subsection.1.10.14}
+\contentsline {subsection}{\numberline {1.10.15}linespoints}{34}{subsection.1.10.15}
+\contentsline {subsection}{\numberline {1.10.16}makecurve}{34}{subsection.1.10.16}
+\contentsline {subsection}{\numberline {1.10.17}newcurve}{34}{subsection.1.10.17}
+\contentsline {subsection}{\numberline {1.10.18}random}{35}{subsection.1.10.18}
+\contentsline {subsection}{\numberline {1.10.19}redo}{35}{subsection.1.10.19}
+\contentsline {subsection}{\numberline {1.10.20}reid}{35}{subsection.1.10.20}
+\contentsline {subsection}{\numberline {1.10.21}rev}{35}{subsection.1.10.21}
+\contentsline {subsection}{\numberline {1.10.22}scatter}{35}{subsection.1.10.22}
+\contentsline {subsection}{\numberline {1.10.23}show}{35}{subsection.1.10.23}
+\contentsline {subsection}{\numberline {1.10.24}sort}{36}{subsection.1.10.24}
+\contentsline {subsection}{\numberline {1.10.25}subsample}{36}{subsection.1.10.25}
+\contentsline {subsection}{\numberline {1.10.26}undo}{36}{subsection.1.10.26}
+\contentsline {subsection}{\numberline {1.10.27}\sphinxstylestrong {xindex - 2.4}}{36}{subsection.1.10.27}
+\contentsline {subsection}{\numberline {1.10.28}xminmax}{36}{subsection.1.10.28}
+\contentsline {section}{\numberline {1.11}UI Features}{36}{section.1.11}
+\contentsline {subsection}{\numberline {1.11.1}Toolbar}{36}{subsection.1.11.1}
+\contentsline {subsection}{\numberline {1.11.2}Help Menu}{38}{subsection.1.11.2}
+\contentsline {subsection}{\numberline {1.11.3}View Menu}{38}{subsection.1.11.3}
+\contentsline {chapter}{\numberline {2}Developers}{41}{chapter.2}
+\contentsline {section}{\numberline {2.1}PyDV 3.0 API Specification}{41}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}pydvpy module}{41}{subsection.2.1.1}
+\contentsline {subsection}{\numberline {2.1.2}curve module}{68}{subsection.2.1.2}
+\contentsline {subsection}{\numberline {2.1.3}pdv module}{69}{subsection.2.1.3}
+\contentsline {subsection}{\numberline {2.1.4}pdvplot module}{84}{subsection.2.1.4}
+\contentsline {subsection}{\numberline {2.1.5}pdvutil module}{85}{subsection.2.1.5}
+\contentsline {subsection}{\numberline {2.1.6}pdvnavbar module}{85}{subsection.2.1.6}
+\contentsline {chapter}{\numberline {3}Indices and tables}{87}{chapter.3}
+\contentsline {chapter}{Bibliography}{89}{chapter*.704}
+\contentsline {chapter}{Python Module Index}{91}{section*.705}
+\contentsline {chapter}{Index}{93}{section*.706}

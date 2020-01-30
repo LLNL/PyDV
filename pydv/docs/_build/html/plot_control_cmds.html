@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Plot Control Commands &#8212; PyDV 3.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Curve Control Commands" href="curve_control_cmds.html" />
+    <link rel="prev" title="Environmental Control Commands" href="env_control_cmds.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="curve_control_cmds.html" title="Curve Control Commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="env_control_cmds.html" title="Environmental Control Commands"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="plot-control-commands">
+<span id="id1"></span><h1>Plot Control Commands<a class="headerlink" href="#plot-control-commands" title="Permalink to this headline">¶</a></h1>
+<p>These functions control the plotting characteristics of PyDV which affect all displayed curves.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>&lt; &gt;</strong> = Required user input.</p>
+<p><strong>[ ]</strong> = Optional user input.</p>
+<p><strong>[PyDV]:</strong> = Python Data Visualizer command-line prompt.</p>
+</div>
+<div class="section" id="annot">
+<h2>annot<a class="headerlink" href="#annot" title="Permalink to this headline">¶</a></h2>
+<p>Display text on the plot at point (x, y).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">annot</span> <span class="o">&lt;</span><span class="n">text</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">x</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">y</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bkgcolor-2-4">
+<h2><strong>bkgcolor - 2.4</strong><a class="headerlink" href="#bkgcolor-2-4" title="Permalink to this headline">¶</a></h2>
+<p>Change the background color of the plot, window, or both</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">bkgcolor</span> <span class="o">&lt;</span><span class="p">[</span><span class="n">plot</span> <span class="o">|</span> <span class="n">window</span><span class="p">]</span> <span class="n">color</span><span class="o">-</span><span class="n">name</span> <span class="o">|</span> <span class="n">reset</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dashstyle">
+<h2>dashstyle<a class="headerlink" href="#dashstyle" title="Permalink to this headline">¶</a></h2>
+<p>Set the style of dash or dot dash lines. The python list is a list of integers, alternating how many pixels to turn on and off, for example:</p>
+<blockquote>
+<div><p>[2, 2] : Two pixels on, two off (will result in a dot pattern).</p>
+<p>[4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).</p>
+<p>[4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.</p>
+<p>[4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.</p>
+<p>See matplotlib ‘set_dashes’ command for more information.</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dashstyle</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="p">[</span><span class="o">...</span><span class="p">]</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dataid">
+<h2>dataid<a class="headerlink" href="#dataid" title="Permalink to this headline">¶</a></h2>
+<p>Show curve identifiers if True. <strong>Alternative Form: data-id</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dataid</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="delannot">
+<h2>delannot<a class="headerlink" href="#delannot" title="Permalink to this headline">¶</a></h2>
+<p>Delete annotations from list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">delannot</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">-</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">annotations</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="domain">
+<h2>domain<a class="headerlink" href="#domain" title="Permalink to this headline">¶</a></h2>
+<p>Set the domain for plotting. Using de (for default) will let the curves determine the domain.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">domain</span> <span class="o">&lt;</span><span class="n">low</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">high</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span>
+
+              <span class="n">OR</span>
+
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">domain</span> <span class="n">de</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fontcolor">
+<h2>fontcolor<a class="headerlink" href="#fontcolor" title="Permalink to this headline">¶</a></h2>
+<p>Change the font color of given plot component.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fontcolor</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">component</span><span class="p">:</span> <span class="n">xlabel</span> <span class="o">|</span> <span class="n">ylabel</span> <span class="o">|</span> <span class="n">title</span> <span class="o">|</span> <span class="n">xaxis</span> <span class="o">|</span> <span class="n">yaxis</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fontsize">
+<h2>fontsize<a class="headerlink" href="#fontsize" title="Permalink to this headline">¶</a></h2>
+<p>Change the font size of given component, or overall scaling factor.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fontsize</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">component</span><span class="p">:</span> <span class="n">title</span> <span class="o">|</span> <span class="n">xlabel</span> <span class="o">|</span> <span class="n">ylabel</span> <span class="o">|</span> <span class="n">key</span> <span class="o">|</span> <span class="n">tick</span> <span class="o">|</span> <span class="n">curve</span> <span class="o">|</span> <span class="n">annotation</span><span class="o">&gt;</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">numerical</span><span class="o">-</span><span class="n">size</span> <span class="o">|</span> <span class="n">small</span> <span class="o">|</span> <span class="n">medium</span> <span class="o">|</span> <span class="n">large</span> <span class="o">|</span> <span class="n">default</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fontstyle">
+<h2>fontstyle<a class="headerlink" href="#fontstyle" title="Permalink to this headline">¶</a></h2>
+<p>Set the fontstyle family.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">fontstyle</span> <span class="o">&lt;</span><span class="n">serif</span> <span class="o">|</span> <span class="n">sans</span><span class="o">-</span><span class="n">serfif</span> <span class="o">|</span> <span class="n">monospace</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="geometry">
+<h2>geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h2>
+<p>Change the PyDV window size and location in pixels.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">geometry</span> <span class="o">&lt;</span><span class="n">xsize</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ysize</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">xlocation</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ylocation</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="grid">
+<h2>grid<a class="headerlink" href="#grid" title="Permalink to this headline">¶</a></h2>
+<p>Set whether or not to draw grid lines on the graph. Default is off.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">grid</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gridcolor">
+<h2>gridcolor<a class="headerlink" href="#gridcolor" title="Permalink to this headline">¶</a></h2>
+<p>Set the color of the grid.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gridcolor</span> <span class="o">&lt;</span><span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gridstyle">
+<h2>gridstyle<a class="headerlink" href="#gridstyle" title="Permalink to this headline">¶</a></h2>
+<p>Set the line style for the grid.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gridstyle</span> <span class="o">&lt;</span><span class="n">style</span><span class="p">:</span> <span class="n">solid</span> <span class="o">|</span> <span class="n">dash</span> <span class="o">|</span> <span class="n">dot</span> <span class="o">|</span> <span class="n">dashdot</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gridwidth">
+<h2>gridwidth<a class="headerlink" href="#gridwidth" title="Permalink to this headline">¶</a></h2>
+<p>Set the grid line width in points.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gridwidth</span> <span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="guilims">
+<h2>guilims<a class="headerlink" href="#guilims" title="Permalink to this headline">¶</a></h2>
+<p>Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">guilims</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="handlelength">
+<h2>handlelength<a class="headerlink" href="#handlelength" title="Permalink to this headline">¶</a></h2>
+<p>Adjust the length of the line(s) in the legend.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">handlelength</span> <span class="o">&lt;</span><span class="n">length</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="image">
+<h2>image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
+<p>Save the current figure to image file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">image</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="n">png</span> <span class="o">|</span> <span class="n">ps</span> <span class="o">|</span> <span class="n">pdf</span> <span class="o">|</span> <span class="n">svg</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="label">
+<h2>label<a class="headerlink" href="#label" title="Permalink to this headline">¶</a></h2>
+<p>Change the key and list label for a curve.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">label</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">new</span><span class="o">-</span><span class="n">label</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="labelfilenames">
+<h2>labelFileNames<a class="headerlink" href="#labelfilenames" title="Permalink to this headline">¶</a></h2>
+<p>Change the key and list labels for all curves to append the filename.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">labelFileNames</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="latex">
+<h2>latex<a class="headerlink" href="#latex" title="Permalink to this headline">¶</a></h2>
+<p>Use LaTeX font rendering if True</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">latex</span> <span class="n">on</span> <span class="o">|</span> <span class="n">off</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="legend">
+<h2>legend<a class="headerlink" href="#legend" title="Permalink to this headline">¶</a></h2>
+<p>Show/Hide the legend with on | off or set legend position with ur, ul, ll, lr, cl, cr, uc, lc. <strong>Shortcuts: leg, key</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">legend</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">position</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="lnstyle">
+<h2>lnstyle<a class="headerlink" href="#lnstyle" title="Permalink to this headline">¶</a></h2>
+<p>Set the line style of the specified curves.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">lnstyle</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">style</span><span class="p">:</span> <span class="n">solid</span> <span class="o">|</span> <span class="n">dash</span> <span class="o">|</span> <span class="n">dot</span> <span class="o">|</span> <span class="n">dotdash</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="lnwidth">
+<h2>lnwidth<a class="headerlink" href="#lnwidth" title="Permalink to this headline">¶</a></h2>
+<p>Set the line widths of the specified curves. A line width of 0 will give the thinnest line which the host graphics system supports.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">lnwidth</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">width</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="marker">
+<h2>marker<a class="headerlink" href="#marker" title="Permalink to this headline">¶</a></h2>
+<p>Set the marker symbol and scale (optionally) for scatter plots. You can also use any of the matplotlib supported marker types as well. See the matplotlib documentation on markers for further information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">marker</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">marker</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="o">+</span> <span class="o">|</span> <span class="o">.</span> <span class="o">|</span> <span class="n">circle</span> <span class="o">|</span> <span class="n">square</span> <span class="o">|</span> <span class="n">diamond</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">marker</span><span class="o">-</span><span class="n">size</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="minorticks">
+<h2>minorticks<a class="headerlink" href="#minorticks" title="Permalink to this headline">¶</a></h2>
+<p>Minor ticks are not visible by default. On will make the minor ticks visible and off will hide the minor ticks.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">minorticks</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="movefront">
+<h2>movefront<a class="headerlink" href="#movefront" title="Permalink to this headline">¶</a></h2>
+<p>Move the given curves so they are plotted on top.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">movefront</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="range">
+<h2>range<a class="headerlink" href="#range" title="Permalink to this headline">¶</a></h2>
+<p>Set the range for plotting. Using de (for default) will let the curves determine the range. <strong>Shortcut: ran</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="nb">range</span> <span class="o">&lt;</span><span class="n">low</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">high</span><span class="o">-</span><span class="n">lim</span><span class="o">&gt;</span> <span class="o">|</span> <span class="n">de</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="style">
+<h2>style<a class="headerlink" href="#style" title="Permalink to this headline">¶</a></h2>
+<p>Use matplotlib style settings from a style specification. The style name of <strong>default</strong> (if
+available) is reserved for reverting back to the default style settings.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">style</span> <span class="o">&lt;</span><span class="n">style</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ticks">
+<h2>ticks<a class="headerlink" href="#ticks" title="Permalink to this headline">¶</a></h2>
+<p>Set the maximum number of major ticks on the axes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ticks</span> <span class="o">&lt;</span><span class="n">quantity</span><span class="o">&gt;</span> <span class="o">|</span> <span class="n">de</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="title">
+<h2>title<a class="headerlink" href="#title" title="Permalink to this headline">¶</a></h2>
+<p>Set a title for the plot</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">title</span> <span class="o">&lt;</span><span class="n">title</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update">
+<h2>update<a class="headerlink" href="#update" title="Permalink to this headline">¶</a></h2>
+<p>Update the plot after each command if True.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">update</span> <span class="n">on</span> <span class="o">|</span> <span class="n">off</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xlabel">
+<h2>xlabel<a class="headerlink" href="#xlabel" title="Permalink to this headline">¶</a></h2>
+<p>Set a label for the x axis</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xlabel</span> <span class="o">&lt;</span><span class="n">label</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xlogscale">
+<h2>xlogscale<a class="headerlink" href="#xlogscale" title="Permalink to this headline">¶</a></h2>
+<p>Set log scale on or off for the x-axis. <strong>Alternative Form: x-log-scale</strong>, <strong>Shortcut: xls</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xlogscale</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xtickcolor">
+<h2>xtickcolor<a class="headerlink" href="#xtickcolor" title="Permalink to this headline">¶</a></h2>
+<p>Set the color of the ticks on the x-axis. Default is to apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xticks</span> <span class="o">&lt;</span><span class="n">de</span> <span class="o">|</span> <span class="n">color</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xticks">
+<h2>xticks<a class="headerlink" href="#xticks" title="Permalink to this headline">¶</a></h2>
+<p>Set the locations of major ticks on the x-axis</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xticks</span> <span class="n">de</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">locations</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">locations</span><span class="p">,</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">labels</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xtickformat">
+<h2>xtickformat<a class="headerlink" href="#xtickformat" title="Permalink to this headline">¶</a></h2>
+<p>Set the format of major ticks on the x axis. Default is plain.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xtickformat</span> <span class="o">&lt;</span><span class="n">plain</span> <span class="o">|</span> <span class="n">sci</span> <span class="o">|</span> <span class="n">exp</span> <span class="o">|</span> <span class="mi">10</span><span class="o">**&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xticklength">
+<h2>xticklength<a class="headerlink" href="#xticklength" title="Permalink to this headline">¶</a></h2>
+<p>Set the length (in points) of x ticks on the axis. Default is apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xticklength</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xtickwidth">
+<h2>xtickwidth<a class="headerlink" href="#xtickwidth" title="Permalink to this headline">¶</a></h2>
+<p>Set the width (in points) of x ticks on the x axis. Default is to apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xtickwidth</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ylabel">
+<h2>ylabel<a class="headerlink" href="#ylabel" title="Permalink to this headline">¶</a></h2>
+<p>Set a label for the y axis</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ylabel</span> <span class="o">&lt;</span><span class="n">label</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ylogscale">
+<h2>ylogscale<a class="headerlink" href="#ylogscale" title="Permalink to this headline">¶</a></h2>
+<p>Set log scale on or off for the y-axis. <strong>Alternative Form: y-log-scale</strong>, <strong>Shortcut: yls</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ylogscale</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ytickcolor">
+<h2>ytickcolor<a class="headerlink" href="#ytickcolor" title="Permalink to this headline">¶</a></h2>
+<p>Set the color of the ticks on the y-axis. Default is to apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ytickcolor</span> <span class="o">&lt;</span><span class="n">de</span> <span class="o">|</span> <span class="n">color</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ytickformat">
+<h2>ytickformat<a class="headerlink" href="#ytickformat" title="Permalink to this headline">¶</a></h2>
+<p>Set the format of major ticks on the y axis. Default is plain.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ytickformat</span> <span class="o">&lt;</span><span class="n">plain</span> <span class="o">|</span> <span class="n">sci</span> <span class="o">|</span> <span class="n">exp</span> <span class="o">|</span> <span class="mi">10</span><span class="o">**&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yticklength">
+<h2>yticklength<a class="headerlink" href="#yticklength" title="Permalink to this headline">¶</a></h2>
+<p>Set the length (in points) of y ticks on the y axis. Default is to apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">yticklength</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ytickwidth">
+<h2>ytickwidth<a class="headerlink" href="#ytickwidth" title="Permalink to this headline">¶</a></h2>
+<p>Set the width (in points) of y ticks on the y axis. Default is to apply to major ticks only.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ytickwidth</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">which</span><span class="p">:</span> <span class="n">major</span> <span class="o">|</span> <span class="n">minor</span> <span class="o">|</span> <span class="n">both</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yticks">
+<h2>yticks<a class="headerlink" href="#yticks" title="Permalink to this headline">¶</a></h2>
+<p>Set the locations of major ticks on the y axis.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">yticks</span> <span class="n">de</span> <span class="o">|</span> <span class="o">&lt;</span><span class="n">number</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">locations</span><span class="o">&gt;</span> <span class="o">|</span> <span class="o">&lt;</span><span class="nb">list</span> <span class="n">of</span> <span class="n">locations</span><span class="p">,</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">labels</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Plot Control Commands</a><ul>
+<li><a class="reference internal" href="#annot">annot</a></li>
+<li><a class="reference internal" href="#bkgcolor-2-4"><strong>bkgcolor - 2.4</strong></a></li>
+<li><a class="reference internal" href="#dashstyle">dashstyle</a></li>
+<li><a class="reference internal" href="#dataid">dataid</a></li>
+<li><a class="reference internal" href="#delannot">delannot</a></li>
+<li><a class="reference internal" href="#domain">domain</a></li>
+<li><a class="reference internal" href="#fontcolor">fontcolor</a></li>
+<li><a class="reference internal" href="#fontsize">fontsize</a></li>
+<li><a class="reference internal" href="#fontstyle">fontstyle</a></li>
+<li><a class="reference internal" href="#geometry">geometry</a></li>
+<li><a class="reference internal" href="#grid">grid</a></li>
+<li><a class="reference internal" href="#gridcolor">gridcolor</a></li>
+<li><a class="reference internal" href="#gridstyle">gridstyle</a></li>
+<li><a class="reference internal" href="#gridwidth">gridwidth</a></li>
+<li><a class="reference internal" href="#guilims">guilims</a></li>
+<li><a class="reference internal" href="#handlelength">handlelength</a></li>
+<li><a class="reference internal" href="#image">image</a></li>
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#labelfilenames">labelFileNames</a></li>
+<li><a class="reference internal" href="#latex">latex</a></li>
+<li><a class="reference internal" href="#legend">legend</a></li>
+<li><a class="reference internal" href="#lnstyle">lnstyle</a></li>
+<li><a class="reference internal" href="#lnwidth">lnwidth</a></li>
+<li><a class="reference internal" href="#marker">marker</a></li>
+<li><a class="reference internal" href="#minorticks">minorticks</a></li>
+<li><a class="reference internal" href="#movefront">movefront</a></li>
+<li><a class="reference internal" href="#range">range</a></li>
+<li><a class="reference internal" href="#style">style</a></li>
+<li><a class="reference internal" href="#ticks">ticks</a></li>
+<li><a class="reference internal" href="#title">title</a></li>
+<li><a class="reference internal" href="#update">update</a></li>
+<li><a class="reference internal" href="#xlabel">xlabel</a></li>
+<li><a class="reference internal" href="#xlogscale">xlogscale</a></li>
+<li><a class="reference internal" href="#xtickcolor">xtickcolor</a></li>
+<li><a class="reference internal" href="#xticks">xticks</a></li>
+<li><a class="reference internal" href="#xtickformat">xtickformat</a></li>
+<li><a class="reference internal" href="#xticklength">xticklength</a></li>
+<li><a class="reference internal" href="#xtickwidth">xtickwidth</a></li>
+<li><a class="reference internal" href="#ylabel">ylabel</a></li>
+<li><a class="reference internal" href="#ylogscale">ylogscale</a></li>
+<li><a class="reference internal" href="#ytickcolor">ytickcolor</a></li>
+<li><a class="reference internal" href="#ytickformat">ytickformat</a></li>
+<li><a class="reference internal" href="#yticklength">yticklength</a></li>
+<li><a class="reference internal" href="#ytickwidth">ytickwidth</a></li>
+<li><a class="reference internal" href="#yticks">yticks</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="env_control_cmds.html"
+                        title="previous chapter">Environmental Control Commands</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="curve_control_cmds.html"
+                        title="next chapter">Curve Control Commands</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/plot_control_cmds.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="curve_control_cmds.html" title="Curve Control Commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="env_control_cmds.html" title="Environmental Control Commands"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>
