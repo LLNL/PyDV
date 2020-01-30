@@ -1,47 +1,263 @@
 
-<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>Math Operations &#8212; PyDV 3.0 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Math Operations &mdash; PyDV 3.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Environmental Inquiry Commands" href="env_inquiry_cmds.html" />
     <link rel="prev" title="I/O Commands" href="io_commands.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="io_commands.html" title="I/O Commands"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyDV
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.html">Release Notes For PyDV 3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdvrc.html">.pdvrc File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="io_commands.html">I/O Commands</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Math Operations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#abs">abs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#absx">absx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acos">acos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acosh">acosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acoshx">acoshx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acosx">acosx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add">add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha">alpha</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asin">asin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asinx">asinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asinh">asinh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asinhx">asinhx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atan">atan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atanx">atanx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atan2">atan2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atanh">atanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atanhx">atanhx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#average">average</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convolve">convolve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convolveb">convolveb</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#convolvec">convolvec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#correl-2-4-2"><strong>correl - 2.4.2</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cos">cos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cosx">cosx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cosh">cosh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#coshx">coshx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dx">dx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dy">dy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divx">divx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divy">divy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#error-bar">error-bar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#errorrange">errorrange</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exp">exp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#expx">expx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fft">fft</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fftx">fftx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian">gaussian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#j0">j0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#j0x">j0x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#j1">j1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#j1x">j1x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jn">jn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jnx">jnx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#l1">L1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#l2">L2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#log">log</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logx">logx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#log10">log10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#log10x">log10x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#makeintensive-2-4-2"><strong>makeintensive - 2.4.2</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#makeextensive-2-4-2"><strong>makeextensive - 2.4.2</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#max">max</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min">min</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mx">mx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#my">my</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#norm">norm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#powa">powa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#powax">powax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#powr">powr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#powrx">powrx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recip">recip</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recipx">recipx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sin">sin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sinx">sinx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sinh">sinh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#smooth">smooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sqr">sqr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sqrx">sqrx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sqrt">sqrt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sqrtx">sqrtx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tan">tan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tanx">tanx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tanh">tanh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tanhx">tanhx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xmax">xmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#xmin">xmin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#y0">y0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#y0x">y0x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#y1">y1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#y1x">y1x</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ymax">ymax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ymin">ymin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yminmax">yminmax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#yn">yn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ynx">ynx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subtract">subtract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiply">multiply</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divide">divide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#derivative">derivative</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#diffmeasure">diffMeasure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fit">fit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integrate">integrate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#span">span</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vs">vs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="env_inquiry_cmds.html">Environmental Inquiry Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="curve_inquiry_cmds.html">Curve Inquiry Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env_control_cmds.html">Environmental Control Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_control_cmds.html">Plot Control Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="curve_control_cmds.html">Curve Control Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ui_features.html">UI Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0 API Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyDV</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Math Operations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/math_operations.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="math-operations">
 <span id="id1"></span><h1>Math Operations<a class="headerlink" href="#math-operations" title="Permalink to this headline">¶</a></h1>
@@ -719,160 +935,52 @@ where p = order.</p>
 </div>
 
 
+           </div>
+           
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Math Operations</a><ul>
-<li><a class="reference internal" href="#abs">abs</a></li>
-<li><a class="reference internal" href="#absx">absx</a></li>
-<li><a class="reference internal" href="#acos">acos</a></li>
-<li><a class="reference internal" href="#acosh">acosh</a></li>
-<li><a class="reference internal" href="#acoshx">acoshx</a></li>
-<li><a class="reference internal" href="#acosx">acosx</a></li>
-<li><a class="reference internal" href="#add">add</a></li>
-<li><a class="reference internal" href="#alpha">alpha</a></li>
-<li><a class="reference internal" href="#asin">asin</a></li>
-<li><a class="reference internal" href="#asinx">asinx</a></li>
-<li><a class="reference internal" href="#asinh">asinh</a></li>
-<li><a class="reference internal" href="#asinhx">asinhx</a></li>
-<li><a class="reference internal" href="#atan">atan</a></li>
-<li><a class="reference internal" href="#atanx">atanx</a></li>
-<li><a class="reference internal" href="#atan2">atan2</a></li>
-<li><a class="reference internal" href="#atanh">atanh</a></li>
-<li><a class="reference internal" href="#atanhx">atanhx</a></li>
-<li><a class="reference internal" href="#average">average</a></li>
-<li><a class="reference internal" href="#convolve">convolve</a></li>
-<li><a class="reference internal" href="#convolveb">convolveb</a></li>
-<li><a class="reference internal" href="#convolvec">convolvec</a></li>
-<li><a class="reference internal" href="#correl-2-4-2"><strong>correl - 2.4.2</strong></a></li>
-<li><a class="reference internal" href="#cos">cos</a></li>
-<li><a class="reference internal" href="#cosx">cosx</a></li>
-<li><a class="reference internal" href="#cosh">cosh</a></li>
-<li><a class="reference internal" href="#coshx">coshx</a></li>
-<li><a class="reference internal" href="#dx">dx</a></li>
-<li><a class="reference internal" href="#dy">dy</a></li>
-<li><a class="reference internal" href="#divx">divx</a></li>
-<li><a class="reference internal" href="#divy">divy</a></li>
-<li><a class="reference internal" href="#error-bar">error-bar</a></li>
-<li><a class="reference internal" href="#errorrange">errorrange</a></li>
-<li><a class="reference internal" href="#exp">exp</a></li>
-<li><a class="reference internal" href="#expx">expx</a></li>
-<li><a class="reference internal" href="#fft">fft</a></li>
-<li><a class="reference internal" href="#fftx">fftx</a></li>
-<li><a class="reference internal" href="#gaussian">gaussian</a></li>
-<li><a class="reference internal" href="#j0">j0</a></li>
-<li><a class="reference internal" href="#j0x">j0x</a></li>
-<li><a class="reference internal" href="#j1">j1</a></li>
-<li><a class="reference internal" href="#j1x">j1x</a></li>
-<li><a class="reference internal" href="#jn">jn</a></li>
-<li><a class="reference internal" href="#jnx">jnx</a></li>
-<li><a class="reference internal" href="#l1">L1</a></li>
-<li><a class="reference internal" href="#l2">L2</a></li>
-<li><a class="reference internal" href="#log">log</a></li>
-<li><a class="reference internal" href="#logx">logx</a></li>
-<li><a class="reference internal" href="#log10">log10</a></li>
-<li><a class="reference internal" href="#log10x">log10x</a></li>
-<li><a class="reference internal" href="#makeintensive-2-4-2"><strong>makeintensive - 2.4.2</strong></a></li>
-<li><a class="reference internal" href="#makeextensive-2-4-2"><strong>makeextensive - 2.4.2</strong></a></li>
-<li><a class="reference internal" href="#max">max</a></li>
-<li><a class="reference internal" href="#min">min</a></li>
-<li><a class="reference internal" href="#mx">mx</a></li>
-<li><a class="reference internal" href="#my">my</a></li>
-<li><a class="reference internal" href="#norm">norm</a></li>
-<li><a class="reference internal" href="#powa">powa</a></li>
-<li><a class="reference internal" href="#powax">powax</a></li>
-<li><a class="reference internal" href="#powr">powr</a></li>
-<li><a class="reference internal" href="#powrx">powrx</a></li>
-<li><a class="reference internal" href="#recip">recip</a></li>
-<li><a class="reference internal" href="#recipx">recipx</a></li>
-<li><a class="reference internal" href="#sin">sin</a></li>
-<li><a class="reference internal" href="#sinx">sinx</a></li>
-<li><a class="reference internal" href="#sinh">sinh</a></li>
-<li><a class="reference internal" href="#smooth">smooth</a></li>
-<li><a class="reference internal" href="#sqr">sqr</a></li>
-<li><a class="reference internal" href="#sqrx">sqrx</a></li>
-<li><a class="reference internal" href="#sqrt">sqrt</a></li>
-<li><a class="reference internal" href="#sqrtx">sqrtx</a></li>
-<li><a class="reference internal" href="#tan">tan</a></li>
-<li><a class="reference internal" href="#tanx">tanx</a></li>
-<li><a class="reference internal" href="#tanh">tanh</a></li>
-<li><a class="reference internal" href="#tanhx">tanhx</a></li>
-<li><a class="reference internal" href="#xmax">xmax</a></li>
-<li><a class="reference internal" href="#xmin">xmin</a></li>
-<li><a class="reference internal" href="#y0">y0</a></li>
-<li><a class="reference internal" href="#y0x">y0x</a></li>
-<li><a class="reference internal" href="#y1">y1</a></li>
-<li><a class="reference internal" href="#y1x">y1x</a></li>
-<li><a class="reference internal" href="#ymax">ymax</a></li>
-<li><a class="reference internal" href="#ymin">ymin</a></li>
-<li><a class="reference internal" href="#yminmax">yminmax</a></li>
-<li><a class="reference internal" href="#yn">yn</a></li>
-<li><a class="reference internal" href="#ynx">ynx</a></li>
-<li><a class="reference internal" href="#subtract">subtract</a></li>
-<li><a class="reference internal" href="#multiply">multiply</a></li>
-<li><a class="reference internal" href="#divide">divide</a></li>
-<li><a class="reference internal" href="#derivative">derivative</a></li>
-<li><a class="reference internal" href="#diffmeasure">diffMeasure</a></li>
-<li><a class="reference internal" href="#fit">fit</a></li>
-<li><a class="reference internal" href="#integrate">integrate</a></li>
-<li><a class="reference internal" href="#span">span</a></li>
-<li><a class="reference internal" href="#vs">vs</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="env_inquiry_cmds.html" class="btn btn-neutral float-right" title="Environmental Inquiry Commands" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="io_commands.html" class="btn btn-neutral float-left" title="I/O Commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="io_commands.html"
-                        title="previous chapter">I/O Commands</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="env_inquiry_cmds.html"
-                        title="next chapter">Environmental Inquiry Commands</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/math_operations.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="env_inquiry_cmds.html" title="Environmental Inquiry Commands"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="io_commands.html" title="I/O Commands"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">PyDV 3.0 documentation</a> &#187;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2015-2020, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
 </html>
