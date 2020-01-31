@@ -1,6 +1,6 @@
-## PDV is a 1D graphics and data analysis tool, heavily based on the ULTRA plotting tool.
+## PDV 
 
-To use it, download the source, and run with Python.  You need pyside or pyqt4, matplotlib and numpy installed.
+A 1D graphics and data analysis tool, heavily based on the ULTRA plotting tool.
 
 ### PyDV Importable Interface Module ###
 You can now call most of PyDV's functionality from within a Python script. Below is an example of how to do this.
