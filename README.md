@@ -12,6 +12,10 @@ You can now call most of PyDV's functionality from within a Python script. Below
         curves = list()
         curves.append(pydvif.span(1,10,6))
         pydvif.save('myFile.txt', curves)
+        
+## Documentation
+
+[PyDV Users Manual](https://pydv.readthedocs.io/en/latest/) [![Documentation Status](https://readthedocs.org/projects/pydv/badge/?version=latest)](https://pydv.readthedocs.io/en/latest/?badge=latest)
 
 ## License
 
