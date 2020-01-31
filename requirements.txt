@@ -13,9 +13,9 @@ Jinja2==2.10.3
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.1.1
-mkl-fft==1.0.14
-mkl-random==1.1.0
-mkl-service==2.3.0
+mkl-fft
+mkl-random
+mkl-service
 numpy==1.17.2
 packaging==19.2
 pycparser==2.19
