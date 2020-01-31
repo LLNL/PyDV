@@ -13,8 +13,6 @@ Jinja2==2.10.3
 kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.1.1
-mkl-random
-mkl-service
 numpy==1.17.2
 packaging==19.2
 pycparser==2.19
