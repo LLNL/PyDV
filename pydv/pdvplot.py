@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2019, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
 # e-mail: griffin28@llnl.gov
@@ -424,9 +424,9 @@ class Plotter(QMainWindow):
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC. \
+        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2020, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p> \
+                      <p style="font-family:verdana;">Written by Kevin Griffin, Mason Kwiat, Douglas S. Miller</p> \
                       <p style="font-family:verdana;">e-mail: griffin28@llnl.gov or dougmiller@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
@@ -516,8 +516,8 @@ class Plotter(QMainWindow):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
                                                                '<p style="font-family:courier; font-size:40%;">version 2.4.4</p>'
                                                                '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2019, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Mason Kwiat, Douglas S. Miller, and Kevin Griffin</p>'
+                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2020, Lawrence Livermore National Security, LLC.</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Kevin Griffin, Mason Kwiat, Douglas S. Miller</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">email: griffin28@llnl.gov</p>'
                                                                '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
