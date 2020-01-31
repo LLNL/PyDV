@@ -99,6 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#toolbar">Toolbar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#help-menu">Help Menu</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#view-menu">View Menu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pydv-colormap">PyDV Colormap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-tickmarks">Plot Tickmarks</a></li>
 </ul>
 </li>
 </ul>
@@ -210,6 +212,31 @@
 <div class="figure align-default" id="id9">
 <span id="menu"></span><a class="reference internal image-reference" href="_images/menu.png"><img alt="_images/menu.png" src="_images/menu.png" style="width: 917.0px; height: 358.0px;" /></a>
 <p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">List of available curves</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="pydv-colormap">
+<h2>PyDV Colormap<a class="headerlink" href="#pydv-colormap" title="Permalink to this headline">¶</a></h2>
+<p>You can display the available colors to use in PyDV for commands like <strong>xtickcolor</strong> by using the <strong>showcolormap</strong> command.</p>
+<div class="figure align-default" id="id10">
+<span id="colormap"></span><a class="reference internal image-reference" href="_images/colormap.png"><img alt="_images/colormap.png" src="_images/colormap.png" style="width: 545.0px; height: 492.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Display of the available colors to use in PyDV</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">showcolormap</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot-tickmarks">
+<h2>Plot Tickmarks<a class="headerlink" href="#plot-tickmarks" title="Permalink to this headline">¶</a></h2>
+<p>The plot tickmarks can be modified as desired. You can change the width, length, color, and number. Below is an example of changing the x-axis major tickmarks to red, the y-axis minor tickmarks to green, and the width of the y-axis minor tickmarks. The corresponding PyDV commands are also shown below.</p>
+<div class="figure align-default" id="id11">
+<span id="ticks"></span><a class="reference internal image-reference" href="_images/ticks.png"><img alt="_images/ticks.png" src="_images/ticks.png" style="width: 545.0px; height: 492.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Example of modifying the plot tickmarks</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">minorticks</span> <span class="n">on</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">xtickcolor</span> <span class="n">red</span> <span class="n">major</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ytickcolor</span> <span class="n">green</span> <span class="n">minor</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ytickwidth</span> <span class="mi">3</span> <span class="n">minor</span>
+</pre></div>
 </div>
 </div>
 </div>

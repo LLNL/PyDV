@@ -12,12 +12,14 @@ This section gives a tutorial introduction to PyDV. A sample session is run whic
    input line. In interactive mode, ranges of curve numbers or data-id’s may be indicated using colon notation. 
    For example, a:f or 5:9
 
-Run PyDV 
---------
+Run PyDV (LLNL)
+---------------
 
 .. code::
  
-    /usr/gapps/pydv/pdv 
+    /usr/gapps/pydv/pdv     # Current version
+    
+    /usr/gapps/pydv/3.0/pdv # Version specific
 
 Run PyDV With a Command File 
 ----------------------------

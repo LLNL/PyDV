@@ -71,3 +71,38 @@ The **Menu** dialog lists the available curves read from a file. The user can de
 
    List of available curves
 
+PyDV Colormap
+-------------
+
+You can display the available colors to use in PyDV for commands like **xtickcolor** by using the **showcolormap** command.
+
+.. _colormap:
+
+.. figure:: images/colormap.png
+   :scale: 50%
+
+   Display of the available colors to use in PyDV
+
+.. code::
+
+   [PyDV]: showcolormap
+
+Plot Tickmarks
+--------------
+
+The plot tickmarks can be modified as desired. You can change the width, length, color, and number. Below is an example of changing the x-axis major tickmarks to red, the y-axis minor tickmarks to green, and the width of the y-axis minor tickmarks. The corresponding PyDV commands are also shown below.
+
+.. _ticks:
+
+.. figure:: images/ticks.png
+   :scale: 50%
+
+   Example of modifying the plot tickmarks
+
+.. code::
+
+   [PyDV]: minorticks on
+   [PyDV]: xtickcolor red major
+   [PyDV]: ytickcolor green minor
+   [PyDV]: ytickwidth 3 minor
+
