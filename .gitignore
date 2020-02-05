@@ -6,3 +6,4 @@
 .DS_Store
 mypdv
 dist
+pydv/doc/_build
