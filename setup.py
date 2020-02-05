@@ -27,7 +27,7 @@ setup(
             'Intended Audience :: End Users/Desktop',
             'Intended Audience :: Developers',
             'Operating System :: OS Independent',
-            'Programming Language :: Python :: 2',
+            'Programming Language :: Python :: 3',
         ],
         install_requires=[
             'numpy',
