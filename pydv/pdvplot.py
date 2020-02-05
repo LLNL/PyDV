@@ -515,7 +515,7 @@ class Plotter(QMainWindow):
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
                                                                '<p style="font-family:courier; font-size:40%;">version 2.4.4</p>'
-                                                               '<p style="font-family:verdana;"><a href="https://lc.llnl.gov/confluence/display/PYDV/PyDV%3A+Python+Data+Visualizer">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
+                                                               '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/2.4dev/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2020, Lawrence Livermore National Security, LLC.</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">Written by: Kevin Griffin, Mason Kwiat, Douglas S. Miller</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">email: griffin28@llnl.gov</p>'
