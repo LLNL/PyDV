@@ -177,18 +177,18 @@ def getletterargs(line):
                     arglist += nolist + ' '
             start = line[i].split()[-1].upper()
             if(start[0] == '@'):
-                start = int(start[1:])
+                start = int(start[1:]) - 1
             else:
                 start = ord(start[0]) - ord('A')
             end = line[i+1].split()[0].upper()
             if(end[0] == '@'):
-                end = int(end[1:])
+                end = int(end[1:]) - 1
             else:
                 end = ord(end[0]) - ord('A')
             args = ''
-            for j in range(int(end)-int(start)+1):
+            for j in range((int(end)-int(start))+1):
                 if(j+int(start) > 25):
-                    args += '@' + str(j+int(start)) + ' '
+                    args += '@' + str(j+int(start)+1) + ' '
                 else:
                     args += chr(j+int(start) + ord('A')) + ' '
             arglist += args + ''
