@@ -159,46 +159,58 @@ def getnumberargs(line, filelist):
 def getletterargs(line):
     line = line.split(':')  #begin arduous list parsing
     arglist = ''
-    if(len(line) > 1):
+    if len(line) > 1:
         for i in range(len(line)):
             line[i] = line[i].strip()
-        if(len(line[0].split()) > 1):   #check for non list args
+
+        # check for non list args
+        if len(line[0].split()) > 1:
             nolist = line[0].split()
             nolist.pop(-1)
             nolist = ' '.join(nolist)
             arglist += nolist + ' '
+
         for i in range(len(line)-1):
-            if(i > 0):
-                if(len(line[i].split()) > 2):   #check for non list args
+            if i > 0:
+                # check for non list args
+                if len(line[i].split()) > 2:
                     nolist = line[i].split()
                     nolist.pop(-1)
                     nolist.pop(0)
                     nolist = ' '.join(nolist)
                     arglist += nolist + ' '
+
             start = line[i].split()[-1].upper()
-            if(start[0] == '@'):
-                start = int(start[1:])
+
+            if start[0] == '@':
+                start = int(start[1:]) - 1
             else:
                 start = ord(start[0]) - ord('A')
+
             end = line[i+1].split()[0].upper()
-            if(end[0] == '@'):
-                end = int(end[1:])
+
+            if end[0] == '@':
+                end = int(end[1:]) - 1
             else:
                 end = ord(end[0]) - ord('A')
+
             args = ''
-            for j in range(int(end)-int(start)+1):
-                if(j+int(start) > 25):
-                    args += '@' + str(j+int(start)) + ' '
+            for j in range((int(end)-int(start))+1):
+                if j+int(start) > 25:
+                    args += '@' + str(j+int(start)+1) + ' '
                 else:
                     args += chr(j+int(start) + ord('A')) + ' '
             arglist += args + ''
-        if(len(line[-1].split()) > 1):   #check for non list args
+
+        # check for non list args
+        if len(line[-1].split()) > 1:
             nolist = line[-1].split()
             nolist.pop(0)
             nolist = ' '.join(nolist)
             arglist += nolist + ' '  #end arduous list parsing
+            
     return arglist
-        
+
 
 ##truncate a string to given length##
 def truncate(string, size):
