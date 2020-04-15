@@ -135,6 +135,7 @@ class Command(cmd.Cmd, object):
     ## state variables##
     xlabel = ''
     ylabel = ''
+    bordercolor = None
     figcolor = None
     plotcolor = None
     xtickcolor = None
@@ -2644,6 +2645,48 @@ class Command(cmd.Cmd, object):
               '\n   On or 1 will make the minor ticks visible and off or 0 will hide the minor ticks.'
               '\n   Usage: minorticks <on | off | 1 | 0>')
 
+    ##show or hide the border##
+    def do_border(self, line):
+        try:
+            color = None
+            line = line.split()
+            arg_count = len(line)
+
+            if arg_count == 1:
+                show = line[0]
+            elif arg_count == 2:
+                show = line[0]
+                color = line[1]
+            else:
+                raise RuntimeError('Too many arguments: Expected 1 or 2 but received {}'.format(arg_count))
+
+            if show == '0' or show.upper() == 'OFF':
+                self.bordercolor = None
+            elif show == '1' or show.upper() == 'ON':
+                if arg_count > 1:
+                    if mclr.is_color_like(color):
+                        self.bordercolor = color
+                        self.plotedit = True
+                    else:
+                        raise RuntimeError('Invalid color {}'.format(color))
+                else:
+                    self.bordercolor = 'black'
+            else:
+                raise RuntimeError('invalid input: requires on, 1, off, or 0 as argument')
+
+        except:
+            print('error - usage: border <on | 1 | off | 0> [color-name]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_border(self):
+        print('\n   Procedure: Show the border if on or 1, otherwise hide the border. The color-name'
+              '\n              determines the color of the border. By default, the border color is black.'
+              '\n   Usage: border <on | 1 | off | 0> [color-name]'
+              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
+              '\n   of hexadecimal red-green-blue values (RRGGBB).'
+              '\n   The entire set of HTML-standard color names is available.'
+              '\n   Try "showcolormap" to see the available named colors!')
+
     ##show or hide the grid##
     def do_grid(self, line):
         try:
@@ -2669,6 +2712,7 @@ class Command(cmd.Cmd, object):
             color = line.strip()
             if mclr.is_color_like(color):
                 self.gridcolor = color
+                self.plotedit = True
             else:
                 print('error: invalid color ' + color)
                 return 0
@@ -2677,9 +2721,12 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_gridcolor(self):
-            print('\n   Procedure: Set the color of the grid\n   Usage: gridcolor <color-name>'
-                  '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue values (RRGGBB).'
-                  '\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" to see the available named colors!')
+            print('\n   Procedure: Set the color of the grid'
+                  '\n   Usage: gridcolor <color-name>'
+                  '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
+                  '\n   of hexadecimal red-green-blue values (RRGGBB).'
+                  '\n   The entire set of HTML-standard color names is available.'
+                  '\n   Try "showcolormap" to see the available named colors!')
 
     ## Change the grid style ##
     def do_gridstyle(self, line):
@@ -5686,6 +5733,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             plt.clf()
             plt.cla()
             cur_axes = plt.gca()
+
+            # Border
+            cur_axes.spines['bottom'].set_color(self.bordercolor)
+            cur_axes.spines['top'].set_color(self.bordercolor)
+            # cur_axes.spines['bottom'].set_smart_bounds(True)
+            # cur_axes.spines['top'].set_smart_bounds(True)
+            cur_axes.spines['right'].set_color(self.bordercolor)
+            cur_axes.spines['left'].set_color(self.bordercolor)
 
             if self.plotcolor is not None:
                 cur_axes.patch.set_facecolor(self.plotcolor)

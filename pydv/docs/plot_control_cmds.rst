@@ -21,8 +21,17 @@ Display text on the plot at point (x, y).
 
    [PyDV]: annot <text> <x> <y>
 
-**bkgcolor - 2.4**
-------------------
+border
+------
+
+Show the border if **on** or **1**, otherwise hide the border. The **color-name** determines the color of the border. By default, the border color is black.
+
+.. code::
+
+   [PyDV]: border <on | 1 | off | 0> [color-name]
+
+bkgcolor
+--------
 
 Change the background color of the plot, window, or both
 
