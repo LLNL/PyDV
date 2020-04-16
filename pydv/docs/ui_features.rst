@@ -113,7 +113,7 @@ The border that outlines the plot can be shown or hidden. You can also change th
 
 .. _border:
 
-.. figure:: iamges/borderon.png
+.. figure:: images/borderon.png
    :scale: 50%
 
    Plot with yellow border and yellow grid
