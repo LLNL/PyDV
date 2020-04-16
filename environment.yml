@@ -2,17 +2,27 @@ name: pydv3
 channels:
   - defaults
 dependencies:
+  - alabaster=0.7.12=py37_0
+  - asn1crypto=1.2.0=py37_0
+  - babel=2.7.0=py_0
   - blas=1.0=mkl
-  - ca-certificates=2019.10.16=0
-  - certifi=2019.9.11=py37_0
+  - ca-certificates=2020.1.1=0
+  - certifi=2019.11.28=py37_1
+  - cffi=1.13.2=py37hb5b8e2f_0
+  - chardet=3.0.4=py37_1003
+  - cryptography=2.8=py37ha12b0ac_0
   - cycler=0.10.0=py37_0
   - dbus=1.13.6=h90a0687_0
+  - docutils=0.15.2=py37_0
   - expat=2.2.6=h0a44026_0
   - freetype=2.9.1=hb4e5f40_0
   - gettext=0.19.8.1=h15daf44_3
   - glib=2.56.2=hd9629dc_0
   - icu=58.2=h4b95b61_1
+  - idna=2.8=py37_0
+  - imagesize=1.1.0=py37_0
   - intel-openmp=2019.4=233
+  - jinja2=2.10.3=py_0
   - jpeg=9b=he5867d9_2
   - kiwisolver=1.1.0=py37h0a44026_0
   - libcxx=4.0.1=hcfea43d_1
@@ -22,34 +32,55 @@ dependencies:
   - libgfortran=3.0.1=h93005f0_2
   - libiconv=1.15=hdd342a3_7
   - libpng=1.6.37=ha441bb4_0
+  - llvmlite=0.31.0=py37h1341992_0
+  - markupsafe=1.1.1=py37h1de35cc_0
   - matplotlib=3.1.1=py37h54f8f79_0
   - mkl=2019.4=233
   - mkl-service=2.3.0=py37hfbe908c_0
   - mkl_fft=1.0.14=py37h5e564d8_0
   - mkl_random=1.1.0=py37ha771720_0
   - ncurses=6.1=h0a44026_1
+  - numba=0.48.0=py37h6c726b0_0
   - numpy=1.17.2=py37h99e6662_0
   - numpy-base=1.17.2=py37h6575580_0
-  - openssl=1.1.1d=h1de35cc_3
+  - openssl=1.1.1f=h1de35cc_0
+  - packaging=19.2=py_0
   - pcre=8.43=h0a44026_0
   - pip=19.3.1=py37_0
+  - pycparser=2.19=py37_0
+  - pygments=2.5.2=py_0
+  - pyopenssl=19.1.0=py37_0
   - pyparsing=2.4.2=py_0
   - pyqt=5.9.2=py37h655552a_2
+  - pysocks=1.7.1=py37_0
   - python=3.7.4=h359304d_1
   - python-dateutil=2.8.0=py37_0
   - pytz=2019.3=py_0
   - qt=5.9.7=h468cd18_1
   - readline=7.0=h1de35cc_5
+  - requests=2.22.0=py37_1
   - scipy=1.3.1=py37h1410ff5_0
   - setuptools=41.4.0=py37_0
   - singledispatch=3.4.0.3=py37_0
   - sip=4.19.8=py37h0a44026_0
   - six=1.12.0=py37_0
+  - snowballstemmer=2.0.0=py_0
+  - sphinx=2.2.2=py_0
+  - sphinxcontrib-applehelp=1.0.1=py_0
+  - sphinxcontrib-devhelp=1.0.1=py_0
+  - sphinxcontrib-htmlhelp=1.0.2=py_0
+  - sphinxcontrib-jsmath=1.0.1=py_0
+  - sphinxcontrib-qthelp=1.0.2=py_0
+  - sphinxcontrib-serializinghtml=1.1.3=py_0
   - sqlite=3.30.0=ha441bb4_0
+  - tbb=2020.0=h04f5b5a_0
   - tk=8.6.8=ha441bb4_0
   - tornado=5.1.1=py37h1de35cc_0
+  - urllib3=1.25.7=py37_0
   - wheel=0.33.6=py37_0
   - xz=5.2.4=h1de35cc_4
   - zlib=1.2.11=h1de35cc_3
+  - pip:
+    - sphinx-rtd-theme==0.4.3
 prefix: /Users/griffin28/anaconda3/envs/pydv3
 
