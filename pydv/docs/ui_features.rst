@@ -111,14 +111,14 @@ Border
 
 The border that outlines the plot can be shown or hidden. You can also change the color of the border line. Below is an example of showing and hiding the border and also setting its color to yellow.
 
-.. _border:
+.. _borderon:
 
 .. figure:: images/borderon.png
    :scale: 50%
 
    Plot with yellow border and yellow grid
 
- .. code::
+.. code::
   
     [PyDV]: span 1 20
     [PyDV]: span 1 20
@@ -126,6 +126,8 @@ The border that outlines the plot can be shown or hidden. You can also change th
     [PyDV]: sin b
     [PyDV]: gridcolor yellow
     [PyDV]: border on yellow
+
+.. _borderoff:
 
 .. figure:: images/borderoff.png
    :scale: 50%
