@@ -24,7 +24,7 @@ Define a synonym for  an existing command.
 custom
 ------
 
-Load a file of custom functions to extend PyDV. Functions must be of the form 'def do_commandname(self, line): ...
+Load a file of custom functions to extend PyDV. Functions must be of the form **'def do_commandname(self, line): ...'**
 
 .. code::
  

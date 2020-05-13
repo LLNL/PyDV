@@ -55,5 +55,5 @@ Allows passing commands to the operating system. **Shortcut: ! or shell**
 
 .. code::
     
-   [PyDV]: system ls
+   [PyDV]: system <command>
 
