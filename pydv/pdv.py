@@ -63,6 +63,8 @@ import cmd
 import sys, os, re, time
 import string
 import types
+import warnings
+warnings.filterwarnings("ignore", category=Warning)
 
 from threading import Thread
 
@@ -1130,8 +1132,7 @@ class Command(cmd.Cmd, object):
             plt.draw()
             self.plotter.canvas.draw()
 
-            print('hit return to go back to your plots')
-            x = input()
+            x = input('hit return to go back to your plots: ')
             self.plotedit=True
         except:
             print('error - usage: showcolormap')
@@ -4598,8 +4599,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         finally:
             self.redraw = False
     def help_custom(self):
-        print('\n   Procedure: Load a file of custom functions to extend PDV. '
-              'Functions must be of the form \'def do_commandname(self, line): ...\n   Usage: custom <file-name>\n')
+        print("\n   Procedure: Load a file of custom functions to extend PDV. "
+              "\n              Functions must be of the form 'def do_commandname(self, line): ...'"
+              "\n   Usage: custom <file-name>\n")
 
     ##allow user defined command synonyms##
     def do_alias(self, line):
@@ -6093,7 +6095,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0  -  01.29.2020\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.1  -  XX.XX.XXXX\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
