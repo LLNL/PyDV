@@ -631,84 +631,121 @@ class Command(cmd.Cmd, object):
     ##add one or more curves and plot resulting curve##
     def do_add(self, line):
         try:
-            if(len(line.split(':')) > 1):
-                self.do_add(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                line = ' + '.join(line)
-                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
-            self.plotedit = True
+            try:
+                value = float(line.split().pop(-1))
+                self.do_dy(line)
+            except:
+                if len(line.split(':')) > 1:
+                    self.do_add(pdvutil.getletterargs(line))
+                    return 0
+                else:
+                    line = line.split()
+                    line = ' + '.join(line)
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                self.plotedit = True
         except:
-            print('error - usage: add <curve-list>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            print('error - usage: add <curve-list> [value]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
     def help_add(self):
-        print('\n   Procedure: Take sum of curves\n   Usage: add <curve-list>\n   Shortcuts: +\n')
+        print('\n   Procedure: Take sum of curves. If the optional value is specified it will add'
+              '\n              the y-values of the curves by value (equivalent to using the dy command).'
+              '\n              Note: Adding curves by a number modifies the curve. If you want to create'
+              '\n              a new curve then copy the original curve first using the copy command.'
+              '\n   Usage: add <curve-list> [value]'
+              '\n   Shortcuts: +\n')
 
 
     ##subtract one or more curves##
     def do_subtract(self, line):
         try:
-            if len(line.split(':')) > 1:
-                self.do_subtract(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                if len(line) == 1:
-                    line = '-' + line[0]
+            try:
+                nline = line.split()
+                value = -1.0 * float(nline.pop(-1))
+                nline = ' '.join(nline)
+                nline = nline + ' ' + str(value)
+                self.do_dy(nline)
+            except:
+                if len(line.split(':')) > 1:
+                    self.do_subtract(pdvutil.getletterargs(line))
+                    return 0
                 else:
-                    line = ' - '.join(line)
-                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
-            self.plotedit = True
+                    line = line.split()
+                    if len(line) == 1:
+                        line = '-' + line[0]
+                    else:
+                        line = ' - '.join(line)
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                self.plotedit = True
         except:
-            print('error - usage: sub <curve-list>')
+            print('error - usage: subtract <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_subtract(self):
         print('\n   Procedure: Take difference of curves. A single curve can be specified, resulting in '
-              '\n   the negating of its y-values.'
-              '\n   Usage: subtract <curve | curve-list>'
+              '\n              the negating of its y-values. If the optional value is specified it will subtract'
+              '\n              the y-values of the curves by value (similar to using the dy command).'
+              '\n              Note: Subtracting curves by a number modifies the curve. If you want to create'
+              '\n              a new curve then copy the original curve first using the copy command.'
+              '\n   Usage: subtract <curve-list> [value]'
               '\n   Shortcuts: - , sub\n')
 
 
     ##multiply one or more curves##
     def do_multiply(self, line):
         try:
-            if len(line.split(':')) > 1:
-                self.do_multiply(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                line = ' * '.join(line)
-                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
-            self.plotedit = True
+            try:
+                value = float(line.split().pop(-1))
+                self.do_my(line)
+            except:
+                if len(line.split(':')) > 1:
+                    self.do_multiply(pdvutil.getletterargs(line))
+                    return 0
+                else:
+                    line = line.split()
+                    line = ' * '.join(line)
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
+                self.plotedit = True
         except:
-            print('error - usage: mult <curve-list>')
+            print('error - usage: mult <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_multiply(self):
-        print('\n   Procedure: Take product of curves'
-              '\n   Usage: multiply <curve-list>'
+        print('\n   Procedure: Take product of curves. If the optional value is specified it will multiply'
+              '\n              the y-values of the curves by value (equivalent to using the my command).'
+              '\n              Note: Multiplying curves by a number modifies the curve. If you want to create'
+              '\n              a new curve then copy the original curve first using the copy command.'
+              '\n   Usage: multiply <curve-list> [value]'
               '\n   Shortcuts: * , mult\n')
 
 
     ##divide one or more curves##
     def do_divide(self, line):
         try:
-            if(len(line.split(':')) > 1):
-                self.do_divide(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                line = ' / '.join(line)
-                pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
-            self.plotedit = True
+            # If dividing by a number then send to divy
+            try:
+                value = float(line.split().pop(-1))
+                self.do_divy(line)
+            except:
+                if len(line.split(':')) > 1:
+                    self.do_divide(pdvutil.getletterargs(line))
+                    return 0
+                else:
+                    line = line.split()
+                    line = ' / '.join(line)
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                self.plotedit = True
         except:
-            print('error - usage: div <curve-list>')
-            if(self.debug):
+            print('error - usage: divide <curve-list> [value]')
+            if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_divide(self):
-        print('\n   Procedure: Take quotient of curves\n   Usage: divide <curve-list>\n   Shortcuts: / , div\n')
+        print('\n   Procedure: Take quotient of curves. If the optional value is specified it will divide'
+              '\n              the y-values of the curves by value (equivalent to using the divy command).'
+              '\n              Note: Dividing curves by a number modifies the curve. If you want to create'
+              '\n              a new curve then copy the original curve first using the copy command.'
+              '\n   Usage: divide <curve-list> [value]'
+              '\n   Shortcuts: / , div\n')
 
 
     ##read in an ultra file##
@@ -1195,7 +1232,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_divy(self):
-        print('\n   Procedure: Divide y values of curves by a constant\n   Usage: divy <curve-list> <value>\n')
+        print('\n   Procedure: Divide y values of curves by a constant'
+              '\n   Usage: divy <curve-list> <value>\n')
 
 
     ##shift curve x values by given factor##
