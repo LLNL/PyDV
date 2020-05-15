@@ -6012,8 +6012,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         plt.text(cur.x[-1], cur.y[-1], cur.plotname, color=cur.color, fontsize=self.curvelabelfont)
                         offset += 1
 
-
-
             #fonts/labels/legend
             if self.showkey:
                 leg = plt.legend(fancybox=True, numpoints=1, loc=self.key_loc, ncol=self.key_ncol, handlelength=self.handlelength)
@@ -6170,7 +6168,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.1  -  XX.XX.XXXX\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.1  -  05.15.2020\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
