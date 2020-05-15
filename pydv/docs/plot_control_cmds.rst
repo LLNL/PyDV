@@ -197,14 +197,24 @@ Change the key and list label for a curve.
 
    [PyDV]: label <curve> <new-label>
 
-labelFileNames
---------------
+labelcurve
+----------
 
-Change the key and list labels for all curves to append the filename.
+Add curve letter to the legend label if **on**, otherwise hide curve letter if **off**.
 
 .. code::
 
-   [PyDV]: labelFileNames
+   [PyDV]: labelcurve <on | off>
+
+labelfilenames
+--------------
+
+Change the key and list labels for all curves to append the filename. This command only affects the curves plotted
+at the time of execution. Any new curve will need to have this command run again to append the filename.
+
+.. code::
+
+   [PyDV]: labelfilenames
 
 latex
 -----

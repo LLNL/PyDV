@@ -158,6 +158,7 @@ class Command(cmd.Cmd, object):
     gridstyle = 'solid'
     gridwidth = 1.0
     showletters = True
+    showcurveinlegend = False
     xlogscale = False
     ylogscale = False
     titlefont = 'large'
@@ -2814,11 +2815,13 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: dataid on | off')
+            print('error - usage: dataid <on | off>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_dataid(self):
-        print('\n   Variable: Show curve identifiers if True\n   Usage: dataid on | off\n   Shortcuts: data-id\n')
+        print('\n   Variable: Show curve identifiers if True'
+              '\n   Usage: dataid <on | off>'
+              '\n   Shortcuts: data-id\n')
 
     ##show the x axis on a log scale##
     def do_xlogscale(self, line):
@@ -4529,7 +4532,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
 
     ##change label for a curve to the filename##
-    def do_labelFileNames(self, line):
+    def do_labelfilenames(self, line):
         try:
             for j in range(len(self.plotlist)):
                 cur = self.plotlist[j]
@@ -4538,12 +4541,33 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     cur.name += ' - ' + cur.filename
                     self.plotedit = True
         except:
-            print('error - usage: labelFileNames')
+            print('error - usage: labelfilenames')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
-    def help_labelFileNames(self):
-        print('\n   Procedure: Change the key and list labels for all curves to append the filename'
-              '\n   Usage: labelFileNames\n')
+    def help_labelfilenames(self):
+        print('\n   Procedure: Change the key and list labels for the plotted curves by appending the filename.'
+              '\n              This command only affects the curves plotted at the time of execution. Any new curve'
+              '\n              will need to have this command run again to append the filename.'
+              '\n   Usage: labelfilenames\n')
+
+
+    ##change label for a curve to the filename##
+    def do_labelcurve(self, line):
+            try:
+                line = line.strip()
+                if line == '0' or line.upper() == 'OFF':
+                    self.showcurveinlegend = False
+                elif line == '1' or line.upper() == 'ON':
+                    self.showcurveinlegend = True
+                else:
+                    raise RuntimeError('invalid input: requires on or off as argument')
+            except:
+                print('error - usage: labelcurve <on | off>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+    def help_labelcurve(self):
+        print('\n   Variable: Add curve letter to the legend label if "on", otherwise hide curve letter if "off".'
+              '\n   Usage: labelcurve <on | off>')
 
 
     ##run a list of commands from a file##
@@ -5249,6 +5273,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def addtoplot(self, cur):
         if(cur.plotname == '' or (len(cur.plotname) > 1 and cur.plotname[0] != '@')):
             cur.plotname = self.getcurvename()
+
         cur.x = numpy.array(cur.x)
         cur.y = numpy.array(cur.y)
         if(len(cur.x) < 2 or len(cur.y) < 2):
@@ -5822,6 +5847,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.plotter.canvas.draw()
                 return 0
 
+            # Show curve letter in legend is enabled
+            for cur in self.plotlist:
+                addstr = str('[' + cur.plotname + ']')
+                if cur.name.find(addstr) != -1:
+                    strarr = cur.name.split(addstr)
+                    cur.name = ''.join(strarr).strip()
+
+                if self.showcurveinlegend:
+                    cur.name = addstr + ' ' + cur.name
+
             #set scaling and tick locations
             #
             # Notes on matplotlib that I found very helpful:
@@ -5976,6 +6011,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             labelx += spacing
                         plt.text(cur.x[-1], cur.y[-1], cur.plotname, color=cur.color, fontsize=self.curvelabelfont)
                         offset += 1
+
+
 
             #fonts/labels/legend
             if self.showkey:
