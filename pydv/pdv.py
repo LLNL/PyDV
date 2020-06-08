@@ -2563,7 +2563,7 @@ class Command(cmd.Cmd, object):
     def do_xlabel(self, line):
         try:
             self.xlabel = line
-            plt.xlabel(line)
+            plt.xlabel(r'%s' % line)
         except:
             print('error - usage: xlabel <label-name>')
             if self.debug:
@@ -2575,7 +2575,7 @@ class Command(cmd.Cmd, object):
     def do_ylabel(self, line):
         try:
             self.ylabel = line
-            plt.ylabel(line)
+            plt.ylabel(r'%s' % line)
         except:
             print('error - usage: ylabel <label-name>')
             if self.debug:
@@ -2587,7 +2587,7 @@ class Command(cmd.Cmd, object):
     def do_title(self, line):
         try:
             self.title = line
-            plt.title(line)
+            plt.title(r'%s' % line)
         except:
             print('error - usage: title <title-name>')
             if self.debug:
