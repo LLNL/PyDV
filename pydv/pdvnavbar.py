@@ -71,3 +71,7 @@ class PyDVToolbar(NavigationToolbar2QT):
         self.parent.plotChanged = True
         NavigationToolbar2QT.edit_parameters(self)
 
+    def zoom(self, *args):
+        self.parent.plotChanged = True
+        NavigationToolbar2QT.zoom(self, *args)
+
