@@ -333,6 +333,8 @@ class Command(cmd.Cmd, object):
         self.do_delete(line)
     def do_lst(self, line):
         self.do_list(line)
+    def do_lstr(self, line):
+        self.do_listr(line)
     def do_sub(self, line):
         self.do_subtract(line)
     def do_div(self, line):
@@ -420,6 +422,8 @@ class Command(cmd.Cmd, object):
             arg = 'domain'
         elif(arg == 'lst'):
             arg = 'list'
+        elif(arg == 'lstr'):
+            arg = 'listr'
         elif(arg == 'q'):
             arg = 'quit'
         elif(arg == 'data-id'):
@@ -3103,7 +3107,10 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_domain(self):
-        print('\n   Procedure: Set the domain for plotting\n   Usage: domain <low-lim> <high-lim> or\n   Usage: domain de\n   Shortcuts: dom\n')
+        print('\n   Procedure: Set the domain for plotting'
+              '\n   Usage: domain <low-lim> <high-lim> or'
+              '\n   Usage: domain de'
+              '\n   Shortcuts: dom\n')
 
     ##list currently graphed curves##
     def do_list(self, line):
@@ -3136,10 +3143,64 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_list(self):
         print("\n    {}\n    {}\n    {}\n".format("Macro: Display curves in list",
                                                   "Usage: list [<label-pattern>]",
                                                   "Shortcuts: lst"))
+
+    ##list currently graphed curves##
+    def do_listr(self, line):
+        try:
+            if not line:
+                self.help_listr()
+                return
+
+            line = line.split()
+            argcnt = len(line)
+            pllen = len(self.plotlist)
+            start = 0
+            stop = pllen
+
+            if argcnt == 1:
+                start = int(line[0]) - 1
+            elif argcnt == 2:
+                start = int(line[0]) - 1
+                stop = int(line[1])
+            else:
+                raise RuntimeError("Invalid number of arguments. Received {} expecting 1 or 2.".format(argcnt))
+
+            # Clamp start/stop values in range(0, len(plotlist))
+            if start < 0:
+                start = 0
+
+            if stop > pllen:
+                stop = pllen
+
+            for i in range(start, stop):
+                curve = self.plotlist[i]
+                plotname = ""
+                if curve.edited:
+                    plotname = "*"
+                plotname = plotname + curve.plotname
+                name = pdvutil.truncate(curve.name.ljust(self.namewidth), self.namewidth)
+                fname = curve.filename
+                xmin = "%.2e" % min(curve.x)
+                xmax = "%.2e" % max(curve.x)
+                ymin = "%.2e" % min(curve.y)
+                ymax = "%.2e" % max(curve.y)
+                print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(plotname, name, xmin, xmax, ymin, ymax, fname))
+        except:
+            print("error - usage: listr <start> [stop]")
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+    def help_listr(self):
+        print("\n   Macro: Display curves in range from start to stop in the list. If stop is not specified, it will"
+              "\n          be set to the end of the plot list."
+              "\n   Usage: listr <start> [stop]"
+              "\n   Shortcuts: lstr")
 
     ## Delete the specified entries from the menu ##
     def do_kill(self, line):
@@ -3170,8 +3231,57 @@ class Command(cmd.Cmd, object):
             self.redraw = False
             self.plotter.updateDialogs()
     def help_kill(self):
-        print('\n   Procedure: Delete the specified entries from the menu. '
-              'number-list is a space separated list of menu indexes\n   Usage: kill [all | number-list]')
+        print('\n   Procedure: Delete the specified entries from the menu. number-list is a space separated list of menu indexes'
+              '\n   Usage: kill [all | number-list]')
+
+    ##print out curves loaded from files##
+    def do_menur(self, line):
+        try:
+            if not line:
+                self.help_menur()
+                return
+
+            line = line.split()
+            argcnt = len(line)
+            start = 0
+            stop = len(self.curvelist)
+
+            if argcnt == 1:
+                start = int(line[0]) - 1
+            elif argcnt == 2:
+                start = int(line[0]) - 1
+                stop = int(line[1])
+            else:
+                raise RuntimeError("Invalid number of arguments. Received {} expecting 1 or 2.".format(argcnt))
+
+            # Clamp start/stop values in range(0, len(curvelist))
+            if start < 0:
+                start = 0
+
+            if stop > len(self.curvelist):
+                stop = len(self.curvelist)
+
+            for i in range(start, stop):
+                index = str(i + 1)
+                name = self.curvelist[i].name
+                name = name.ljust(self.namewidth)
+                name = pdvutil.truncate(name, self.namewidth)
+                fname = self.curvelist[i].filename
+                xmin = "%.2e" % min(self.curvelist[i].x)
+                xmax = "%.2e" % max(self.curvelist[i].x)
+                ymin = "%.2e" % min(self.curvelist[i].y)
+                ymax = "%.2e" % max(self.curvelist[i].y)
+                print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(index, name, xmin, xmax, ymin, ymax, fname))
+        except:
+            print("error - usage: menur <start> [stop]")
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+    def help_menur(self):
+        print('\n   Macro: List the available curves from start to stop. If stop is not specified, it will be set to'
+              '\n          the end of the curve list.'
+              '\n   Usage: menur <start> [stop]')
 
     ##print out curves loaded from files##
     def do_menu(self, line):
