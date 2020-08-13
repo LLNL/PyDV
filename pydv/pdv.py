@@ -389,6 +389,8 @@ class Command(cmd.Cmd, object):
         self.do_makeintensive(line)
     def do_system(self, line):
         self.do_shell(line)
+    def do_pl(self, line):
+        self.do_plotlayout(line)
 
     ##override help function to check for shortcuts##
     def do_help(self, arg):
@@ -468,13 +470,16 @@ class Command(cmd.Cmd, object):
             arg = 'logx'
         elif(arg == 'nc'):
             arg = 'newcurve'
-        elif (arg == 'mkext'):
+        elif(arg == 'mkext'):
             arg = 'makeextensive'
-        elif (arg == 'mkint'):
+        elif(arg == 'mkint'):
             arg = 'makeintensive'
         elif(arg == 'system'):
             arg = 'shell'
-        self.redraw = False # never need to redraw after a 'help'
+        elif(arg == 'pl'):
+            arg = 'plotlayout'
+
+        self.redraw = False  # never need to redraw after a 'help'
         return super(Command, self).do_help(arg)
 
     ##execute shell commands##
@@ -4593,7 +4598,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 raise RuntimeError("Wrong number of arguments, expecting 4 but received %d." % len(line))
 
             self.geometry = int(line[0]), int(line[1]), int(line[2]), int(line[3])
-            self.plotter.updateGeometry(self.geometry)
+            self.plotter.updatePlotGeometry(self.geometry)
         except:
             self.redraw = False
             print('error - usage: geometry <xsize> <ysize> <xlocation> <ylocation>')
@@ -4601,7 +4606,56 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
     def help_geometry(self):
         print('\n   Procedure: Change the window size and location in pixels'
-              '\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>\n   Shortcuts: geom\n')
+              '\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>'
+              '\n   Shortcuts: geom\n')
+
+
+    ##adjust the plot layout parameters##
+    def do_plotlayout(self, line):
+        try:
+            line = line.split()
+            paramcnt = len(line)
+
+            if paramcnt == 4:
+                plt.subplots_adjust(left=float(line[0]),
+                                    bottom=float(line[3]),
+                                    right=float(line[1]),
+                                    top=float(line[2]))
+            elif paramcnt == 1 and line[0].lower() == "de":
+                defaultPlotLayout = self.plotter.defaultPlotLayout
+
+                if defaultPlotLayout is not None:
+                    plt.subplots_adjust(left=defaultPlotLayout["left"],
+                                        bottom=defaultPlotLayout["bottom"],
+                                        right=defaultPlotLayout["right"],
+                                        top=defaultPlotLayout["top"],
+                                        wspace=defaultPlotLayout["wspace"],
+                                        hspace=defaultPlotLayout["hspace"])
+            elif paramcnt == 0:
+                paramlist = list()
+                paramlist.append("left: {}".format(self.plotter.fig.subplotpars.left))
+                paramlist.append("right: {}".format(self.plotter.fig.subplotpars.right))
+                paramlist.append("top: {}".format(self.plotter.fig.subplotpars.top))
+                paramlist.append("bottom: {}".format(self.plotter.fig.subplotpars.bottom))
+                print('\n')
+                self.print_topics('Plot Layout (Borders):', paramlist, 15, 40)
+            else:
+                raise ValueError("Unknown argument(s)")
+        except:
+            self.redraw = False
+            print("error - usage: plotlayout [<left> <right> <top> <bottom> || de]")
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_plotlayout(self):
+        print("\n   Procedure: Adjust the plot layout parameters. Where 'left' is the position of the left edge of the"
+              "\n              plot as a fraction of the figure width, 'right' is the position of the right edge of the"
+              "\n              plot, as a fraction of the figure width, 'top' is the position of the top edge of the "
+              "\n              plot, as a fraction of the figure height and 'bottom' is the position of the bottom edge"
+              "\n              of the plot, as a fraction of the figure height. Alternatively, 'de' will revert to the"
+              "\n              default plot layout values. "
+              "\n              If no arguments are given, the plot's current layout settings will be displayed."
+              "\n   Usage: plotlayout [<left> <right> <top> <bottom> || de]"
+              "\n   Shortcut: pl\n")
 
 
     ##re-id command re-identifies all the curves into continuous alphabetical order##
@@ -6381,7 +6435,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         qInstallMessageHandler(self.__qtMsgHandler)
         self.app = QApplication(sys.argv)
         self.plotter = pdvplot.Plotter(self)
-        self.plotter.updateGeometry(self.geometry)
+        self.plotter.updatePlotGeometry(self.geometry)
 
         try:
             readline.read_history_file(os.getenv('HOME') + '/.pdvhistory')
