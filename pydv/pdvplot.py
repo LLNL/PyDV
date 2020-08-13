@@ -106,6 +106,7 @@ class Plotter(QMainWindow):
     plotChanged = False
     fig = None
     figcolor = 'white'
+    defaultPlotLayout = None
 
     def __init__(self, pydvcmd):
         QMainWindow.__init__(self)
@@ -165,13 +166,15 @@ class Plotter(QMainWindow):
         self.fig = plt.figure(figsize=(1,1))
         self.fig.set_facecolor(self.figcolor)
 
+        self.defaultPlotLayout = dict(vars(self.fig.subplotpars))
+
         self.canvas = FigureCanvasQTAgg(self.fig)
         self.setCentralWidget(self.canvas)
 
         toolbar = PyDVToolbar(self.canvas, self, True)   # Add False as third parameter to turn off coordinates
         self.addToolBar(toolbar)
 
-    def updateGeometry(self, geometry='de'):
+    def updatePlotGeometry(self, geometry='de'):
         """
         Updates the size and location of the window. Using an action to trigger the update to
         ensure that the resizing is happening on the main GUI thread.
@@ -580,7 +583,6 @@ class Plotter(QMainWindow):
             self.setGeometry(int(geometry[2]), int(geometry[3]), int(geometry[0]), int(geometry[1]))
         else:
             self.setGeometry(50, 50, 600, 500)
-
 
     def closeEvent(self, event):
         event.ignore()
