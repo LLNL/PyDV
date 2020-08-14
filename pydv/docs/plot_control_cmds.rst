@@ -279,6 +279,21 @@ Move the given curves so they are plotted on top.
 
    [PyDV]: movefront <curve-list>
 
+plotlayout
+----------
+
+Adjust the plot layout parameters. Where **left** is the position of the left edge of the 
+plot as a fraction of the figure width, **right** is the position of the right edge of the 
+plot, as a fraction of the figure width, **top** is the position of the top edge of the plot, 
+as a fraction of the figure height and **bottom** is the position of the bottom edge of the plot, 
+as a fraction of the figure height. Alternatively, *de* will revert to the default plot layout values.
+
+If no arguments are given, the plot's current layout settings will be displayed.
+
+.. code::
+
+   [PyDV]: plotlayout [<left> <right> <top> <bottom> || de] 
+
 range
 ------
 

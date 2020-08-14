@@ -21,14 +21,24 @@ Return infroamtion about the specified command, variable, or command category. I
  
    [PyDV]: help [command]
 
-lst
----
+list
+----
 
-Return a list of the curves currently displayed. A regular expression may be supplied for matching against the curve label to be listed. 
+Return a list of the curves currently displayed. A regular expression may be supplied for matching against the curve label to be listed. **Shortcut: lst**
 
 .. code::
     
-   [PyDV]: lst <label-pattern>
+   [PyDV]: list <label-pattern>
+
+listr
+-----
+
+Return a list of the curves currently displayed in range from **start** to **stop**. If **stop** is not
+specified, it will be set to the end of the plot list. **Shortcut: lstr**
+
+.. code::
+    
+   [PyDV]: listr <start> [stop]
 
 listannot
 ---------
@@ -48,8 +58,18 @@ Return a selection of the curves available for plotting. A regular expression ma
     
    [PyDV]: menu <label-pattern>
 
-**system - 2.4.2**
-------------------
+menur
+-----
+
+Return a selection of the curves available for plotting in the range from **start** to **stop**. If 
+**stop** is not specified, it will be set to the end of the curve list.
+
+.. code::
+    
+   [PyDV]: menur <start> [stop]
+
+system
+------
 
 Allows passing commands to the operating system. **Shortcut: ! or shell**
 
