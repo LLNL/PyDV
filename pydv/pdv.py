@@ -3391,24 +3391,40 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def do_image(self, line):
         try:
             line = line.split()
+            optcnt = len(line)
             filename = 'plot'
             filetype = 'pdf'
-            if len(line) > 1:
-                filetype = line.pop(-1)
-                filename = line.pop(-1)
-            elif len(line) > 0:
-                filename = line.pop(-1)
-            plt.savefig(filename+'.'+filetype, format=filetype)
+            transparent = False
+            dpi = 'figure'
+
+            if optcnt >= 1:
+                filename = line[0]
+
+            if optcnt >= 2:
+                filetype = line[1]
+
+            if optcnt >= 3:
+                if line[2].lower() == "true":
+                    transparent = True
+
+            if optcnt == 4:
+                dpi = float(line[3])
+
+            plt.savefig(fname=filename+'.'+filetype, dpi=dpi, format=filetype, transparent=transparent)
         except:
-            print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]")
+            print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] "
+                  "\n                   [transparent=False: True | False] [dpi]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
-        finally:
-            self.redraw = False
+        # finally:
+        #     self.redraw = True
     def help_image(self):
-        print("\n   Macro: Save the current figure to an image file. The file name and file type are both optional."
-              "\n          The default file name is 'plot' and the default file type is 'pdf'"
-              "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]\n")
+        print("\n   Macro: Save the current figure to an image file. All parameters are optional. The default value"
+              "\n          for filename is 'plot', the default value for filetype is 'pdf' and the default value for "
+              "\n          transparent is 'False'. dpi is the resolution in dots per inch and the default value is "
+              "\n          the figure's dpi value."
+              "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]"
+              "\n                [transparent=False: True | False] [dpi]")
 
 
     ##save given curves to a new ultra file##

@@ -182,11 +182,14 @@ Adjust the length of the line(s) in the legend.
 image
 -----
 
-Save the current figure to image file.
+Save the current figure to an image file. All parameters are optional. The default value
+for **filename** is *plot*, the default value for **filetype** is *pdf* and the default value for
+**transparent** is *False*. **dpi** is the resolution in dots per inch and the default value is 
+the figure's dpi value.
 
 .. code::
 
-   [PyDV]: image <file-name> <file-type: png | ps | pdf | svg>
+   [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi]
 
 label
 -----
