@@ -78,6 +78,15 @@ the curves by *value* (equivalent to using the **dy** command). **Shortcut:** +
 
    [PyDV]: add <curve-list> [value]
 
+add_h
+-----
+Adds curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: add_h <list-of-menu-numbers>
+
 alpha
 -----
 
