@@ -5,7 +5,7 @@
 # LLNL-CODE-507071
 # All rights reserved.  
   
-# This file is part of PDV.  For details, see <URL describing code and
+# This file is part of PyDV.  For details, see <URL describing code and
 # how to download source>. Please also read "Additional BSD Notice".
   
 # Redistribution and use in source and binary forms, with or without
@@ -435,7 +435,7 @@ class Plotter(QMainWindow):
                       <p style="font-family:verdana;">e-mail: griffin28@llnl.gov or dougmiller@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
-                      <p style="font-family:courier; font-size:80%;">This file is part of PDV. For details, see <URL describing code and \
+                      <p style="font-family:courier; font-size:80%;">This file is part of PyDV. For details, see <URL describing code and \
                        how to download source>. Please also read "Additional BSD Notice".</p> \
                        <p style="font-family:courier; font-size:80%;"> Redistribution and use in source and binary forms, with or without \
                        modification, are permitted provided that the following conditions are met:</p> \
