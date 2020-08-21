@@ -840,48 +840,61 @@ class Command(cmd.Cmd, object):
         print("\n    Variable: set x column for reading column formatted data files (.gnu or .csv)."
               "\n    Usage: setxcolumn <n>, where n is an integer.")
 
+    def __menu_curve_math(self, operation, line):
+        if len(line.split(':')) > 1:   #check for list notation
+            return self.__menu_curve_math(operation, pdvutil.getnumberargs(line, self.filelist))
+        else:
+            line = line.split()
+            curvelist = list()
+            for i in range(len(line)):
+                curvedex = 0
+                if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  # check for a.% b.% file index notation
+                    filedex = ord(line[i][0].upper()) - ord('A')  # file index we want
+                    prevfile = ''  # set prevfile to impossible value
+                    filecounter = 0
+                    while filecounter <= filedex:  # count files up to the one we want
+                        if self.curvelist[curvedex].filename != prevfile:  # inc count if name changes
+                            prevfile = self.curvelist[curvedex].filename
+                            filecounter += 1
+                        curvedex += 1  # this will end up being one past what we want
+                        if curvedex >= len(self.curvelist):
+                            raise RuntimeError("error: in curve list did not find matching file for %s" % line[i])
+                    curvedex -= 1  # back curvedex up to point to start of file's curves
+                    curvedex += int(line[i].split('.')[-1]) - 1
+                elif 0 < int(line[i]) <= len(self.curvelist):
+                    curvedex = int(line[i]) - 1
+                else:
+                    raise RuntimeError("error: curve index out of bounds: " + line[i])
+
+                curvelist.append(self.curvelist[curvedex].copy())
+
+        if len(curvelist) > 1:
+            if operation == "add":
+                return pydvif.add(curvelist)
+            elif operation == "subtract":
+                return pydvif.subtract(curvelist)
+            elif operation == "multiply":
+                return pydvif.multiply(curvelist)
+            elif operation == "divide":
+                return pydvif.divide(curvelist)
+            else:
+                raise ValueError("error: Unknown operation: {}".format(operation))
+        else:
+            raise RuntimeError("error: Expecting more than 1 curve")
+
+    ##add menu curves##
     def do_add_h(self, line):
         if not line:
             return 0
 
         try:
-            if len(line.split(':')) > 1:   #check for list notation
-                self.do_add_h(pdvutil.getnumberargs(line, self.filelist))
-                return 0
-            else:
-                line = line.split()
-                curvelist = list()
-                for i in range(len(line)):
-                    curvedex = 0
-                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  #check for a.% b.% file index notation
-                        filedex = ord(line[i][0].upper()) - ord('A') # file index we want
-                        prevfile = '' # set prevfile to impossible value
-                        filecounter = 0
-                        while filecounter <= filedex: # count files up to the one we want
-                            if self.curvelist[curvedex].filename != prevfile: # inc count if name changes
-                                prevfile = self.curvelist[curvedex].filename
-                                filecounter += 1
-                            curvedex += 1 # this will end up being one past what we want
-                            if curvedex >= len(self.curvelist):
-                                raise RuntimeError("error: in curve list did not find matching file for %s" % line[i])
-                        curvedex -= 1 # back curvedex up to point to start of file's curves
-                        curvedex += int(line[i].split('.')[-1])-1
-                    elif 0 < int(line[i]) <= len(self.curvelist):
-                        curvedex = int(line[i])-1
-                    else:
-                        raise RuntimeError('error: curve index out of bounds: ' + line[i])
+            c = self.__menu_curve_math("add", line)
 
-                    curvelist.append(self.curvelist[curvedex].copy())
-
-            if len(curvelist) > 1:
-                c = pydvif.add(curvelist)
-                if len(c.name) > 20:
-                    c.name = c.name[:20] + '...'
-                c.plotname = ''
-                self.addtoplot(c)
-                self.plotedit = True
-            else:
-                raise RuntimeError("Expecting more than 1 curve")
+            if len(c.name) > 20:
+                c.name = c.name[:20] + '...'
+            c.plotname = ''
+            self.addtoplot(c)
+            self.plotedit = True
         except:
             print('error - usage: add_h <list-of-menu-numbers>')
             if self.debug:
@@ -890,6 +903,77 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Adds curves that have been read from a file but not yet plotted. list-of-menu-numbers '
               '\n              are the index values displayed in the first column of the menu command.'
               '\n   Usage: add_h <list-of-menu-numbers>')
+
+    ##subtract menu curves##
+    def do_subtract_h(self, line):
+        if not line:
+            return 0
+
+        try:
+            c = self.__menu_curve_math("subtract", line)
+
+            if len(c.name) > 20:
+                c.name = c.name[:20] + '...'
+            c.plotname = ''
+            self.addtoplot(c)
+            self.plotedit = True
+        except:
+            print('error - usage: subtract_h <list-of-menu-numbers>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_subtract_h(self):
+        print('\n   Procedure: Subtracts curves that have been read from a file but not yet plotted.  '
+              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
+              '\n              command.'
+              '\n   Usage: subtract_h <list-of-menu-numbers>')
+
+    ##multiply menu curves##
+    def do_multiply_h(self, line):
+        if not line:
+            return 0
+
+        try:
+            c = self.__menu_curve_math("multiply", line)
+
+            if len(c.name) > 20:
+                c.name = c.name[:20] + '...'
+            c.plotname = ''
+            self.addtoplot(c)
+            self.plotedit = True
+        except:
+            print('error - usage: multiply_h <list-of-menu-numbers>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_multiply_h(self):
+        print('\n   Procedure: Multiplies curves that have been read from a file but not yet plotted.  '
+              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
+              '\n              command.'
+              '\n   Usage: multiply_h <list-of-menu-numbers>')
+
+    ##divide menu curves##
+    def do_divide_h(self, line):
+        if not line:
+            return 0
+
+        try:
+            c = self.__menu_curve_math("divide", line)
+
+            if len(c.name) > 20:
+                c.name = c.name[:20] + '...'
+            c.plotname = ''
+            self.addtoplot(c)
+            self.plotedit = True
+        except:
+            print('error - usage: divide_h <list-of-menu-numbers>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_divide_h(self):
+        print('\n   Procedure: Divides curves that have been read from a file but not yet plotted.  '
+              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
+              '\n              command.'
+              '\n   Usage: divide_h <list-of-menu-numbers>')
 
     #graph the given curves##
     def do_curve(self, line):

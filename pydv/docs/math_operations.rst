@@ -290,6 +290,16 @@ y-values of the curves by *value* (equivalent to using the **divy** command).
 
    [PyDV]: divide <curve-list> [value]
 
+divide_h
+--------
+
+Divides curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: divide_h <list-of-menu-numbers>
+
 divx
 ----
 
@@ -539,6 +549,16 @@ y-values of the curves by *value* (equivalent to using the **my** command).
 
    [PyDV]: multiply <curve-list> [value]
 
+multiply_h
+----------
+
+Multiplies curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: multiply_h <list-of-menu-numbers>
+
 my
 --
 
@@ -702,6 +722,16 @@ y-values of the curves by *value* (similar to using the **dy** command).
 .. code::
 
    [PyDV]: subtract <curve-list> [value]
+
+subtract_h
+----------
+
+Subtracts curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: subtract_h <list-of-menu-numbers>
 
 tan
 ---
