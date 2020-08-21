@@ -16,7 +16,7 @@ Users
 .. toctree::
    :maxdepth: 1
 
-   release_notes_3.0.1
+   release_notes_3.0.2
    pdvrc
    getting_started
    io_commands
