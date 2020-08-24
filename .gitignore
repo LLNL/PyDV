@@ -3,7 +3,9 @@
 *.orig
 .idea
 *.pdf
+*.egg-info
 .DS_Store
 mypdv
 dist
 pydv/docs/_build
+build

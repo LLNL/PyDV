@@ -93,7 +93,7 @@ try:
 except:
     stylesLoaded = False
 
-import curve
+from . import curve
 
 try:
     import pact.pdb as pdb
