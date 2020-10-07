@@ -2641,23 +2641,23 @@ def correlate(c1, c2, mode='valid'):
     :type c1: Curve
     :param c2: The second curve with 1D input sequence c2.y
     :type c2: Curve
-    :param mode: {'full', 'same', 'valid'}, optional
-        'full':
+    :param mode:
+        full:
           By default, mode is 'full'.  This returns the convolution
           at each point of overlap, with an output shape of (N+M-1,). At
           the end-points of the convolution, the signals do not overlap
           completely, and boundary effects may be seen.
 
-        'same':
+        same:
           Mode 'same' returns output of length ``max(M, N)``.  Boundary
           effects are still visible.
 
-        'valid':
+        valid:
           Mode 'valid' returns output of length
           ``max(M, N) - min(M, N) + 1``.  The convolution product is only given
           for points where the signals overlap completely.  Values outside
           the signal boundary have no effect.
-    :type mode: str
+    :type mode: 'full'(default), 'same' or 'valid' 
     :return: Curve -- the cross-correlation of c1.y and c2.y
     """
     nc = curve.Curve('', 'correlate(' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ')')
@@ -2679,7 +2679,7 @@ def convolve(c1, c2, npts=100):
     """
     Compute and return the convolution of two real curves:
     -
-    -   (g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))
+    -   ``(g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))``
     -
     The Fourier Transform is used to perform the convolution.
 
@@ -2693,7 +2693,7 @@ def convolve(c1, c2, npts=100):
     :type c2: Curve
     :param npts: the number of points used to create a uniform temporal spacing
     :type npts: int
-    :return: nc: Curve -- the convolution of the two curves c1 and c2
+    :return: Curve -- the convolution of the two curves c1 and c2
     """
 
     # Create uniform temporal spacing
@@ -2718,9 +2718,10 @@ def convolve(c1, c2, npts=100):
 
 def convolveb(c1, c2, npts=100):
     """
-    Computes the convolution of the two given curves
-                 (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/
-                            Int(-inf, inf, dt*h(t))
+    Computes the convolution of the two given curves:
+    -
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
     This computes the integrals directly which avoid padding and aliasing
     problems associated with FFT methods (it is however slower).
 
@@ -2738,9 +2739,10 @@ def convolveb(c1, c2, npts=100):
 
 def convolvec(c1, c2, npts=100):
     """
-    Computes the convolution of the two given curves
-                 (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/
-                            Int(-inf, inf, dt*h(t))
+    Computes the convolution of the two given curves:
+    -
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
     This computes the integrals directly which avoid padding and aliasing
     problems associated with FFT methods (it is however slower).
 
@@ -2805,34 +2807,9 @@ def fft(c, n=None, axis=-1, norm=None):
     Transform (DFT) with the efficient Fast Fourier Transform (FFT)
     algorithm [CT].
 
-    Parameters
-    ----------
-    c : curve
-        Curve with x- or y-values as input array, can be complex.
-    n : int, optional
-        Length of the transformed axis of the output.
-        If `n` is smaller than the length of the input, the input is cropped.
-        If it is larger, the input is padded with zeros.  If `n` is not given,
-        the length of the input along the axis specified by `axis` is used.
-    axis : int, optional
-        Axis over which to compute the FFT.  If not given, the last axis is
-        used.
-    norm : {None, "ortho"}, optional
-        Normalization mode (see `numpy.fft`). Default is None.
+    Raises IndexError: if `axes` is larger than the last axis of `a`.
 
-    Returns
-    -------
-    out : Curve tuple
-        Two curves with the real and imaginary parts.
-
-    Raises
-    ------
-    IndexError
-        if `axes` is larger than the last axis of `a`.
-
-    Notes
-    -----
-    FFT (Fast Fourier Transform) refers to a way the discrete Fourier
+    Notes: FFT (Fast Fourier Transform) refers to a way the discrete Fourier
     Transform (DFT) can be calculated efficiently, by using symmetries in the
     calculated terms.  The symmetry is highest when `n` is a power of 2, and
     the transform is therefore most efficient for these sizes.
@@ -2840,18 +2817,25 @@ def fft(c, n=None, axis=-1, norm=None):
     The DFT is defined, with the conventions used in this implementation, in
     the documentation for the `numpy.fft` module.
 
-    References
-    ----------
-    .. [CT] Cooley, James W., and John W. Tukey, 1965, "An algorithm for the
+    Citation: Cooley, James W., and John W. Tukey, 1965, "An algorithm for the
             machine calculation of complex Fourier series," *Math. Comput.*
             19: 297-301.
 
-    Example
-    -------
     >>> curves = pydvif.read('testData.txt')
 
     >>> realcurve, imagcurve = pydvif.fft(curves[0])
+
+    :param c: Curve with x- or y-values as input array, can be complex.
+    :type c: Curve
+    :param n: Length of the transformed axis of the output. If `n` is smaller than the length of the input, the input is cropped. If it is larger, the input is padded with zeros.  If `n` is not given, the length of the input along the axis specified by `axis` is used.
+    :type n: int, optional
+    :param axis: Axis over which to compute the FFT.  If not given, the last axis is used.
+    :type axis: int, optional
+    :param norm: Normalization mode (see `numpy.fft`). Default is None.
+    :type norm: None, "ortho", optional
+    :return: Curve tuple -- Two curves with the real and imaginary parts.
     """
+
     nc1 = curve.Curve('', 'Real part FFT ' + __toCurveString(c))
     nc2 = curve.Curve('', 'Imaginary part FFT ' + __toCurveString(c))
 
@@ -3439,7 +3423,7 @@ def line(m, b, xmin, xmax, numpts=100):
 
 def makeextensive(curvelist):
     """
-    Set the y-values such that y[i] *= (x[i+1] - x[i]).
+    Set the y-values such that ``y[i] *= (x[i+1] - x[i])``
 
     >>> curves = pydvif.read('testData.txt')
 

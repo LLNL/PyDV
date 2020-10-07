@@ -21,8 +21,17 @@ Display text on the plot at point (x, y).
 
    [PyDV]: annot <text> <x> <y>
 
-**bkgcolor - 2.4**
-------------------
+border
+------
+
+Show the border if **on** or **1**, otherwise hide the border. The **color-name** determines the color of the border. By default, the border color is black.
+
+.. code::
+
+   [PyDV]: border <on | 1 | off | 0> [color-name]
+
+bkgcolor
+--------
 
 Change the background color of the plot, window, or both
 
@@ -173,11 +182,14 @@ Adjust the length of the line(s) in the legend.
 image
 -----
 
-Save the current figure to image file.
+Save the current figure to an image file. All parameters are optional. The default value
+for **filename** is *plot*, the default value for **filetype** is *pdf* and the default value for
+**transparent** is *False*. **dpi** is the resolution in dots per inch and the default value is 
+the figure's dpi value.
 
 .. code::
 
-   [PyDV]: image <file-name> <file-type: png | ps | pdf | svg>
+   [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi]
 
 label
 -----
@@ -188,14 +200,24 @@ Change the key and list label for a curve.
 
    [PyDV]: label <curve> <new-label>
 
-labelFileNames
---------------
+labelcurve
+----------
 
-Change the key and list labels for all curves to append the filename.
+Add curve letter to the legend label if **on**, otherwise hide curve letter if **off**.
 
 .. code::
 
-   [PyDV]: labelFileNames
+   [PyDV]: labelcurve <on | off>
+
+labelfilenames
+--------------
+
+Change the key and list labels for all curves to append the filename. This command only affects the curves plotted
+at the time of execution. Any new curve will need to have this command run again to append the filename.
+
+.. code::
+
+   [PyDV]: labelfilenames
 
 latex
 -----
@@ -259,6 +281,21 @@ Move the given curves so they are plotted on top.
 .. code::
 
    [PyDV]: movefront <curve-list>
+
+plotlayout
+----------
+
+Adjust the plot layout parameters. Where **left** is the position of the left edge of the 
+plot as a fraction of the figure width, **right** is the position of the right edge of the 
+plot, as a fraction of the figure width, **top** is the position of the top edge of the plot, 
+as a fraction of the figure height and **bottom** is the position of the bottom edge of the plot, 
+as a fraction of the figure height. Alternatively, *de* will revert to the default plot layout values.
+
+If no arguments are given, the plot's current layout settings will be displayed.
+
+.. code::
+
+   [PyDV]: plotlayout [<left> <right> <top> <bottom> || de] 
 
 range
 ------

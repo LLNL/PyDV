@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyDV 3.0 API Specification &mdash; PyDV 3.0 documentation</title>
+  <title>PyDV 3.0.2 API Specification &mdash; PyDV 3.0.2 documentation</title>
   
 
   
@@ -84,7 +84,7 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.html">Release Notes For PyDV 3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.2.html">Release Notes For PyDV 3.0.2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdvrc.html">.pdvrc File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_commands.html">I/O Commands</a></li>
@@ -97,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ui_features.html">UI Features</a></li>
 </ul>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">PyDV 3.0 API Specification</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PyDV 3.0.2 API Specification</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-pydvpy">pydvpy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-curve">curve module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pdv">pdv module</a></li>
@@ -151,7 +151,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>PyDV 3.0 API Specification</li>
+      <li>PyDV 3.0.2 API Specification</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -170,8 +170,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pydv-3-0-api-specification">
-<h1>PyDV 3.0 API Specification<a class="headerlink" href="#pydv-3-0-api-specification" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pydv-3-0-2-api-specification">
+<h1>PyDV 3.0.2 API Specification<a class="headerlink" href="#pydv-3-0-2-api-specification" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="module-pydvpy">
 <span id="pydvpy-module"></span><h2>pydvpy module<a class="headerlink" href="#module-pydvpy" title="Permalink to this headline">¶</a></h2>
 <p>A python interface for PyDV functionality.</p>
@@ -526,7 +526,7 @@ average of the curve’s y-values.</p>
 <code class="sig-prename descclassname">pydvpy.</code><code class="sig-name descname">convolve</code><span class="sig-paren">(</span><em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">npts=100</em><span class="sig-paren">)</span><a class="headerlink" href="#pydvpy.convolve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute and return the convolution of two real curves:
 -
--   (g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))
+-   <code class="docutils literal notranslate"><span class="pre">(g*h)(x)</span> <span class="pre">=</span> <span class="pre">Int(-inf,</span> <span class="pre">inf,</span> <span class="pre">dt,</span> <span class="pre">g(t)*h(x-t))</span></code>
 -
 The Fourier Transform is used to perform the convolution.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">curves</span> <span class="o">=</span> <span class="n">pydvif</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;testData.txt&#39;</span><span class="p">)</span>
@@ -544,7 +544,7 @@ The Fourier Transform is used to perform the convolution.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>nc: Curve – the convolution of the two curves c1 and c2</p>
+<dd class="field-even"><p>Curve – the convolution of the two curves c1 and c2</p>
 </dd>
 </dl>
 </dd></dl>
@@ -572,14 +572,11 @@ and aliasing problems associated with FFT methods (it is however slower).</p>
 <dl class="function">
 <dt id="pydvpy.convolveb">
 <code class="sig-prename descclassname">pydvpy.</code><code class="sig-name descname">convolveb</code><span class="sig-paren">(</span><em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">npts=100</em><span class="sig-paren">)</span><a class="headerlink" href="#pydvpy.convolveb" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Computes the convolution of the two given curves</dt><dd><dl class="simple">
-<dt>(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/</dt><dd><p>Int(-inf, inf, dt*h(t))</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>This computes the integrals directly which avoid padding and aliasing
+<dd><p>Computes the convolution of the two given curves:
+-
+-   <code class="docutils literal notranslate"><span class="pre">(g*h)(x)</span> <span class="pre">=</span> <span class="pre">Int(-inf,</span> <span class="pre">inf,</span> <span class="pre">dt*g(t)*h(x-t))</span> <span class="pre">/</span> <span class="pre">Int(-inf,</span> <span class="pre">inf,</span> <span class="pre">dt*h(t))</span></code>
+-
+This computes the integrals directly which avoid padding and aliasing
 problems associated with FFT methods (it is however slower).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -598,14 +595,11 @@ problems associated with FFT methods (it is however slower).</p>
 <dl class="function">
 <dt id="pydvpy.convolvec">
 <code class="sig-prename descclassname">pydvpy.</code><code class="sig-name descname">convolvec</code><span class="sig-paren">(</span><em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">npts=100</em><span class="sig-paren">)</span><a class="headerlink" href="#pydvpy.convolvec" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Computes the convolution of the two given curves</dt><dd><dl class="simple">
-<dt>(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))/</dt><dd><p>Int(-inf, inf, dt*h(t))</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p>This computes the integrals directly which avoid padding and aliasing
+<dd><p>Computes the convolution of the two given curves:
+-
+-   <code class="docutils literal notranslate"><span class="pre">(g*h)(x)</span> <span class="pre">=</span> <span class="pre">Int(-inf,</span> <span class="pre">inf,</span> <span class="pre">dt*g(t)*h(x-t))</span> <span class="pre">/</span> <span class="pre">Int(-inf,</span> <span class="pre">inf,</span> <span class="pre">dt*h(t))</span></code>
+-
+This computes the integrals directly which avoid padding and aliasing
 problems associated with FFT methods (it is however slower).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -630,19 +624,16 @@ problems associated with FFT methods (it is however slower).</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>c1</strong> (<a class="reference internal" href="#curve.Curve" title="curve.Curve"><em>Curve</em></a>) – The first curve with 1D input sequence c1.y</p></li>
 <li><p><strong>c2</strong> (<a class="reference internal" href="#curve.Curve" title="curve.Curve"><em>Curve</em></a>) – The second curve with 1D input sequence c2.y</p></li>
-<li><p><strong>mode</strong> (<em>str</em>) – <p>{‘full’, ‘same’, ‘valid’}, optional
-‘full’:</p>
-<blockquote>
-<div><p>By default, mode is ‘full’.  This returns the convolution
+<li><p><strong>mode</strong> (<em>'full'</em><em>(</em><em>default</em><em>)</em><em>, </em><em>'same'</em><em> or </em><em>'valid'</em>) – <dl class="simple">
+<dt>full:</dt><dd><p>By default, mode is ‘full’.  This returns the convolution
 at each point of overlap, with an output shape of (N+M-1,). At
 the end-points of the convolution, the signals do not overlap
 completely, and boundary effects may be seen.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>’same’:</dt><dd><p>Mode ‘same’ returns output of length <code class="docutils literal notranslate"><span class="pre">max(M,</span> <span class="pre">N)</span></code>.  Boundary
+</dd>
+<dt>same:</dt><dd><p>Mode ‘same’ returns output of length <code class="docutils literal notranslate"><span class="pre">max(M,</span> <span class="pre">N)</span></code>.  Boundary
 effects are still visible.</p>
 </dd>
-<dt>’valid’:</dt><dd><p>Mode ‘valid’ returns output of length
+<dt>valid:</dt><dd><p>Mode ‘valid’ returns output of length
 <code class="docutils literal notranslate"><span class="pre">max(M,</span> <span class="pre">N)</span> <span class="pre">-</span> <span class="pre">min(M,</span> <span class="pre">N)</span> <span class="pre">+</span> <span class="pre">1</span></code>.  The convolution product is only given
 for points where the signals overlap completely.  Values outside
 the signal boundary have no effect.</p>
@@ -1108,38 +1099,15 @@ Default: 1.</p></li>
 <p>This function computes the one-dimensional <em>n</em>-point discrete Fourier
 Transform (DFT) with the efficient Fast Fourier Transform (FFT)
 algorithm [CT].</p>
-<dl class="simple">
-<dt>c<span class="classifier">curve</span></dt><dd><p>Curve with x- or y-values as input array, can be complex.</p>
-</dd>
-<dt>n<span class="classifier">int, optional</span></dt><dd><p>Length of the transformed axis of the output.
-If <cite>n</cite> is smaller than the length of the input, the input is cropped.
-If it is larger, the input is padded with zeros.  If <cite>n</cite> is not given,
-the length of the input along the axis specified by <cite>axis</cite> is used.</p>
-</dd>
-<dt>axis<span class="classifier">int, optional</span></dt><dd><p>Axis over which to compute the FFT.  If not given, the last axis is
-used.</p>
-</dd>
-<dt>norm<span class="classifier">{None, “ortho”}, optional</span></dt><dd><p>Normalization mode (see <cite>numpy.fft</cite>). Default is None.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>out<span class="classifier">Curve tuple</span></dt><dd><p>Two curves with the real and imaginary parts.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>IndexError</dt><dd><p>if <cite>axes</cite> is larger than the last axis of <cite>a</cite>.</p>
-</dd>
-</dl>
-<p>FFT (Fast Fourier Transform) refers to a way the discrete Fourier
+<p>Raises IndexError: if <cite>axes</cite> is larger than the last axis of <cite>a</cite>.</p>
+<p>Notes: FFT (Fast Fourier Transform) refers to a way the discrete Fourier
 Transform (DFT) can be calculated efficiently, by using symmetries in the
 calculated terms.  The symmetry is highest when <cite>n</cite> is a power of 2, and
 the transform is therefore most efficient for these sizes.</p>
 <p>The DFT is defined, with the conventions used in this implementation, in
 the documentation for the <cite>numpy.fft</cite> module.</p>
-<dl class="citation">
-<dt class="label" id="ct"><span class="brackets">CT</span></dt>
-<dd><p>Cooley, James W., and John W. Tukey, 1965, “An algorithm for the
-machine calculation of complex Fourier series,” <em>Math. Comput.</em>
+<dl class="simple">
+<dt>Citation: Cooley, James W., and John W. Tukey, 1965, “An algorithm for the</dt><dd><p>machine calculation of complex Fourier series,” <em>Math. Comput.</em>
 19: 297-301.</p>
 </dd>
 </dl>
@@ -1149,6 +1117,19 @@ machine calculation of complex Fourier series,” <em>Math. Comput.</em>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">realcurve</span><span class="p">,</span> <span class="n">imagcurve</span> <span class="o">=</span> <span class="n">pydvif</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">curves</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<a class="reference internal" href="#curve.Curve" title="curve.Curve"><em>Curve</em></a>) – Curve with x- or y-values as input array, can be complex.</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of the transformed axis of the output. If <cite>n</cite> is smaller than the length of the input, the input is cropped. If it is larger, the input is padded with zeros.  If <cite>n</cite> is not given, the length of the input along the axis specified by <cite>axis</cite> is used.</p></li>
+<li><p><strong>axis</strong> (<em>int</em><em>, </em><em>optional</em>) – Axis over which to compute the FFT.  If not given, the last axis is used.</p></li>
+<li><p><strong>norm</strong> (<em>None</em><em>, </em><em>&quot;ortho&quot;</em><em>, </em><em>optional</em>) – Normalization mode (see <cite>numpy.fft</cite>). Default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Curve tuple – Two curves with the real and imaginary parts.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -1695,7 +1676,7 @@ keep is True by default.</p></li>
 <dl class="function">
 <dt id="pydvpy.makeextensive">
 <code class="sig-prename descclassname">pydvpy.</code><code class="sig-name descname">makeextensive</code><span class="sig-paren">(</span><em class="sig-param">curvelist</em><span class="sig-paren">)</span><a class="headerlink" href="#pydvpy.makeextensive" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the y-values such that y[i] <a href="#id1"><span class="problematic" id="id2">*</span></a>= (x[i+1] - x[i]).</p>
+<dd><p>Set the y-values such that <code class="docutils literal notranslate"><span class="pre">y[i]</span> <span class="pre">*=</span> <span class="pre">(x[i+1]</span> <span class="pre">-</span> <span class="pre">x[i])</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">curves</span> <span class="o">=</span> <span class="n">pydvif</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;testData.txt&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -2860,6 +2841,11 @@ step: float, optional – only returned if retstep is True. Size of the spacing 
 <code class="sig-name descname">axistickfont</code><em class="property"> = 'medium'</em><a class="headerlink" href="#pdv.Command.axistickfont" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="attribute">
+<dt id="pdv.Command.bordercolor">
+<code class="sig-name descname">bordercolor</code><em class="property"> = None</em><a class="headerlink" href="#pdv.Command.bordercolor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pdv.Command.console_run">
 <code class="sig-name descname">console_run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.console_run" title="Permalink to this definition">¶</a></dt>
@@ -2944,6 +2930,11 @@ returns.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.do_add_h">
+<code class="sig-name descname">do_add_h</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_add_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.do_alias">
 <code class="sig-name descname">do_alias</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_alias" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -3022,6 +3013,11 @@ returns.</p>
 <dl class="method">
 <dt id="pdv.Command.do_bkgcolor">
 <code class="sig-name descname">do_bkgcolor</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_bkgcolor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_border">
+<code class="sig-name descname">do_border</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_border" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3167,6 +3163,11 @@ returns.</p>
 <dl class="method">
 <dt id="pdv.Command.do_divide">
 <code class="sig-name descname">do_divide</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_divide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_divide_h">
+<code class="sig-name descname">do_divide_h</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_divide_h" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3436,8 +3437,13 @@ returns.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pdv.Command.do_labelFileNames">
-<code class="sig-name descname">do_labelFileNames</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_labelFileNames" title="Permalink to this definition">¶</a></dt>
+<dt id="pdv.Command.do_labelcurve">
+<code class="sig-name descname">do_labelcurve</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_labelcurve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_labelfilenames">
+<code class="sig-name descname">do_labelfilenames</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_labelfilenames" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3478,6 +3484,11 @@ returns.</p>
 <dl class="method">
 <dt id="pdv.Command.do_listannot">
 <code class="sig-name descname">do_listannot</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_listannot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_listr">
+<code class="sig-name descname">do_listr</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_listr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3526,6 +3537,11 @@ returns.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.do_lstr">
+<code class="sig-name descname">do_lstr</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_lstr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.do_makecurve">
 <code class="sig-name descname">do_makecurve</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_makecurve" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -3566,6 +3582,11 @@ returns.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.do_menur">
+<code class="sig-name descname">do_menur</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_menur" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.do_min">
 <code class="sig-name descname">do_min</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_min" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -3601,6 +3622,11 @@ returns.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.do_multiply_h">
+<code class="sig-name descname">do_multiply_h</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_multiply_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.do_mx">
 <code class="sig-name descname">do_mx</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_mx" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -3628,6 +3654,16 @@ returns.</p>
 <dl class="method">
 <dt id="pdv.Command.do_norm">
 <code class="sig-name descname">do_norm</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_pl">
+<code class="sig-name descname">do_pl</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_pl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_plotlayout">
+<code class="sig-name descname">do_plotlayout</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_plotlayout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -3879,6 +3915,11 @@ returns.</p>
 <dl class="method">
 <dt id="pdv.Command.do_subtract">
 <code class="sig-name descname">do_subtract</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_subtract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.do_subtract_h">
+<code class="sig-name descname">do_subtract_h</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.do_subtract_h" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4205,6 +4246,11 @@ command entered.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.help_add_h">
+<code class="sig-name descname">help_add_h</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_add_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.help_alias">
 <code class="sig-name descname">help_alias</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_alias" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -4277,6 +4323,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_bkgcolor">
 <code class="sig-name descname">help_bkgcolor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_bkgcolor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_border">
+<code class="sig-name descname">help_border</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_border" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4387,6 +4438,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_divide">
 <code class="sig-name descname">help_divide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_divide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_divide_h">
+<code class="sig-name descname">help_divide_h</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_divide_h" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4625,8 +4681,13 @@ command entered.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pdv.Command.help_labelFileNames">
-<code class="sig-name descname">help_labelFileNames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_labelFileNames" title="Permalink to this definition">¶</a></dt>
+<dt id="pdv.Command.help_labelcurve">
+<code class="sig-name descname">help_labelcurve</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_labelcurve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_labelfilenames">
+<code class="sig-name descname">help_labelfilenames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_labelfilenames" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4662,6 +4723,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_listannot">
 <code class="sig-name descname">help_listannot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_listannot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_listr">
+<code class="sig-name descname">help_listr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_listr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4735,6 +4801,11 @@ command entered.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pdv.Command.help_menur">
+<code class="sig-name descname">help_menur</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_menur" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pdv.Command.help_min">
 <code class="sig-name descname">help_min</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_min" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -4752,6 +4823,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_multiply">
 <code class="sig-name descname">help_multiply</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_multiply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_multiply_h">
+<code class="sig-name descname">help_multiply_h</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_multiply_h" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4777,6 +4853,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_norm">
 <code class="sig-name descname">help_norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_plotlayout">
+<code class="sig-name descname">help_plotlayout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_plotlayout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -4972,6 +5053,11 @@ command entered.</p>
 <dl class="method">
 <dt id="pdv.Command.help_subtract">
 <code class="sig-name descname">help_subtract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_subtract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pdv.Command.help_subtract_h">
+<code class="sig-name descname">help_subtract_h</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdv.Command.help_subtract_h" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -5283,6 +5369,11 @@ interpreted, but after the input prompt is generated and issued.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="pdv.Command.showcurveinlegend">
+<code class="sig-name descname">showcurveinlegend</code><em class="property"> = False</em><a class="headerlink" href="#pdv.Command.showcurveinlegend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="pdv.Command.showgrid">
 <code class="sig-name descname">showgrid</code><em class="property"> = True</em><a class="headerlink" href="#pdv.Command.showgrid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -5544,6 +5635,11 @@ interpreted, but after the input prompt is generated and issued.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="pdvplot.Plotter.defaultPlotLayout">
+<code class="sig-name descname">defaultPlotLayout</code><em class="property"> = None</em><a class="headerlink" href="#pdvplot.Plotter.defaultPlotLayout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="pdvplot.Plotter.fig">
 <code class="sig-name descname">fig</code><em class="property"> = None</em><a class="headerlink" href="#pdvplot.Plotter.fig" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -5582,8 +5678,8 @@ interpreted, but after the input prompt is generated and issued.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pdvplot.Plotter.updateGeometry">
-<code class="sig-name descname">updateGeometry</code><span class="sig-paren">(</span><em class="sig-param">geometry='de'</em><span class="sig-paren">)</span><a class="headerlink" href="#pdvplot.Plotter.updateGeometry" title="Permalink to this definition">¶</a></dt>
+<dt id="pdvplot.Plotter.updatePlotGeometry">
+<code class="sig-name descname">updatePlotGeometry</code><span class="sig-paren">(</span><em class="sig-param">geometry='de'</em><span class="sig-paren">)</span><a class="headerlink" href="#pdvplot.Plotter.updatePlotGeometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the size and location of the window. Using an action to trigger the update to
 ensure that the resizing is happening on the main GUI thread.</p>
 </dd></dl>
@@ -5634,6 +5730,12 @@ ensure that the resizing is happening on the main GUI thread.</p>
 <dt id="pdvnavbar.PyDVToolbar.edit_parameters">
 <code class="sig-name descname">edit_parameters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pdvnavbar.PyDVToolbar.edit_parameters" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="pdvnavbar.PyDVToolbar.zoom">
+<code class="sig-name descname">zoom</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pdvnavbar.PyDVToolbar.zoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activate zoom to rect mode.</p>
+</dd></dl>
 
 </dd></dl>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Math Operations &mdash; PyDV 3.0 documentation</title>
+  <title>Math Operations &mdash; PyDV 3.0.2 documentation</title>
   
 
   
@@ -85,7 +85,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.html">Release Notes For PyDV 3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.2.html">Release Notes For PyDV 3.0.2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdvrc.html">.pdvrc File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_commands.html">I/O Commands</a></li>
@@ -97,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#acoshx">acoshx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#acosx">acosx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add">add</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-h">add_h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#alpha">alpha</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#asin">asin</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#asinx">asinx</a></li>
@@ -118,6 +119,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#coshx">coshx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dx">dx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dy">dy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divide">divide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#divide-h">divide_h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#divx">divx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#divy">divy</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#error-bar">error-bar</a></li>
@@ -144,6 +147,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#max">max</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#min">min</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mx">mx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiply">multiply</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multiply-h">multiply_h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#my">my</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#norm">norm</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#powa">powa</a></li>
@@ -160,6 +165,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#sqrx">sqrx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sqrt">sqrt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sqrtx">sqrtx</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subtract">subtract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#subtract-h">subtract_h</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tan">tan</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tanx">tanx</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#tanh">tanh</a></li>
@@ -175,9 +182,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#yminmax">yminmax</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#yn">yn</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ynx">ynx</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#subtract">subtract</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#multiply">multiply</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#divide">divide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#derivative">derivative</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#diffmeasure">diffMeasure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fit">fit</a></li>
@@ -194,7 +198,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ui_features.html">UI Features</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0 API Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0.2 API Specification</a></li>
 </ul>
 
             
@@ -312,8 +316,22 @@
 </div>
 <div class="section" id="add">
 <h2>add<a class="headerlink" href="#add" title="Permalink to this headline">¶</a></h2>
-<p>Take the sum of curves. <strong>Shortcut:</strong> +</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">add</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+<p>Take the sum of curves. If the optional <em>value</em> is specified it will add the y-values of
+the curves by <em>value</em> (equivalent to using the <strong>dy</strong> command). <strong>Shortcut:</strong> +</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Adding curves by a number modifies the curve. If you want to create a new
+curve then copy the original curve first using the copy command.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">add</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-h">
+<h2>add_h<a class="headerlink" href="#add-h" title="Permalink to this headline">¶</a></h2>
+<p>Adds curves that have been read from a file but not yet plotted. <strong>list-of-menu-numbers</strong>
+are the index values displayed in the first column of the <strong>menu</strong> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">add_h</span> <span class="o">&lt;</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">menu</span><span class="o">-</span><span class="n">numbers</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -462,6 +480,28 @@
 <h2>dy<a class="headerlink" href="#dy" title="Permalink to this headline">¶</a></h2>
 <p>Shift y values of curves by a constant.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">dy</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="divide">
+<h2>divide<a class="headerlink" href="#divide" title="Permalink to this headline">¶</a></h2>
+<p>Take quotient of curves. If the optional <em>value</em> is specified it will divide the
+y-values of the curves by <em>value</em> (equivalent to using the <strong>divy</strong> command).
+<strong>Shortcuts:</strong> /, div</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Dividing curves by a number modifies the curve. If you want to create a new
+curve then copy the original curve first using the copy command.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divide</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="divide-h">
+<h2>divide_h<a class="headerlink" href="#divide-h" title="Permalink to this headline">¶</a></h2>
+<p>Divides curves that have been read from a file but not yet plotted. <strong>list-of-menu-numbers</strong>
+are the index values displayed in the first column of the <strong>menu</strong> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divide_h</span> <span class="o">&lt;</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">menu</span><span class="o">-</span><span class="n">numbers</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -647,6 +687,28 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="multiply">
+<h2>multiply<a class="headerlink" href="#multiply" title="Permalink to this headline">¶</a></h2>
+<p>Take the product of curves. If the optional <em>value</em> is specified it will multiply the
+y-values of the curves by <em>value</em> (equivalent to using the <strong>my</strong> command).
+<strong>Shortcuts:</strong> *, mult</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Multiplying curves by a number modifies the curve. If you want to create a new
+curve then copy the original curve first using the copy command.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">multiply</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiply-h">
+<h2>multiply_h<a class="headerlink" href="#multiply-h" title="Permalink to this headline">¶</a></h2>
+<p>Multiplies curves that have been read from a file but not yet plotted. <strong>list-of-menu-numbers</strong>
+are the index values displayed in the first column of the <strong>menu</strong> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">multiply_h</span> <span class="o">&lt;</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">menu</span><span class="o">-</span><span class="n">numbers</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="my">
 <h2>my<a class="headerlink" href="#my" title="Permalink to this headline">¶</a></h2>
 <p>Scale the y values of the curves by a fixed value.</p>
@@ -764,6 +826,29 @@ where p = order.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="subtract">
+<h2>subtract<a class="headerlink" href="#subtract" title="Permalink to this headline">¶</a></h2>
+<p>Take the difference of curves. A single curve can be specified, resulting in the
+negating of its y-values. If the optional <em>value</em> is specified it will subtract the
+y-values of the curves by <em>value</em> (similar to using the <strong>dy</strong> command).
+<strong>Shortcuts:</strong> –, sub</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Subtracting curves by a number modifies the curve. If you want to create a new
+curve then copy the original curve first using the copy command.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">subtract</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">value</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="subtract-h">
+<h2>subtract_h<a class="headerlink" href="#subtract-h" title="Permalink to this headline">¶</a></h2>
+<p>Subtracts curves that have been read from a file but not yet plotted. <strong>list-of-menu-numbers</strong>
+are the index values displayed in the first column of the <strong>menu</strong> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">subtract_h</span> <span class="o">&lt;</span><span class="nb">list</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">menu</span><span class="o">-</span><span class="n">numbers</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="tan">
 <h2>tan<a class="headerlink" href="#tan" title="Permalink to this headline">¶</a></h2>
 <p>Take the tangent of y values of curves</p>
@@ -866,27 +951,6 @@ where p = order.</p>
 <h2>ynx<a class="headerlink" href="#ynx" title="Permalink to this headline">¶</a></h2>
 <p>Take the nth order Bessel function of the second kind of x values of curves</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">ynx</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">n</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="subtract">
-<h2>subtract<a class="headerlink" href="#subtract" title="Permalink to this headline">¶</a></h2>
-<p>Take the difference of curves. <strong>Shortcuts:</strong> –, sub</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">subtract</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="multiply">
-<h2>multiply<a class="headerlink" href="#multiply" title="Permalink to this headline">¶</a></h2>
-<p>Take the product of curves. <strong>Shortcuts:</strong> *, mult</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">multiply</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="divide">
-<h2>divide<a class="headerlink" href="#divide" title="Permalink to this headline">¶</a></h2>
-<p>Take quotient of curves. <strong>Shortcuts:</strong> /, div</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">divide</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
