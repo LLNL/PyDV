@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Plot Control Commands &mdash; PyDV 3.0 documentation</title>
+  <title>Plot Control Commands &mdash; PyDV 3.0.2 documentation</title>
   
 
   
@@ -85,7 +85,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.html">Release Notes For PyDV 3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.2.html">Release Notes For PyDV 3.0.2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdvrc.html">.pdvrc File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_commands.html">I/O Commands</a></li>
@@ -95,7 +95,8 @@
 <li class="toctree-l1"><a class="reference internal" href="env_control_cmds.html">Environmental Control Commands</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plot Control Commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#annot">annot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bkgcolor-2-4"><strong>bkgcolor - 2.4</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#border">border</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bkgcolor">bkgcolor</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dashstyle">dashstyle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dataid">dataid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#delannot">delannot</a></li>
@@ -112,7 +113,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#handlelength">handlelength</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#image">image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#label">label</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#labelfilenames">labelFileNames</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labelcurve">labelcurve</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#labelfilenames">labelfilenames</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#latex">latex</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#legend">legend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lnstyle">lnstyle</a></li>
@@ -120,6 +122,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#marker">marker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#minorticks">minorticks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#movefront">movefront</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotlayout">plotlayout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#range">range</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#style">style</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ticks">ticks</a></li>
@@ -145,7 +148,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ui_features.html">UI Features</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0 API Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0.2 API Specification</a></li>
 </ul>
 
             
@@ -226,8 +229,15 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="bkgcolor-2-4">
-<h2><strong>bkgcolor - 2.4</strong><a class="headerlink" href="#bkgcolor-2-4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="border">
+<h2>border<a class="headerlink" href="#border" title="Permalink to this headline">¶</a></h2>
+<p>Show the border if <strong>on</strong> or <strong>1</strong>, otherwise hide the border. The <strong>color-name</strong> determines the color of the border. By default, the border color is black.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">border</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">|</span> <span class="n">off</span> <span class="o">|</span> <span class="mi">0</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">color</span><span class="o">-</span><span class="n">name</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bkgcolor">
+<h2>bkgcolor<a class="headerlink" href="#bkgcolor" title="Permalink to this headline">¶</a></h2>
 <p>Change the background color of the plot, window, or both</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">bkgcolor</span> <span class="o">&lt;</span><span class="p">[</span><span class="n">plot</span> <span class="o">|</span> <span class="n">window</span><span class="p">]</span> <span class="n">color</span><span class="o">-</span><span class="n">name</span> <span class="o">|</span> <span class="n">reset</span><span class="o">&gt;</span>
 </pre></div>
@@ -344,8 +354,11 @@
 </div>
 <div class="section" id="image">
 <h2>image<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
-<p>Save the current figure to image file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">image</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">file</span><span class="o">-</span><span class="nb">type</span><span class="p">:</span> <span class="n">png</span> <span class="o">|</span> <span class="n">ps</span> <span class="o">|</span> <span class="n">pdf</span> <span class="o">|</span> <span class="n">svg</span><span class="o">&gt;</span>
+<p>Save the current figure to an image file. All parameters are optional. The default value
+for <strong>filename</strong> is <em>plot</em>, the default value for <strong>filetype</strong> is <em>pdf</em> and the default value for
+<strong>transparent</strong> is <em>False</em>. <strong>dpi</strong> is the resolution in dots per inch and the default value is
+the figure’s dpi value.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">image</span> <span class="p">[</span><span class="n">filename</span><span class="o">=</span><span class="n">plot</span><span class="p">]</span> <span class="p">[</span><span class="n">filetype</span><span class="o">=</span><span class="n">pdf</span><span class="p">:</span> <span class="n">png</span> <span class="o">|</span> <span class="n">ps</span> <span class="o">|</span> <span class="n">pdf</span> <span class="o">|</span> <span class="n">svg</span><span class="p">]</span> <span class="p">[</span><span class="n">transparent</span><span class="o">=</span><span class="kc">False</span><span class="p">:</span> <span class="kc">True</span> <span class="o">|</span> <span class="kc">False</span><span class="p">]</span> <span class="p">[</span><span class="n">dpi</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -356,10 +369,18 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="labelcurve">
+<h2>labelcurve<a class="headerlink" href="#labelcurve" title="Permalink to this headline">¶</a></h2>
+<p>Add curve letter to the legend label if <strong>on</strong>, otherwise hide curve letter if <strong>off</strong>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">labelcurve</span> <span class="o">&lt;</span><span class="n">on</span> <span class="o">|</span> <span class="n">off</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="labelfilenames">
-<h2>labelFileNames<a class="headerlink" href="#labelfilenames" title="Permalink to this headline">¶</a></h2>
-<p>Change the key and list labels for all curves to append the filename.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">labelFileNames</span>
+<h2>labelfilenames<a class="headerlink" href="#labelfilenames" title="Permalink to this headline">¶</a></h2>
+<p>Change the key and list labels for all curves to append the filename. This command only affects the curves plotted
+at the time of execution. Any new curve will need to have this command run again to append the filename.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">labelfilenames</span>
 </pre></div>
 </div>
 </div>
@@ -409,6 +430,18 @@
 <h2>movefront<a class="headerlink" href="#movefront" title="Permalink to this headline">¶</a></h2>
 <p>Move the given curves so they are plotted on top.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">movefront</span> <span class="o">&lt;</span><span class="n">curve</span><span class="o">-</span><span class="nb">list</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plotlayout">
+<h2>plotlayout<a class="headerlink" href="#plotlayout" title="Permalink to this headline">¶</a></h2>
+<p>Adjust the plot layout parameters. Where <strong>left</strong> is the position of the left edge of the
+plot as a fraction of the figure width, <strong>right</strong> is the position of the right edge of the
+plot, as a fraction of the figure width, <strong>top</strong> is the position of the top edge of the plot,
+as a fraction of the figure height and <strong>bottom</strong> is the position of the bottom edge of the plot,
+as a fraction of the figure height. Alternatively, <em>de</em> will revert to the default plot layout values.</p>
+<p>If no arguments are given, the plot’s current layout settings will be displayed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">plotlayout</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">left</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">right</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">top</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">bottom</span><span class="o">&gt;</span> <span class="o">||</span> <span class="n">de</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>

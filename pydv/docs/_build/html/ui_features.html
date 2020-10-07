@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>UI Features &mdash; PyDV 3.0 documentation</title>
+  <title>UI Features &mdash; PyDV 3.0.2 documentation</title>
   
 
   
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PyDV 3.0 API Specification" href="pydv.html" />
+    <link rel="next" title="PyDV 3.0.2 API Specification" href="pydv.html" />
     <link rel="prev" title="Curve Control Commands" href="curve_control_cmds.html" /> 
 </head>
 
@@ -85,7 +85,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.html">Release Notes For PyDV 3.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="release_notes_3.0.2.html">Release Notes For PyDV 3.0.2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pdvrc.html">.pdvrc File Format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="io_commands.html">I/O Commands</a></li>
@@ -101,11 +101,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#view-menu">View Menu</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#pydv-colormap">PyDV Colormap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#plot-tickmarks">Plot Tickmarks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#border">Border</a></li>
 </ul>
 </li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0 API Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pydv.html">PyDV 3.0.2 API Specification</a></li>
 </ul>
 
             
@@ -239,6 +240,29 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="border">
+<h2>Border<a class="headerlink" href="#border" title="Permalink to this headline">¶</a></h2>
+<p>The border that outlines the plot can be shown or hidden. You can also change the color of the border line. Below is an example of showing and hiding the border and also setting its color to yellow.</p>
+<div class="figure align-default" id="id12">
+<span id="borderon"></span><a class="reference internal image-reference" href="_images/borderon.png"><img alt="_images/borderon.png" src="_images/borderon.png" style="width: 903.0px; height: 763.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Plot with yellow border and yellow grid</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">span</span> <span class="mi">1</span> <span class="mi">20</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">span</span> <span class="mi">1</span> <span class="mi">20</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">cos</span> <span class="n">a</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">sin</span> <span class="n">b</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">gridcolor</span> <span class="n">yellow</span>
+<span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">border</span> <span class="n">on</span> <span class="n">yellow</span>
+</pre></div>
+</div>
+<div class="figure align-default" id="id13">
+<span id="borderoff"></span><a class="reference internal image-reference" href="_images/borderoff.png"><img alt="_images/borderoff.png" src="_images/borderoff.png" style="width: 903.0px; height: 763.0px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Plot with yellow border hidden</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">PyDV</span><span class="p">]:</span> <span class="n">border</span> <span class="n">off</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -249,7 +273,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="pydv.html" class="btn btn-neutral float-right" title="PyDV 3.0 API Specification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="pydv.html" class="btn btn-neutral float-right" title="PyDV 3.0.2 API Specification" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="curve_control_cmds.html" class="btn btn-neutral float-left" title="Curve Control Commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

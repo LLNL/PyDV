@@ -67,11 +67,25 @@ Take arccosine of x values of curves
 add
 ---
 
-Take the sum of curves. **Shortcut:** +
+Take the sum of curves. If the optional *value* is specified it will add the y-values of 
+the curves by *value* (equivalent to using the **dy** command). **Shortcut:** +
+
+.. note::
+   Adding curves by a number modifies the curve. If you want to create a new 
+   curve then copy the original curve first using the copy command.
 
 .. code::
 
-   [PyDV]: add <curve-list>
+   [PyDV]: add <curve-list> [value]
+
+add_h
+-----
+Adds curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: add_h <list-of-menu-numbers>
 
 alpha
 -----
@@ -260,6 +274,31 @@ Shift y values of curves by a constant.
 .. code::
 
    [PyDV]: dy <curve-list> <value>
+
+divide
+------
+
+Take quotient of curves. If the optional *value* is specified it will divide the 
+y-values of the curves by *value* (equivalent to using the **divy** command). 
+**Shortcuts:** /, div
+
+.. note::
+   Dividing curves by a number modifies the curve. If you want to create a new 
+   curve then copy the original curve first using the copy command.
+
+.. code::
+
+   [PyDV]: divide <curve-list> [value]
+
+divide_h
+--------
+
+Divides curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: divide_h <list-of-menu-numbers>
 
 divx
 ----
@@ -495,6 +534,31 @@ Scale the x values of the curves by a fixed value.
 
    [PyDV]: mx <curve-list> <value>
 
+multiply
+--------
+
+Take the product of curves. If the optional *value* is specified it will multiply the 
+y-values of the curves by *value* (equivalent to using the **my** command). 
+**Shortcuts:** \*, mult
+
+.. note::
+   Multiplying curves by a number modifies the curve. If you want to create a new 
+   curve then copy the original curve first using the copy command.
+
+.. code::
+
+   [PyDV]: multiply <curve-list> [value]
+
+multiply_h
+----------
+
+Multiplies curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: multiply_h <list-of-menu-numbers>
+
 my
 --
 
@@ -643,6 +707,32 @@ Take the squre root of the x values of the curves.
 
    [PyDV]: sqrtx <curve-list>
 
+subtract
+--------
+
+Take the difference of curves. A single curve can be specified, resulting in the 
+negating of its y-values. If the optional *value* is specified it will subtract the 
+y-values of the curves by *value* (similar to using the **dy** command).
+**Shortcuts:** --, sub
+
+.. note::
+   Subtracting curves by a number modifies the curve. If you want to create a new 
+   curve then copy the original curve first using the copy command.
+
+.. code::
+
+   [PyDV]: subtract <curve-list> [value]
+
+subtract_h
+----------
+
+Subtracts curves that have been read from a file but not yet plotted. **list-of-menu-numbers**
+are the index values displayed in the first column of the **menu** command.
+
+.. code::
+
+   [PyDV]: subtract_h <list-of-menu-numbers>
+
 tan
 ---
 
@@ -777,34 +867,6 @@ Take the nth order Bessel function of the second kind of x values of curves
 .. code::
 
    [PyDV]: ynx <curve-list> <n>
-
-subtract
---------
-
-Take the difference of curves. **Shortcuts:** --, sub
-
-.. code::
-
-   [PyDV]: subtract <curve-list>
-
-multiply
---------
-
-Take the product of curves. **Shortcuts:** \*, mult
-
-.. code::
-
-   [PyDV]: multiply <curve-list>
-
-divide
-------
-
-Take quotient of curves. **Shortcuts:** /, div
-
-.. code::
-
-   [PyDV]: divide <curve-list>
-
 
 derivative
 ----------
