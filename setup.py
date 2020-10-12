@@ -33,6 +33,7 @@ setup(
             'numpy',
             'matplotlib',
             'scipy',
+            'pyqt',
         ],
         # GUI icons
         package_data={
