@@ -30,6 +30,17 @@ Read CSV data file. The next available prefix (see the prefix command) is automa
  
    [PyDV]: readcsv [x-col] <filename.csv>
 
+readsina
+-------
+
+Read all curves from Sina data file.
+The next available prefix (see the prefix command) is automatically assigned the menu index of the first curve in each data file read.
+**Shortcut: rdsina**
+
+.. code::
+ 
+   [PyDV]: readsina <filename.sina>
+
 run
 ---
 
