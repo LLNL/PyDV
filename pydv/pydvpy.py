@@ -687,18 +687,15 @@ def readsina(fname, verbose=False):
     """
     Load a Sina JSON data file, add parsed curves to a curvelist.
 
-    We assume JSON conforming to the Sina schema, and that only one Record is
-    represented in the file. We also assume that the data names fit Sina conventions,
-    with each entry in a timeplot being <timeplot_name>_<data_name>.
-
-    If there is more than one Record, the first is read and the rest are ignored. 
-
+    We assume JSON conforming to the Sina schema, with each curve defined in a curve_set. We assume
+    there is only one record, and if there are more then we only read the first one. We also assume
+    only one independent variable per curve_set; if there are more than one, then PyDV may exhibit
+    undefined behavior.
+    
     >>> curves = readsina('testData.json')
 
     :param fname: Sina JSON filename
     :type fname: str
-    :param xdata: Name of data representing the x-axis 
-    :type xdata: str
     :param verbose: prints the error stacktrace when True
     :type verbose: bool
     :returns: list: the list of curves from the sina file
@@ -710,13 +707,14 @@ def readsina(fname, verbose=False):
                 curve_sets = json.load(fp)['records'][0]['curve_sets']
                 for curve in curve_sets.values():
                     independent_dict = next(iter(curve['independent'].items()))
-                    ind_name = independent_dict[0]
-                    ind_value = independent_dict[1]['value']
+                    independent_name = independent_dict[0]
+                    independent_value = independent_dict[1]['value']
                     for name, v in curve['dependent'].items():
+                        # TODO: Save the name x and y names with the curves
                         dependent_variable_name = name
                         dependent_variable_value = v['value']
-                        c = makecurve(x=ind_value, y=dependent_variable_value,
-                            name=dependent_variable_name, fname = fname) # TODO: add x_name and y_name for the labels
+                        c = makecurve(x=independent_value, y=dependent_variable_value,
+                            name=dependent_variable_name, fname=fname)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
                         curves.append(c)
