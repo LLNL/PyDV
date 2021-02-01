@@ -827,21 +827,15 @@ class Command(cmd.Cmd, object):
 
     ##read in a sina file##
     def do_readsina(self, line):
-        import json
-        pass
-        # try:
-        #     line = line.split()
-
-        #     if len(line) == 2:
-        #         self.xCol = int(line.pop(-1))
-
-        #     self.load_csv(line[0])
-        # except:
-        #     if self.debug:
-        #         traceback.print_exc(file=sys.stdout)
-        # finally:
-        #     self.redraw = False
-        #     self.plotter.updateDialogs()
+        try:
+            line = line.split()
+            self.load_sina(line[0])
+        except:
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+            self.plotter.updateDialogs()
     def help_readsina(self):
         print('\n   Still woring on this :)')
 
