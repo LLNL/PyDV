@@ -325,6 +325,8 @@ class Command(cmd.Cmd, object):
         self.do_read(line)
     def do_rdcsv(self, line):
         self.do_readcsv(line)
+    def do_rdsina(self, line):
+        self.do_readsina(line)
     def do_cur(self, line):
         self.do_curve(line)
     def do_era(self, line):
@@ -406,6 +408,8 @@ class Command(cmd.Cmd, object):
             arg = 'read'
         elif(arg == 'rdcsv'):
             arg = 'readcsv'
+        elif(arg == 'rdsina'):
+            arg = 'readsina'
         elif(arg == 'convol'):
             arg = 'convolve'
         elif (arg == 'convolb'):
@@ -820,6 +824,26 @@ class Command(cmd.Cmd, object):
               '\n          number (e.g., readcsv file.csv 1).'
               '\n   Usage: readcsv <file-name> [xcol]'
               '\n   Shortcuts: rdcsv\n')
+
+    ##read in a sina file##
+    def do_readsina(self, line):
+        import json
+        pass
+        # try:
+        #     line = line.split()
+
+        #     if len(line) == 2:
+        #         self.xCol = int(line.pop(-1))
+
+        #     self.load_csv(line[0])
+        # except:
+        #     if self.debug:
+        #         traceback.print_exc(file=sys.stdout)
+        # finally:
+        #     self.redraw = False
+        #     self.plotter.updateDialogs()
+    def help_readsina(self):
+        print('\n   Still woring on this :)')
 
     ## set x-column for cxv or gnu files explicitly
     def do_setxcolumn(self, line):
@@ -6371,6 +6395,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
+            
+    ##load a Sina JSON data file, add parsed curves to the curvelist##
+    def load_sina(self, fname):
+        curves = pydvif.readsina(fname, self.debug)
+        if len(curves) > 0:
+            self.curvelist += curves
+            self.filelist.append((fname, len(curves)))
 
     ##read in a resource definition file##
     def loadrc(self):
@@ -6595,6 +6626,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         # throw into column format mode if there is a -gnu or -csv arg
         gnu = False
         csv = False
+        json = False # throw into JSON mode if there's a -sina
         for i in range(len(sys.argv[1:])):
             if sys.argv[i] == '-gnu':
                 gnu = True
@@ -6614,8 +6646,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.xCol = 0
                 sys.argv.remove('-csv')
                 break
+            if sys.argv[i] == '-sina':
+                json = True
+                sys.argv.remove('-sina')
+                break
         if gnu or csv:
             print('Going to column format, using ', self.xCol, ' for x-axis data')
+        elif json:
+            print('Going to JSON format, loading all curves from curve_sets.')
 
         initarg = False
         for i in range(len(sys.argv)):  # look for command line args:
@@ -6624,6 +6662,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     initarg = True
                 elif(initarg == True):
                     initarg = sys.argv[i]
+                elif json:
+                    self.load_sina(sys.argv[i])
                 else:
                     if not csv:
                        self.load(sys.argv[i], gnu)
