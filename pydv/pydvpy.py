@@ -741,7 +741,14 @@ def readsina(fname, verbose=False):
             traceback.print_exc(file=sys.stdout)
         return []
     
-    curves_lst = [curves[name] for name in order_options]
+    try:
+        curves_lst = [curves[name] for name in order_options]
+    except KeyError:
+        print('readsina: mismatch between dependent variable names in the curve_sets and the ' + \
+            'ordering specified in SINA_timeplot_order. Using default ordering instead.')
+        if verbose:
+            traceback.print_exc(File=sys.stdout)
+        curves_lst = [curves[name] for name in listed_order]
     return curves_lst
 
 
