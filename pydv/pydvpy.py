@@ -69,6 +69,7 @@ A python interface for PyDV functionality.
 >>> import pydvpy as pydvif
 """
 
+import json
 import os
 import string
 import traceback
@@ -681,6 +682,56 @@ def readcsv(fname, xcol=0, verbose=False):
             traceback.print_exc(file=sys.stdout)
 
     return curvelist
+
+def readsina(fname, verbose=False):
+    """
+    Load a Sina JSON data file, add parsed curves to a curvelist.
+
+    We assume JSON conforming to the Sina schema, and that only one Record is
+    represented in the file. We also assume that the data names fit Sina conventions,
+    with each entry in a timeplot being <timeplot_name>_<data_name>.
+
+    If there is more than one Record, the first is read and the rest are ignored. 
+
+    >>> curves = readsina('testData.json')
+
+    :param fname: Sina JSON filename
+    :type fname: str
+    :param xdata: Name of data representing the x-axis 
+    :type xdata: str
+    :param verbose: prints the error stacktrace when True
+    :type verbose: bool
+    :returns: list: the list of curves from the sina file
+    """
+    curves = []
+    try:
+        with open(fname, 'r') as fp:
+            try:
+                curve_sets = json.load(fp)['records'][0]['curve_sets']
+                for curve in curve_sets.values():
+                    independent_dict = next(iter(curve['independent'].items()))
+                    ind_name = independent_dict[0]
+                    ind_value = independent_dict[1]['value']
+                    for name, v in curve['dependent'].items():
+                        dependent_variable_name = name
+                        dependent_variable_value = v['value']
+                        c = makecurve(x=ind_value, y=dependent_variable_value,
+                            name=dependent_variable_name, fname = fname) # TODO: add x_name and y_name for the labels
+                        print("Appended curve: {}, len x,y: {},{}"
+                              .format(dependent_variable_name, len(c.x), len(c.y)))
+                        curves.append(c)
+            except KeyError:
+                print('readsina: Sina file {} is malformed'.format(fname))
+                if verbose:
+                    traceback.print_exc(file=sys.stdout)
+                return []
+    except IOError:
+        print('readsina: could not load file: {}'.format(fname))
+        if verbose:
+            traceback.print_exc(file=sys.stdout)
+        return []
+    return curves
+
 
 
 ########################################################
