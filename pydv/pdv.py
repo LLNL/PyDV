@@ -837,7 +837,9 @@ class Command(cmd.Cmd, object):
             self.redraw = False
             self.plotter.updateDialogs()
     def help_readsina(self):
-        print('\n   Still woring on this :)')
+        print('\n   Macro: Read all curves from sina data file.'
+              '\n   Usage: readsina <file-name>'
+              '\n   Shortcuts: rdsina\n')
 
     ## set x-column for cxv or gnu files explicitly
     def do_setxcolumn(self, line):
