@@ -700,35 +700,49 @@ def readsina(fname, verbose=False):
     :type verbose: bool
     :returns: list: the list of curves from the sina file
     """
-    curves = []
+    curves = {}
+    listed_order = []
     try:
+        # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
                 curve_sets = json.load(fp)['records'][0]['curve_sets']
-                for curve in curve_sets.values():
-                    independent_dict = next(iter(curve['independent'].items()))
+                for curve_set_name, curve_set in curve_sets.items():
+                    independent_dict = next(iter(curve_set['independent'].items()))
                     independent_name = independent_dict[0]
                     independent_value = independent_dict[1]['value']
-                    for name, v in curve['dependent'].items():
+                    for name, v in curve_set['dependent'].items():
                         # TODO: Save the name x and y names with the curves
                         dependent_variable_name = name
+                        curve_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
                         dependent_variable_value = v['value']
                         c = makecurve(x=independent_value, y=dependent_variable_value,
-                            name=dependent_variable_name, fname=fname)
+                            name=curve_name, fname=fname)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
-                        curves.append(c)
+                        curves[curve_name] = c
+                        listed_order.append(curve_name)
             except KeyError:
                 print('readsina: Sina file {} is malformed'.format(fname))
                 if verbose:
                     traceback.print_exc(file=sys.stdout)
                 return []
+
+        # Try to load the order in which the user wants to load the curves into PyDV
+        with open(fname, 'r') as fp:
+            try:
+                order_options = json.load(fp)['records'][0]['data']['SINA_timeplot_order']['value']
+            except:
+                order_options = listed_order
+
     except IOError:
         print('readsina: could not load file: {}'.format(fname))
         if verbose:
             traceback.print_exc(file=sys.stdout)
         return []
-    return curves
+    
+    curves_lst = [curves[name] for name in order_options]
+    return curves_lst
 
 
 
