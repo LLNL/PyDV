@@ -41,7 +41,7 @@ The next available prefix (see the prefix command) is automatically assigned the
 
 .. code::
  
-   [PyDV]: readsina <filename.sina>
+   [PyDV]: readsina <filename.json>
 
 run
 ---
