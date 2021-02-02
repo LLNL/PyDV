@@ -5606,6 +5606,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def addtoplot(self, cur):
         if(cur.plotname == '' or (len(cur.plotname) > 1 and cur.plotname[0] != '@')):
             cur.plotname = self.getcurvename()
+        
+        self.xlabel = cur.xlabel
+        self.ylabel = cur.ylabel
+        self.title = cur.title
 
         cur.x = numpy.array(cur.x)
         cur.y = numpy.array(cur.y)
