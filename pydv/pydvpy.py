@@ -130,7 +130,7 @@ def span(xmin, xmax, numpts=100):
     return c
 
 
-def makecurve(x, y, name='Curve', fname=''):
+def makecurve(x, y, name='Curve', fname='', x_label='', y_label='', title=''):
     """
     Generate a curve from two lists of numbers.
 
@@ -151,6 +151,9 @@ def makecurve(x, y, name='Curve', fname=''):
     c = curve.Curve(fname, name)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
+    c.x_label = x_label
+    c.y_label = y_label
+    c.title = title
 
     return c
 
@@ -719,7 +722,8 @@ def readsina(fname, verbose=False):
                         curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
                             curve_set_name + ")"
                         c = makecurve(x=independent_value, y=dependent_variable_value,
-                            name=curve_name, fname=fname)
+                            name=curve_name, fname=fname, x_label=independent_name,
+                            y_label=dependent_variable_name, title=curve_name)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
                         curves[full_name] = c
