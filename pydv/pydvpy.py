@@ -714,14 +714,16 @@ def readsina(fname, verbose=False):
                     for name, v in curve_set['dependent'].items():
                         # TODO: Save the name x and y names with the curves
                         dependent_variable_name = name
-                        curve_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
+                        full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
                         dependent_variable_value = v['value']
+                        curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
+                            curve_set_name + ")"
                         c = makecurve(x=independent_value, y=dependent_variable_value,
                             name=curve_name, fname=fname)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
-                        curves[curve_name] = c
-                        listed_order.append(curve_name)
+                        curves[full_name] = c
+                        listed_order.append(full_name)
             except KeyError:
                 print('readsina: Sina file {} is malformed'.format(fname))
                 if verbose:
