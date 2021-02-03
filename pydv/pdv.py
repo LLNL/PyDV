@@ -3606,6 +3606,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         try:
             line = line.split()
             filename = line.pop(0)
+            if line[0] == 'include_plot_attributes':
+                del line[0]
+                include_plot_attributes = True
+            else:
+                include_plot_attributes = False
+
             line = ' '.join(line)
             if len(line.split(':')) > 1:
                 self.do_save(filename + ' ' + pdvutil.getletterargs(line))
@@ -3618,6 +3624,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
                         f.write('#' + cur.name + '\n')
+                        if include_plot_attributes:
+                            f.write('#xlabel ' + self.xlabel + '\n')
+                            f.write('#ylabel ' + self.ylabel + '\n')
+                            f.write('#title ' + self.title + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
