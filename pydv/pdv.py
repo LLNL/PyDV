@@ -201,13 +201,10 @@ class Command(cmd.Cmd, object):
 
     def set_xlabel(self, label, from_curve=False):
         if not from_curve:
-            print('new xlabel Not from curve')
             self.xlabel = label
             self.xlabel_set_from_curve = from_curve if label != "" else True
         else:
-            print('new xlabel is from curve')
             if self.xlabel_set_from_curve:
-                print('The current xlabel is from a curve')
                 if len(self.plotlist) > 1 and label != self.xlabel:
                     print('The plotlist is ' + str(len(self.plotlist)))
                     self.xlabel = ''
