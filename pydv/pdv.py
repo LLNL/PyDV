@@ -136,13 +136,16 @@ class Command(cmd.Cmd, object):
 
     ## state variables##
     xlabel = ''
+    xlabel_set_from_curve = True
     ylabel = ''
+    ylabel_set_from_curve = True
     bordercolor = None
     figcolor = None
     plotcolor = None
     xtickcolor = None
     ytickcolor = None
     title = ''
+    title_set_from_curve = True
     titlecolor = None
     xlabelcolor = None
     ylabelcolor = None
@@ -195,6 +198,22 @@ class Command(cmd.Cmd, object):
     namewidth = 50
     updatestyle = False
     linewidth = None
+
+    def set_xlabel(self, label, from_curve=False):
+        if not from_curve:
+            print('new xlabel Not from curve')
+            self.xlabel = label
+            self.xlabel_set_from_curve = from_curve if label != "" else True
+        else:
+            print('new xlabel is from curve')
+            if self.xlabel_set_from_curve:
+                print('The current xlabel is from a curve')
+                if len(self.plotlist) > 1 and label != self.xlabel:
+                    print('The plotlist is ' + str(len(self.plotlist)))
+                    self.xlabel = ''
+                else:
+                    self.xlabel = label
+                    self.xlabel_set_from_curve = from_curve
 
     ##check for special character/operator commands##
     def precmd(self, line):
@@ -2726,8 +2745,8 @@ class Command(cmd.Cmd, object):
     ##set labels and titles##
     def do_xlabel(self, line):
         try:
-            self.xlabel = line
-            plt.xlabel(r'%s' % line)
+            self.set_xlabel(line)
+            # plt.xlabel(r'%s' % line)
         except:
             print('error - usage: xlabel <label-name>')
             if self.debug:
@@ -5606,10 +5625,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def addtoplot(self, cur):
         if(cur.plotname == '' or (len(cur.plotname) > 1 and cur.plotname[0] != '@')):
             cur.plotname = self.getcurvename()
-        
-        self.xlabel = cur.xlabel
-        self.ylabel = cur.ylabel
-        self.title = cur.title
 
         cur.x = numpy.array(cur.x)
         cur.y = numpy.array(cur.y)
@@ -5623,6 +5638,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotlist.insert((ord(cur.plotname) - ord('A')), cur)
         else:
             self.plotlist.insert(int(cur.plotname[1:])-1, cur)
+        
+        self.set_xlabel(cur.xlabel, from_curve=True)
+        self.ylabel = cur.ylabel
+        self.title = cur.title
 
     ##return derivative of curve##
     def derivative(self, cur):
