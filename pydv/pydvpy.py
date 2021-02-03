@@ -464,6 +464,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         buildlistx = list()
         buildlisty = list()
 
+        new_curve_line = True
+
         for line in f:
             if line.strip()[:2] == '##':
                 continue
@@ -508,20 +510,27 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 else:
                     first = 0
 
-                curvename = line.strip()[1:]
-                curvename = curvename.strip()
+                if new_curve_line:
+                    curvename = line.strip()[1:]
+                    curvename = curvename.strip()
 
-                if regex is not None:
-                    if regex.search(curvename) is not None:
-                        matchcount += 1
-                        current = curve.Curve(fname, curvename)
+                    if regex is not None:
+                        if regex.search(curvename) is not None:
+                            matchcount += 1
+                            current = curve.Curve(fname, curvename)
+                        else:
+                            current = None
                     else:
-                        current = None
+                        current = curve.Curve(fname, curvename)
                 else:
-                    current = curve.Curve(fname, curvename)
+                    # Read a '#' but it is not a new curve, so it must be curve attributes.
+                    pass
+
+                new_curve_line = False
             elif line.strip().lower() == 'end':
-                pass
+                new_curve_line = True
             else:
+                new_curve_line = True
                 if current is not None:
                     vals = line.split()
                     dim = 'x'
