@@ -206,11 +206,34 @@ class Command(cmd.Cmd, object):
         else:
             if self.xlabel_set_from_curve:
                 if len(self.plotlist) > 1 and label != self.xlabel:
-                    print('The plotlist is ' + str(len(self.plotlist)))
                     self.xlabel = ''
                 else:
                     self.xlabel = label
                     self.xlabel_set_from_curve = from_curve
+
+    def set_ylabel(self, label, from_curve=False):
+        if not from_curve:
+            self.ylabel = label
+            self.ylabel_set_from_curve = from_curve if label != "" else True
+        else:
+            if self.ylabel_set_from_curve:
+                if len(self.plotlist) > 1 and label != self.ylabel:
+                    self.ylabel = ''
+                else:
+                    self.ylabel = label
+                    self.ylabel_set_from_curve = from_curve
+
+    def set_title(self, title, from_curve=False):
+        if not from_curve:
+            self.title = title
+            self.title_set_from_curve = from_curve if title != "" else True
+        else:
+            if self.title_set_from_curve:
+                if len(self.plotlist) > 1 and title != self.title:
+                    self.title = ''
+                else:
+                    self.title = title
+                    self.title_set_from_curve = from_curve
 
     ##check for special character/operator commands##
     def precmd(self, line):
@@ -2743,7 +2766,6 @@ class Command(cmd.Cmd, object):
     def do_xlabel(self, line):
         try:
             self.set_xlabel(line)
-            # plt.xlabel(r'%s' % line)
         except:
             print('error - usage: xlabel <label-name>')
             if self.debug:
@@ -2754,8 +2776,7 @@ class Command(cmd.Cmd, object):
 
     def do_ylabel(self, line):
         try:
-            self.ylabel = line
-            plt.ylabel(r'%s' % line)
+            self.set_ylabel(line)
         except:
             print('error - usage: ylabel <label-name>')
             if self.debug:
@@ -2766,8 +2787,7 @@ class Command(cmd.Cmd, object):
 
     def do_title(self, line):
         try:
-            self.title = line
-            plt.title(r'%s' % line)
+            self.set_title(line)
         except:
             print('error - usage: title <title-name>')
             if self.debug:
@@ -5647,8 +5667,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotlist.insert(int(cur.plotname[1:])-1, cur)
         
         self.set_xlabel(cur.xlabel, from_curve=True)
-        self.ylabel = cur.ylabel
-        self.title = cur.title
+        self.set_ylabel(cur.ylabel, from_curve=True)
+        self.set_title(cur.title, from_curve=True)
 
     ##return derivative of curve##
     def derivative(self, cur):
