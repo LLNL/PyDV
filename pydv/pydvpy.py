@@ -524,7 +524,12 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                         current = curve.Curve(fname, curvename)
                 else:
                     # Read a '#' but it is not a new curve, so it must be curve attributes.
-                    pass
+                    if line.strip()[1:].split()[0] == 'xlabel':
+                        current.xlabel = ' '.join(line.strip()[1:].split()[1:])
+                    if line.strip()[1:].split()[0] == 'ylabel':
+                        current.ylabel = ' '.join(line.strip()[1:].split()[1:])
+                    if line.strip()[1:].split()[0] == 'title':
+                        current.title = ' '.join(line.strip()[1:].split()[1:])
 
                 new_curve_line = False
             elif line.strip().lower() == 'end':
