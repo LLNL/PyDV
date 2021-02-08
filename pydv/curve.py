@@ -87,6 +87,9 @@ class Curve(object):
     markerfacecolor = None
     markeredgecolor = None
     plotprecedence = 0
+    xlabel = ''
+    ylabel = ''
+    title = ''
     
     def __init__(self, filename='', name=''):
         self.filename = filename
@@ -204,6 +207,9 @@ class Curve(object):
         c.ebar = self.ebar
         c.erange = self.erange
         c.plotprecedence = self.plotprecedence
+        c.xlabel = self.xlabel
+        c.ylabel = self.ylabel
+        c.title = self.title
         
         return c
 

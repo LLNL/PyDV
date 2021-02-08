@@ -136,13 +136,16 @@ class Command(cmd.Cmd, object):
 
     ## state variables##
     xlabel = ''
+    xlabel_set_from_curve = True
     ylabel = ''
+    ylabel_set_from_curve = True
     bordercolor = None
     figcolor = None
     plotcolor = None
     xtickcolor = None
     ytickcolor = None
     title = ''
+    title_set_from_curve = True
     titlecolor = None
     xlabelcolor = None
     ylabelcolor = None
@@ -195,6 +198,45 @@ class Command(cmd.Cmd, object):
     namewidth = 50
     updatestyle = False
     linewidth = None
+
+    # Users wanted support for automatically loading some plot attributes. The
+    # following commands handle the situations where there are multiple plots or
+    # where the user specifies the attributes via the direct commands.
+    def set_xlabel(self, label, from_curve=False):
+        if not from_curve:
+            self.xlabel = label
+            self.xlabel_set_from_curve = from_curve if label != "" else True
+        else:
+            if self.xlabel_set_from_curve:
+                if len(self.plotlist) > 1 and label != self.xlabel:
+                    self.xlabel = ''
+                else:
+                    self.xlabel = label
+                    self.xlabel_set_from_curve = from_curve
+
+    def set_ylabel(self, label, from_curve=False):
+        if not from_curve:
+            self.ylabel = label
+            self.ylabel_set_from_curve = from_curve if label != "" else True
+        else:
+            if self.ylabel_set_from_curve:
+                if len(self.plotlist) > 1 and label != self.ylabel:
+                    self.ylabel = ''
+                else:
+                    self.ylabel = label
+                    self.ylabel_set_from_curve = from_curve
+
+    def set_title(self, title, from_curve=False):
+        if not from_curve:
+            self.title = title
+            self.title_set_from_curve = from_curve if title != "" else True
+        else:
+            if self.title_set_from_curve:
+                if len(self.plotlist) > 1 and title != self.title:
+                    self.title = ''
+                else:
+                    self.title = title
+                    self.title_set_from_curve = from_curve
 
     ##check for special character/operator commands##
     def precmd(self, line):
@@ -2726,8 +2768,7 @@ class Command(cmd.Cmd, object):
     ##set labels and titles##
     def do_xlabel(self, line):
         try:
-            self.xlabel = line
-            plt.xlabel(r'%s' % line)
+            self.set_xlabel(line)
         except:
             print('error - usage: xlabel <label-name>')
             if self.debug:
@@ -2738,8 +2779,7 @@ class Command(cmd.Cmd, object):
 
     def do_ylabel(self, line):
         try:
-            self.ylabel = line
-            plt.ylabel(r'%s' % line)
+            self.set_ylabel(line)
         except:
             print('error - usage: ylabel <label-name>')
             if self.debug:
@@ -2750,8 +2790,7 @@ class Command(cmd.Cmd, object):
 
     def do_title(self, line):
         try:
-            self.title = line
-            plt.title(r'%s' % line)
+            self.set_title(line)
         except:
             print('error - usage: title <title-name>')
             if self.debug:
@@ -3587,6 +3626,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         try:
             line = line.split()
             filename = line.pop(0)
+            # Users can specify to save the xlabel, ylabel, and title with the
+            # curves.
+            if line[0] == 'include_plot_attributes':
+                del line[0]
+                include_plot_attributes = True
+            else:
+                include_plot_attributes = False
+
             line = ' '.join(line)
             if len(line.split(':')) > 1:
                 self.do_save(filename + ' ' + pdvutil.getletterargs(line))
@@ -3599,6 +3646,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
                         f.write('#' + cur.name + '\n')
+                        if include_plot_attributes:
+                            f.write('#xlabel ' + self.xlabel + '\n')
+                            f.write('#ylabel ' + self.ylabel + '\n')
+                            f.write('#title ' + self.title + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
@@ -5619,6 +5670,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.plotlist.insert((ord(cur.plotname) - ord('A')), cur)
         else:
             self.plotlist.insert(int(cur.plotname[1:])-1, cur)
+        
+        self.set_xlabel(cur.xlabel, from_curve=True)
+        self.set_ylabel(cur.ylabel, from_curve=True)
+        self.set_title(cur.title, from_curve=True)
 
     ##return derivative of curve##
     def derivative(self, cur):

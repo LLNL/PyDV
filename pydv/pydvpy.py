@@ -130,7 +130,7 @@ def span(xmin, xmax, numpts=100):
     return c
 
 
-def makecurve(x, y, name='Curve', fname=''):
+def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
     """
     Generate a curve from two lists of numbers.
 
@@ -151,6 +151,9 @@ def makecurve(x, y, name='Curve', fname=''):
     c = curve.Curve(fname, name)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
+    c.xlabel = xlabel
+    c.ylabel = ylabel
+    c.title = title
 
     return c
 
@@ -461,6 +464,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         buildlistx = list()
         buildlisty = list()
 
+        new_curve_line = True
+
         for line in f:
             if line.strip()[:2] == '##':
                 continue
@@ -505,20 +510,32 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 else:
                     first = 0
 
-                curvename = line.strip()[1:]
-                curvename = curvename.strip()
+                if new_curve_line:
+                    curvename = line.strip()[1:]
+                    curvename = curvename.strip()
 
-                if regex is not None:
-                    if regex.search(curvename) is not None:
-                        matchcount += 1
-                        current = curve.Curve(fname, curvename)
+                    if regex is not None:
+                        if regex.search(curvename) is not None:
+                            matchcount += 1
+                            current = curve.Curve(fname, curvename)
+                        else:
+                            current = None
                     else:
-                        current = None
+                        current = curve.Curve(fname, curvename)
                 else:
-                    current = curve.Curve(fname, curvename)
+                    # Read a '#' but it is not a new curve, so it must be curve attributes.
+                    if line.strip()[1:].split()[0] == 'xlabel':
+                        current.xlabel = ' '.join(line.strip()[1:].split()[1:])
+                    if line.strip()[1:].split()[0] == 'ylabel':
+                        current.ylabel = ' '.join(line.strip()[1:].split()[1:])
+                    if line.strip()[1:].split()[0] == 'title':
+                        current.title = ' '.join(line.strip()[1:].split()[1:])
+
+                new_curve_line = False
             elif line.strip().lower() == 'end':
-                pass
+                new_curve_line = True
             else:
+                new_curve_line = True
                 if current is not None:
                     vals = line.split()
                     dim = 'x'
@@ -719,7 +736,8 @@ def readsina(fname, verbose=False):
                         curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
                             curve_set_name + ")"
                         c = makecurve(x=independent_value, y=dependent_variable_value,
-                            name=curve_name, fname=fname)
+                            name=curve_name, fname=fname, xlabel=independent_name,
+                            ylabel=dependent_variable_name, title=curve_name)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
                         curves[full_name] = c
