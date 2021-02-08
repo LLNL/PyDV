@@ -199,6 +199,9 @@ class Command(cmd.Cmd, object):
     updatestyle = False
     linewidth = None
 
+    # Users wanted support for automatically loading some plot attributes. The
+    # following commands handle the situations where there are multiple plots or
+    # where the user specifies the attributes via the direct commands.
     def set_xlabel(self, label, from_curve=False):
         if not from_curve:
             self.xlabel = label
@@ -3623,6 +3626,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         try:
             line = line.split()
             filename = line.pop(0)
+            # Users can specify to save the xlabel, ylabel, and title with the
+            # curves.
             if line[0] == 'include_plot_attributes':
                 del line[0]
                 include_plot_attributes = True
