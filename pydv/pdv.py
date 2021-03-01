@@ -2830,12 +2830,12 @@ class Command(cmd.Cmd, object):
                     except:
                         raise Exception('Invalid argument: %s' % key)
         except:
-            print('error - usage: legend [on | off] [<position>] [<number of columns>]')
+            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide cure ids>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_legend(self):
-        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n')
+        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]\n   Shortcuts: leg, key\n')
 
 
     ## adjust the width of the label column in 'menu' and 'lst' commands
