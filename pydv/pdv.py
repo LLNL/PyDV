@@ -2805,6 +2805,8 @@ class Command(cmd.Cmd, object):
             locs = {'best': 0, 'ur': 1, 'ul': 2, 'll': 3, 'lr': 4, 'cl': 6, 'cr': 7, 'lc': 8, 'uc': 9, 'c': 10}
             line = line.strip().split()
 
+            # TODO: using the plot letters will conflic with the locations, especially when we use
+            # 'c'. We need to use somethinge smarter than the for loop over the range.
             for i in range(len(line)):
                 key = line[i].lower()
 
@@ -2814,6 +2816,12 @@ class Command(cmd.Cmd, object):
                     self.showkey = True
                 elif key == 'off':
                     self.showkey = False
+                elif key == 'hide':
+                    curve = self.plotlist[pdvutil.getCurveIndex(line[i+1], self.plotlist)]
+                    curve.legend_show = False
+                elif key == 'show':
+                    curve = self.plotlist[pdvutil.getCurveIndex(line[i+1], self.plotlist)]
+                    curve.legend_show = True
                 else:
                     try:
                         self.key_ncol = int(key)
@@ -6357,7 +6365,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         plt.setp(c, lw=self.linewidth)
                         plt.setp(c, mew=self.linewidth)
 
-                    plt.setp(c, label=cur.name)
+                    if cur.legend_show:
+                        plt.setp(c, label=cur.name)
 
                     if cur.dashes is not None:
                         c[0].set_dashes(cur.dashes)
