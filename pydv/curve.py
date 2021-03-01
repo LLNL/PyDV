@@ -90,6 +90,7 @@ class Curve(object):
     xlabel = ''
     ylabel = ''
     title = ''
+    legend_show = True
     
     def __init__(self, filename='', name=''):
         self.filename = filename

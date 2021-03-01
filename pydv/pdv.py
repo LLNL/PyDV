@@ -2814,18 +2814,28 @@ class Command(cmd.Cmd, object):
                     self.showkey = True
                 elif key == 'off':
                     self.showkey = False
+                elif key in ['hide', 'show']:
+                    if line[i+1] == 'all': # show/hide all curves
+                        for curve in self.plotlist:
+                            curve.legend_show = False if key == 'hide' else True
+                    else:
+                        ids = [line[j] for j in range(i+1, len(line))]
+                        for curve_id in ids:
+                            curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
+                            curve.legend_show = False if key == 'hide' else True
+                        break
                 else:
                     try:
                         self.key_ncol = int(key)
                     except:
                         raise Exception('Invalid argument: %s' % key)
         except:
-            print('error - usage: legend [on | off] [<position>] [<number of columns>]')
+            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide cure ids>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_legend(self):
-        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>]\n   Shortcuts: leg, key\n')
+        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]\n   Shortcuts: leg, key\n')
 
 
     ## adjust the width of the label column in 'menu' and 'lst' commands
@@ -6357,7 +6367,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         plt.setp(c, lw=self.linewidth)
                         plt.setp(c, mew=self.linewidth)
 
-                    plt.setp(c, label=cur.name)
+                    if cur.legend_show:
+                        plt.setp(c, label=cur.name)
 
                     if cur.dashes is not None:
                         c[0].set_dashes(cur.dashes)

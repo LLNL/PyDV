@@ -231,11 +231,15 @@ Use LaTeX font rendering if True
 legend
 ------
 
-Show/Hide the legend with on | off or set legend position with ur, ul, ll, lr, cl, cr, uc, lc. **Shortcuts: leg, key**
+Show/Hide the legend with on | off or set legend position with ur, ul, ll, lr, cl, cr, uc, lc.
+Specify the number of columns to use in the legend.
+Specify curves to add to or remove from the legend using the `hide` or `show` keywords followed by the ids of the curves.
+Note: Commands after `hide`/`show` will not be processed, so make sure these are the last in the command list.
+**Shortcuts: leg, key**
 
 .. code::
 
-   [PyDV]: legend <on | off> [position]
+   [PyDV]: legend <on | off> [position] [<number of columns>] [<show/hide curve ids]
 
 lnstyle
 -------
