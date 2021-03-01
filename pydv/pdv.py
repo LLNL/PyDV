@@ -2805,8 +2805,6 @@ class Command(cmd.Cmd, object):
             locs = {'best': 0, 'ur': 1, 'ul': 2, 'll': 3, 'lr': 4, 'cl': 6, 'cr': 7, 'lc': 8, 'uc': 9, 'c': 10}
             line = line.strip().split()
 
-            # TODO: using the plot letters will conflic with the locations, especially when we use
-            # 'c'. We need to use somethinge smarter than the for loop over the range.
             for i in range(len(line)):
                 key = line[i].lower()
 
@@ -2816,12 +2814,16 @@ class Command(cmd.Cmd, object):
                     self.showkey = True
                 elif key == 'off':
                     self.showkey = False
-                elif key == 'hide':
-                    curve = self.plotlist[pdvutil.getCurveIndex(line[i+1], self.plotlist)]
-                    curve.legend_show = False
-                elif key == 'show':
-                    curve = self.plotlist[pdvutil.getCurveIndex(line[i+1], self.plotlist)]
-                    curve.legend_show = True
+                elif key in ['hide', 'show']:
+                    if line[i+1] == 'all': # show/hide all curves
+                        for curve in self.plotlist:
+                            curve.legend_show = False if key == 'hide' else True
+                    else:
+                        ids = [line[j] for j in range(i+1, len(line))]
+                        for curve_id in ids:
+                            curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
+                            curve.legend_show = False if key == 'hide' else True
+                        break
                 else:
                     try:
                         self.key_ncol = int(key)
