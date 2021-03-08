@@ -435,7 +435,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     :param matches: optional, maximum number of times to match pattern, if specified
     :type matches: int
     :returns: list -- the list of curves from the file matching pattern, if specified
-
+    
     """
     curvelist = list()
     regex = None
@@ -463,8 +463,6 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         first = 1
         buildlistx = list()
         buildlisty = list()
-
-        new_curve_line = True
 
         for line in f:
             if line.strip()[:2] == '##':
@@ -510,32 +508,20 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 else:
                     first = 0
 
-                if new_curve_line:
-                    curvename = line.strip()[1:]
-                    curvename = curvename.strip()
+                curvename = line.strip()[1:]
+                curvename = curvename.strip()
 
-                    if regex is not None:
-                        if regex.search(curvename) is not None:
-                            matchcount += 1
-                            current = curve.Curve(fname, curvename)
-                        else:
-                            current = None
-                    else:
+                if regex is not None:
+                    if regex.search(curvename) is not None:
+                        matchcount += 1
                         current = curve.Curve(fname, curvename)
+                    else:
+                        current = None
                 else:
-                    # Read a '#' but it is not a new curve, so it must be curve attributes.
-                    if line.strip()[1:].split()[0] == 'xlabel':
-                        current.xlabel = ' '.join(line.strip()[1:].split()[1:])
-                    if line.strip()[1:].split()[0] == 'ylabel':
-                        current.ylabel = ' '.join(line.strip()[1:].split()[1:])
-                    if line.strip()[1:].split()[0] == 'title':
-                        current.title = ' '.join(line.strip()[1:].split()[1:])
-
-                new_curve_line = False
+                    current = curve.Curve(fname, curvename)
             elif line.strip().lower() == 'end':
-                new_curve_line = True
+                pass
             else:
-                new_curve_line = True
                 if current is not None:
                     vals = line.split()
                     dim = 'x'
