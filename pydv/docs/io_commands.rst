@@ -56,11 +56,10 @@ save
 ----
 
 Saves curves to a file in text format.
-PyDV can associate xlabel, ylabel, and title plot attributes with the curves in `curve-list` by specifying the `include_plot_attributes` option.
 
 .. code::
 
-   [PyDV]: save [<include_plot_attributes>] <filename> <curve-list>
+   [PyDV]: save <filename> <curve-list>
 
 savecsv
 -------
