@@ -8,4 +8,3 @@ Enhancements
 
 * Ability to read Sina curve sets.
 * Ability to specify which curves will appear in the legend.
-* Labels and titles associated with saved curves and plotted automatically.
