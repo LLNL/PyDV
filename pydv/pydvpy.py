@@ -572,7 +572,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         if verbose:
             traceback.print_exc(file=sys.stdout)
     except ValueError:
-        print('invalid ultra file: ' + fname)
+        print('invalid pydv file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -680,7 +680,7 @@ def readcsv(fname, xcol=0, verbose=False):
     # anticipate failure!
     except ValueError as e:
         print(e.message)
-        print('readcsv: invalid ultra file: ' + fname)
+        print('readcsv: invalid pydv file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -4032,7 +4032,7 @@ def __loadcolumns(fname, xcol):
         traceback.print_exc(file=sys.stdout)
         print('could not load file: ' + fname)
     except ValueError:
-        print('invalid ultra file: ' + fname)
+        print('invalid pydv file: ' + fname)
 
     return curvelist
 
@@ -4056,6 +4056,6 @@ def __loadpdb(fname, fpdb):
     except IOError:
         print('could not load file: ' + fname)
     except ValueError:
-        print('invalid ultra file: ' + fname)
+        print('invalid pydv file: ' + fname)
 
     return curvelist
