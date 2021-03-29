@@ -16,7 +16,7 @@ matplotlib==3.1.1
 numpy==1.17.2
 packaging==19.2
 pycparser==2.19
-Pygments==2.5.2
+Pygments==2.7.4
 pyOpenSSL==19.1.0
 pyparsing==2.4.2
 PySocks==1.7.1
