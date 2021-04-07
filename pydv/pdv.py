@@ -6283,7 +6283,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.showgrid:
                 if plt.xlim is not None and plt.ylim is not None:
                     if((plt.xlim()[0]*100 > plt.xlim()[1] and xls) or (plt.ylim()[0]*100 > plt.ylim()[1] and yls)):
-                        plt.grid(True, which='majorminor', color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
+                        plt.grid(True, which='both', color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
                     else:
                         plt.grid(True, color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
                 else:
