@@ -1,0 +1,8 @@
+rd testData.txt
+rd 0 testData.gnu
+debug on
+debug off
+debug on
+menu
+cur 1 2
+image output/image1 png
