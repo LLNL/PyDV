@@ -4,85 +4,85 @@ debug off
 debug on
 menu
 cur 1 2
-image output/test_image_## png
+image output/test_image_01 png
 
 legend off
-image output/test_image_## png
+image output/test_image_02 png
 
 erase
-image output/test_image_## png
+image output/test_image_03 png
 
 cur 1 2
 L1 a b 
-image output/test_image_## png
+image output/test_image_04 png
 
 L2 a b  3.0 5.5
-image output/test_image_## png
+image output/test_image_05 png
 
 del c d
-image output/test_image_## png
+image output/test_image_06 png
 
 color a blue
-image output/test_image_## png
+image output/test_image_07 png
 
 color a red
-image output/test_image_## png
+image output/test_image_08 png
 
 add a b
-image output/test_image_## png
+image output/test_image_09 png
 
 annot FOO 3 7
-image output/test_image_## png
+image output/test_image_10 png
 
 convolve a b
-image output/test_image_## png
+image output/test_image_11 png
 
 del d
 copy a
-image output/test_image_## png
+image output/test_image_12 png
 
 cos a
-image output/test_image_## png
+image output/test_image_13 png
 
 del d
 dashstyle b [2, 2, 4, 2]
-image output/test_image_## png
+image output/test_image_14 png
 
 dataid off
-image output/test_image_## png
+image output/test_image_15 png
 
 dataid on
 delannot 1
-image output/test_image_## png
+image output/test_image_16 png
 
 derivative a
-image output/test_image_## png
+image output/test_image_17 png
 
 del d
 dy b 2.5
 dx b 3
-image output/test_image_## png
+image output/test_image_18 png
 
 dx b -3
 divide c a
-image output/test_image_## png
+image output/test_image_19 png
 
 del d
 divx c 2
 divy c 2
-image output/test_image_## png
+image output/test_image_20 png
 
 dom 0 10
-image output/test_image_## png
+image output/test_image_21 png
 
 dom de
-image output/test_image_## png
+image output/test_image_22 png
 
 exp a
-image output/test_image_## png
+image output/test_image_23 png
 
 log a
-image output/test_image_## png
+image output/test_image_24 png
 
 getdomain a b
 # Just text output
@@ -91,16 +91,16 @@ getrange a b
 # Just text output
 
 grid off
-image output/test_image_## png
+image output/test_image_25 png
 
 grid on
 integrate a
-image output/test_image_## png
+image output/test_image_26 png
 
 del d
 linespoints a on
 marker a . 20
-image output/test_image_## png
+image output/test_image_27 png
 
 getx a 0
 # text output
@@ -109,87 +109,87 @@ gety a 2.0
 # Text output
 
 lnwidth b 10
-image output/test_image_## png
+image output/test_image_28 png
 
 lnwidth b 3
 makecurve (1 2 3) (5 2 3)
-image output/test_image_## png
+image output/test_image_29 png
 
 del d
 mx c 2
-image output/test_image_## png
+image output/test_image_30 png
 
 my a 3
-image output/test_image_## png
+image output/test_image_31 png
 
 recip a
-image output/test_image_## png
+image output/test_image_32 png
 
 scatter b on
-image output/test_image_## png
+image output/test_image_33 png
 
 scatter b off
 cos b
-image output/test_image_## png
+image output/test_image_34 png
 
 acos b
-image output/test_image_## png
+image output/test_image_35 png
 
 cosh b
-image output/test_image_## png
+image output/test_image_36 png
 
 acosh b
-image output/test_image_## png
+image output/test_image_37 png
 
 sin c
-image output/test_image_## png
+image output/test_image_38 png
 
 asin c
-image output/test_image_## png
+image output/test_image_39 png
 
 sinh c
-image output/test_image_## png
+image output/test_image_40 png
 
 asinh c
-image output/test_image_## png
+image output/test_image_41 png
 
 sqr b
-image output/test_ismage_## png
+image output/test_image_42 png
 
 sqrt b
-image output/test_image_## png
+image output/test_image_43 png
 
 sqrx b
-image output/test_image_## png
+image output/test_image_44 png
 
 sqrtx b
-image output/test_image_## png
+image output/test_image_45 png
 
 tan a
-image output/test_image_## png
+image output/test_image_46 png
 
 atan a
-image output/test_image_## png
+image output/test_image_47 png
 
 tanh a
-image output/test_image_## png
+image output/test_image_48 png
 
 atanh a
-image output/test_image_## png
+image output/test_image_49 png
 
 a - b
-image output/test_image_## png
+image output/test_image_50 png
 
 del d
 b ** 2
-image output/test_image_## png
+image output/test_image_51 png
 
 c / b
-image output/test_image_## png
+image output/test_image_52 png
 
 smooth d
-image output/test_image_## png
+image output/test_image_53 png
 
 dy d -3
 abs d
-image output/test_image_## png
+image output/test_image_54 png
