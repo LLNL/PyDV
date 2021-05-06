@@ -1,6 +1,113 @@
 
+import os
+import shutil
+import subprocess
+
 from matplotlib import image
 from numpy import testing as np
+
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+PYDV_DIR = os.path.dirname(TEST_DIR)
+
+# The output directory will store the generated images to compare against the baseline
+output_dir = os.path.join(TEST_DIR, 'output')
+if os.path.exists(output_dir):
+    shutil.rmtree(output_dir)
+os.makedirs(output_dir)
+
+# Generate a list of commands for PyDV to process. Between each command, we will
+# place an "image" statement, which will cause PyDV to save the current state of
+# the plot.
+commands = [
+f"""rd {os.path.join(TEST_DIR, "testData.txt")}
+cur 1 2""",
+"legend off",
+"erase",
+"""cur 1 2
+L1 a b""",
+"L2 a b  3.0 5.5",
+"del c d",
+"color a blue",
+"color a red",
+"add a b",
+"annot FOO 3 7",
+"convolve a b",
+"""del d
+copy a""",
+"cos a",
+"""del d
+dashstyle b [2, 2, 4, 2]""",
+"dataid off",
+"""dataid on
+delannot 1""",
+"derivative a",
+"""del d
+dy b 2.5
+dx b 3""",
+"""dx b -3
+divide c a""",
+"""del d
+divx c 2
+divy c 2""",
+"dom 0 10",
+"dom de",
+"exp a",
+"log a",
+"grid off",
+"""grid on
+integrate a""",
+"""del d
+linespoints a on
+marker a . 20""",
+"lnwidth b 10",
+"""lnwidth b 3
+makecurve (1 2 3) (5 2 3)""",
+"""del d
+mx c 2""",
+"my a 3",
+"recip a",
+"scatter b on",
+"""scatter b off
+cos b""",
+"acos b",
+"cosh b",
+"acosh b",
+"sin c",
+"asin c",
+"sinh c",
+"asinh c",
+"sqr b",
+"sqrt b",
+"sqrx b",
+"sqrtx b",
+"tan a",
+"atan a",
+"tanh a",
+"atanh a",
+"a - b",
+"""del d
+b ** 2""",
+"c / b",
+"smooth d",
+"""dy d -3
+abs d"""
+]
+commands_file = os.path.join(output_dir, 'pydv_commands')
+with open(commands_file, 'w') as fp:
+    for i, command in enumerate(commands):
+        image_file = os.path.join(output_dir, f"test_image{i+1:02d}")
+        fp.write(command)
+        fp.write(f"\nimage {image_file} png\n\n")
+    fp.write("\nquit")
+
+exec_command = f"{os.path.join(PYDV_DIR, 'pydv', 'pdv')} -i {os.path.join(TEST_DIR, 'pydvTestCmds')}"
+print(exec_command)
+
+# process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
+# output, error = process.communicate()
+# print(output)
+# print(error)
+
 
 def test_image_01():
     baseline = image.imread('baseline/test_image_01.png')
