@@ -110,6 +110,8 @@ exec_command = f"{os.path.join(PYDV_DIR, 'pydv', 'pdv')} -i {commands_file}"
 process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
 output, error = process.communicate()
 
+def test_no_error():
+    assert error is None
 
 
 # ----------------- #
