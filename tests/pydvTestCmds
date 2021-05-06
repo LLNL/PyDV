@@ -84,12 +84,6 @@ image output/test_image_23 png
 log a
 image output/test_image_24 png
 
-getdomain a b
-# Just text output
-
-getrange a b
-# Just text output
-
 grid off
 image output/test_image_25 png
 
@@ -101,12 +95,6 @@ del d
 linespoints a on
 marker a . 20
 image output/test_image_27 png
-
-getx a 0
-# text output
-
-gety a 2.0
-# Text output
 
 lnwidth b 10
 image output/test_image_28 png
@@ -193,3 +181,5 @@ image output/test_image_53 png
 dy d -3
 abs d
 image output/test_image_54 png
+
+quit
