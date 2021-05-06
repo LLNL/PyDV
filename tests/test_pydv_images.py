@@ -111,6 +111,9 @@ def test_execute():
     process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
+    assert os.path.isfile(os.path.join(output_dir, 'pydv_commands'))
+    assert os.path.isfile(os.path.join(output_dir, 'test_image_01.png'))
+
 
 # ----------------- #
 # --- Run tests --- #
