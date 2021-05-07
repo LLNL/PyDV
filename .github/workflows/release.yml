@@ -4,7 +4,6 @@ name: Release
 on:
   push:
     branches: [ master, pydv-230-script-for-tag-and-prerelease ]
-    tags: *
 
 jobs:
   build:
