@@ -1,0 +1,19 @@
+
+name: Release
+
+on:
+  push:
+    branches: [ master, pydv-230-script-for-tag-and-prerelease ]
+    tags: *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Create a Release
+      uses: elgohr/Github-Release-Action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        args: MyReleaseMessage
