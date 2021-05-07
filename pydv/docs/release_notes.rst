@@ -3,8 +3,8 @@
 Release Notes
 =============
 
-Release Notes For PyDV 3.0.4
-----------------------------
+3.0.4
+-----
 
 * Changed "ultra" to "pydv" in error messages.
 * Changed "majorminor" to "both" in grid argument.
@@ -12,8 +12,8 @@ Release Notes For PyDV 3.0.4
 
 
 
-Release Notes For PyDV 3.0.3
-----------------------------
+3.0.3
+-----
 
 Enhancements
 ~~~~~~~~~~~~
@@ -23,8 +23,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 3.0.2
-----------------------------
+3.0.2
+-----
 
 Bug Fixes
 ~~~~~~~~~
@@ -42,8 +42,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 3.0.1
-----------------------------
+3.0.1
+-----
 
 Bug Fixes
 ~~~~~~~~~
@@ -67,15 +67,15 @@ Changes for PyDV Developers
 
 
 
-Release Notes For PyDV 3.0
---------------------------
+3.0
+---
 
 Python 3 port with bug fixes and a lot of minor code refactoring.
 
 
 
-Release Notes For PyDV 2.4.3
-----------------------------
+2.4.3
+-----
 
 Bug Fixes
 ~~~~~~~~~
@@ -105,8 +105,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 2.4.2
-----------------------------
+2.4.2
+-----
 
 Bug Fixes
 ~~~~~~~~~
@@ -130,8 +130,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 2.4
---------------------------
+2.4
+---
 
 Bug Fixes
 ~~~~~~~~~
@@ -166,8 +166,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 2.3
---------------------------
+2.3
+---
 
 Bug Fixes
 ~~~~~~~~~
@@ -189,8 +189,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 2.2
---------------------------
+2.2
+---
 
 Bug Fixes
 ~~~~~~~~~
@@ -212,8 +212,8 @@ Enhancements
 
 
 
-Release Notes For PyDV 2.1
---------------------------
+2.1
+---
 
 Bug Fixes
 ~~~~~~~~~
@@ -242,8 +242,8 @@ Changes for PyDV Developers
 
 
 
-Release Notes For PyDV 2.0
---------------------------
+2.0
+---
 
 Bug Fixes
 ~~~~~~~~~
