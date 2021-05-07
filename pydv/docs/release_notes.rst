@@ -1,7 +1,10 @@
 .. _release_notes:
 
+Release Notes
+=============
+
 Release Notes For PyDV 3.0.4
-============================
+----------------------------
 
 * Changed "ultra" to "pydv" in error messages.
 * Changed "majorminor" to "both" in grid argument.
@@ -10,10 +13,10 @@ Release Notes For PyDV 3.0.4
 
 
 Release Notes For PyDV 3.0.3
-============================
+----------------------------
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Ability to read Sina curve sets.
 * Ability to specify which curves will appear in the legend.
@@ -21,15 +24,15 @@ Enhancements
 
 
 Release Notes For PyDV 3.0.2
-============================
+----------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Zoom settings from the User Interface are now persisted throughout the application.
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Allow simple math operations on curves that have been read in but not yet plotted.
 * Enhanced the **image** command to allow the user to define the image resolution and transparency.
@@ -40,16 +43,16 @@ Enhancements
 
 
 Release Notes For PyDV 3.0.1
-============================
+----------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Fixed the @ symbol range bug
 * Fixed guilims command
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Added **labelcurve** command that allows users to add curve letter to the legend label
 * Enhanced the **divide**, **multiply**, **add**, and **subtract** commands to support dividing by a real number
@@ -58,35 +61,35 @@ Enhancements
 * Updated the link in the **About** dialog popup
 
 Changes for PyDV Developers
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Moved repository to the LLNL Github organization
 
 
 
 Release Notes For PyDV 3.0
-==========================
+--------------------------
 
 Python 3 port with bug fixes and a lot of minor code refactoring.
 
 
 
 Release Notes For PyDV 2.4.3
-============================
+----------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Fixed the piece-wise constant integration bug  
 * Fit command bug fixed
 * Added Doug Miller's fix for retrieving a curve by label
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Added the minorticks command. Minor ticks can now be made visible. 
-* Added the xtickcolor command to change the color of major and minor ticks on the x-axis
-* Added the ytickcolor command to change the color of major and minor ticks on the y-axis
+* Added the xtickcolor command to change the color of major and minor ticks on the x~axis
+* Added the ytickcolor command to change the color of major and minor ticks on the y~axis
 * Updated the xticklength command to support minor ticks
 * Updated the xtickwidth command to support minor ticks 
 * Updated the yticklength command to support minor ticks
@@ -103,10 +106,10 @@ Enhancements
 
 
 Release Notes For PyDV 2.4.2
-============================
+----------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Fixed the FFT command to produce two curves for the complex and imaginary part like Ultra 
 * Corrected the 'off by one' index error for curves named with the '@' symbol
@@ -114,7 +117,7 @@ Bug Fixes
 * errorbar command works now
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Implemented the convol, convolb, and convolc commands like their Ultra equivalent 
 * Added the intensize and extensive commands
@@ -128,10 +131,10 @@ Enhancements
 
 
 Release Notes For PyDV 2.4
-==========================
+--------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Display updates correctly after running a batch file
 * Draw style command can now draw all of the step options (pre, post, mid)
@@ -141,20 +144,20 @@ Bug Fixes
 * Fixed a bug in the subsample command. Also, enhanced it so the user needs to specify a curve(s)
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Added the dupx command
 * Added the xindex command
-* Added the append-curves command
+* Added the append~curves command
 * Added the average command
 * Added the max command
 * Added the min command
-* Added the get-attributes command
+* Added the get~attributes command
 * Added the stats command
 * Removed unused 'Plot Name' column in the Menu dialog
 * Piecewise constant plots are now supported
 * The font size and font color can be changed only for the legend
-* The getx and gety command now returns all the x- and y-values for a given y- or x-value respectively
+* The getx and gety command now returns all the x~ and y~values for a given y~ or x~value respectively
 * The .pdvrc file supports more default values (fontsize, lnwidth)
 * Improved the syntax of the legend command
 * Added the bkgcolor command that allows the use to change the background color of the plot, window, or both
@@ -164,16 +167,16 @@ Enhancements
 
 
 Release Notes For PyDV 2.3
-==========================
+--------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Fixed the **getx** and **gety** commands to work with horizontal/vertical lines. 
 * Fixed the sign issue with subtracting curves.
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Added window to display the contents of the **list** command. You can also delete curves from this window.
 * Allow figure size specification in **create_plot**.
@@ -187,20 +190,20 @@ Enhancements
 
 
 Release Notes For PyDV 2.2
-==========================
+--------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Fixed the interpolation function for two curves
 * Got alias command working again by adding back the removed import new line
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Added convolvef math command that performs a convolution of two curves using the Fast Fourier transform method
 * Added Fast Fourier Transform math command
-* Added disp and dispx commands for displaying the curves y- and x-values
+* Added disp and dispx commands for displaying the curves y~ and x~values
 * Enhanced the read command to optionally use a regular expression to filter the curves that are read in
 * Created a method in the PyDV Python interface to filter curves using a regular expression
 * Added handlelength command to control the length of lines in the legend
@@ -210,17 +213,17 @@ Enhancements
 
 
 Release Notes For PyDV 2.1
-==========================
+--------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Addition operator dropping down into the Python interpreter after execution
 * Error when reading ULTRA files with an extra data item
 * Geometry command not working
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Changing plot properties from the GUI are now persistent
 * Added fontcolor command
@@ -232,7 +235,7 @@ Enhancements
 
 
 Changes for PyDV Developers
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Created compile and test scripts
 * Integrated compile and test scripts with Bamboo
@@ -240,16 +243,16 @@ Changes for PyDV Developers
 
 
 Release Notes For PyDV 2.0
-==========================
+--------------------------
 
 Bug Fixes
----------
+~~~~~~~~~
 
 * Plot limits auto adjust fixed
 * Cleaned up a lot of typos and errors in the help documentation
 
 Enhancements
-------------
+~~~~~~~~~~~~
 
 * Legend can be moved by clicking on it and dragging with the mouse
 * Added style command that allows user to change the style of the plot
@@ -263,7 +266,7 @@ Enhancements
 
 
 Changes for PyDV Developers
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Setup a documentation framework with SPHINX
 * Added an application icon
