@@ -15,13 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - name: Export version number
-        run: export release_version=$(cat pydv/scripts/version.txt)
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          release_version: $(cat pydv/scripts/version.txt)
         with:
           tag_name: ${{release_version}}
           release_name: ${{release_version}}
