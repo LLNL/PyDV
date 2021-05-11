@@ -1,0 +1,44 @@
+
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+  # push:
+  #   branches: [ master, pydv-230-script-for-tag-and-prerelease ]
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
+
+# # only trigger on pull request closed events
+# on:
+#   pull_request:
+#     types: [ closed ]
+
+# jobs:
+#   merge_job:
+#     # this job will only run if the PR has been merged
+#     if: github.event.pull_request.merged == true
+#     runs-on: ubuntu-latest
+#     steps:
+#     - run: |
+#         echo PR #${{ github.event.number }} has been merged
