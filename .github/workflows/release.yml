@@ -1,12 +1,9 @@
 
 name: Release
 
-on: push
-# on:
-#   push:
-#     branches: [ master ]
-#   # push:
-#   #   branches: [ master, pydv-230-script-for-tag-and-prerelease ]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   build:
