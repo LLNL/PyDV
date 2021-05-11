@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
       - name: Export version number
-        run: export release_version=$(cat scripts/version.txt)
+        run: export release_version=$(cat pydv/scripts/version.txt)
       # - name: Create Release
       #   id: create_release
       #   uses: actions/create-release@v1
