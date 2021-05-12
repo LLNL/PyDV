@@ -49,9 +49,6 @@ with fileinput.FileInput(os.path.join(SOURCE_DIR, 'docs', 'conf.py'), inplace=Tr
     for line in fp:
         print(line.replace(f'{version_list[0]}.{version_list[1]}', f'{major}.{minor}'), end='')
 
-# TODO: Add section on Release notes for PyDV new_version to the release notes
-# file
-
 # Replace the date
 with open(os.path.join(SCRIPTS_DIR, 'date.txt')) as fp:
     old_date = fp.read()
