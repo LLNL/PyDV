@@ -10,6 +10,7 @@ Resolves # <!--(*If this PR is unrelated to a ticket, please erase this line*)--
 
 - [ ] I have added/updated an image test.
 - [ ] I have run the image tests on RZ and they pass.
+- [ ] I have run the WSC tests on RZ and they pass.
 - [ ] I have made corresponding changes to the documentation.
 - [ ] I have build the docs on sphinx and they look correct.
 - [ ] I have updated the release notes.
