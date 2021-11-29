@@ -5893,11 +5893,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     elif (flag == 'exp'):
                         if (do_x == 0):
                             cur.y = numpy.exp(cur.y)
-                            cur.name = 'exp(' + cur.name + ')'
+                            if cur.name[:3] == 'log':
+                                # Pop off the log( from the front and the ) from the back
+                                cur.name = cur.name[4:-1]
+                            else:
+                                cur.name = 'exp(' + cur.name + ')'
                             cur.edited = True
                         else:
                             cur.x = numpy.exp(cur.x)
-                            cur.name = 'expx(' + cur.name + ')'
+                            if cur.name[:4] == 'logx':
+                                # Pop off the logx( from the front and the ) from the back
+                                cur.name = cur.name[5:-1]
+                            else:
+                                cur.name = 'expx(' + cur.name + ')'
                             cur.edited = True
                     elif(flag == 'sin'):
                         if (do_x == 0):
