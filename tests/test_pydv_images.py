@@ -95,7 +95,17 @@ b ** 2""",
 "c / b",
 "smooth d",
 """dy d -3
-abs d"""
+abs d""",
+"""erase
+legend on""",
+"gaussian 1 1 5",
+"exp A",
+"log A",
+"expx A",
+"logx A",
+"""exp A
+sin A
+log A"""
 ]
 commands_file = os.path.join(output_dir, 'pydv_commands')
 with open(commands_file, 'w') as fp:
