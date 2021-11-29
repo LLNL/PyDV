@@ -97,8 +97,8 @@ b ** 2""",
 """dy d -3
 abs d""",
 """erase
-legend on""",
-"gaussian 1 1 5",
+legend on
+gaussian 1 1 5""",
 "exp A",
 "log A",
 "expx A",
@@ -126,9 +126,9 @@ output, error = process.communicate()
 # --- Run tests --- #
 # ----------------- #
 
-# Helper text to generate the below tests for pytest
+# # Helper text to generate the below tests for pytest
 # with open('delete_me.txt', 'w') as fp:
-#     for i in range(54):
+#     for i in range(60):
 #         filename = f"test_image_{i+1:02d}.png"
 #         statement=f"""
 # def test_image_{i+1:02d}():
@@ -407,4 +407,34 @@ def test_image_53():
 def test_image_54():
     baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_54.png'))
     output = image.imread(os.path.join(output_dir, 'test_image_54.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_55():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_55.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_55.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_56():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_56.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_56.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_57():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_57.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_57.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_58():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_58.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_58.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_59():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_59.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_59.png'))
+    np.assert_equal(baseline, output)
+
+def test_image_60():
+    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_60.png'))
+    output = image.imread(os.path.join(output_dir, 'test_image_60.png'))
     np.assert_equal(baseline, output)
