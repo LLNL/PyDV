@@ -5893,11 +5893,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     elif (flag == 'exp'):
                         if (do_x == 0):
                             cur.y = numpy.exp(cur.y)
-                            cur.name = 'exp(' + cur.name + ')'
+                            if cur.name[:3] == 'log':
+                                # Pop off the log( from the front and the ) from the back
+                                cur.name = cur.name[4:-1]
+                            else:
+                                cur.name = 'exp(' + cur.name + ')'
                             cur.edited = True
                         else:
                             cur.x = numpy.exp(cur.x)
-                            cur.name = 'expx(' + cur.name + ')'
+                            if cur.name[:4] == 'logx':
+                                # Pop off the logx( from the front and the ) from the back
+                                cur.name = cur.name[5:-1]
+                            else:
+                                cur.name = 'expx(' + cur.name + ')'
                             cur.edited = True
                     elif(flag == 'sin'):
                         if (do_x == 0):
@@ -6562,7 +6570,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.4  -  04.07.2021\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.5  -  11.29.2021\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

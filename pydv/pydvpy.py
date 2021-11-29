@@ -1785,6 +1785,10 @@ def log(curvelist, keep=True):
                 c.x = np.delete(c.x, skiplist)
 
         c.y = np.log(c.y)
+        if c.name[:3] == 'exp':
+            c.name = c.name[4:-1] # Pop off the exp( from the front and the ) from the back
+        else:
+            c.name = 'log(' + c.name + ')'
 
 def logx(curvelist, keep=True):
     """
@@ -1817,6 +1821,10 @@ def logx(curvelist, keep=True):
                 c.x = np.delete(c.x, skiplist)
 
         c.x = np.log(c.x)
+        if c.name[:4] == 'expx':
+            c.name = c.name[5:-1] # Pop off the expx( from the front and the ) from the back
+        else:
+            c.name = 'logx(' + c.name + ')'
 
 def log10(curvelist, keep=True):
     """
@@ -1849,6 +1857,7 @@ def log10(curvelist, keep=True):
                 c.x = np.delete(c.x, skiplist)
 
         c.y = np.log10(c.y)
+        c.name = 'log10(' + c.name + ')'
 
 
 def log10x(curvelist, keep=True):
@@ -1882,6 +1891,7 @@ def log10x(curvelist, keep=True):
                 c.x = np.delete(c.x, skiplist)
 
         c.x = np.log10(c.x)
+        c.name = 'log10x(' + c.name + ')'
 
 
 def exp(curvelist):

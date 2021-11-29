@@ -3,6 +3,13 @@
 Release Notes
 =============
 
+3.0.5
+-----
+* log{, x, 10, 10x} commands update the legend
+* log{, x} and exp{, x} cancel each other in the legend
+
+
+
 3.0.4
 -----
 
