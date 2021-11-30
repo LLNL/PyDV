@@ -5604,34 +5604,40 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def do_subsample(self, line):
         if not line:
             return 0
+        if len(line.split(':')) > 1:
+            self.do_subsample(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            line = line.split()
 
-        try:
-            if len(line.split(':')) > 1:
-                self.do_subsample(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
+            try:
+                stride = int(line[-1])
+                line.pop(-1)
+            except:
+                stride = 2
+            curvelist = list()
 
+            for i in range(len(line)):
                 try:
-                    stride = int(line[-1])
-                    line.pop(-1)
-                except:
-                    stride = 2
-
-                curvelist = list()
-                for i in range(len(line)):
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curvelist.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                if len(curvelist) > 0:
-                    print("\nSubsampling the data by stride %i...\n" % stride)
-                    pydvif.subsample(curvelist, stride, True)
+            if len(curvelist) > 0:
+                print("\nSubsampling the data by stride %i...\n" % stride)
+                pydvif.subsample(curvelist, stride, True)
 
-                self.plotedit = True
-        except:
+            self.plotedit = True
+
+        if print_error:
             print('error - usage: subsample <curve-list> [stride]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_subsample(self):
         print('\n    Procedure: Subsample the curves by the optional stride. The default value for stride is 2.'
               '\n    Usage: subsample <curve-list> [stride]')
