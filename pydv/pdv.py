@@ -1193,13 +1193,16 @@ class Command(cmd.Cmd, object):
             try:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    yval = numpy.array(cur.y)
-                    mean = (sum(yval) / len(yval))
-                    ystd = numpy.std(yval, ddof=1)
-                    print('\nCurve ' + cur.plotname)
-                    print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        yval = numpy.array(cur.y)
+                        mean = (sum(yval) / len(yval))
+                        ystd = numpy.std(yval, ddof=1)
+                        print('\nCurve ' + cur.plotname)
+                        print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 print('\n')
             except:
