@@ -5143,24 +5143,31 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##Duplicate the x-values such that y = x for each of the given curves##
     def do_dupx(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_dupx(pdvutil.getletterargs(line))
-                return 0
-            else:
-                curves = list()
-                line = line.split()
+        if len(line.split(':')) > 1:
+            self.do_dupx(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            curves = list()
+            line = line.split()
 
-                for i in range(len(line)):
+            for i in range(len(line)):
+                try:
                     plotidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[plotidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                if len(curves) > 0:
-                    pydvif.dupx(curves)
-        except:
-            print('error - usage: dupx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            if print_error:
+                print('error - usage: dupx <curve-list>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
+            if len(curves) > 0:
+                pydvif.dupx(curves)
+
     def help_dupx(self):
         print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves'
               '\n   Usage: dupx <curve-list>\n')

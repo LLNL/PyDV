@@ -59,12 +59,14 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
+class CurveIndexError(ValueError): pass
+
 ## getCurveIndex returns integer index to curve in plotlist from plotname
 def getCurveIndex(plotname, plotlist):
     for j in range(len(plotlist)):
         if plotname.upper() == plotlist[j].plotname:
             return j
-    raise RuntimeError("pdvutil.py getCurveIndex - failed to find curve index")
+    raise CurveIndexError("pdvutil.py getCurveIndex - failed to find curve index")
         
 ##parses and calculates mathematical input for curves, then updates plot##
 def parsemath(line, plotlist, commander, xdomain):
