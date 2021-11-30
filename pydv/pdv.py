@@ -1809,11 +1809,14 @@ class Command(cmd.Cmd, object):
                 line = line.split()
 
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    plotname, minx, maxx = pydvif.getdomain(cur)[0]
-                    print('\nCurve ' + plotname)
-                    print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, minx, maxx = pydvif.getdomain(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                    except pdvutil.CurveIndexError:
+                        pass
                 print('')
         except:
             print('error - usage: getdomain <curve-list>')
