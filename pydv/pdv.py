@@ -5161,25 +5161,32 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##Set the y-values such that y[i] /= (x[i+1] - x[i])
     def do_makeintensive(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_makeintensive(pdvutil.getletterargs(line))
-                return 0
-            else:
-                curves = list()
-                line = line.split()
-                for i in range(len(line)):
+        if len(line.split(':')) > 1:
+            self.do_makeintensive(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            curves = list()
+            line = line.split()
+            for i in range(len(line)):
+                try:
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                if len(curves) > 0:
-                    pydvif.makeintensive(curves)
-                else:
-                    raise RuntimeError('Need to specify a valid curve or curves')
-        except:
+            if len(curves) > 0:
+                pydvif.makeintensive(curves)
+            else:
+                raise RuntimeError('Need to specify a valid curve or curves')
+
+        if print_error:
             print('error - usage: makeintensive <curve-list>\n  Shortcut: mkint')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_makeintensive(self):
         print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) '
               '\n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
