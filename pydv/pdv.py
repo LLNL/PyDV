@@ -5135,25 +5135,32 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##Set the y-values such that y[i] *= (x[i+1] - x[i])
     def do_makeextensive(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_makeextensive(pdvutil.getletterargs(line))
-                return 0
-            else:
-                curves = list()
-                line = line.split()
-                for i in range(len(line)):
+        if len(line.split(':')) > 1:
+            self.do_makeextensive(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            curves = list()
+            line = line.split()
+            for i in range(len(line)):
+                try:
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                if len(curves) > 0:
-                    pydvif.makeextensive(curves)
-                else:
-                    raise RuntimeError('Need to specify a valid curve or curves')
-        except:
+            if len(curves) > 0:
+                pydvif.makeextensive(curves)
+            else:
+                raise RuntimeError('Need to specify a valid curve or curves')
+
+        if print_error:
             print('error - usage: makeextensive <curve-list>\n  Shortcut: mkext')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_makeextensive(self):
         print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) '
               '\n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
