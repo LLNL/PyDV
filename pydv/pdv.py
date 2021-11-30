@@ -1782,11 +1782,14 @@ class Command(cmd.Cmd, object):
                 print('\n   Get Range')
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    plotname, miny, maxy = pydvif.getrange(cur)[0]
-                    print('\nCurve ' + plotname)
-                    print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, miny, maxy = pydvif.getrange(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                    except pdvutil.CurveIndexError:
+                        pass
                 print('')
         except:
             print('error - usage: getrange <curve-list>')
