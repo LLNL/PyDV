@@ -1962,21 +1962,28 @@ class Command(cmd.Cmd, object):
 
     ## generate random y values between -1 and 1 ##
     def do_random(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_random(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                for i in range(len(line)):
+        if len(line.split(':')) > 1:
+            self.do_random(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            line = line.split()
+            for i in range(len(line)):
+                try:
                     j = pdvutil.getCurveIndex(line[i], self.plotlist)
                     cur = self.plotlist[j]
                     pydvif.random(cur)
-            self.plotedit = True
-        except:
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
+        self.plotedit = True
+
+        if print_error:
             print('error - usage: random <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_random(self):
         print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. '
               '\n   Usage: random <curve-list>\n')
