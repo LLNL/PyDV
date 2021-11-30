@@ -1589,35 +1589,37 @@ class Command(cmd.Cmd, object):
     def do_max(self, line):
         if not line:
             return 0
-
         if len(line.split(':')) > 1:
             self.do_max(pdvutil.getletterargs(line))
             return 0
         else:
-            try:
-                line = line.split()
+            line = line.split()
+            print_error = False
 
-                if len(line) < 2:
-                    return
+            if len(line) < 2:
+                return
 
-                curves = list()
-                for i in range(len(line)):
+            curves = list()
+            for i in range(len(line)):
+                try:
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                nc = pydvif.max_curve(curves)
+            nc = pydvif.max_curve(curves)
 
-                if nc is not None:
-                    self.addtoplot(nc)
-                    self.plotedit = True
-            except RuntimeError as rte:
-                print('error: %s' % rte)
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-            except:
+            if nc is not None:
+                self.addtoplot(nc)
+                self.plotedit = True
+
+            if print_error:
                 self.help_max()
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
+
     def help_max(self):
         print('\n   Procedure: makes new curve with max y values of curves.'
               '\n   Usage: max <curve-list>\n')
