@@ -1120,21 +1120,27 @@ class Command(cmd.Cmd, object):
     def do_delete(self, line):
         if not line:
             return 0
-        try:
-            if len(line.split(':')) > 1:
-                self.do_delete(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                for i in range(len(line)):
+        if len(line.split(':')) > 1:
+            self.do_delete(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            line = line.split()
+            for i in range(len(line)):
+                try:
                     idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     self.plotlist.pop(idx)
-
-                self.plotedit = True
-        except:
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
+            self.plotedit = True
+        
+        if print_error:
             print('error - usage: del <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_delete(self):
         print('\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n')
 
