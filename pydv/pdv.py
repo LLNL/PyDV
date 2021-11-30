@@ -5071,9 +5071,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    cur.plotprecedence = highest + 1
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        cur.plotprecedence = highest + 1
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 self.plotedit = True
         except:
