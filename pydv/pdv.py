@@ -699,10 +699,12 @@ class Command(cmd.Cmd, object):
                     line = ' + '.join(line)
                     pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
                 self.plotedit = True
+                
         except:
             print('error - usage: add <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_add(self):
         print('\n   Procedure: Take sum of curves. If the optional value is specified it will add'
               '\n              the y-values of the curves by value (equivalent to using the dy command).'
@@ -6660,8 +6662,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             curves = list()
             for i in range(len(line)):
-                curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                curves.append(self.plotlist[curvidx])
+                try:
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print('error - usage: log <curve-list> [keep-neg-vals: True | False]')
+                    if self.debug:
+                        traceback.print_exc(file=sys.stdout)
 
             if log_type == LogEnum.LOG:
                 pydvif.log(curves, keepnegs)
