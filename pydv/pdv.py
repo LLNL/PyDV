@@ -4350,16 +4350,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    pydvif.smooth(cur, factor)
-                    cur.edited = True
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        pydvif.smooth(cur, factor)
+                        cur.edited = True
+                    except pdvutil.CurveIndexError:
+                        pass
 
             self.plotedit = True
+
         except:
             print('error - usage: smooth <curve-list> [<smooth-factor>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_smooth(self):
         print('\n   Procedure: Smooth the curve to the given degree.'
               '\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
