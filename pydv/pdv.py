@@ -2044,16 +2044,20 @@ class Command(cmd.Cmd, object):
                 print('\n')
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    ss = pydvif.disp(cur)
-                    self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        ss = pydvif.disp(cur)
+                        self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    except pdvutil.CurveIndexError:
+                        pass
         except:
             print('error - usage: dispx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_dispx(self):
         print('\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n')
 
