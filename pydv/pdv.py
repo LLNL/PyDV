@@ -5216,26 +5216,33 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##Create curves with y-values vs. integer index values##
     def do_xindex(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_xindex(pdvutil.getletterargs(line))
-                return 0
-            else:
-                curves = list()
-                line = line.split()
+        if len(line.split(':')) > 1:
+            self.do_xindex(pdvutil.getletterargs(line))
+            return 0
+        else:
+            curves = list()
+            line = line.split()
+            print_error = False
 
-                for i in range(len(line)):
+            for i in range(len(line)):
+                try:
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-                if len(curves) > 0:
-                    pydvif.xindex(curves)
-                else:
-                    raise RuntimeError('Need to specify a valid curve or curves')
-        except:
+            if len(curves) > 0:
+                pydvif.xindex(curves)
+            else:
+                raise RuntimeError('Need to specify a valid curve or curves')
+
+        if print_error:
             print('error - usage: xindex <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xindex(self):
         print('\n   Procedure: Create curves with y-values vs. integer index values'
               '\n   Usage: xindex <curve-list>\n')
