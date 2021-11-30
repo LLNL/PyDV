@@ -1920,21 +1920,29 @@ class Command(cmd.Cmd, object):
 
     ## sort curves in ascending x value ##
     def do_sort(self, line):
-        try:
-            if len(line.split(':')) > 1:
-                self.do_sort(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                for i in range(len(line)):
+        if len(line.split(':')) > 1:
+            self.do_sort(pdvutil.getletterargs(line))
+            return 0
+        else:
+            print_error = False
+            line = line.split()
+            for i in range(len(line)):
+                try:
                     j = pdvutil.getCurveIndex(line[i], self.plotlist)
                     cur = self.plotlist[j]
                     pydvif.sort(cur)
-            self.plotedit = True
-        except:
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
+
+        self.plotedit = True
+
+        if print_error:
             print('error - usage: sort <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sort(self):
         print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x values.'
               '\n   Usage: sort <curve-list>\n')
