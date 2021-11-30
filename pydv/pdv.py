@@ -1261,16 +1261,17 @@ class Command(cmd.Cmd, object):
     def do_markerfacecolor(self, line):
         if not line:
             return 0
-        try:
+        line = line.split()
+        color = line.pop(-1)
+        line = ' '.join(line)
+        if len(line.split(':')) > 1:
+            self.do_markerfacecolor(pdvutil.getletterargs(line) + color)
+            return 0
+        else:
+            print_error = False
             line = line.split()
-            color = line.pop(-1)
-            line = ' '.join(line)
-            if len(line.split(':')) > 1:
-                self.do_markerfacecolor(pdvutil.getletterargs(line) + color)
-                return 0
-            else:
-                line = line.split()
-                for i in range(len(line)):
+            for i in range(len(line)):
+                try:
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     cur = self.plotlist[curvidx]
                     if mclr.is_color_like(color):
@@ -1278,12 +1279,18 @@ class Command(cmd.Cmd, object):
                     else:
                         print('error: invalid marker face color ' + color)
                         return 0
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print_error = True
 
-            self.plotedit = True
-        except:
+        self.plotedit = True
+
+        if print_error:
             print('error - usage: markerfacecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_markerfacecolor(self):
         print('\n   Procedure: Set the markerface color of curves'
               '\n   Usage: markerfacecolor <curve-list> <color-name>'
