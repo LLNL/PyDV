@@ -3993,29 +3993,41 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##filter out points; this is the only filter points function that returns a new curve.
     ##It does that because that's how ULTRA behaved.  Go figure.
     def do_xminmax(self, line):
-        try:
-            line = line.split()
-            xmax = line.pop(-1)
-            xmin = line.pop(-1)
-            cName = line.pop(-1) # curve this one will be based on
-            # make a new curve by copying curve in argument
-            cur = self.curvefromlabel(cName) # old curve
-            cNew = cur.copy()                # new curve
-            cNew.name = 'Extract ' + cName.upper() # we name the new curve from the old curve, just like ULTRA did
-            cNew.plotname = self.getcurvename()
-            cNew.color = ''  # this, bizarrely, is how we tell PDV to pick a color for this curve on its own.  yeesh.  --DSM 12/02/2015
-            self.addtoplot(cNew)
-            # new lets just re-use the min and max functions we already have to trim the new curve
-            minline = ' '.join(cNew.plotname) + ' ' + xmin
-            maxline = ' '.join(cNew.plotname) + ' ' + xmax
-            self.do_xmin(minline)
-            self.do_xmax(maxline)
-            cNew.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
-            self.plotedit = True
-        except:
-            print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        if len(line.split(':')) > 1:
+            self.do_xminmax(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                xmax = line.pop(-1)
+                xmin = line.pop(-1)
+                curves = []
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve in curves:
+                    curve_new = curve.copy() # new curve
+                    curve_new.name = 'Extract ' + curve.name.upper() # ULTRA naming
+                    curve_new.plotname = self.getcurvename()
+                    curve_new.color = '' # PyDV will pick a color on its own
+                    self.addtoplot(curve_new)
+                    minline = ' '.join(curve_new.plotname) + ' ' + xmin
+                    maxline = ' '.join(curve_new.plotname) + ' ' + xmax
+                    self.do_xmin(minline)
+                    self.do_xmax(maxline)
+                    curve_new.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
+
+                self.plotedit = True
+
+            except:
+                print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
     def help_xminmax(self):
         print('\n   Procedure: Trim the selcted curves'
               '\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm')
