@@ -699,10 +699,12 @@ class Command(cmd.Cmd, object):
                     line = ' + '.join(line)
                     pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
                 self.plotedit = True
+                
         except:
             print('error - usage: add <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_add(self):
         print('\n   Procedure: Take sum of curves. If the optional value is specified it will add'
               '\n              the y-values of the curves by value (equivalent to using the dy command).'
@@ -1118,23 +1120,27 @@ class Command(cmd.Cmd, object):
 
     ##remove a curve from the graph##
     def do_delete(self, line):
-        if not line:
-            return 0
         try:
+            if not line:
+                return 0
             if len(line.split(':')) > 1:
                 self.do_delete(pdvutil.getletterargs(line))
                 return 0
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    self.plotlist.pop(idx)
-
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        self.plotlist.pop(idx)
+                    except pdvutil.CurveIndexError:
+                        pass
                 self.plotedit = True
+        
         except:
             print('error - usage: del <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_delete(self):
         print('\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n')
 
@@ -1185,13 +1191,16 @@ class Command(cmd.Cmd, object):
             try:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    yval = numpy.array(cur.y)
-                    mean = (sum(yval) / len(yval))
-                    ystd = numpy.std(yval, ddof=1)
-                    print('\nCurve ' + cur.plotname)
-                    print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        yval = numpy.array(cur.y)
+                        mean = (sum(yval) / len(yval))
+                        ystd = numpy.std(yval, ddof=1)
+                        print('\nCurve ' + cur.plotname)
+                        print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 print('\n')
             except:
@@ -1253,9 +1262,9 @@ class Command(cmd.Cmd, object):
 
     ##set the markerface color for a list of curves##
     def do_markerfacecolor(self, line):
-        if not line:
-            return 0
         try:
+            if not line:
+                return 0
             line = line.split()
             color = line.pop(-1)
             line = ' '.join(line)
@@ -1265,19 +1274,24 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    if mclr.is_color_like(color):
-                        cur.markerfacecolor = color
-                    else:
-                        print('error: invalid marker face color ' + color)
-                        return 0
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        if mclr.is_color_like(color):
+                            cur.markerfacecolor = color
+                        else:
+                            print('error: invalid marker face color ' + color)
+                            return 0
+                    except pdvutil.CurveIndexError:
+                        pass
 
             self.plotedit = True
+
         except:
             print('error - usage: markerfacecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_markerfacecolor(self):
         print('\n   Procedure: Set the markerface color of curves'
               '\n   Usage: markerfacecolor <curve-list> <color-name>'
@@ -1288,9 +1302,9 @@ class Command(cmd.Cmd, object):
 
     ##set the markeredge color for a list of curves##
     def do_markeredgecolor(self, line):
-        if not line:
-            return 0
         try:
+            if not line:
+                return 0
             line = line.split()
             color = line.pop(-1)
             line = ' '.join(line)
@@ -1300,19 +1314,24 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    if mclr.is_color_like(color):
-                        cur.markeredgecolor = color
-                    else:
-                        print('error: invalid marker edge color ' + color)
-                        return 0
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        if mclr.is_color_like(color):
+                            cur.markeredgecolor = color
+                        else:
+                            print('error: invalid marker edge color ' + color)
+                            return 0
+                    except pdvutil.CurveIndexError:
+                        pass
 
             self.plotedit = True
+
         except:
             print('error - usage: markeredgecolor <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_markeredgecolor(self):
         print("\n   Procedure: Set the markeredge color of curves"
               "\n   Usage: markeredgecolor <curve-list> <color-name>"
@@ -1565,14 +1584,13 @@ class Command(cmd.Cmd, object):
 
     ## make a new curve - the max of the specified curves ##
     def do_max(self, line):
-        if not line:
-            return 0
-
-        if len(line.split(':')) > 1:
-            self.do_max(pdvutil.getletterargs(line))
-            return 0
-        else:
-            try:
+        try:
+            if not line:
+                return 0
+            if len(line.split(':')) > 1:
+                self.do_max(pdvutil.getletterargs(line))
+                return 0
+            else:
                 line = line.split()
 
                 if len(line) < 2:
@@ -1580,22 +1598,23 @@ class Command(cmd.Cmd, object):
 
                 curves = list()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curves.append(self.plotlist[curvidx])
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 nc = pydvif.max_curve(curves)
 
                 if nc is not None:
                     self.addtoplot(nc)
                     self.plotedit = True
-            except RuntimeError as rte:
-                print('error: %s' % rte)
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-            except:
-                self.help_max()
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+
+        except:
+            self.help_max()
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
     def help_max(self):
         print('\n   Procedure: makes new curve with max y values of curves.'
               '\n   Usage: max <curve-list>\n')
@@ -1758,11 +1777,14 @@ class Command(cmd.Cmd, object):
                 print('\n   Get Range')
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    plotname, miny, maxy = pydvif.getrange(cur)[0]
-                    print('\nCurve ' + plotname)
-                    print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, miny, maxy = pydvif.getrange(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
+                    except pdvutil.CurveIndexError:
+                        pass
                 print('')
         except:
             print('error - usage: getrange <curve-list>')
@@ -1785,11 +1807,14 @@ class Command(cmd.Cmd, object):
                 line = line.split()
 
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    plotname, minx, maxx = pydvif.getdomain(cur)[0]
-                    print('\nCurve ' + plotname)
-                    print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, minx, maxx = pydvif.getdomain(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
+                    except pdvutil.CurveIndexError:
+                        pass
                 print('')
         except:
             print('error - usage: getdomain <curve-list>')
@@ -1907,14 +1932,20 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    j = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[j]
-                    pydvif.sort(cur)
+                    try:
+                        j = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[j]
+                        pydvif.sort(cur)
+                    except pdvutil.CurveIndexError:
+                        pass
+
             self.plotedit = True
+
         except:
             print('error - usage: sort <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sort(self):
         print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x values.'
               '\n   Usage: sort <curve-list>\n')
@@ -1928,14 +1959,19 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    j = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[j]
-                    pydvif.rev(cur)
+                    try:
+                        j = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[j]
+                        pydvif.rev(cur)
+                    except pdvutil.CurveIndexError:
+                        pass
             self.plotedit = True
+
         except:
             print('error - usage: rev <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_rev(self):
         print('\n    Procedure: Swap x and y values for the specified curves. You may want to sort after this one. '
               '\n    Usage: rev <curve-list>\n')
@@ -1949,14 +1985,19 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    j = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[j]
-                    pydvif.random(cur)
+                    try:
+                        j = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[j]
+                        pydvif.random(cur)
+                    except pdvutil.CurveIndexError:
+                        pass
             self.plotedit = True
+
         except:
             print('error - usage: random <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_random(self):
         print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. '
               '\n   Usage: random <curve-list>\n')
@@ -1971,10 +2012,13 @@ class Command(cmd.Cmd, object):
                 print('\n')
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    ss = pydvif.disp(cur, False)
-                    self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        ss = pydvif.disp(cur, False)
+                        self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    except pdvutil.CurveIndexError:
+                        pass
         except:
             print('error - usage: disp <curve-list>')
             if self.debug:
@@ -1995,16 +2039,20 @@ class Command(cmd.Cmd, object):
                 print('\n')
                 line = line.split()
                 for i in range(len(line)):
-                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[idx]
-                    ss = pydvif.disp(cur)
-                    self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        ss = pydvif.disp(cur)
+                        self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
+                    except pdvutil.CurveIndexError:
+                        pass
         except:
             print('error - usage: dispx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_dispx(self):
         print('\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n')
 
@@ -3931,29 +3979,41 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##filter out points; this is the only filter points function that returns a new curve.
     ##It does that because that's how ULTRA behaved.  Go figure.
     def do_xminmax(self, line):
-        try:
-            line = line.split()
-            xmax = line.pop(-1)
-            xmin = line.pop(-1)
-            cName = line.pop(-1) # curve this one will be based on
-            # make a new curve by copying curve in argument
-            cur = self.curvefromlabel(cName) # old curve
-            cNew = cur.copy()                # new curve
-            cNew.name = 'Extract ' + cName.upper() # we name the new curve from the old curve, just like ULTRA did
-            cNew.plotname = self.getcurvename()
-            cNew.color = ''  # this, bizarrely, is how we tell PDV to pick a color for this curve on its own.  yeesh.  --DSM 12/02/2015
-            self.addtoplot(cNew)
-            # new lets just re-use the min and max functions we already have to trim the new curve
-            minline = ' '.join(cNew.plotname) + ' ' + xmin
-            maxline = ' '.join(cNew.plotname) + ' ' + xmax
-            self.do_xmin(minline)
-            self.do_xmax(maxline)
-            cNew.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
-            self.plotedit = True
-        except:
-            print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        if len(line.split(':')) > 1:
+            self.do_xminmax(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                xmax = line.pop(-1)
+                xmin = line.pop(-1)
+                curves = []
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve in curves:
+                    curve_new = curve.copy() # new curve
+                    curve_new.name = 'Extract ' + curve.name.upper() # ULTRA naming
+                    curve_new.plotname = self.getcurvename()
+                    curve_new.color = '' # PyDV will pick a color on its own
+                    self.addtoplot(curve_new)
+                    minline = ' '.join(curve_new.plotname) + ' ' + xmin
+                    maxline = ' '.join(curve_new.plotname) + ' ' + xmax
+                    self.do_xmin(minline)
+                    self.do_xmax(maxline)
+                    curve_new.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
+
+                self.plotedit = True
+
+            except:
+                print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
     def help_xminmax(self):
         print('\n   Procedure: Trim the selcted curves'
               '\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm')
@@ -3961,19 +4021,35 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##filter out points##
     def do_yminmax(self, line):
-        try:
-            line = line.split()
-            ymax = line.pop(-1)
-            ymin = line.pop(-1)
-            minline = ' '.join(line) + ' ' + ymin
-            maxline = ' '.join(line) + ' ' + ymax
-            self.do_ymin(minline)
-            self.do_ymax(maxline)
-            self.plotedit = True
-        except:
-            print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        if len(line.split(':')) > 1:
+            self.do_yminmax(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                ymax = line.pop(-1)
+                ymin = line.pop(-1)
+                good_lines = []
+                for i in range(len(line)):
+                    try:
+                        pdvutil.getCurveIndex(line[i], self.plotlist)
+                        good_lines.append(line[i])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve_letter in good_lines:
+                    minline = ' '.join(curve_letter) + ' ' + ymin
+                    maxline = ' '.join(curve_letter) + ' ' + ymax
+                    self.do_ymin(minline)
+                    self.do_ymax(maxline)
+
+                self.plotedit = True
+
+            except:
+                print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
     def help_yminmax(self):
         print('\n   Procedure: Trim the selcted curves'
               '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
@@ -4304,16 +4380,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    pydvif.smooth(cur, factor)
-                    cur.edited = True
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        pydvif.smooth(cur, factor)
+                        cur.edited = True
+                    except pdvutil.CurveIndexError:
+                        pass
 
             self.plotedit = True
+
         except:
             print('error - usage: smooth <curve-list> [<smooth-factor>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_smooth(self):
         print('\n   Procedure: Smooth the curve to the given degree.'
               '\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
@@ -5004,9 +5085,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    cur = self.plotlist[curvidx]
-                    cur.plotprecedence = highest + 1
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        cur.plotprecedence = highest + 1
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 self.plotedit = True
         except:
@@ -5099,17 +5183,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 curves = list()
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curves.append(self.plotlist[curvidx])
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 if len(curves) > 0:
                     pydvif.makeextensive(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
+
         except:
             print('error - usage: makeextensive <curve-list>\n  Shortcut: mkext')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_makeextensive(self):
         print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) '
               '\n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
@@ -5125,17 +5214,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 curves = list()
                 line = line.split()
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curves.append(self.plotlist[curvidx])
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 if len(curves) > 0:
                     pydvif.makeintensive(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
+
         except:
             print('error - usage: makeintensive <curve-list>\n  Shortcut: mkint')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_makeintensive(self):
         print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) '
               '\n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
@@ -5152,15 +5246,20 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 line = line.split()
 
                 for i in range(len(line)):
-                    plotidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curves.append(self.plotlist[plotidx])
+                    try:
+                        plotidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[plotidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 if len(curves) > 0:
                     pydvif.dupx(curves)
+
         except:
             print('error - usage: dupx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_dupx(self):
         print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves'
               '\n   Usage: dupx <curve-list>\n')
@@ -5176,17 +5275,22 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 line = line.split()
 
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curves.append(self.plotlist[curvidx])
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 if len(curves) > 0:
                     pydvif.xindex(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
+
         except:
             print('error - usage: xindex <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xindex(self):
         print('\n   Procedure: Create curves with y-values vs. integer index values'
               '\n   Usage: xindex <curve-list>\n')
@@ -5553,10 +5657,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##subsample the curves, i.e., reduce to every nth value.
     def do_subsample(self, line):
-        if not line:
-            return 0
-
         try:
+            if not line:
+                return 0
             if len(line.split(':')) > 1:
                 self.do_subsample(pdvutil.getletterargs(line))
                 return 0
@@ -5568,21 +5671,26 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     line.pop(-1)
                 except:
                     stride = 2
-
                 curvelist = list()
+
                 for i in range(len(line)):
-                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                    curvelist.append(self.plotlist[curvidx])
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curvelist.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
 
                 if len(curvelist) > 0:
                     print("\nSubsampling the data by stride %i...\n" % stride)
                     pydvif.subsample(curvelist, stride, True)
 
                 self.plotedit = True
+
         except:
             print('error - usage: subsample <curve-list> [stride]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_subsample(self):
         print('\n    Procedure: Subsample the curves by the optional stride. The default value for stride is 2.'
               '\n    Usage: subsample <curve-list> [stride]')
@@ -6570,7 +6678,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.5  -  11.29.2021\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.6  -  12.01.2021\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
@@ -6598,8 +6706,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             curves = list()
             for i in range(len(line)):
-                curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                curves.append(self.plotlist[curvidx])
+                try:
+                    curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    curves.append(self.plotlist[curvidx])
+                except pdvutil.CurveIndexError:
+                    pass
+                except:
+                    print('error - usage: log <curve-list> [keep-neg-vals: True | False]')
+                    if self.debug:
+                        traceback.print_exc(file=sys.stdout)
 
             if log_type == LogEnum.LOG:
                 pydvif.log(curves, keepnegs)
