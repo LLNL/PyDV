@@ -6678,7 +6678,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.5  -  11.29.2021\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.6  -  12.01.2021\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
