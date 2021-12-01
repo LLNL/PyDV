@@ -3,6 +3,32 @@
 Release Notes
 =============
 
+3.0.6
+-----
+* Fixed functions that did not work with curve lists, which were:
+   * dupx
+   * del
+   * markerfacecolor
+   * markeredgecolor
+   * random
+   * rev
+   * sort
+   * subsample
+   * xindex
+   * xminmax
+   * yminmax
+   * log{,x,10,10x}
+   * makeintensive
+   * makeextensive
+   * max
+   * smooth
+   * disp{,x}
+   * getdomain
+   * getrange
+   * stats
+   * movefront
+* All curve list functions support gaps in the range. 
+
 3.0.5
 -----
 * log{, x, 10, 10x} commands update the legend
