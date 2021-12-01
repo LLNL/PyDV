@@ -107,6 +107,7 @@ gaussian 1 1 5""",
 sin A
 log A""",
 """erase
+legend off
 cur 1 2
 average A B
 average B C
