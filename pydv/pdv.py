@@ -4035,19 +4035,36 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     ##filter out points##
     def do_yminmax(self, line):
-        try:
-            line = line.split()
-            ymax = line.pop(-1)
-            ymin = line.pop(-1)
-            minline = ' '.join(line) + ' ' + ymin
-            maxline = ' '.join(line) + ' ' + ymax
-            self.do_ymin(minline)
-            self.do_ymax(maxline)
-            self.plotedit = True
-        except:
-            print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        if len(line.split(':')) > 1:
+            self.do_yminmax(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                ymax = line.pop(-1)
+                ymin = line.pop(-1)
+                curves = []
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        curves.append(self.plotlist[curvidx])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve in curves:
+                    minline = ' '.join(self.getcurvename()) + ' ' + ymin
+                    maxline = ' '.join(self.getcurvename()) + ' ' + ymax
+                    self.do_ymin(minline)
+                    self.do_ymax(maxline)
+                    curve.edited = True
+
+                self.plotedit = True
+
+            except:
+                print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
     def help_yminmax(self):
         print('\n   Procedure: Trim the selcted curves'
               '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
