@@ -5,28 +5,10 @@ Release Notes
 
 3.0.6
 -----
-* Fixed functions that did not work with curve lists, which were:
-   * dupx
-   * del
-   * markerfacecolor
-   * markeredgecolor
-   * random
-   * rev
-   * sort
-   * subsample
-   * xindex
-   * xminmax
-   * yminmax
-   * log{,x,10,10x}
-   * makeintensive
-   * makeextensive
-   * max
-   * smooth
-   * disp{,x}
-   * getdomain
-   * getrange
-   * stats
-   * movefront
+* Fixed functions that did not work with curve lists, which were: dupx, del,
+  markerfacecolor, markeredgecolor, random, rev, sort, subsample, xindex, xminmax,
+  yminmax, log{,x,10,10x}, makeintensive, makeextensive, max, smooth, disp{,x},
+  getdomain, getrange, stats, movefront 
 * All curve list functions support gaps in the list of curves. For example,
   if there are curves A, B, and E, then ``function A:E`` will still work on
   A, B, and E.
