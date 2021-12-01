@@ -4043,20 +4043,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 line = line.split()
                 ymax = line.pop(-1)
                 ymin = line.pop(-1)
-                curves = []
+                good_lines = []
                 for i in range(len(line)):
                     try:
-                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                        curves.append(self.plotlist[curvidx])
+                        pdvutil.getCurveIndex(line[i], self.plotlist)
+                        good_lines.append(line[i])
                     except pdvutil.CurveIndexError:
                         pass
 
-                for curve in curves:
-                    minline = ' '.join(self.getcurvename()) + ' ' + ymin
-                    maxline = ' '.join(self.getcurvename()) + ' ' + ymax
+                for curve_letter in good_lines:
+                    minline = ' '.join(curve_letter) + ' ' + ymin
+                    maxline = ' '.join(curve_letter) + ' ' + ymax
                     self.do_ymin(minline)
                     self.do_ymax(maxline)
-                    curve.edited = True
 
                 self.plotedit = True
 
