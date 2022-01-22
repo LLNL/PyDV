@@ -59,21 +59,23 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
+from os import path
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
 
-from os import path
-
-from pdvnavbar import PyDVToolbar
-import pdvutil
+import pydv.pdvutil
+from pydv.pdvnavbar import PyDVToolbar
 
 try:
     from matplotlib import style
+
     stylesLoaded = True
 except:
     stylesLoaded = False
 
 from matplotlib.backends import qt_compat
+
 use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
 if use_pyside:
     from PySide2.QtCore import *
@@ -248,7 +250,7 @@ class Plotter(QMainWindow):
             col += 1
 
             # Label
-            labelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
+            labelItem = QTableWidgetItem(self.tr(pydv.pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
             self._tableWidget.setItem(row, col, labelItem)
             col += 1
 
@@ -365,7 +367,7 @@ class Plotter(QMainWindow):
             # col += 1
 
             # Label
-            labelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
+            labelItem = QTableWidgetItem(self.tr(pydv.pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
             self._menuTableWidget.setItem(row, col, labelItem)
             col += 1
 

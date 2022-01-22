@@ -5,7 +5,7 @@ PyDV API Specification
 pydvpy module
 -------------------
 
-.. automodule:: pydvpy 
+.. automodule:: pydv.pydvpy
     :members:
     :undoc-members:
     :show-inheritance:
@@ -13,7 +13,7 @@ pydvpy module
 curve module
 -----------------
 
-.. automodule:: curve
+.. automodule:: pydv.curve
     :members:
     :undoc-members:
     :show-inheritance:
@@ -21,7 +21,7 @@ curve module
 pdv module
 ---------------
 
-.. automodule:: pdv
+.. automodule:: pydv.pdv
     :members:
     :undoc-members:
     :show-inheritance:
@@ -29,7 +29,7 @@ pdv module
 pdvplot module
 -------------------
 
-.. automodule:: pdvplot
+.. automodule:: pydv.pdvplot
     :members:
     :undoc-members:
     :show-inheritance:
@@ -37,7 +37,7 @@ pdvplot module
 pdvutil module
 -------------------
 
-.. automodule:: pdvutil
+.. automodule:: pydv.pdvutil
     :members:
     :undoc-members:
     :show-inheritance:
@@ -45,7 +45,7 @@ pdvutil module
 pdvnavbar module
 ----------------
 
-.. automodule:: pdvnavbar
+.. automodule:: pydv.pdvnavbar
     :members:
     :undoc-members:
     :show-inheritance:
