@@ -92,7 +92,7 @@ try:
 except:
     stylesLoaded = False
 
-import pydv.curve
+from pydv import curve
 
 try:
     import pact.pdb as pdb
@@ -148,7 +148,7 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
     :type fname: str
     :returns: curve -- the curve generated from the x and y list of values.
     """
-    c = pydv.curve.Curve(fname, name)
+    c = curve.Curve(fname, name)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
     c.xlabel = xlabel
@@ -516,11 +516,11 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 if regex is not None:
                     if regex.search(curvename) is not None:
                         matchcount += 1
-                        current = pydv.curve.Curve(fname, curvename)
+                        current = curve.Curve(fname, curvename)
                     else:
                         current = None
                 else:
-                    current = pydv.curve.Curve(fname, curvename)
+                    current = curve.Curve(fname, curvename)
             elif line.strip().lower() == 'end':
                 pass
             else:
@@ -1281,7 +1281,7 @@ def atan2(c1, c2, t=None):
     if t is None:
         t = tuple([c1.name, c2.name])
 
-    c = pydv.curve.Curve('', 'atan2(%s,%s)' % t)
+    c = curve.Curve('', 'atan2(%s,%s)' % t)
     c.x = np.array(c1.x)
     c.y = np.arctan2(c1.y, c2.y)
 
@@ -2640,10 +2640,10 @@ def alpha(ac, ig, res, npts=-1):
     if npts == -1:
         npts = len(ac.y)
 
-    ai = pydv.curve.Curve.__mul__(ac, ig)
+    ai = curve.Curve.__mul__(ac, ig)
     num = convolveb(ai, res, npts)
     denom = convolveb(ig, res, npts)
-    alpha_measured = pydv.curve.Curve.__div__(num, denom)
+    alpha_measured = curve.Curve.__div__(num, denom)
 
     alpha_measured.name = "Measured alpha"
     alpha_measured.plotname = ''
@@ -2656,7 +2656,7 @@ def gaussian(amp, wid, center, num=100, nsd=3):
 
     >>> curve = pydvif.gaussian(5, 10, 0)
 
-    >>> pydvif.create_plot(pydv.curve, legend=True, stylename='ggplot')
+    >>> pydvif.create_plot(curve, legend=True, stylename='ggplot')
 
     :param amp: amplitude
     :type amp: float
@@ -2754,11 +2754,11 @@ def correlate(c1, c2, mode='valid'):
     :type mode: 'full'(default), 'same' or 'valid' 
     :return: Curve -- the cross-correlation of c1.y and c2.y
     """
-    nc = pydv.curve.Curve('', 'correlate(' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ')')
+    nc = curve.Curve('', 'correlate(' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ')')
 
-    ic1, step = pydv.curve.interp1d(c1, len(c1.x), True)
+    ic1, step = curve.interp1d(c1, len(c1.x), True)
     c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = pydv.curve.interp1d(c2, c2npts)
+    ic2 = curve.interp1d(c2, c2npts)
 
     y = np.correlate(ic1.y, ic2.y, mode)
     start = min([min(ic1.x), min(ic2.x)])
@@ -2791,10 +2791,10 @@ def convolve(c1, c2, npts=100):
     """
 
     # Create uniform temporal spacing
-    ic1, step = pydv.curve.interp1d(c1, npts, True)
+    ic1, step = curve.interp1d(c1, npts, True)
 
     c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = pydv.curve.interp1d(c2, c2npts)
+    ic2 = curve.interp1d(c2, c2npts)
 
     y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='fft'))
     delx = (max(c1.x) - min(c1.x)) / npts
@@ -2869,9 +2869,9 @@ def convolve_int(c1, c2, norm=True, npts=100):
     """
 
     # Create uniform temporal spacing
-    ic1, step = pydv.curve.interp1d(c1, npts, True)
+    ic1, step = curve.interp1d(c1, npts, True)
     c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = pydv.curve.interp1d(c2, c2npts)
+    ic2 = curve.interp1d(c2, c2npts)
 
     # normalize c2 to unit area in its domain
     if norm:
@@ -2930,8 +2930,8 @@ def fft(c, n=None, axis=-1, norm=None):
     :return: Curve tuple -- Two curves with the real and imaginary parts.
     """
 
-    nc1 = pydv.curve.Curve('', 'Real part FFT ' + __toCurveString(c))
-    nc2 = pydv.curve.Curve('', 'Imaginary part FFT ' + __toCurveString(c))
+    nc1 = curve.Curve('', 'Real part FFT ' + __toCurveString(c))
+    nc2 = curve.Curve('', 'Imaginary part FFT ' + __toCurveString(c))
 
     numpy1_10 = LooseVersion(np.__version__) >= LooseVersion("1.10.0")
     cnorm = c.normalize()
@@ -2972,7 +2972,7 @@ def derivative(c, eo=1):
     :type eo: int, optional
     :return: A new curve representing the derivate of c
     """
-    nc = pydv.curve.Curve('', 'Derivative ' + __toCurveString(c))
+    nc = curve.Curve('', 'Derivative ' + __toCurveString(c))
 
     nc.x = c.x
     nc.y = np.gradient(c.y, c.x, edge_order=eo)
@@ -3002,9 +3002,9 @@ def diffMeasure(c1, c2, tol=1e-8):
     :type tol: float
     :return: tuple -- Two curves representing the fractional difference measure and its average
     """
-    cdiff = pydv.curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(
+    cdiff = curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(
         c2) + '$|$/($|$' + __toCurveString(c1) + '$|$ + $|$' + __toCurveString(c2) + '$|$)')
-    ic1, ic2 = pydv.curve.getinterp(c1, c2)
+    ic1, ic2 = curve.getinterp(c1, c2)
     f1 = tol * (np.max(ic1.y) - np.min(ic1.y))
     f2 = tol * (np.max(ic2.y) - np.min(ic2.y))
     ydiff = np.abs(ic1.y - ic2.y)
@@ -3013,7 +3013,7 @@ def diffMeasure(c1, c2, tol=1e-8):
     cdiff.x = np.array(ic1.x)
     cdiff.y = np.array(ydiff / yden)
 
-    cint = pydv.curve.Curve('', 'Integral(FD)/dX')
+    cint = curve.Curve('', 'Integral(FD)/dX')
     yint = scipy.integrate.cumtrapz(cdiff.y, cdiff.x, initial=0.0)
     cint.x = np.array(ic1.x)
     cint.y = np.array(yint / dx)
@@ -3044,8 +3044,8 @@ def vs(c1, c2):
     :type c2: Curve
     :return: Curve -- the new curve
     """
-    nc = pydv.curve.Curve('', __toCurveString(c1) + ' vs ' + __toCurveString(c2))
-    ic1, ic2 = pydv.curve.getinterp(c1, c2)
+    nc = curve.Curve('', __toCurveString(c1) + ' vs ' + __toCurveString(c2))
+    ic1, ic2 = curve.getinterp(c1, c2)
     nc.x = np.array(ic2.y)
     nc.y = np.array(ic1.y)
 
@@ -3285,7 +3285,7 @@ def fit(c, n=1, logx=False, logy=False):
     else:
         oString = "%dth " % n
 
-    nc = pydv.curve.Curve('', oString + 'order fit to ' + __toCurveString(c))
+    nc = curve.Curve('', oString + 'order fit to ' + __toCurveString(c))
     nc.x = np.array(x)
     nc.y = scipy.polyval(coeffs, x)
 
@@ -3510,7 +3510,7 @@ def line(m, b, xmin, xmax, numpts=100):
 
     x = np.array(x)
     y = np.array(y)
-    c = pydv.curve.Curve('', 'Straight Line')
+    c = curve.Curve('', 'Straight Line')
     c.x = x
     c.y = y
 
@@ -3698,10 +3698,10 @@ def appendcurves(curvelist):
         else:
             return
     else:
-        nc = pydv.curve.append(curvelist[0], curvelist[1])
+        nc = curve.append(curvelist[0], curvelist[1])
 
         for i in range(2, len(curvelist)):
-            nc = pydv.curve.append(nc, curvelist[i])
+            nc = curve.append(nc, curvelist[i])
 
     suffix = ''
     for c in curvelist:
@@ -3750,7 +3750,7 @@ def max_curve(curvelist):
             except:
                 pass
 
-    nc = pydv.curve.Curve('', 'Max(' + name_suffix + ')')
+    nc = curve.Curve('', 'Max(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
@@ -3795,7 +3795,7 @@ def min_curve(curvelist):
             except:
                 pass
 
-    nc = pydv.curve.Curve('', 'Min(' + name_suffix + ')')
+    nc = curve.Curve('', 'Min(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
@@ -3842,7 +3842,7 @@ def average_curve(curvelist):
 
         y[i] /= cnt
 
-    nc = pydv.curve.Curve('', 'Average(' + name_suffix + ')')
+    nc = curve.Curve('', 'Average(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
@@ -3861,8 +3861,8 @@ def __fft(c):
     :type c: Curve
     :return: tuple - two curves, one with the real part and the other with the imaginary part for their y-values.
     """
-    nc1 = pydv.curve.Curve('', 'Real part FFT ' + __toCurveString(c))
-    nc2 = pydv.curve.Curve('', 'Imaginary part FFT ' + __toCurveString(c))
+    nc1 = curve.Curve('', 'Real part FFT ' + __toCurveString(c))
+    nc2 = curve.Curve('', 'Imaginary part FFT ' + __toCurveString(c))
 
     cnorm = c.normalize()
     clen = len(c.x)
@@ -3890,8 +3890,8 @@ def __ifft(cr, ci):
     :type c: Curve
     :return: tuple - two curves, one with the real part and the other with the imaginary part for their y-values.
     """
-    nc1 = pydv.curve.Curve('', 'Real part iFFT ' + __toCurveString(cr))
-    nc2 = pydv.curve.Curve('', 'Imaginary part iFFT ' + __toCurveString(ci))
+    nc1 = curve.Curve('', 'Real part iFFT ' + __toCurveString(cr))
+    nc2 = curve.Curve('', 'Imaginary part iFFT ' + __toCurveString(ci))
 
     carray = np.zeros(len(cr.y), dtype=complex)
 
@@ -4047,7 +4047,7 @@ def __loadcolumns(fname, xcol):
         # Make Curve objects, add to curvelist
         for colID in range(numcurves + 1):
             if colID != xcol:
-                c = pydv.curve.Curve(fname, colLabels[colID])
+                c = curve.Curve(fname, colLabels[colID])
                 c.x = localCurves[xcol]
                 c.y = localCurves[colID]
                 print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
@@ -4075,7 +4075,7 @@ def __loadpdb(fname, fpdb):
             curveid = fpdb.read(cname).strip('\x00').split('|')
             if (len(curveid) != 8):
                 raise IOError
-            current = pydv.curve.Curve(fname, fpdb.read(curveid[1]).strip('\x00'))
+            current = curve.Curve(fname, fpdb.read(curveid[1]).strip('\x00'))
             current.x = np.array(fpdb.read(curveid[3]))
             current.y = np.array(fpdb.read(curveid[4]))
             curvelist.append(current)

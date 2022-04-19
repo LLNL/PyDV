@@ -64,7 +64,7 @@ from os import path
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
 
-import pydv.pdvutil
+from pydv import pdvutil
 from pydv.pdvnavbar import PyDVToolbar
 
 try:
@@ -250,7 +250,7 @@ class Plotter(QMainWindow):
             col += 1
 
             # Label
-            labelItem = QTableWidgetItem(self.tr(pydv.pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
+            labelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
             self._tableWidget.setItem(row, col, labelItem)
             col += 1
 
@@ -367,7 +367,7 @@ class Plotter(QMainWindow):
             # col += 1
 
             # Label
-            labelItem = QTableWidgetItem(self.tr(pydv.pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
+            labelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.name, self._pydvcmd.namewidth)))
             self._menuTableWidget.setItem(row, col, labelItem)
             col += 1
 
