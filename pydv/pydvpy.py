@@ -1,7 +1,7 @@
 # Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -64,7 +64,7 @@
 A python interface for PyDV functionality.
 
 .. module: pydvpy
-.. moduleauthor:: Kevin Griffin <griffin28@llnl.gov>
+.. moduleauthor:: Edward Rusu <rusu1@llnl.gov>
 
 >>> import pydvpy as pydvif
 """

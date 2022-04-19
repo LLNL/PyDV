@@ -1,7 +1,7 @@
 # Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.  
   
@@ -114,7 +114,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 3.0.6')
+        self.setWindowTitle('Python Data Visualizer 3.0.7')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -431,8 +431,8 @@ class Plotter(QMainWindow):
     def __viewCopyright(self):
         msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2020, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
-                      <p style="font-family:verdana;">e-mail: griffin28@llnl.gov or dougmiller@llnl.gov</p> \
+                      <p style="font-family:verdana;">Written by Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
+                      <p style="font-family:verdana;">e-mail: rusu1@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
                       <p style="font-family:courier; font-size:80%;">This file is part of PyDV. For details, see <URL describing code and \
@@ -519,11 +519,11 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 3.0.6</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 3.0.7</p>'
                                                                '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2020, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Kevin Griffi, Mason Kwiat, and Douglas S. Miller</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">email: griffin28@llnl.gov</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">email: rusu1@llnl.gov</p>'
                                                                '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
 
