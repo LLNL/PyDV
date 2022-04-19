@@ -3925,8 +3925,8 @@ def __complex_times(ra, ia, rb, ib):
 
 def __get_sub_range(x, low=None, high=None):
     """
-    Returns a tuple with the index of the first x value greater than low and the index of
-    the first x value less than high.
+    Returns a tuple with the index of the first value in x greater than low and
+    the index of the first value in x less than high.
 
     :param x: The array of x-values
     :type x: array
@@ -3934,31 +3934,14 @@ def __get_sub_range(x, low=None, high=None):
     :type low: float
     :param high: The upper definite integral interval value
     :type high: float
-    :return: tuple -- a tuple with the indices of the first value in x that is greater than low and the first value in
-                      x less than high
+    :return: tuple -- a tuple with the indices of the first value in x that is
+                      greater than low and the first value in x less than high.
+                      If low or high is not specified, the corresponding return
+                      will be None.
     """
-    if low is not None:
-        min_idx = np.where(x >= low)[0][0]
-
-    if high is not None:
-        max_idx = np.where(x <= high)[0][-1]
-
+    min_idx = np.where(x >= low)[0][0] if low is not None else None
+    max_idx = np.where(x <= high)[0][-1] if high is not None else None
     return min_idx, max_idx
-    # min_idx = len(x) - 1
-    # min = x[-1]
-    # max_idx = 0
-    # max = x[0]
-    #
-    # for i in range(0, len(x)):
-    #     if min > x[i] >= low:
-    #         min = x[i]
-    #         min_idx = i
-    #
-    #     if high >= x[i] > max:
-    #         max = x[i]
-    #         max_idx = i
-    #
-    # return min_idx, max_idx
 
 
 def __toCurveString(c):
