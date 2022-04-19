@@ -3936,9 +3936,11 @@ def __get_sub_range(x, low, high):
     :type high: float
     :return: tuple -- a tuple with the indices of the first value in x that is
                       greater than low and the first value in x less than high.
+                      If low or high is not specified, the corresponding return
+                      will be None.
     """
-    min_idx = np.where(x >= low)[0][0]
-    max_idx = np.where(x <= high)[0][-1]
+    min_idx = np.where(x >= low)[0][0] if low is not None else None
+    max_idx = np.where(x <= high)[0][-1] if high is not None else None
     return min_idx, max_idx
 
 
