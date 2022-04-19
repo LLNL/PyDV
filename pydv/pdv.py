@@ -1,7 +1,7 @@
 # Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -6678,7 +6678,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.6  -  12.01.2021\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.0.7  -  04.19.2022\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

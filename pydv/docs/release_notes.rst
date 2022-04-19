@@ -3,6 +3,12 @@
 Release Notes
 =============
 
+3.0.7
+-----
+* Fixed a bug in PyDV internal when using min and max over a range.
+
+
+
 3.0.6
 -----
 * Fixed functions that did not work with curve lists, which were: dupx, del,
