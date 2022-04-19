@@ -3923,7 +3923,7 @@ def __complex_times(ra, ia, rb, ib):
     return sa, sb
 
 
-def __get_sub_range(x, low=None, high=None):
+def __get_sub_range(x, low, high):
     """
     Returns a tuple with the index of the first value in x greater than low and
     the index of the first value in x less than high.
@@ -3936,11 +3936,9 @@ def __get_sub_range(x, low=None, high=None):
     :type high: float
     :return: tuple -- a tuple with the indices of the first value in x that is
                       greater than low and the first value in x less than high.
-                      If low or high is not specified, the corresponding return
-                      will be None.
     """
-    min_idx = np.where(x >= low)[0][0] if low is not None else None
-    max_idx = np.where(x <= high)[0][-1] if high is not None else None
+    min_idx = np.where(x >= low)[0][0]
+    max_idx = np.where(x <= high)[0][-1]
     return min_idx, max_idx
 
 
