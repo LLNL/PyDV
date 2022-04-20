@@ -1850,10 +1850,11 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, maxy = pydvif.getymax(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymax: %.6f' % maxy)
-            print('')
+            for i in range(len(xy_values)):
+                x, y = xy_values[i]
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:

@@ -2686,15 +2686,19 @@ def getymax(c, xmin=None, xmax=None):
     :param xmax: the maximum x-value for the sub-domain
     :type xmax: float, optional
     :return: str -- curve name
-             ymax -- the maximum y-value for the specified domain
+             list -- a list of tuples where each tuple contains the x-value and
+                the max y-value.
     """
+    print("Getting the max")
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
         ymax = max(c.y[r[0]:r[1]+1])
     else:
         ymax = max(c.y)
+    xy_pairs_at_max = getx(c, ymax, xmin, xmax)
+    print(f"Size of values list is {len(xy_pairs_at_max)}")
 
-    return __toCurveString(c), ymax
+    return __toCurveString(c), xy_pairs_at_max
 
 
 def getymin(c, xmin=None, xmax=None):
@@ -3380,7 +3384,7 @@ def getrange(curvelist):
     return ranges
 
 
-def getx(c, value):
+def getx(c, value, xmin=None, xmax=None):
     """
     Get the x values of the curve for a given y.
 
@@ -3397,11 +3401,12 @@ def getx(c, value):
     :return: list -- A list of tuples where each tuple contains the x value, and the given y
     """
     xypairs = list()
+    r = __get_sub_range(c.x, xmin, xmax)
 
     if float(value) < np.amin(c.y) or float(value) > np.amax(c.y):
         raise ValueError('y-value out of range')
 
-    for i in range(len(c.y)):
+    for i in range(r[0], r[1] + 1):
         if c.y[i] == float(value):
             xypairs.append((c.x[i], float(value)))
         else:
@@ -3939,8 +3944,8 @@ def __get_sub_range(x, low, high):
                       If low or high is not specified, the corresponding return
                       will be None.
     """
-    min_idx = np.where(x >= low)[0][0] if low is not None else None
-    max_idx = np.where(x <= high)[0][-1] if high is not None else None
+    min_idx = np.where(x >= low)[0][0] if low is not None else 0
+    max_idx = np.where(x <= high)[0][-1] if high is not None else len(x) - 1
     return min_idx, max_idx
 
 
