@@ -1852,8 +1852,7 @@ class Command(cmd.Cmd, object):
             cur = self.plotlist[idx]
             plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            for i in range(len(xy_values)):
-                x, y = xy_values[i]
+            for x, y in xy_values:
                 print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
@@ -1893,8 +1892,7 @@ class Command(cmd.Cmd, object):
             cur = self.plotlist[idx]
             plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            for i in range(len(xy_values)):
-                x, y = xy_values[i]
+            for x, y in xy_values:
                 print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
