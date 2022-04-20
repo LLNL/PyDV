@@ -1850,10 +1850,10 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, maxy = pydvif.getymax(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymax: %.6f' % maxy)
-            print('')
+            for x, y in xy_values:
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -1890,10 +1890,10 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, miny = pydvif.getymin(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymin: %.6f' % miny)
-            print('')
+            for x, y in xy_values:
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -6678,7 +6678,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.7  -  04.19.2022\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.1.0  -  04.20.2022\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

@@ -3,6 +3,14 @@
 Release Notes
 =============
 
+3.1.0
+-----
+`getymin` and `getymax` will now return a list of x, y pairs for the min/max value.
+If there is a domain specified, these functions will only return points in that
+domain.
+
+
+
 3.0.7
 -----
 * Fixed a bug in PyDV internal when using min and max over a range.
