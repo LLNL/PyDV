@@ -2689,14 +2689,12 @@ def getymax(c, xmin=None, xmax=None):
              list -- a list of tuples where each tuple contains the x-value and
                 the max y-value.
     """
-    print("Getting the max")
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
         ymax = max(c.y[r[0]:r[1]+1])
     else:
         ymax = max(c.y)
     xy_pairs_at_max = getx(c, ymax, xmin, xmax)
-    print(f"Size of values list is {len(xy_pairs_at_max)}")
 
     return __toCurveString(c), xy_pairs_at_max
 
@@ -2712,15 +2710,17 @@ def getymin(c, xmin=None, xmax=None):
     :param xmax: the maximum x-value for the sub-domain
     :type xmax: float, optional
     :return: str -- curve name
-             ymin -- the minimum y-value for the specified domain
+             list -- a list of tuples where each tuple contains the x-value and
+                the min y-value.
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
         ymin = min(c.y[r[0]:r[1]+1])
     else:
         ymin = min(c.y)
+    xy_pairs_at_min = getx(c, ymin, xmin, xmax)
 
-    return __toCurveString(c), ymin
+    return __toCurveString(c), xy_pairs_at_min
 
 
 def correlate(c1, c2, mode='valid'):

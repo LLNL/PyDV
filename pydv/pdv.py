@@ -1891,10 +1891,11 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, miny = pydvif.getymin(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymin: %.6f' % miny)
-            print('')
+            for i in range(len(xy_values)):
+                x, y = xy_values[i]
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
