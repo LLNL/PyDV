@@ -3416,10 +3416,12 @@ def getx(c, value, xmin=None, xmax=None):
 
             if c.y[i] < float(value) < ymax:
                 x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i+1]])
-                xypairs.append((x, float(value)))
+                if x <= r[1]:
+                    xypairs.append((x, float(value)))
             elif ymax < float(value) < c.y[i]:
                 x = np.interp(float(value), [ymax, c.y[i]], [c.x[i+1], c.x[i]])
-                xypairs.append((x, float(value)))
+                if x <= r[1]:
+                    xypairs.append((x, float(value)))
 
     return xypairs
 
