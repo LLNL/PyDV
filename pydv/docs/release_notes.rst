@@ -3,6 +3,12 @@
 Release Notes
 =============
 
+3.1.1
+-----
+``@`` notation in curve indexing fixed for mathematical operations.
+
+
+
 3.1.0
 -----
 `getymin` and `getymax` will now return a list of x, y pairs for the min/max value.
