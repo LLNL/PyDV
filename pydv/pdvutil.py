@@ -82,7 +82,7 @@ def parsemath(line, plotlist, commander, xdomain):
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
-            dex = int(val[1:]) + 1
+            dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
