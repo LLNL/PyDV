@@ -1,7 +1,7 @@
-# Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -61,21 +61,15 @@
 
 class CurveIndexError(ValueError): pass
 
-
+## getCurveIndex returns integer index to curve in plotlist from plotname
 def getCurveIndex(plotname, plotlist):
-    """
-    Returns integer index to curve in plotlist from plotname
-    """
     for j in range(len(plotlist)):
         if plotname.upper() == plotlist[j].plotname:
             return j
     raise CurveIndexError("pdvutil.py getCurveIndex - failed to find curve index")
-
-
+        
+##parses and calculates mathematical input for curves, then updates plot##
 def parsemath(line, plotlist, commander, xdomain):
-    """
-    Parses and calculates mathematical input for curves, then updates plot
-    """
     line = line.replace('+', ' + ')
     line = line.replace('-', ' - ')
     line = line.replace('*', ' * ')
@@ -87,65 +81,63 @@ def parsemath(line, plotlist, commander, xdomain):
     sendline = ''
     for val in line:
         dex = None
-        if (val[0] == '@'):  # are we a curve labeled @N, i.e., beyond a-z?
-            dex = int(val[1:]) + 1
-            sendline += ' plotlist[' + str(dex) + '] '
-        elif (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')):  # or a curve a-z?
+        if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
+            dex = int(val[1:]) - 1
+            sendline += ' plotlist['+str(dex)+'] '
+        elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
-            sendline += ' plotlist[' + str(dex) + '] '
-        else:  # no?, then just insert the operation (+,-,*,/, etc)
+            sendline += ' plotlist['+ str(dex) +'] '
+        else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
     sendline = sendline.lstrip()
-    # print sendline
+    #print sendline
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
     c.name = ' '.join(line).replace('commander.', '').title()  # set name
-    c.plotname = commander.getcurvename()  # set label
+    c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')
         return 0
     # put new curve into plotlist
-    if (c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):
+    if(c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):
         plotlist.insert((ord(c.plotname) - ord('A')), c)
     else:
-        plotlist.insert((int(c.plotname[1:]) - 1), c)
+        plotlist.insert((int(c.plotname[1:])-1), c)
     return c
-    # pultry.updateplot()
+    #pultry.updateplot()
+    
 
-
+##get a full list of arguments from compact list or mixed notation (ex 4:11)##
 def getnumberargs(line, filelist):
-    """
-    Gets a full list of arguments from compact list or mixed notation (ex 4:11)
-    """
     line = line.split(':')
     arglist = ''
-    if (len(line) > 1):
+    if(len(line) > 1):
         for i in range(len(line)):
             line[i] = line[i].strip()
-        if (len(line[0].split()) > 1):  # check for non list args
+        if(len(line[0].split()) > 1):   #check for non list args
             nolist = line[0].split()
             nolist.pop(-1)
             nolist = ' '.join(nolist)
             arglist += nolist + ' '
-        for i in range(len(line) - 1):
-            if (i > 0):
-                if (len(line[i].split()) > 2):  # check for non list args
+        for i in range(len(line)-1):
+            if(i > 0):
+                if(len(line[i].split()) > 2):   #check for non list args
                     nolist = line[i].split()
                     nolist.pop(-1)
                     nolist.pop(0)
                     nolist = ' '.join(nolist)
                     arglist += nolist + ' '
             start = line[i].split()[-1]
-            end = line[i + 1].split()[0]
-            if (len(start.split('.')) > 1):
+            end = line[i+1].split()[0]
+            if(len(start.split('.')) > 1):
                 filedex = ord(start[0].upper()) - ord('A')
                 start = start.split('.')[-1]
-                if (filedex != 0):
+                if(filedex != 0):
                     for f in range(filedex):
                         start = str(int(start) + filelist[f][1])
-            if (len(end.split('.')) > 1):
+            if(len(end.split('.')) > 1):
                 filedex = ord(end[0].upper()) - ord('A')
                 end = end.split('.')[-1]
-                if (filedex != 0):
+                if(filedex != 0):
                     for f in range(filedex):
                         end = str(int(end) + filelist[f][1])
             args = ''
@@ -157,7 +149,7 @@ def getnumberargs(line, filelist):
             for j in range(int(start), int(start) + delta + step, step):
                 args += str(j) + ' '
             arglist += args + ' '
-        if (len(line[-1].split()) > 1):  # check for non list args
+        if(len(line[-1].split()) > 1):   #check for non list args
             nolist = line[-1].split()
             nolist.pop(0)
             nolist = ' '.join(nolist)
@@ -165,11 +157,9 @@ def getnumberargs(line, filelist):
     return arglist
 
 
+##get a full list of arguments from compact list or mixed notation (ex a:d)##
 def getletterargs(line):
-    """
-    Get a full list of arguments from compact list or mixed notation (ex a:d)
-    """
-    line = line.split(':')  # begin arduous list parsing
+    line = line.split(':')  #begin arduous list parsing
     arglist = ''
     if len(line) > 1:
         for i in range(len(line)):
@@ -182,7 +172,7 @@ def getletterargs(line):
             nolist = ' '.join(nolist)
             arglist += nolist + ' '
 
-        for i in range(len(line) - 1):
+        for i in range(len(line)-1):
             if i > 0:
                 # check for non list args
                 if len(line[i].split()) > 2:
@@ -199,7 +189,7 @@ def getletterargs(line):
             else:
                 start = ord(start[0]) - ord('A')
 
-            end = line[i + 1].split()[0].upper()
+            end = line[i+1].split()[0].upper()
 
             if end[0] == '@':
                 end = int(end[1:]) - 1
@@ -207,11 +197,11 @@ def getletterargs(line):
                 end = ord(end[0]) - ord('A')
 
             args = ''
-            for j in range((int(end) - int(start)) + 1):
-                if j + int(start) > 25:
-                    args += '@' + str(j + int(start) + 1) + ' '
+            for j in range((int(end)-int(start))+1):
+                if j+int(start) > 25:
+                    args += '@' + str(j+int(start)+1) + ' '
                 else:
-                    args += chr(j + int(start) + ord('A')) + ' '
+                    args += chr(j+int(start) + ord('A')) + ' '
             arglist += args + ''
 
         # check for non list args
@@ -219,16 +209,13 @@ def getletterargs(line):
             nolist = line[-1].split()
             nolist.pop(0)
             nolist = ' '.join(nolist)
-            arglist += nolist + ' '  # end arduous list parsing
-
+            arglist += nolist + ' '  #end arduous list parsing
+            
     return arglist
 
 
+##truncate a string to given length##
 def truncate(string, size):
-    """
-    Truncate a string to given length
-
-    """
     if len(string) > size:
         string = string[:size]
 

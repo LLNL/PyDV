@@ -111,19 +111,23 @@ Calculate the mean and standard deviation for the curves and display the results
 
    [PyDV]: stats <curve-list>
 
-**getymin - 2.4.2**
--------------------
+getymin
+-------
 
-Return the minimum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.
+Return xy-parings of the x values with the corresponding minimum y-value for the
+curve within the specified domain. If no domain is given, then the full domain
+range is used.
 
 .. code::
 
    [PyDV]: getymin <curve> [<xmin> <xmax>]
 
-**getymax - 2.4.2**
--------------------
+getymax
+-------
 
-Return the maximum y-value for the curve within the specified domain. If no domain is given, then the full domain range is used.
+Return xy-parings of the x values with the corresponding maximum y-value for the
+curve within the specified domain. If no domain is given, then the full domain
+range is used.
 
 .. code::
 
