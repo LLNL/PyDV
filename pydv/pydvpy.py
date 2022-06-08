@@ -439,16 +439,13 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     """
     curvelist = list()
     regex = None
-    matchcount = 0
 
-    if pattern is not None:
+    if pattern:
         regex = re.compile(r"%s" % pattern)
-
+    fname = os.path.expanduser(fname)
+    base_name, ext_name = os.path.splitext(fname)
     try:
-        if fname.strip()[0] == '~':
-            fname = os.getenv('HOME') + fname.strip()[1:]
-
-        if gnu or fname[-4:] == '.gnu':
+        if gnu or ext_name == '.gnu':
             return __loadcolumns(fname, xcol)
 
         if pdbLoaded:
@@ -458,120 +455,70 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
             except:
                 pass
 
-        f = open(fname, 'r')
-        current = None # curve.Curve(fname, "Unlabeled")
-        first = 1
+        matchcount = 0
         buildlistx = list()
         buildlisty = list()
 
-        for line in f:
-            if line.strip()[:2] == '##':
-                continue
+        with open(fname, 'r') as f:
+            for line in f:
+                stripped_line = line.strip()
+                if stripped_line[:2] == '##':
+                    continue
 
-            if line.strip()[:1] == '#':  # check for start of new curve
-                if matches is not None:
-                    # print "matches = %d" % matches
-                    if matchcount >= matches:
-                        break
+                elif stripped_line[:1] == '#':  # check for start of new curve
+                    curvename = stripped_line[1:].strip()
 
-                if first != 1:
-                    if len(buildlistx) != 0:
+                    if regex:
+                        if regex.search(curvename):
+                            matchcount += 1
+                            current = curve.Curve(fname, curvename)
+                        else:
+                            current = None
+                    else:
+                        current = curve.Curve(fname, curvename)
+
+                    while True:
+                        stripped_line = next(f).strip()
+
+                        if stripped_line[:2] == '##':
+                            continue
+
+                        if stripped_line.lower() == 'end':
+                            break
+
+                        if current:
+                            values = stripped_line.split()
+                            buildlistx.extend(map(float, values[::2]))
+                            buildlisty.extend(map(float, values[1::2]))
+                            if len(values) % 2 == 1:
+                                # Treat a piecewise constant
+                                current.drawstyle = 'steps-post'
+
+                    if current:
                         if current.drawstyle != 'default':
                             current.drawstyle = 'default'
                             buildlisty.append(buildlisty[-1])
-                            histx = list()
-                            histx.append(buildlistx[0])
-                            histy = list()
-                            histy.append(buildlisty[0])
 
-                            i = 1
-                            while i < len(buildlisty):
-                                # insert new x,y
-                                histx.append(buildlistx[i])
-                                histy.append(buildlisty[i - 1])
-
-                                # insert old x,y
-                                histx.append(buildlistx[i])
-                                histy.append(buildlisty[i])
-
-                                i += 1
-
-                            current.x = np.array(histx)
-                            current.y = np.array(histy)
+                            current.x = np.array(buildlistx).repeat(2)[1:]
+                            current.y = np.array(buildlisty).repeat(2)[:-1]
                         else:
                             current.x = np.array(buildlistx)
                             current.y = np.array(buildlisty)
 
                         curvelist.append(current)
-                        buildlistx = list()
-                        buildlisty = list()
+
+                    if matches is not None:
+                        # print "matches = %d" % matches
+                        if matchcount >= matches:
+                            break
                 else:
-                    first = 0
+                    raise ValueError('Found data outside of curve')
 
-                curvename = line.strip()[1:]
-                curvename = curvename.strip()
-
-                if regex is not None:
-                    if regex.search(curvename) is not None:
-                        matchcount += 1
-                        current = curve.Curve(fname, curvename)
-                    else:
-                        current = None
-                else:
-                    current = curve.Curve(fname, curvename)
-            elif line.strip().lower() == 'end':
-                pass
-            else:
-                if current is not None:
-                    vals = line.split()
-                    dim = 'x'
-                    for i in range(len(vals)):  # parse x and y values
-                        if dim == 'x':
-                            if (i+1) < len(vals):   # Fixes PYDV-84
-                                buildlistx.append(float(vals[i]))
-                                buildlisty.append(float(vals[i+1]))
-                            else:   # treat as piecewise constant
-                                buildlistx.append(float(vals[i]))
-                                current.drawstyle = 'steps-post'
-                            dim = 'skip'
-                        elif dim == 'skip':
-                            dim = 'x'
-
-        if current is not None:
-            if current.drawstyle != 'default':
-                current.drawstyle = 'default'
-                buildlisty.append(buildlisty[-1])
-                histx = list()
-                histx.append(buildlistx[0])
-                histy = list()
-                histy.append(buildlisty[0])
-
-                i = 1
-                while i < len(buildlisty):
-                    # insert new x,y
-                    histx.append(buildlistx[i])
-                    histy.append(buildlisty[i-1])
-
-                    # insert old x,y
-                    histx.append(buildlistx[i])
-                    histy.append(buildlisty[i])
-
-                    i += 1
-
-                current.x = np.array(histx)
-                current.y = np.array(histy)
-            else:
-                current.x = np.array(buildlistx)
-                current.y = np.array(buildlisty)
-
-            curvelist.append(current)
-
-        f.close()
     except IOError:
         print('could not load file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
-    except ValueError:
+    except (ValueError, StopIteration):
         print('invalid pydv file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
@@ -4059,3 +4006,7 @@ def __loadpdb(fname, fpdb):
         print('invalid pydv file: ' + fname)
 
     return curvelist
+
+if __name__ == '__main__':
+    for curve in read('/Users/fillmore1/PycharmProjects/PyDV_fillmore1/tests/testData.txt'):
+        print(curve)
