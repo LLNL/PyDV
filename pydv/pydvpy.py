@@ -414,7 +414,7 @@ def savecsv(fname, curvelist, verbose=False):
             f.close()
 
 
-def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
+def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     """
     Read the file and add parsed curves to a curvelist
 
@@ -422,8 +422,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
     >>> curves = pydvif.read('testData.txt', False, 0, False, '*_name', 20)
 
-    :param fname: ULTRA filename
-    :type fname: str
+    :param file_name: ULTRA filename
+    :type file_name: str
     :param gnu: optional, flag to determine if the file is a column oriented (.gnu) file.
     :type gnu: bool
     :param xcol: optional, x-column number for column oriented (.gnu) files
@@ -439,29 +439,29 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     """
     end_tokens = {'end', 'End', 'eNd', 'enD', 'eND', 'EnD', 'ENd', 'END'}
 
-    curvelist = list()
+    curve_list = list()
     regex = None
 
     if pattern:
         regex = re.compile(r"%s" % pattern)
-    fname = os.path.expanduser(fname)
-    base_name, ext_name = os.path.splitext(fname)
+    file_name = os.path.expanduser(file_name)
+    _, ext = os.path.splitext(file_name)
     try:
-        if gnu or ext_name == '.gnu':
-            return __loadcolumns(fname, xcol)
+        if gnu or ext == '.gnu':
+            return __loadcolumns(file_name, xcol)
 
         if pdbLoaded:
             try:
-                fpdb = pdb.open(fname, 'r')
-                return __loadpdb(fname, fpdb)
+                fpdb = pdb.open(file_name, 'r')
+                return __loadpdb(file_name, fpdb)
             except:
                 pass
 
-        matchcount = 0
-        buildlistx = list()
-        buildlisty = list()
+        match_count = 0
+        build_list_x = list()
+        build_list_y = list()
 
-        with open(fname, 'r') as f:
+        with open(file_name, 'r') as f:
             stripped_lines = map(str.strip, f)
             split_lines = map(str.split, stripped_lines)
 
@@ -470,16 +470,16 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     continue
 
                 elif split_line[0] == '#':  # check for start of new curve
-                    curvename = ' '.join(split_line)
+                    curve_name = ' '.join(split_line)
 
                     if regex:
-                        if regex.search(curvename):
-                            matchcount += 1
-                            current = curve.Curve(fname, curvename)
+                        if regex.search(curve_name):
+                            match_count += 1
+                            current = curve.Curve(file_name, curve_name)
                         else:
                             current = None
                     else:
-                        current = curve.Curve(fname, curvename)
+                        current = curve.Curve(file_name, curve_name)
 
                     for inner_split_line in split_lines:
 
@@ -490,40 +490,39 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             break
 
                         if current:
-                            buildlistx += inner_split_line[::2]
-                            buildlisty += inner_split_line[1::2]
+                            build_list_x += inner_split_line[::2]
+                            build_list_y += inner_split_line[1::2]
 
                     if current:
-                        if len(buildlistx) != len(buildlisty):
-                            buildlisty.append(buildlisty[-1])
+                        if len(build_list_x) != len(build_list_y):
+                            build_list_y.append(build_list_y[-1])
 
-                            current.x = np.array(buildlistx, dtype=float).repeat(2)[1:]
-                            current.y = np.array(buildlisty, dtype=float).repeat(2)[:-1]
+                            current.x = np.array(build_list_x, dtype=float).repeat(2)[1:]
+                            current.y = np.array(build_list_y, dtype=float).repeat(2)[:-1]
                         else:
-                            current.x = np.array(buildlistx, dtype=float)
-                            current.y = np.array(buildlisty, dtype=float)
+                            current.x = np.array(build_list_x, dtype=float)
+                            current.y = np.array(build_list_y, dtype=float)
 
-                        curvelist.append(current)
-                        buildlistx = list()
-                        buildlisty = list()
+                        curve_list.append(current)
+                        build_list_x = list()
+                        build_list_y = list()
 
                     if matches is not None:
-                        # print "matches = %d" % matches
-                        if matchcount >= matches:
+                        if match_count >= matches:
                             break
                 else:
                     raise ValueError('Found data outside of curve')
 
     except IOError:
-        print('could not load file: ' + fname)
+        print('could not load file: {}'.format(file_name))
         if verbose:
             traceback.print_exc(file=sys.stdout)
-    except (ValueError, StopIteration):
-        print('invalid pydv file: ' + fname)
+    except ValueError:
+        print('invalid pydv file: {}'.format(file_name))
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
-    return curvelist
+    return curve_list
 
 
 def filtercurves(curvelist, pattern):
