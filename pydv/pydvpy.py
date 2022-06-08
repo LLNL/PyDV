@@ -437,6 +437,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     :returns: list -- the list of curves from the file matching pattern, if specified
     
     """
+    end_tokens = {'end', 'End', 'eNd', 'enD', 'eND', 'EnD', 'ENd', 'END'}
+
     curvelist = list()
     regex = None
 
@@ -460,13 +462,15 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         buildlisty = list()
 
         with open(fname, 'r') as f:
-            for line in f:
-                stripped_line = line.strip()
-                if stripped_line[:2] == '##':
+            stripped_lines = map(str.strip, f)
+            split_lines = map(str.split, stripped_lines)
+
+            for split_line in split_lines:
+                if split_line[0] == '##':
                     continue
 
-                elif stripped_line[:1] == '#':  # check for start of new curve
-                    curvename = stripped_line[1:].strip()
+                elif split_line[0] == '#':  # check for start of new curve
+                    curvename = ' '.join(split_line)
 
                     if regex:
                         if regex.search(curvename):
@@ -477,33 +481,27 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     else:
                         current = curve.Curve(fname, curvename)
 
-                    while True:
-                        stripped_line = next(f).strip()
+                    for inner_split_line in split_lines:
 
-                        if stripped_line[:2] == '##':
+                        if inner_split_line[0] == '##':
                             continue
 
-                        if stripped_line.lower() == 'end':
+                        if inner_split_line[0] in end_tokens:
                             break
 
                         if current:
-                            values = stripped_line.split()
-                            buildlistx.extend(map(float, values[::2]))
-                            buildlisty.extend(map(float, values[1::2]))
-                            if len(values) % 2 == 1:
-                                # Treat a piecewise constant
-                                current.drawstyle = 'steps-post'
+                            buildlistx += inner_split_line[::2]
+                            buildlisty += inner_split_line[1::2]
 
                     if current:
-                        if current.drawstyle != 'default':
-                            current.drawstyle = 'default'
+                        if len(buildlistx) != len(buildlisty):
                             buildlisty.append(buildlisty[-1])
 
-                            current.x = np.array(buildlistx).repeat(2)[1:]
-                            current.y = np.array(buildlisty).repeat(2)[:-1]
+                            current.x = np.array(buildlistx, dtype=float).repeat(2)[1:]
+                            current.y = np.array(buildlisty, dtype=float).repeat(2)[:-1]
                         else:
-                            current.x = np.array(buildlistx)
-                            current.y = np.array(buildlisty)
+                            current.x = np.array(buildlistx, dtype=float)
+                            current.y = np.array(buildlisty, dtype=float)
 
                         curvelist.append(current)
                         buildlistx = list()
