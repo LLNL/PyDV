@@ -437,7 +437,17 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
     :returns: list -- the list of curves from the file matching pattern, if specified
     
     """
-    end_tokens = {'end', 'End', 'eNd', 'enD', 'eND', 'EnD', 'ENd', 'END'}
+    def bundle_curve(_curve, build_x, build_y):
+        if len(build_x) != len(build_y):
+            build_y.append(build_y[-1])
+
+            _curve.x = np.array(build_x, dtype=float).repeat(2)[1:-1]
+            _curve.y = np.array(build_y, dtype=float).repeat(2)[:-2]
+        else:
+            _curve.x = np.array(build_x, dtype=float)
+            _curve.y = np.array(build_y, dtype=float)
+
+        return _curve
 
     curve_list = list()
     regex = None
@@ -460,18 +470,22 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         match_count = 0
         build_list_x = list()
         build_list_y = list()
-
+        current = None
         with open(file_name, 'r') as f:
-            stripped_lines = map(str.strip, f)
-            split_lines = map(str.split, stripped_lines)
+            split_lines = map(str.split, map(str.strip, f))
 
             for split_line in split_lines:
-                if split_line[0] == '##':
+                if split_line[0] in {'##', 'end', 'End', 'END'}:
                     continue
 
                 elif split_line[0] == '#':  # check for start of new curve
-                    curve_name = ' '.join(split_line)
 
+                    if current:
+                        curve_list.append(bundle_curve(current, build_list_x, build_list_y))
+                        build_list_x = list()
+                        build_list_y = list()
+
+                    curve_name = ' '.join(split_line)
                     if regex:
                         if regex.search(curve_name):
                             match_count += 1
@@ -481,37 +495,15 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     else:
                         current = curve.Curve(file_name, curve_name)
 
-                    for inner_split_line in split_lines:
+                elif current:
+                    build_list_x += split_line[::2]
+                    build_list_y += split_line[1::2]
 
-                        if inner_split_line[0] == '##':
-                            continue
+                if matches and match_count >= matches:
+                    break
 
-                        if inner_split_line[0] in end_tokens:
-                            break
-
-                        if current:
-                            build_list_x += inner_split_line[::2]
-                            build_list_y += inner_split_line[1::2]
-
-                    if current:
-                        if len(build_list_x) != len(build_list_y):
-                            build_list_y.append(build_list_y[-1])
-
-                            current.x = np.array(build_list_x, dtype=float).repeat(2)[1:]
-                            current.y = np.array(build_list_y, dtype=float).repeat(2)[:-1]
-                        else:
-                            current.x = np.array(build_list_x, dtype=float)
-                            current.y = np.array(build_list_y, dtype=float)
-
-                        curve_list.append(current)
-                        build_list_x = list()
-                        build_list_y = list()
-
-                    if matches is not None:
-                        if match_count >= matches:
-                            break
-                else:
-                    raise ValueError('Found data outside of curve')
+        if current:
+            curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:
         print('could not load file: {}'.format(file_name))
