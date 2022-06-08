@@ -3,6 +3,26 @@
 Release Notes
 =============
 
+3.1.1
+-----
+``@`` notation in curve indexing fixed for mathematical operations.
+
+
+
+3.1.0
+-----
+`getymin` and `getymax` will now return a list of x, y pairs for the min/max value.
+If there is a domain specified, these functions will only return points in that
+domain.
+
+
+
+3.0.7
+-----
+* Fixed a bug in PyDV internal when using min and max over a range.
+
+
+
 3.0.6
 -----
 * Fixed functions that did not work with curve lists, which were: dupx, del,

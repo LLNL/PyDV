@@ -1,7 +1,7 @@
-# Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -93,10 +93,7 @@ import readline
 import code
 from numbers import Number
 
-import pydvpy as pydvif
-import curve
-import pdvplot
-import pdvutil
+from pydv import pydvpy as pydvif, curve, pdvplot, pdvutil
 
 try:
     from matplotlib import style
@@ -1850,10 +1847,10 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, maxy = pydvif.getymax(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymax: %.6f' % maxy)
-            print('')
+            for x, y in xy_values:
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -1890,10 +1887,10 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line[0], self.plotlist)
             cur = self.plotlist[idx]
-            plotname, miny = pydvif.getymin(cur, xlow, xhi)
+            plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
             print('\nCurve ' + plotname)
-            print('    ymin: %.6f' % miny)
-            print('')
+            for x, y in xy_values:
+                print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -6678,7 +6675,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.0.6  -  12.01.2021\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.1.1  -  05.23.2022\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

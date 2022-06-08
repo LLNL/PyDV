@@ -1,7 +1,7 @@
-# Copyright (c) 2011-2020, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin
-# e-mail: griffin28@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -82,7 +82,7 @@ def parsemath(line, plotlist, commander, xdomain):
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
-            dex = int(val[1:]) + 1
+            dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
