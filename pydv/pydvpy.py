@@ -506,6 +506,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             current.y = np.array(buildlisty)
 
                         curvelist.append(current)
+                        buildlistx = list()
+                        buildlisty = list()
 
                     if matches is not None:
                         # print "matches = %d" % matches
