@@ -480,7 +480,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
                 elif split_line[0] == '#':  # check for start of new curve
 
-                    if current:
+                    if current and build_list_x:
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
@@ -3997,3 +3997,9 @@ def __loadpdb(fname, fpdb):
         print('invalid pydv file: ' + fname)
 
     return curvelist
+
+if __name__ == "__main__":
+    for c in read("/Users/fillmore1/PycharmProjects/PyDV_fillmore1/tests/testData.txt"):
+        print(c.name)
+        print(c.x)
+        print(c.y)
