@@ -3997,9 +3997,3 @@ def __loadpdb(fname, fpdb):
         print('invalid pydv file: ' + fname)
 
     return curvelist
-
-if __name__ == "__main__":
-    for c in read("/Users/fillmore1/PycharmProjects/PyDV_fillmore1/tests/testData.txt"):
-        print(c.name)
-        print(c.x)
-        print(c.y)
