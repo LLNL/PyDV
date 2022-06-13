@@ -485,7 +485,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                         build_list_x = list()
                         build_list_y = list()
 
-                    curve_name = ' '.join(split_line)
+                    curve_name = ' '.join(split_line[1:])
                     if regex:
                         if regex.search(curve_name):
                             match_count += 1
