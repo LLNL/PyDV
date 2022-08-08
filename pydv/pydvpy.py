@@ -471,23 +471,27 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         build_list_x = list()
         build_list_y = list()
         current = None
+        new_curve = True
         with open(file_name, 'r') as f:
             split_lines = map(str.split, map(str.strip, f))
 
-            for split_line in split_lines:
-                if not split_line:
+            for line_ndx in range(1, len(split_lines)):
+                current_line = split_lines[line_ndx]
+                previous_line = split_lines[line_ndx - 1]
+                if not current_line:
                     continue
-                if split_line[0] in {'##', 'end', 'End', 'END'}:
-                    continue
-
-                elif split_line[0] == '#':  # check for start of new curve
+                elif current_line[0] in {'#', '##', 'end', 'End', 'END'}:
+                    new_curve = True
+                else:
+                    if new_curve:
+                        curve_name = ' '.join(previous_line[1:])
+                        new_curve = False
 
                     if current and build_list_x:
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
 
-                    curve_name = ' '.join(split_line[1:])
                     if regex:
                         if regex.search(curve_name):
                             match_count += 1
@@ -497,9 +501,9 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     else:
                         current = curve.Curve(file_name, curve_name)
 
-                elif current:
-                    build_list_x += split_line[::2]
-                    build_list_y += split_line[1::2]
+                    if current:
+                        build_list_x += current_line[::2]
+                        build_list_y += current_line[1::2]
 
                 if matches and match_count >= matches:
                     break
