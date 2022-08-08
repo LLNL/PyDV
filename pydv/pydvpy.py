@@ -472,25 +472,26 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         build_list_y = list()
         current = None
         new_curve = True
+        potential_curve_name = ""
         with open(file_name, 'r') as f:
             split_lines = map(str.split, map(str.strip, f))
 
-            for line_ndx in range(1, len(split_lines)):
-                current_line = split_lines[line_ndx]
-                previous_line = split_lines[line_ndx - 1]
-                if not current_line:
+            for split_line in enumerate(split_lines):
+                if not split_line:
                     continue
-                elif current_line[0] in {'#', '##', 'end', 'End', 'END'}:
+                elif split_line[0] in {'##', 'end', 'End', 'END'}:
+                    continue
+                elif split_line[0] == '#':
                     new_curve = True
-                else:
-                    if new_curve:
-                        curve_name = ' '.join(previous_line[1:])
-                        new_curve = False
-
-                    if current and build_list_x:
+                    if current: # Need to append the curve we just built to the curve list
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
+                    potential_curve_name = ' '.join(split_line[1:])
+                else:
+                    if new_curve:
+                        curve_name = potential_curve_name
+                        new_curve = False
 
                     if regex:
                         if regex.search(curve_name):
@@ -501,13 +502,13 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     else:
                         current = curve.Curve(file_name, curve_name)
 
-                    if current:
-                        build_list_x += current_line[::2]
-                        build_list_y += current_line[1::2]
+                    build_list_x += split_line[::2]
+                    build_list_y += split_line[1::2]
 
-                if matches and match_count >= matches:
-                    break
+                    if matches and match_count >= matches:
+                        break
 
+        # Append the last curve that we built
         if current:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
