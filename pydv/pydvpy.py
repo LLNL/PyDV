@@ -476,7 +476,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         with open(file_name, 'r') as f:
             for line in f:
                 split_line = re.split(r'[ _]+', str.strip(line))
-                if not split_line:
+                if not split_line or not split_line[0]:
                     continue
                 elif split_line[0] in {'##', 'end', 'End', 'END'}:
                     continue
