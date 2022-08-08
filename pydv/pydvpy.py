@@ -475,7 +475,8 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
             split_lines = map(str.split, map(str.strip, f))
 
             for split_line in split_lines:
-                if not split_line: continue
+                if not split_line:
+                    continue
                 if split_line[0] in {'##', 'end', 'End', 'END'}:
                     continue
 
