@@ -476,21 +476,19 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         with open(file_name, 'r') as f:
             for line in f:
                 split_line = re.split(r'[ _]+', str.strip(line))
-                print(split_line)
                 if not split_line:
-                    print("Split line is nothing")
                     continue
                 elif split_line[0] in {'##', 'end', 'End', 'END'}:
-                    print(f"Split line is {split_line[0]}")
                     continue
                 elif split_line[0] == '#':
-                    print("Potential new curve!")
-                    if current and not new_curve: # Need to append the curve we just built to the curve list
-                        print(f"Appending the last curve, whose name was {current.name}")
-                        print("with the following data:")
-                        print(build_list_x)
-                        print(build_list_y)
-                        print()
+                    # We may have just finished buiding a curve, so we need to
+                    # add it to the list of curves.
+                    # If this is the first curve, then current will be None, so
+                    # we won't add anything.
+                    # If there is a sequence of lines that start with # before
+                    # getting to the actual data, then the new_curve flag will
+                    # keep us from adding all those comments as curves.
+                    if current and not new_curve: 
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
@@ -499,9 +497,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     new_curve = True
                     potential_curve_name = ' '.join(split_line[1:])
                 else:
-                    print(f"Numeric line, the first element is: {split_line[0]}")
                     if new_curve:
-                        print("This is an new curve!")
                         curve_name = potential_curve_name
                         new_curve = False
                         if regex:
@@ -513,9 +509,6 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                         else:
                             current = curve.Curve(file_name, curve_name)
 
-                        print(f"New curve name is {current.name}")
-
-                    print("Building the x and y lists")
                     build_list_x += split_line[::2]
                     build_list_y += split_line[1::2]
 
@@ -525,14 +518,6 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         # Append the last curve that we built
         if current:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
-
-
-        print("\n\n\nFROM HERE\n\n\n")
-        for i, curve_i in enumerate(curve_list):
-            print(f"Curve {i}: {curve_i.name}")
-            print(curve_i.x)
-            print(curve_i.y)
-            print()
 
     except IOError:
         print('could not load file: {}'.format(file_name))
