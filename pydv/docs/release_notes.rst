@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.2
+-----
+* Improved `pydvpy.read()` performance.
+
+
 3.1.1
 -----
 ``@`` notation in curve indexing fixed for mathematical operations.
