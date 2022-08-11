@@ -441,8 +441,8 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         if len(build_x) != len(build_y):
             build_y.append(build_y[-1])
 
-            _curve.x = np.array(build_x, dtype=float).repeat(2)[1:-1]
-            _curve.y = np.array(build_y, dtype=float).repeat(2)[:-2]
+            _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
+            _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
