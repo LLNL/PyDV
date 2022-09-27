@@ -1,0 +1,134 @@
+stages:
+  - create_env
+  - run_tests
+  - create_and_push_tag
+  - release
+  - deploy    
+
+.create_env:
+  script:
+    - make create_env
+
+.run_tests:
+  script:
+    - make run_tests
+
+.create_and_push_tag:
+  script:
+    - env
+    - make create_and_push_tag
+    
+.release:
+  script:
+    - make release
+
+.deploy:
+  script:
+    - make deploy
+
+.on_cz:
+  tags:
+    - shell
+    - ruby
+    
+.on_rz:
+  tags:
+    - shell
+    - rztopaz
+
+.run_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG == null && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/"'
+
+.run_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG == null && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/"'
+    
+.create_and_push_tag_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+
+.create_and_push_tag_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")'
+    
+.release_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_TAG !~ "/^$/"'
+
+.release_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_TAG !~ "/^$/"'
+
+.prod_tag_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'
+
+.prod_tag_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'    
+
+.dev_tag_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/"'
+
+.dev_tag_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/"'
+        
+        
+create_env_on_cz:
+  stage: create_env
+  extends: [ .on_cz, .run_on_cz, .create_env ]
+  
+run_tests_on_cz:
+  stage: run_tests
+  extends: [ .on_cz, .run_on_cz, .run_tests ]
+
+create_and_push_tag_on_cz:    
+  stage: create_and_push_tag
+  extends: [ .on_cz, .create_and_push_tag_on_cz, .create_and_push_tag ]
+
+release_on_cz:
+  stage: release
+  extends: [ .on_cz, .release_on_cz, .release ]
+
+deploy_for_prod_on_cz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "prod"
+  extends: [ .on_cz, .prod_tag_on_cz, .deploy ]    
+
+deploy_for_dev_on_cz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "dev"
+  extends: [ .on_cz, .dev_tag_on_cz, .deploy ]
+    
+create_env_on_rz:
+  stage: create_env
+  extends: [ .on_rz, .run_on_rz, .create_env ]
+  
+run_tests_on_rz:
+  stage: run_tests
+  extends: [ .on_rz, .run_on_rz, .run_tests ]
+
+create_and_push_tag_on_rz:    
+  stage: create_and_push_tag
+  extends: [ .on_rz, .create_and_push_tag_on_rz, .create_and_push_tag ]
+
+release_on_rz:
+  stage: release
+  extends: [ .on_rz, .release_on_rz, .release ]
+
+deploy_for_prod_on_rz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "prod"
+  extends: [ .on_rz, .prod_tag_on_rz, .deploy ]    
+
+deploy_for_dev_on_rz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "dev"
+  extends: [ .on_rz, .dev_tag_on_rz, .deploy ]

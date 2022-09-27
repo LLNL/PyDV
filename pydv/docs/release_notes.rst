@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.3
+-----
+* Added CI running in CZ and RZ
+* Updated test baselines.
+
 3.1.2
 -----
 * Improved `pydvpy.read()` performance.
