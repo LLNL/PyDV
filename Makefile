@@ -93,9 +93,9 @@ deploy:
 	chmod 750 $(TAG).tar.gz
 	gunzip $(TAG).tar.gz
 	tar -xvf $(TAG).tar
-	chmod -R 750 $(TAG)
 	rm $(TAG).tar
 	mv pydv $(TAG)
+	chmod -R 750 $(TAG)
 	rm -f latest
 	ln -s $(TAG) latest
 	AS_WEAVECI_USER
