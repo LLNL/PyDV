@@ -102,7 +102,7 @@ deploy_for_prod_on_cz:
 deploy_for_dev_on_cz:
   stage: deploy
   variables:
-    DEPLOY_TO: "dev"
+    DEPLOY_TO: "develop"
   extends: [ .on_cz, .dev_tag_on_cz, .deploy ]
     
 create_env_on_rz:
@@ -130,5 +130,5 @@ deploy_for_prod_on_rz:
 deploy_for_dev_on_rz:
   stage: deploy
   variables:
-    DEPLOY_TO: "dev"
+    DEPLOY_TO: "develop"
   extends: [ .on_rz, .dev_tag_on_rz, .deploy ]
