@@ -13,6 +13,10 @@ stages:
   script:
     - make run_tests
 
+.run_rz_tests:
+  script:
+    - make run_rz_tests
+
 .create_and_push_tag:
   script:
     - env
@@ -112,6 +116,10 @@ create_env_on_rz:
 run_tests_on_rz:
   stage: run_tests
   extends: [ .on_rz, .run_on_rz, .run_tests ]
+
+run_rz_tests_on_rz:
+  stage: run_tests
+  extends: [ .on_rz, .run_on_rz, .run_rz_tests ]
 
 create_and_push_tag_on_rz:    
   stage: create_and_push_tag
