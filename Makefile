@@ -12,34 +12,69 @@ CZ_GITLAB = "ssh://git@czgitlab.llnl.gov:7999"
 RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
-setup:
-	@[ -d $(WORKSPACE) ] || mkdir -p $(WORKSPACE);
+RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
+PYTHON_CMD = /usr/tce/packages/python/python-3.8.2/bin/python3
+
+define create_env
+	# call from the directory where env will be created
+	# arg1: name of env
+	$(PYTHON_CMD) -m venv --system-site-packages $1
+	source $1/bin/activate &&
+	pip3 install --upgrade pip &&
+	pip3 install --force pytest &&
+	pip3 install numpy scipy matplotlib PySide2 &&
+	which pytest
+endef
+
+define run_pydv_tests
+	# call from the top repository directory
+	# arg1: full path to venv
+	source $1/bin/activate && which pip && which pytest && 
+	if [ -z $(DISPLAY) ]; then 
+	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/test_pydv_images.py; 
+	else 
+	  pytest --capture=tee-sys -v tests/test_pydv_images.py;
+	fi
+endef
 
 
 .PHONY: create_env
-create_env: setup
-	@echo "Create venv for running pydv...$(WORKSPACE)"; \
-	cd $(WORKSPACE); \
+create_env:
+	@echo "Create venv for running pydv...$(WORKSPACE)";
+	@[ -d $(WORKSPACE) ] || mkdir -p $(WORKSPACE);
+	cd $(WORKSPACE);
 	if [ -d $(PYDV_ENV) ]; then \
 	  rm -rf $(PYDV_ENV); \
-	fi; \
-	/usr/tce/packages/python/python-3.8.2/bin/python3 -m venv --system-site-packages $(PYDV_ENV); \
-	source $(PYDV_ENV)/bin/activate; \
-	pip3 install --upgrade pip; \
-	pip3 install --upgrade pytest;
+	fi;
+	$(call create_env,$(PYDV_ENV))
 
 
 .PHONY: run_tests
 run_tests:
-	@echo "Run tests..."; \
-	source $(WORKSPACE)/$(PYDV_ENV)/bin/activate; \
-	pwd; \
-	if [ -z $(CI_JOB_ID) ]; then \
-	  pytest --capture=tee-sys -v tests/test_pydv_images.py; \
-	else \
-	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/test_pydv_images.py; \
-	fi; \
-	git status
+	@echo "Run tests...";
+	$(call run_pydv_tests,$(WORKSPACE)/$(PYDV_ENV))
+
+
+.PHONY: run_rz_tests
+.ONESHELL:
+run_rz_tests:
+	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)"
+	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
+		cd $(RZ_TESTS_WORKDIR) && rm -rf pydv
+		/usr/tce/bin/git clone -b develop $(RZ_GITLAB)/$(PROJECT)
+		cd pydv
+		$(call create_env,$(PYDV_ENV))
+		cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd ..
+		$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV))
+		for t in tests/wsc_tests/test_*py; do
+			echo RUNNING \$$t
+			if [ -z $(DISPLAY) ]; then
+				xvfb-run --auto-servernum python3 -m pytest \$$t
+			else
+				python3 -m pytest -v \$$t
+			fi
+		done
+	AS_WEAVECI_USER
 
 
 .PHONY: create_and_push_tag
