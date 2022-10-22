@@ -6,7 +6,8 @@ Release Notes
 3.1.3
 -----
 * Added CI running in CZ and RZ
-* Updated test baselines.
+* Run RZ specific tests in CI (when running in RZ).
+* Updated test baselines - due to python.3.8.2
 
 3.1.2
 -----

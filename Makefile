@@ -6,7 +6,7 @@ PYDV_ENV := $(if $(PYDV_ENV), $(PYDV_ENV),pydv_env)
 
 PKG_REGISTRY_URL = $(CI_API_V4_URL)/projects/$(CI_PROJECT_ID)/packages/generic/archive
 DEPLOY_PATH = /usr/gapps/pydv
-CI_UTILS = /usr/gapps/weave/ci_utils
+CI_UTILS = /usr/workspace/weave/ci_utils
 
 CZ_GITLAB = "ssh://git@czgitlab.llnl.gov:7999"
 RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
@@ -77,29 +77,6 @@ run_rz_tests:
 	AS_WEAVECI_USER
 
 
-.PHONY: create_and_push_tag
-create_and_push_tag:
-	$(shell git checkout $(CI_COMMIT_BRANCH))
-	$(shell git fetch)
-	$(eval TAG=$(shell python3 $(CI_UTILS)/utils/get_project_version.py --git_repo_dir $(CI_PROJECT_DIR) --file_with_version setup.py))
-	@echo "Create a tag and push the tag $(TAG) to $(CI_COMMIT_BRANCH) branch, CI_PROJECT_DIR: $(CI_PROJECT_DIR)..."; \
-	git config --global User.email "$(GITLAB_USER_EMAIL)"; \
-	git config --global user.name "$(GITLAB_USER_NAME)"; \
-	git remote rm origin && \
-	if [ $(SOURCE_ZONE) == "CZ" ]; then \
-		git remote add origin $(CZ_GITLAB)/$(PROJECT); \
-	else \
-		git remote add origin $(RZ_GITLAB)/$(PROJECT); \
-	fi; \
-	git pull origin $(CI_COMMIT_BRANCH); \
-	git fetch; \
-	git status; \
-	echo "Create and push pydv-$(TAG) tag..."; \
-	git tag -a pydv-$(TAG) -m "Adding tag pydv-$(TAG)"; \
-	git commit -a -m"add tag pydv-$(TAG)"; \
-	git push origin pydv-$(TAG)
-
-
 .PHONY: release
 release:
 	@echo "...create a release....TAG: $(CI_COMMIT_TAG), PKG_REGISTRY_URL: $(PKG_REGISTRY_URL)"; \
@@ -115,7 +92,7 @@ release:
 .PHONY: deploy
 .ONESHELL:
 deploy:
-	@echo "...deploy...only run from CI, DEPLOY_TO variable needs to be set"; \
+	@echo "...deploy...only run from CI... "; \
 	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
 	wget --header="JOB-TOKEN:$(CI_JOB_TOKEN)" $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz -O $(TAG).tar.gz
 	give weaveci $(TAG).tar.gz
@@ -123,7 +100,7 @@ deploy:
 	set -x
 	set -e
 	sg us_cit
-	cd $(DEPLOY_PATH)/$(DEPLOY_TO)
+	cd $(DEPLOY_PATH)
 	take muryanto -f
 	chmod 750 $(TAG).tar.gz
 	gunzip $(TAG).tar.gz
