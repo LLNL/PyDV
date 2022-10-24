@@ -2,8 +2,9 @@ stages:
   - create_env
   - run_tests
   - release
-  - deploy    
-
+  - deploy
+  - deploy_to_develop
+    
 .create_env:
   script:
     - make create_env
@@ -51,6 +52,14 @@ stages:
   rules:
     - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'    
 
+.deploy_to_develop_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_BRANCH == "develop"'
+
+.deploy_to_develop_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_BRANCH == "develop"'
+    
 create_env_on_cz:
   stage: create_env
   extends: [ .on_cz, .run_on_cz, .create_env ]
@@ -69,7 +78,12 @@ deploy_on_cz:
     DEPLOY_TO: "prod"
   extends: [ .on_cz, .tag_on_cz, .deploy ]    
 
-    
+deploy_to_develop_on_cz:
+  stage: deploy_to_develop
+  extends: [ .on_cz, .deploy_to_develop_on_cz ]
+  script:
+    - make deploy_to_develop
+      
 create_env_on_rz:
   stage: create_env
   extends: [ .on_rz, .run_on_rz, .create_env ]
@@ -91,3 +105,9 @@ deploy_on_rz:
   variables:
     DEPLOY_TO: "prod"
   extends: [ .on_rz, .tag_on_rz, .deploy ]    
+
+deploy_to_develop_on_rz:
+  stage: deploy_to_develop
+  extends: [ .on_rz, .deploy_to_develop_on_rz ]
+  script:
+    - make deploy_to_develop
