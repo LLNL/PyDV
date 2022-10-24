@@ -108,6 +108,6 @@ deploy:
 	rm $(TAG).tar
 	mv pydv $(TAG)
 	chmod -R 750 $(TAG)
-	rm -f latest
-	ln -s $(TAG) latest
+	rm -f current
+	ln -s $(TAG) current
 	AS_WEAVECI_USER
