@@ -58,7 +58,7 @@ stages:
 
 .deploy_to_develop_on_rz:
   rules:
-    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_BRANCH == "develop"'
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_BRANCH == "develop"'
     
 create_env_on_cz:
   stage: create_env
