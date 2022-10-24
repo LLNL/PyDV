@@ -127,5 +127,4 @@ deploy_to_develop:
 		take muryanto -f
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
-		if [ -d __pycache__ ]; then rm -rf __pycache; fi
 	AS_WEAVECI_USER
