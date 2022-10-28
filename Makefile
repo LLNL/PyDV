@@ -128,5 +128,6 @@ deploy_to_develop:
 		take muryanto -f
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
-		cd .. && chmod -$ 750 develop
+		cd .. && chmod -R 750 develop
+		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv
 	AS_WEAVECI_USER
