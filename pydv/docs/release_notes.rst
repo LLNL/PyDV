@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.4
+-----
+* Makefile change to do 'sed' on pdv to update the python path
+  and chmod -R 750 develop
+  
 3.1.3
 -----
 * Added CI running in CZ and RZ
