@@ -137,10 +137,6 @@ run_tests_on_scf:
   stage: run_tests
   extends: [ .on_scf, .run_on_scf, .run_tests ]
 
-run_rz_tests_on_scf:
-  stage: run_tests
-  extends: [ .on_scf, .run_on_scf, .run_rz_tests ]
-
 release_on_scf:
   stage: release
   extends: [ .on_scf, .tag_on_scf, .release ]
