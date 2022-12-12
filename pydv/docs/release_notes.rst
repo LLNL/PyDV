@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.5
+-----
+* Updated CI to run on closed side.
+
+
 3.1.4
 -----
 * Makefile change to do 'sed' on pdv to update the python path

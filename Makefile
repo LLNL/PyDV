@@ -8,7 +8,6 @@ PKG_REGISTRY_URL = $(CI_API_V4_URL)/projects/$(CI_PROJECT_ID)/packages/generic/a
 DEPLOY_PATH = /usr/gapps/pydv
 CI_UTILS = /usr/workspace/weave/ci_utils
 
-CZ_GITLAB = "ssh://git@czgitlab.llnl.gov:7999"
 RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
