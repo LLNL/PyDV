@@ -30,9 +30,9 @@ define run_pydv_tests
 	# arg1: full path to venv
 	source $1/bin/activate && which pip && which pytest && 
 	if [ -z $(DISPLAY) ]; then 
-	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/test_pydv_images.py; 
+	  xvfb-run --auto-servernum --server-num=88 pytest --capture=tee-sys -v tests/; 
 	else 
-	  pytest --capture=tee-sys -v tests/test_pydv_images.py;
+	  pytest --capture=tee-sys -v tests/;
 	fi
 endef
 
@@ -68,7 +68,7 @@ run_rz_tests:
 		for t in tests/wsc_tests/test_*py; do
 			echo RUNNING \$$t
 			if [ -z $(DISPLAY) ]; then
-				xvfb-run --auto-servernum python3 -m pytest \$$t
+				xvfb-run --auto-servernum --server-num=88 python3 -m pytest \$$t
 			else
 				python3 -m pytest -v \$$t
 			fi
