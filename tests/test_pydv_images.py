@@ -5,7 +5,7 @@ import subprocess
 import pytest
 
 from matplotlib import image
-from numpy import testing as np
+import numpy as np
 
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -131,7 +131,7 @@ baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
 def test_image(baseline_image, test_image):
     baseline = image.imread(os.path.join(BASELINE_DIR, baseline_image))
     output = image.imread(os.path.join(output_dir, test_image))
-    np.assert_equal(baseline, output)
+    np.array_equal(baseline, output)
 
 # ----------------- #
 # --- Run tests --- #

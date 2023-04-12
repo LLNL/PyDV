@@ -17,11 +17,11 @@ PYTHON_CMD = /usr/tce/packages/python/python-3.8.2/bin/python3
 define create_env
 	# call from the directory where env will be created
 	# arg1: name of env
-	$(PYTHON_CMD) -m venv --system-site-packages $1
+	$(PYTHON_CMD) -m venv $1
 	source $1/bin/activate &&
 	pip3 install --upgrade pip &&
 	pip3 install --force pytest &&
-	pip3 install numpy scipy matplotlib PySide2 &&
+	pip3 install numpy scipy matplotlib==3.2.0 PySide2 &&
 	which pytest
 endef
 
