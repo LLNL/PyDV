@@ -30,12 +30,26 @@ define run_pydv_tests
 	# arg1: full path to venv
 	source $1/bin/activate && which pip && which pytest && 
 	if [ -z $(DISPLAY) ]; then 
-	  xvfb-run --auto-servernum --server-num=88 pytest --capture=tee-sys -v tests/; 
+	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/; 
 	else 
 	  pytest --capture=tee-sys -v tests/;
 	fi
 endef
 
+define do_run_rz_tests
+	cd $(RZ_TESTS_WORKDIR) && rm -rf pydv &&
+	/usr/tce/bin/git clone -b $(CI_COMMIT_BRANCH) $(RZ_GITLAB)/$(PROJECT) &&
+	chgrp -R weavedev pydv && cd pydv && 
+	$(call create_env,$(PYDV_ENV)) &&
+	cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd .. &&
+	$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)) &&
+	source $(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)/bin/activate &&
+	if [ -z $(DISPLAY) ]; then
+		xvfb-run --auto-servernum python3 -m pytest tests/wsc_tests/test_*py
+	else
+		python3 -m pytest -v tests/wsc_tests/test_*py
+	fi
+endef
 
 .PHONY: create_env
 create_env:
@@ -57,23 +71,8 @@ run_tests:
 .PHONY: run_rz_tests
 .ONESHELL:
 run_rz_tests:
-	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)"
-	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
-		cd $(RZ_TESTS_WORKDIR) && rm -rf pydv
-		/usr/tce/bin/git clone -b develop $(RZ_GITLAB)/$(PROJECT)
-		cd pydv
-		$(call create_env,$(PYDV_ENV))
-		cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd ..
-		$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV))
-		for t in tests/wsc_tests/test_*py; do
-			echo RUNNING \$$t
-			if [ -z $(DISPLAY) ]; then
-				xvfb-run --auto-servernum --server-num=88 python3 -m pytest \$$t
-			else
-				python3 -m pytest -v \$$t
-			fi
-		done
-	AS_WEAVECI_USER
+	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)";
+	umask 007 && sg weavedev -c '$(call do_run_rz_tests)'
 
 
 .PHONY: release
@@ -86,7 +85,6 @@ release:
 	ls; \
 	gzip $(TAG).tar; \
 	curl --header "JOB-TOKEN: $(CI_JOB_TOKEN)" --upload-file $(TAG).tar.gz $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz
-
 
 .PHONY: deploy
 .ONESHELL:
@@ -130,3 +128,4 @@ deploy_to_develop:
 		cd .. && chmod -R 750 develop
 		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv
 	AS_WEAVECI_USER
+
