@@ -3,6 +3,17 @@
 Release Notes
 =============
 
+* Updated `read` command to accommodate tab-delimited ultra files
+* Added `labelrecordids` and `group` commands
+  compatible with curves from Sina files
+* Updated test baselines to cover new commands
+* Added tests for pdv and pydypy to cover read functions for
+  different curve file types and commands to set `menu` column widths:
+  `xlabelwidth`, `ylabelwidth`, `filenamewidth`, and `recordidwidth`
+* Updated CI to run without --system-site-packages; matplotlib version fixed to 3.2.0
+  and numpy updated to 1.24.2
+
+
 3.1.5
 -----
 * Updated CI to run on closed side.
@@ -13,11 +24,13 @@ Release Notes
 * Makefile change to do 'sed' on pdv to update the python path
   and chmod -R 750 develop
   
+
 3.1.3
 -----
 * Added CI running in CZ and RZ
 * Run RZ specific tests in CI (when running in RZ).
 * Updated test baselines - due to python.3.8.2
+
 
 3.1.2
 -----

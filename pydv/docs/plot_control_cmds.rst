@@ -161,6 +161,15 @@ Set the grid line width in points.
 
    [PyDV]: gridwidth <width>
 
+group
+-----
+
+Group curves based on name and file if curve names are the same. Max number of same name curves is 14.
+
+.. code::
+
+   [PyDV]: group
+
 guilims
 -------
 
@@ -218,6 +227,16 @@ at the time of execution. Any new curve will need to have this command run again
 .. code::
 
    [PyDV]: labelfilenames
+
+labelrecordids
+--------------
+
+Add curve recordid to the legend label if **on**, otherwise hide curve recordid if **off**.
+Note: Command will only work with curves from Sina files with valid record ids.
+
+.. code::
+
+   [PyDV]: labelrecordids <on | off>
 
 latex
 -----

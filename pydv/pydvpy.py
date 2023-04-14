@@ -130,7 +130,7 @@ def span(xmin, xmax, numpts=100):
     return c
 
 
-def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
+def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id=''):
     """
     Generate a curve from two lists of numbers.
 
@@ -154,6 +154,7 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
     c.xlabel = xlabel
     c.ylabel = ylabel
     c.title = title
+    c.record_id = record_id
 
     return c
 
@@ -493,7 +494,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                         build_list_x = list()
                         build_list_y = list()
 
-                    # Beging setup of new curve
+                    # Begining setup of new curve
                     new_curve = True
                     potential_curve_name = ' '.join(split_line[1:])
                 else:
@@ -661,7 +662,9 @@ def readsina(fname, verbose=False):
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
-                curve_sets = json.load(fp)['records'][0]['curve_sets']
+                sina_file = json.load(fp) # Can only have on json.load(fp)?
+                record_id = sina_file['records'][0]['id']
+                curve_sets = sina_file['records'][0]['curve_sets']
                 for curve_set_name, curve_set in curve_sets.items():
                     independent_dict = next(iter(curve_set['independent'].items()))
                     independent_name = independent_dict[0]
@@ -675,7 +678,7 @@ def readsina(fname, verbose=False):
                             curve_set_name + ")"
                         c = makecurve(x=independent_value, y=dependent_variable_value,
                             name=curve_name, fname=fname, xlabel=independent_name,
-                            ylabel=dependent_variable_name, title=curve_name)
+                            ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
                         print("Appended curve: {}, len x,y: {},{}"
                               .format(dependent_variable_name, len(c.x), len(c.y)))
                         curves[full_name] = c
@@ -2991,7 +2994,13 @@ def vs(c1, c2):
     :type c2: Curve
     :return: Curve -- the new curve
     """
-    nc = curve.Curve('', __toCurveString(c1) + ' vs ' + __toCurveString(c2))
+    newfilename = ''
+    newrecord_id = ''
+    if c1.filename == c2.filename:
+        newfilename = c1.filename 
+        if c1.record_id == c2.record_id:
+            newrecord_id = c1.record_id
+    nc = curve.Curve(newfilename, __toCurveString(c1) + ' vs ' + __toCurveString(c2), newrecord_id, c2.ylabel, c1.ylabel)
     ic1, ic2 = curve.getinterp(c1, c2)
     nc.x = np.array(ic2.y)
     nc.y = np.array(ic1.y)

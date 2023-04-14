@@ -107,7 +107,17 @@ gaussian 1 1 5""",
 "logx A",
 """exp A
 sin A
-log A"""
+log A""",
+f"""readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
+readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
+cur 3 4 5 6
+labelcurve on""",
+"""labelcurve off
+labelrecordids on""",
+f"""labelrecordids off
+read {os.path.join(TEST_DIR, 'testData.ult')}
+cur 7 8
+group"""
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')

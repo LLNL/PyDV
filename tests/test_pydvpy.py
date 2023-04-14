@@ -19,3 +19,19 @@ def test_read(test_file):
     np.testing.assert_array_equal(curves[0].y, [0, 1, 4, 9, 16])
     # lightness
     np.testing.assert_array_equal(curves[1].y, [5, 4, 2.5, 2.1, 2.0])
+
+def test_sinaread():
+    curves = pydvpy.readsina(os.path.join(TEST_DIR, 'testSinaData.json'))
+
+    # darkness curve
+    np.testing.assert_array_equal(curves[0].y, [0, 1, 4, 9, 16])
+
+    # darkness curve record id
+    assert curves[0].record_id == "sinaTest_1"
+
+    # lightness
+    np.testing.assert_array_equal(curves[1].y, [5, 4, 2.5, 2.1, 2.0])
+
+    # lightness curve record id
+    assert curves[1].record_id == "sinaTest_1"
+    
