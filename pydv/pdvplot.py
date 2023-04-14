@@ -60,7 +60,11 @@
 # endorsement purposes.
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
+try:
+    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+except:
+      from matplotlib.backends.backend_qtagg import FigureCanvas
+
 
 from os import path
 
@@ -168,7 +172,7 @@ class Plotter(QMainWindow):
 
         self.defaultPlotLayout = dict(vars(self.fig.subplotpars))
 
-        self.canvas = FigureCanvasQTAgg(self.fig)
+        self.canvas = FigureCanvas(self.fig)
         self.setCentralWidget(self.canvas)
 
         toolbar = PyDVToolbar(self.canvas, self, True)   # Add False as third parameter to turn off coordinates
@@ -212,7 +216,7 @@ class Plotter(QMainWindow):
             self._listDialog.setModal(False)
 
         # Curves List
-        headerLabels = ['Plot Name', 'Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name']
+        headerLabels = ['Plot Name', 'Label', 'X Label', 'Y Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
         rows = len(self._pydvcmd.plotlist)
         cols = len(headerLabels)
 
@@ -252,6 +256,16 @@ class Plotter(QMainWindow):
             self._tableWidget.setItem(row, col, labelItem)
             col += 1
 
+            # X Label
+            xlabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.xlabel, self._pydvcmd.namewidth)))
+            self._tableWidget.setItem(row, col, xlabelItem)
+            col += 1
+
+            # Y Label
+            ylabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.ylabel, self._pydvcmd.namewidth)))
+            self._tableWidget.setItem(row, col, ylabelItem)
+            col += 1
+
             # xmin
             xminItem = QTableWidgetItem(self.tr("%.2e" % min(c.x)))
             self._tableWidget.setItem(row, col, xminItem)
@@ -275,6 +289,11 @@ class Plotter(QMainWindow):
             # File Name
             fnameItem = QTableWidgetItem(self.tr(c.filename))
             self._tableWidget.setItem(row, col, fnameItem)
+            col += 1
+
+            # Sina Record ID
+            recidItem = QTableWidgetItem(self.tr(c.record_id))
+            self._tableWidget.setItem(row, col, recidItem)
 
             row += 1
 
@@ -325,7 +344,7 @@ class Plotter(QMainWindow):
             self._menuDialog.setModal(False)
 
         # Available Curves
-        headerLabels = ['Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name']
+        headerLabels = ['Label', 'X Label', 'Y Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
         rows = len(self._pydvcmd.curvelist)
         cols = len(headerLabels)
 
@@ -369,6 +388,16 @@ class Plotter(QMainWindow):
             self._menuTableWidget.setItem(row, col, labelItem)
             col += 1
 
+            # X Label
+            xlabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.xlabel, self._pydvcmd.namewidth)))
+            self._menuTableWidget.setItem(row, col, xlabelItem)
+            col += 1
+
+            # Y Label
+            ylabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.ylabel, self._pydvcmd.namewidth)))
+            self._menuTableWidget.setItem(row, col, ylabelItem)
+            col += 1
+
             # xmin
             xminItem = QTableWidgetItem(self.tr("%.2e" % min(c.x)))
             self._menuTableWidget.setItem(row, col, xminItem)
@@ -392,6 +421,11 @@ class Plotter(QMainWindow):
             # File Name
             fnameItem = QTableWidgetItem(self.tr(c.filename))
             self._menuTableWidget.setItem(row, col, fnameItem)
+            col += 1
+
+            # Sina Record ID
+            recidItem = QTableWidgetItem(self.tr(c.record_id))
+            self._menuTableWidget.setItem(row, col, recidItem)
 
             row += 1
 
@@ -519,7 +553,7 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.5</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.6</p>'
                                                                '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC.</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">Written by: Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'

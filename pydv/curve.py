@@ -67,6 +67,7 @@ class Curve(object):
 
     name = ''
     filename = ''
+    record_id = ''
     plotname = ''
     color = ''
     edited = False
@@ -92,7 +93,7 @@ class Curve(object):
     title = ''
     legend_show = True
     
-    def __init__(self, filename='', name=''):
+    def __init__(self, filename='', name='', record_id='', xlabel='', ylabel=''):
         self.filename = filename
         self.name = name
     
@@ -187,7 +188,7 @@ class Curve(object):
     
     ##return a new copy of the curve object##
     def copy(self):
-        c = Curve(self.filename, self.name)
+        c = Curve(self.filename, self.name, self.record_id, self.xlabel, self.ylabel)
         c.plotname = self.plotname
         c.x = np.array(self.x)
         c.y = np.array(self.y)
@@ -211,6 +212,10 @@ class Curve(object):
         c.xlabel = self.xlabel
         c.ylabel = self.ylabel
         c.title = self.title
+        c.filename = self.filename
+        c.record_id = self.record_id
+        c.name = self.name  
+
         
         return c
 

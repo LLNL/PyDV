@@ -215,9 +215,13 @@ def getletterargs(line):
 
 
 ##truncate a string to given length##
-def truncate(string, size):
+def truncate(string, size, justify='left'):
     if len(string) > size:
-        string = string[:size]
+        if justify == 'left':
+            string = string[:size]
+        elif justify == 'right':
+            extra = len(string) - size + 3
+            string = '...'+string[extra:]
 
     return string
 
