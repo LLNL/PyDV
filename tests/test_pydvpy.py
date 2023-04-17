@@ -38,7 +38,7 @@ def test_sinaread():
 test_files = list(pathlib.Path(TEST_DIR).glob('testDataregex.*'))
 
 @pytest.mark.parametrize("test_file",  test_files)
-def test_read(test_file):
+def test_read_regex(test_file):
 
     # darkness
     curves = pydvpy.read(test_file, pattern='darkness')
