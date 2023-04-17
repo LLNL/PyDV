@@ -490,11 +490,16 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     # getting to the actual data, then the new_curve flag will
                     # keep us from adding all those comments as curves.
                     if current and not new_curve: 
+
+                        # Need this since it will add last match below and outside loop
+                        if matches and match_count >= matches:
+                            break
+
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
 
-                    # Begining setup of new curve
+                    # Begin setup of new curve
                     new_curve = True
                     potential_curve_name = ' '.join(split_line[1:])
                 else:
@@ -505,16 +510,18 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                             if regex.search(curve_name):
                                 match_count += 1
                                 current = curve.Curve(file_name, curve_name)
+                                build_list_x += split_line[::2]
+                                build_list_y += split_line[1::2]
                             else:
                                 current = None
                         else:
                             current = curve.Curve(file_name, curve_name)
+                            build_list_x += split_line[::2]
+                            build_list_y += split_line[1::2]
 
-                    build_list_x += split_line[::2]
-                    build_list_y += split_line[1::2]
-
-                    if matches and match_count >= matches:
-                        break
+                    elif current and not new_curve: # add data to current curve
+                        build_list_x += split_line[::2]
+                        build_list_y += split_line[1::2]
 
         # Append the last curve that we built
         if current:
