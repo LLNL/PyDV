@@ -42,10 +42,10 @@ def test_read():
 
     # do_filenamewidth
     main.do_filenamewidth('')
-    assert main.filenamewidth == 50
+    assert main.filenamewidth == 30
 
-    main.do_filenamewidth('55')
-    assert main.filenamewidth == 55
+    main.do_filenamewidth('35')
+    assert main.filenamewidth == 35
 
     # do_recordidwidth
     main.do_recordidwidth('')

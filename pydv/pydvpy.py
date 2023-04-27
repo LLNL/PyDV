@@ -148,13 +148,9 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     :type fname: str
     :returns: curve -- the curve generated from the x and y list of values.
     """
-    c = curve.Curve(fname, name)
+    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
-    c.xlabel = xlabel
-    c.ylabel = ylabel
-    c.title = title
-    c.record_id = record_id
 
     return c
 
@@ -223,7 +219,7 @@ def create_plot(curvelist, **kwargs):
         elif key == 'ylabel':
             ylabel = val
         elif key == 'legend':
-            legend = val
+            legend = val 
         elif key == 'stylename':
             stylename = val
         elif key == 'xls':
@@ -415,7 +411,7 @@ def savecsv(fname, curvelist, verbose=False):
             f.close()
 
 
-def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
+def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     """
     Read the file and add parsed curves to a curvelist
 
@@ -423,8 +419,8 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
     >>> curves = pydvif.read('testData.txt', False, 0, False, '*_name', 20)
 
-    :param file_name: ULTRA filename
-    :type file_name: str
+    :param fname: ULTRA filename
+    :type fname: str
     :param gnu: optional, flag to determine if the file is a column oriented (.gnu) file.
     :type gnu: bool
     :param xcol: optional, x-column number for column oriented (.gnu) files
@@ -455,16 +451,16 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
     if pattern:
         regex = re.compile(r"%s" % pattern)
-    file_name = os.path.expanduser(file_name)
-    _, ext = os.path.splitext(file_name)
+    fname = os.path.expanduser(fname)
+    _, ext = os.path.splitext(fname)
     try:
         if gnu or ext == '.gnu':
-            return __loadcolumns(file_name, xcol)
+            return __loadcolumns(fname, xcol)
 
         if pdbLoaded:
             try:
-                fpdb = pdb.open(file_name, 'r')
-                return __loadpdb(file_name, fpdb)
+                fpdb = pdb.open(fname, 'r')
+                return __loadpdb(fname, fpdb)
             except:
                 pass
 
@@ -474,7 +470,7 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         current = None
         new_curve = True
         potential_curve_name = ""
-        with open(file_name, 'r') as f:
+        with open(fname, 'r') as f:
             for line in f:
                 split_line = re.split(r'[ _\t]+', str.strip(line))
                 if not split_line or not split_line[0]:
@@ -509,13 +505,13 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                         if regex:
                             if regex.search(curve_name):
                                 match_count += 1
-                                current = curve.Curve(file_name, curve_name)
+                                current = curve.Curve(fname, curve_name)
                                 build_list_x += split_line[::2]
                                 build_list_y += split_line[1::2]
                             else:
                                 current = None
                         else:
-                            current = curve.Curve(file_name, curve_name)
+                            current = curve.Curve(fname, curve_name)
                             build_list_x += split_line[::2]
                             build_list_y += split_line[1::2]
 
@@ -528,11 +524,11 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:
-        print('could not load file: {}'.format(file_name))
+        print('could not load file: {}'.format(fname))
         if verbose:
             traceback.print_exc(file=sys.stdout)
     except ValueError:
-        print('invalid pydv file: {}'.format(file_name))
+        print('invalid pydv file: {}'.format(fname))
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -3011,7 +3007,6 @@ def vs(c1, c2):
     ic1, ic2 = curve.getinterp(c1, c2)
     nc.x = np.array(ic2.y)
     nc.y = np.array(ic1.y)
-
     return nc
 
 

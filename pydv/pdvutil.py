@@ -216,6 +216,7 @@ def getletterargs(line):
 
 ##truncate a string to given length##
 def truncate(string, size, justify='left'):
+
     if len(string) > size:
         if justify == 'left':
             string = string[:size]
