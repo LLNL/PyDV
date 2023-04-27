@@ -1,4 +1,3 @@
-
 import os
 import shutil
 import subprocess
@@ -117,7 +116,9 @@ labelrecordids on""",
 f"""labelrecordids off
 read {os.path.join(TEST_DIR, 'testData.ult')}
 cur 7 8
-group"""
+group""",
+"""labelfilenames on""",
+"""labelfilenames off"""
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
@@ -159,4 +160,3 @@ def test_image(baseline_image, test_image):
 # """
 #         fp.write(statement)
 #         statement = ''
-

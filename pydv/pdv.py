@@ -1,7 +1,7 @@
 # Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
-# e-mail: rusu1@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
+# e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -136,19 +136,20 @@ class Command(cmd.Cmd, object):
 
     ## state variables##
     xlabel = ''
-    xlabel_set_from_curve = True
     ylabel = ''
+    filename = ''
+    record_id = ''
+    title = ''
+    xlabel_set_from_curve = True
     ylabel_set_from_curve = True
     filename_set_from_curve = True
-    record_id = ''
     record_id_set_from_curve = True
+    title_set_from_curve = True
     bordercolor = None
     figcolor = None
     plotcolor = None
     xtickcolor = None
     ytickcolor = None
-    title = ''
-    title_set_from_curve = True
     titlecolor = None
     xlabelcolor = None
     ylabelcolor = None
@@ -166,6 +167,7 @@ class Command(cmd.Cmd, object):
     showletters = True
     showcurveinlegend = False
     showrecordidinlegend = False
+    showfilenameinlegend = False
     xlogscale = False
     ylogscale = False
     titlefont = 'large'
@@ -199,12 +201,11 @@ class Command(cmd.Cmd, object):
     xminortickwidth = 0.5
     ytickwidth = 1
     yminortickwidth = 0.5
-    namewidth = 50
+    namewidth = 40
     xlabelwidth = 10
     ylabelwidth = 10
-    filenamewidth = 50
+    filenamewidth = 30
     recordidwidth = 10
-
     updatestyle = False
     linewidth = None
 
@@ -3043,6 +3044,7 @@ class Command(cmd.Cmd, object):
         print('\n   Command: change the length of the lines in the legend')
         print('     Usage: handlelength <integer>')
 
+
     ##show or hide minor ticks##
     def do_minorticks(self, line):
         try:
@@ -3404,6 +3406,7 @@ class Command(cmd.Cmd, object):
    See matplotlib 'set_dashes' command for more information.
 ''')
 
+
     def do_group(self, line):
 
         pn, cn, fn = self.do_listr('1')
@@ -3479,6 +3482,7 @@ class Command(cmd.Cmd, object):
         self.updateplot
     def help_group(self):
         print('\n   Group curves based on name and file if curve names are the same.\n')
+        
 
     ##turn hiding on for given curves##
     def do_hide(self, line):
@@ -3577,13 +3581,11 @@ class Command(cmd.Cmd, object):
                 except:
                     print("error - invalid label-pattern")
                     return 0
-            
+
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
             print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
-
-
             for curve in self.plotlist:
                 searchline = curve.name + ' ' + curve.filename
                 if not line or reg.search(searchline):
@@ -3616,6 +3618,7 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_list(self):
         print("\n    {}\n    {}\n    {}\n".format("Macro: Display curves in list",
                                                   "Usage: list [<label-pattern>]",
@@ -3623,7 +3626,6 @@ class Command(cmd.Cmd, object):
 
     ##list currently graphed curves##
     def do_listr(self, line):
-        
         group_plotnames = []
         group_curvenames = []
         group_filenames = []
@@ -3658,7 +3660,6 @@ class Command(cmd.Cmd, object):
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
                           namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
             print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
-
             for i in range(start, stop):
                 curve = self.plotlist[i]
                 plotname = ""
@@ -3684,9 +3685,11 @@ class Command(cmd.Cmd, object):
                 ymin = "%.2e" % min(curve.y)
                 ymax = "%.2e" % max(curve.y)
                 print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+
                 group_plotnames.append(plotname)
                 group_curvenames.append(name)
                 group_filenames.append(fname)
+
         except:
             print("error - usage: listr <start> [stop]")
             if self.debug:
@@ -3764,7 +3767,6 @@ class Command(cmd.Cmd, object):
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
             print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))            
 
-
             for i in range(start, stop):
                 index = str(i + 1)
                 name = self.curvelist[i].name
@@ -3813,7 +3815,6 @@ class Command(cmd.Cmd, object):
                   .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
             print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
-
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
@@ -4427,6 +4428,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             c2 = self.plotlist[idx]
 
             nc = pydvif.vs(c1, c2)
+
             self.addtoplot(nc)
             self.plotedit = True
         except:
@@ -5273,6 +5275,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def help_label(self):
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
 
+
     ##change label for a curve to the recordid##
     def do_labelrecordids(self, line):
             try:
@@ -5290,26 +5293,25 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     def help_labelrecordids(self):
         print('\n   Variable: Add curve recordid to the legend label if "on", otherwise hide curve recordid if "off".'
               '\n   Usage: labelrecordids <on | off>')
+    
 
     ##change label for a curve to the filename##
-    def do_labelfilenames(self):
+    def do_labelfilenames(self, line):
         try:
-            for j in range(len(self.plotlist)):
-                cur = self.plotlist[j]
-
-                if cur.name.find(cur.filename) == -1:
-                    cur.name += ' - ' + cur.filename
-                    self.plotedit = True
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showfilenameinlegend = False
+            elif line == '1' or line.upper() == 'ON':
+                self.showfilenameinlegend = True
+            else:
+                raise RuntimeError('invalid input: requires on or off as argument')
         except:
-            print('error - usage: labelfilenames')
+            print('error - usage: labelfilenames <on | off>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_labelfilenames(self):
-        print('\n   Procedure: Change the key and list labels for the plotted curves by appending the filename.'
-              '\n              This command only affects the curves plotted at the time of execution. Any new curve'
-              '\n              will need to have this command run again to append the filename.'
-              '\n   Usage: labelfilenames\n')
-
+        print('\n   Variable: Add curve filename to the legend label if "on", otherwise hide curve filename if "off".'
+              '\n   Usage: labelfilenames <on | off>\n')
 
     ##change label for a curve to the curve letter##
     def do_labelcurve(self, line):
@@ -6077,10 +6079,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
         self.set_title(cur.title, from_curve=True)
-        # check interference with labelfilenames cmd
         self.set_filename(cur.filename, from_curve=True)
         self.set_record_id(cur.record_id, from_curve=True)
-
 
     ##return derivative of curve##
     def derivative(self, cur):
@@ -6677,18 +6677,27 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 if cur.name.find(addstr) != -1:
                     strarr = cur.name.split(addstr)
                     cur.name = ''.join(strarr).strip()
-
                 if self.showcurveinlegend:
                     cur.name = addstr + ' ' + cur.name
 
-                # Show curve recordid in legend if enabled
-                addrstr = str('- ' + cur.record_id)
-                if cur.name.find(addrstr) != -1:
-                    rstrarr = cur.name.split(addrstr)
-                    cur.name = ''.join(rstrarr).strip()
-                if self.showrecordidinlegend:
-                    cur.name =  cur.name + ' ' + addrstr
+                # only for sina files
+                if cur.filename.endswith('.json'):
+                    # Show curve recordid in legend if enabled
+                    addrstr = str('- ' + cur.record_id)
+                    if cur.name.find(addrstr) != -1:
+                        rstrarr = cur.name.split(addrstr)
+                        cur.name = ''.join(rstrarr).strip()
+                    if self.showrecordidinlegend:
+                        cur.name =  cur.name + ' ' + addrstr
 
+                    # Show curve filename in legend if enabled
+                    addfstr = str('- ' + cur.filename)
+                    if cur.name.find(addfstr) != -1:
+                        fstrarr = cur.name.split(addfstr)
+                        cur.name = ''.join(fstrarr).strip()
+                    if self.showfilenameinlegend:
+                        cur.name =  cur.name + ' ' + addfstr
+        
 
             #set scaling and tick locations
             #
@@ -6881,7 +6890,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##load an ultra file and add parsed curves to the curvelist##
     def load(self, fname, gnu=False, pattern=None, matches=None):
         curves = pydvif.read(fname, gnu, self.xCol, self.debug, pattern, matches)
-
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -7017,7 +7025,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.1.6  -  04.12.2023\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.1.7  -  04.17.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
@@ -7125,6 +7133,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.loadrc()
 
         qInstallMessageHandler(self.__qtMsgHandler)
+
         self.app = QApplication(sys.argv)
         self.plotter = pdvplot.Plotter(self)
         self.plotter.updatePlotGeometry(self.geometry)

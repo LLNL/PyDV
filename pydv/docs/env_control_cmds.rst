@@ -123,4 +123,3 @@ current column width will be displayed.
 .. code::
  
    [PyDV]: ylabelwidth <integer> 
-   

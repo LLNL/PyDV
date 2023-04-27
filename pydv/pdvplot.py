@@ -1,7 +1,7 @@
 # Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
-# e-mail: rusu1@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
+# e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.  
   
@@ -65,7 +65,6 @@ try:
 except:
       from matplotlib.backends.backend_qtagg import FigureCanvas
 
-
 from os import path
 
 from pdvnavbar import PyDVToolbar
@@ -118,7 +117,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 3.1.5')
+        self.setWindowTitle('Python Data Visualizer 3.1.7')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -553,11 +552,11 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.6</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.7</p>'
                                                                '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">email: rusu1@llnl.gov</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, moreno45@llnl.gov</p>'
                                                                '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
 

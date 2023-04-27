@@ -13,11 +13,11 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
         name='PyDV',
-        version='3.1.5',
+        version='3.1.7',
         description='PyDV: Python Data Visualizer',
         long_description=long_description,
-        author='Edward Rusu',
-        author_email='rusu1@llnl.gov',
+        author=['Sarah El-Jurf', 'Jorge Moreno',],
+        author_email=['eljur1@llnl.gov', 'moreno45@llnl.gov'],
         license='BSD',
         url='https://github.com/LLNL/PyDV',
         packages=find_packages(),

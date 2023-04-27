@@ -221,12 +221,12 @@ Add curve letter to the legend label if **on**, otherwise hide curve letter if *
 labelfilenames
 --------------
 
-Change the key and list labels for all curves to append the filename. This command only affects the curves plotted
-at the time of execution. Any new curve will need to have this command run again to append the filename.
+Add curve filename to the legend label if **on**, otherwise hide curve filename if **off**.
+Note: Command will only work with curves from Sina files.
 
 .. code::
 
-   [PyDV]: labelfilenames
+   [PyDV]: labelfilenames <on | off>
 
 labelrecordids
 --------------

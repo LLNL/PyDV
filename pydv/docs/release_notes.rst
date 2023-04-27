@@ -3,6 +3,15 @@
 Release Notes
 =============
 
+3.1.7
+-----
+* Fixed file reading regex bug not reading data points correctly
+* Updated `labelfilenames` command to append filename to curve legend 
+  with toggle on/off functionality
+
+
+3.1.6
+-----
 * Updated `read` command to accommodate tab-delimited ultra files
 * Added `labelrecordids` and `group` commands
   compatible with curves from Sina files
@@ -19,6 +28,7 @@ Release Notes
 * Updated CI to run on closed side.
 
 
+
 3.1.4
 -----
 * Makefile change to do 'sed' on pdv to update the python path
@@ -28,13 +38,14 @@ Release Notes
 3.1.3
 -----
 * Added CI running in CZ and RZ
-* Run RZ specific tests in CI (when running in RZ).
+* Run RZ specific tests in CI (when running in RZ)
 * Updated test baselines - due to python.3.8.2
 
 
 3.1.2
 -----
 * Improved `pydvpy.read()` performance.
+
 
 
 3.1.1
