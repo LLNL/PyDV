@@ -76,6 +76,7 @@ import traceback
 import sys
 import re
 import random as sysrand
+import yaml
 
 from distutils.version import LooseVersion
 
@@ -716,12 +717,34 @@ def readsina(fname, verbose=False):
     return curves_lst
 
 def readblueprint(fname, verbose=False):
-    
+    print(fname)
+    curvelist = list()
     with open(fname, 'r') as fp:
+        # print(fp)
         try:
-            blueprint_file = json.load(fp)
-        except:
-            pass
+            blueprint_file = yaml.safe_load(fp)['mesh']
+            
+            for coord, value in blueprint_file['coordsets'].items():
+                print(coord)
+                print(value['values'])
+                x = value['values']['x']
+                
+                
+            for field, value in blueprint_file['fields'].items():
+                print(field)
+                print(value['values'])
+                
+                y = value['values']
+                
+                c = makecurve(x=x, y=y,
+                            name=field, fname=fname)# , xlabel='xname',
+                            # ylabel=dependent_variable_name, title=curve_name)
+                print("Appended curve: ", field, len(c.x), len(c.y))
+                curvelist.append(c)
+                
+            return curvelist
+        except KeyError:
+            print('Could not find required keys of {mesh: {coordsets, fields}.')
 ########################################################
 ################## Math Functions  #####################
 ########################################################
