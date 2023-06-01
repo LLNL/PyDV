@@ -403,6 +403,8 @@ class Command(cmd.Cmd, object):
         self.do_readcsv(line)
     def do_rdsina(self, line):
         self.do_readsina(line)
+    def do_rdblue(self, line):
+        self.do_readblueprint(line)
     def do_cur(self, line):
         self.do_curve(line)
     def do_era(self, line):
@@ -486,6 +488,8 @@ class Command(cmd.Cmd, object):
             arg = 'readcsv'
         elif(arg == 'rdsina'):
             arg = 'readsina'
+        elif(arg == 'rdblue'):
+            arg = 'readblueprint'
         elif(arg == 'convol'):
             arg = 'convolve'
         elif (arg == 'convolb'):
@@ -919,6 +923,22 @@ class Command(cmd.Cmd, object):
               '\n   Usage: readsina <file-name>'
               '\n   Shortcuts: rdsina\n')
 
+    ##read in a sina file##
+    def do_readblueprint(self, line):
+        try:
+            line = line.split()
+            self.load_blueprint(line[0])
+        except:
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+            self.plotter.updateDialogs()
+    def help_readblueprint(self):
+        print('\n   Macro: Read all curves from sina data file.'
+              '\n   Usage: readsina <file-name>'
+              '\n   Shortcuts: rdsina\n')
+        
     ## set x-column for cxv or gnu files explicitly
     def do_setxcolumn(self, line):
         try:
@@ -6908,6 +6928,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
 
+    ##load a blueprint data file, add parsed curves to the curvelist##
+    def load_blueprint(self, fname):
+        curves = pydvif.readblueprint(fname, self.debug)
+        if len(curves) > 0:
+            self.curvelist += curves
+            self.filelist.append((fname, len(curves)))
+            
     ##read in a resource definition file##
     def loadrc(self):
         try:

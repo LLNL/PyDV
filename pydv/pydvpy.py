@@ -665,7 +665,7 @@ def readsina(fname, verbose=False):
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
-                sina_file = json.load(fp) # Can only have on json.load(fp)?
+                sina_file = json.load(fp)
                 record_id = sina_file['records'][0]['id']
                 curve_sets = sina_file['records'][0]['curve_sets']
                 for curve_set_name, curve_set in curve_sets.items():
@@ -715,8 +715,13 @@ def readsina(fname, verbose=False):
         curves_lst = [curves[name] for name in listed_order]
     return curves_lst
 
-
-
+def readblueprint(fname, verbose=False):
+    
+    with open(fname, 'r') as fp:
+        try:
+            blueprint_file = json.load(fp)
+        except:
+            pass
 ########################################################
 ################## Math Functions  #####################
 ########################################################
