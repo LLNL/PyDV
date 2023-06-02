@@ -151,13 +151,10 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     """
     if len(x) != len(y):
         print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
-        c = curve.Curve(fname, name + " ERROR: x and y are not the same length", record_id, xlabel, ylabel, title)
-        c.x = np.array([0, 0], dtype=float)
-        c.y = np.array([0, 0], dtype=float)
-    else:             
-        c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
-        c.x = np.array(x, dtype=float)
-        c.y = np.array(y, dtype=float)
+        name += " !!!ERROR: len(x)!=len(y)!!!"            
+    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
+    c.x = np.array(x, dtype=float)
+    c.y = np.array(y, dtype=float)
 
     return c
 
