@@ -23,6 +23,5 @@ You can now call most of PyDV's functionality from within a Python script. Below
 
 ### Who do I talk to? ###
 
-* Kevin Griffin <griffin28@llnl.gov>
-* Doug Miller <miller18@llnl.gov>
-* Lee Taylor <taylor16@llnl.gov>
+* Sarah El-Jurf <eljurf1@llnl.gov>
+* Jorge Moreno <moreno45@llnl.gov>
