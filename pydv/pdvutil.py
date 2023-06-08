@@ -79,19 +79,36 @@ def parsemath(line, plotlist, commander, xdomain):
     line = line.split()
     # build the line of operations
     sendline = ''
+    sendlinex = ''
+    sendliney = ''
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
             dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
+            sendlinex += ' plotlist['+str(dex)+'].x '
+            sendliney += ' plotlist['+str(dex)+'].y '
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
             sendline += ' plotlist['+ str(dex) +'] '
+            sendlinex += ' plotlist['+ str(dex) +'].x '
+            sendliney += ' plotlist['+ str(dex) +'].y '
         else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
+            sendlinex += val
+            sendliney += val
     sendline = sendline.lstrip()
+    sendlinex = sendlinex.lstrip()
+    sendliney = sendliney.lstrip()
+    print(sendline)
+    print(plotlist[0].x + plotlist[0].x, plotlist[0].y)
+    test = plotlist[0] + plotlist[0]
+    print(test.__dict__)
     #print sendline
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
+    c.x = plotlist[0].x # eval(sendlinex)  # eval not working properly? so doing this individually
+    c.y = eval(sendliney)  # eval not working properly? so doing this individually
+    print(c.x, c.y)
     c.name = ' '.join(line).replace('commander.', '').title()  # set name
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
@@ -99,8 +116,10 @@ def parsemath(line, plotlist, commander, xdomain):
         return 0
     # put new curve into plotlist
     if(c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):
+        print('here1')
         plotlist.insert((ord(c.plotname) - ord('A')), c)
     else:
+        print('here2')
         plotlist.insert((int(c.plotname[1:])-1), c)
     return c
     #pultry.updateplot()
