@@ -923,7 +923,7 @@ class Command(cmd.Cmd, object):
               '\n   Usage: readsina <file-name>'
               '\n   Shortcuts: rdsina\n')
 
-    ##read in a sina file##
+    ##read in a blueprint file##
     def do_readblueprint(self, line):
         try:
             line = line.split()

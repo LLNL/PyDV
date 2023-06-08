@@ -725,27 +725,78 @@ def readblueprint(fname, verbose=False):
     with open(fname, 'r') as fp:
         # print(fp)
         try:
-            blueprint_file = yaml.safe_load(fp)['mesh']
+            blueprint_file = yaml.safe_load(fp)
             
-            for coord, value in blueprint_file['coordsets'].items():
-                print(coord)
-                print(value['values'])
-                x = value['values']['x']
-                
-                
-            for field, value in blueprint_file['fields'].items():
-                print(field)
-                print(value['values'])
-                
-                y = value['values']
-                
-                c = makecurve(x=x, y=y,
-                            name=field, fname=fname)# , xlabel='xname',
-                            # ylabel=dependent_variable_name, title=curve_name)
-                print("Appended curve: ", field, len(c.x), len(c.y))
-                curvelist.append(c)
-                
-            return curvelist
+            for node in blueprint_file:
+                print(node)
+                if 'fields' in blueprint_file[node]:
+                    
+                    for field, values in blueprint_file[node]['fields'].items():
+                        # print(field, values['topology'],values['values'])
+                        
+                        # print(type(values['values']) )
+                        
+                        if isinstance(values['values'], list):
+                            # print(values['values'], values['topology'])
+                            y = values['values']
+                            
+                            coordset = blueprint_file[node]['topologies'][values['topology']]['coordset']
+                            if isinstance(blueprint_file[node]['coordsets'][coordset]['values'], list):
+                                x = blueprint_file[node]['coordsets'][coordset]['values']
+                                
+                                print(field, len(y), coordset, len(x))
+                                c = makecurve(x=x, y=y, xlabel=coordset, ylabel= field,
+                                    name=f"{field} {coordset}", fname=fname)
+                                curvelist.append(c)
+                            
+                            elif isinstance(blueprint_file[node]['coordsets'][coordset]['values'], dict):
+                                for axis, data in blueprint_file[node]['coordsets'][coordset]['values'].items():
+                                    # print(axis, data)
+                                    
+                                    x = data
+                                    print(field, len(y), axis, len(x))
+                                    c = makecurve(x=x, y=y, xlabel=axis, ylabel= field,
+                                    name=f"{field} {coordset} {axis}", fname=fname)
+                                    curvelist.append(c)
+                        
+                        elif isinstance(values['values'], dict):
+                            for value, data in values['values'].items():
+                                # print(value, data, values['topology'])
+                                y=data
+                                coordset = blueprint_file[node]['topologies'][values['topology']]['coordset']
+                                if isinstance(blueprint_file[node]['coordsets'][coordset]['values'], list):
+                                    x = blueprint_file[node]['coordsets'][coordset]['values']
+                                    print(field, len(y), coordset, len(x))
+                                    c = makecurve(x=x, y=y, xlabel=coordset, ylabel= value,
+                                        name=f"{field} {value} {coordset}", fname=fname)
+                                    curvelist.append(c)
+                                
+                                elif isinstance(blueprint_file[node]['coordsets'][coordset]['values'], dict):
+                                    for axis, data in blueprint_file[node]['coordsets'][coordset]['values'].items():
+                                        # print(axis, data)
+                                        
+                                        x = data
+                                        print(value, len(y), axis, len(x))
+                                        c = makecurve(x=x, y=y, xlabel=axis, ylabel= value,
+                                        name=f"fields: {field} {value} | coordsets: {coordset} {axis}", fname=fname)
+                                        curvelist.append(c)
+                                    
+                        # y = values['values']
+                        
+                        # c = makecurve(x=x, y=y,
+                        #             name=field, fname=fname)# , xlabel='xname',
+                        #             # ylabel=dependent_variable_name, title=curve_name)
+                        # print("Appended curve: ", field, len(c.x), len(c.y))
+                        # curvelist.append(c)
+                        
+                    # for coord, value in blueprint_file[node]['coordsets'].items():
+                    #     print(coord)
+                    #     print(value['values'])
+                    #     x = value['values']['x']
+                        
+                        
+                    
+                    return curvelist
         except KeyError:
             print('Could not find required keys of {mesh: {coordsets, fields}.')
 ########################################################
