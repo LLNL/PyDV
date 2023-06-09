@@ -93,10 +93,16 @@ import readline
 import code
 from numbers import Number
 
-import pydvpy as pydvif
-import curve
-import pdvplot
-import pdvutil
+try:
+    from . import pydvpy as pydvif
+    from . import curve
+    from . import pdvplot
+    from . import pdvutil
+except:
+    import pydvpy as pydvif
+    import curve
+    import pdvplot
+    import pdvutil
 
 try:
     from matplotlib import style
@@ -6619,8 +6625,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.updatestyle = False
 
             plt.clf()
-            plt.cla()
-            cur_axes = plt.gca()
+            # plt.cla()
+            cur_axes = self.plotter.dyn_axes
+            cur_axes.cla()
 
             # Border
             cur_axes.spines['bottom'].set_color(self.bordercolor)
@@ -6659,9 +6666,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             plt.xticks(size=self.axistickfont)
             plt.yticks(size=self.axistickfont)
-            for tlabel in plt.axes().get_xticklabels(minor=True):
+            
+            for tlabel in self.plotter.dyn_axes.get_xticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
-            for tlabel in plt.axes().get_yticklabels(minor=True):
+            for tlabel in self.plotter.dyn_axes.get_yticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
 
             if len(self.plotlist) < 1:
@@ -6710,6 +6718,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             # LogFormatterMathtext produces 10**0,10**1,10**2,...
             xls = self.xlogscale
             yls = self.ylogscale
+
             if(xls):
                 cur_axes.set_xscale('log', nonposx='clip')
             if(yls):
@@ -6868,10 +6877,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             for text in self.usertexts:
                 plt.text(text[0], text[1], text[2], fontsize = self.annotationfont)
 
-            plt.draw()
+            # plt.draw()
+            # self.plotter.canvas.update()
+            # self.plotter.canvas.draw()
 
-            self.plotter.canvas.update()
-            self.plotter.canvas.draw()
         except RuntimeError as detail:
             if(detail[-1].split()[0] == 'LaTeX'):
                 print('error: invalid LaTeX syntax')
@@ -7025,7 +7034,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.1.9  -  06.06.2023\n\tType "help" for more information.\n\n')
+            self.cmdloop('\n\tPython Data Visualizer 3.1.10  -  06.08.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
