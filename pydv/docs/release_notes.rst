@@ -3,11 +3,6 @@
 Release Notes
 =============
 
-3.1.10
-------
-* Updated matplotlib from 3.2 to 3.7
-* Fixed install bug and duplicate axes bug 
-
 3.1.9
 -----
 * Updated setup.py to pyproject.toml

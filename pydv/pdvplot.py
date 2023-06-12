@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
 # e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
@@ -63,16 +63,12 @@ import matplotlib.pyplot as plt
 try:
     from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 except:
-      from matplotlib.backends.backend_qt5agg import FigureCanvas
+      from matplotlib.backends.backend_qtagg import FigureCanvas
 
 from os import path
 
-try:
-    from .pdvnavbar import PyDVToolbar
-    from . import pdvutil
-except:
-    from pdvnavbar import PyDVToolbar
-    import pdvutil
+from pdvnavbar import PyDVToolbar
+import pdvutil
 
 try:
     from matplotlib import style
@@ -121,7 +117,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 3.1.10')
+        self.setWindowTitle('Python Data Visualizer 3.1.9')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -171,7 +167,6 @@ class Plotter(QMainWindow):
 
         # Figure Canvas
         self.fig = plt.figure(figsize=(1,1))
-        self.dyn_axes = self.fig.subplots()
         self.fig.set_facecolor(self.figcolor)
 
         self.defaultPlotLayout = dict(vars(self.fig.subplotpars))
@@ -467,10 +462,10 @@ class Plotter(QMainWindow):
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC. \
+        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
-                      <p style="font-family:verdana;">e-mail: eljurf1@llnl.gov, moreno45@llnl.gov</p> \
+                      <p style="font-family:verdana;">Written by Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
+                      <p style="font-family:verdana;">e-mail: rusu1@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
                       <p style="font-family:courier; font-size:80%;">This file is part of PyDV. For details, see <URL describing code and \
@@ -557,7 +552,7 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.10</p>'
+                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.9</p>'
                                                                '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
                                                                '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC.</p>'
                                                                '<p style="font-family:veranda; font-size:80%;">Written by: Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
