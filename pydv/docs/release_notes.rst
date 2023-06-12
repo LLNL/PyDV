@@ -3,6 +3,15 @@
 Release Notes
 =============
 
+3.1.9
+-----
+* Updated setup.py to pyproject.toml
+* Changed docs sphinx theme to furo 
+
+3.1.8
+-----
+* Updated Python path for HPC Upgrades
+
 3.1.7
 -----
 * Fixed file reading regex bug not reading data points correctly

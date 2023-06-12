@@ -12,7 +12,7 @@ RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
-PYTHON_CMD = /usr/tce/packages/python/python-3.8.2/bin/python3
+PYTHON_CMD = /usr/tce/bin/python3
 
 define create_env
 	# call from the directory where env will be created
@@ -93,9 +93,10 @@ deploy:
 	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
 	wget --header="JOB-TOKEN:$(CI_JOB_TOKEN)" $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz -O $(TAG).tar.gz
 	give weaveci $(TAG).tar.gz
+	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
 		cd $(DEPLOY_PATH)
-		take muryanto -f
+		take $(GIVE_USER) -f
 		chmod 750 $(TAG).tar.gz
 		gunzip $(TAG).tar.gz
 		tar -xvf $(TAG).tar
@@ -117,12 +118,13 @@ deploy_to_develop:
 	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
 	tar -cvf $(VERSION).tar * && gzip $(VERSION).tar
 	give --force weaveci $(VERSION).tar.gz
+	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
 		umask 027
 		cd $(DEPLOY_PATH)
 		if [ ! -d $(DEPLOY_PATH)/develop ]; then mkdir -p $(DEPLOY_PATH)/develop; fi
 		cd $(DEPLOY_PATH)/develop
-		take muryanto -f
+		take $(GIVE_USER) -f
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
 		cd .. && chmod -R 750 develop
