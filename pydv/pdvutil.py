@@ -59,9 +59,6 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
-import numpy as np
-from scipy.interpolate import interp1d
-
 class CurveIndexError(ValueError): pass
 
 ## getCurveIndex returns integer index to curve in plotlist from plotname
@@ -97,7 +94,7 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
             sendline += ' plotlist['+ str(dex) +'] '
             sendliney += ' plotlist['+ str(dex) +'].y '
             shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
-        elif val != 'step':                                         # no?, then just insert the operation (+,-,*,/, etc)
+        else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
             sendliney += val
 
@@ -122,8 +119,7 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     if type == 'step' and same_step: # linear interpolation for step functions with same step does not work correctly
         c.x = eval('plotlist['+str(dexplot)+'].x')
         c.y = eval(sendliney)
-    print(c.x,c.y)
-    c.name = ' '.join(line).replace('commander.', '').title() + str(same_step) + type
+    c.name = ' '.join(line).replace('commander.', '').title()
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')

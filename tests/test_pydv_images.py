@@ -118,7 +118,37 @@ read {os.path.join(TEST_DIR, 'testData.ult')}
 cur 7 8
 group""",
 """labelfilenames on""",
-"""labelfilenames off"""
+"""labelfilenames off""",
+f"""erase
+kill all
+read {os.path.join(TEST_DIR, 'step.ult')}
+cur 1 2
++ a a
++ a a step
+- a a 
+- a a step
+* a a
+* a a step
+/ a a 
+/ a a step
+
++ a b
++ a b step
++ b a
++ b a step
+- a b
+- a b step
+- b a
+- b a step
+* a b
+* a b step
+* b a
+* b a step
+/ a b
+/ a b step
+/ b a
+/ b a step
+"""
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
