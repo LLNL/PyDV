@@ -730,8 +730,12 @@ class Command(cmd.Cmd, object):
                     return 0
                 else:
                     line = line.split()
+                    type = 'regular'
+                    if 'step' in line:
+                        line.remove('step')
+                        type = 'step'
                     line = ' + '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]), type=type)
                 self.plotedit = True
                 
         except:
@@ -763,11 +767,15 @@ class Command(cmd.Cmd, object):
                     return 0
                 else:
                     line = line.split()
+                    type = 'regular'
+                    if 'step' in line:
+                        line.remove('step')
+                        type = 'step'
                     if len(line) == 1:
                         line = '-' + line[0]
                     else:
                         line = ' - '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]), type=type)
                 self.plotedit = True
         except:
             print('error - usage: subtract <curve-list> [value]')
@@ -795,8 +803,12 @@ class Command(cmd.Cmd, object):
                     return 0
                 else:
                     line = line.split()
+                    type = 'regular'
+                    if 'step' in line:
+                        line.remove('step')
+                        type = 'step'
                     line = ' * '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]), type=type)
                 self.plotedit = True
         except:
             print('error - usage: mult <curve-list> [value]')
@@ -824,8 +836,12 @@ class Command(cmd.Cmd, object):
                     return 0
                 else:
                     line = line.split()
+                    type = 'regular'
+                    if 'step' in line:
+                        line.remove('step')
+                        type = 'step'
                     line = ' / '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]), type=type)
                 self.plotedit = True
         except:
             print('error - usage: divide <curve-list> [value]')

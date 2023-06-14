@@ -59,6 +59,9 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
+import numpy as np
+from scipy.interpolate import interp1d
+
 class CurveIndexError(ValueError): pass
 
 ## getCurveIndex returns integer index to curve in plotlist from plotname
@@ -69,7 +72,7 @@ def getCurveIndex(plotname, plotlist):
     raise CurveIndexError("pdvutil.py getCurveIndex - failed to find curve index")
         
 ##parses and calculates mathematical input for curves, then updates plot##
-def parsemath(line, plotlist, commander, xdomain):
+def parsemath(line, plotlist, commander, xdomain, type='regular'):
     line = line.replace('+', ' + ')
     line = line.replace('-', ' - ')
     line = line.replace('*', ' * ')
@@ -79,32 +82,48 @@ def parsemath(line, plotlist, commander, xdomain):
     line = line.split()
     # build the line of operations
     sendline = ''
-    sendlinex = ''
     sendliney = ''
+    dexplot=None
+    shared_x = []
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
             dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
-            sendlinex += ' plotlist['+str(dex)+'].x '
             sendliney += ' plotlist['+str(dex)+'].y '
+            shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
             sendline += ' plotlist['+ str(dex) +'] '
-            sendlinex += ' plotlist['+ str(dex) +'].x '
             sendliney += ' plotlist['+ str(dex) +'].y '
-        else:                                         # no?, then just insert the operation (+,-,*,/, etc)
+            shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+        elif val != 'step':                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
-            sendlinex += val
             sendliney += val
+
+        if dexplot is None:
+            dexplot = dex
     sendline = sendline.lstrip()
-    sendlinex = sendlinex.lstrip()
     sendliney = sendliney.lstrip()
-    #print(sendline)
+    
+    same_step = True
+    for val in line:
+        dex = None
+        if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
+            dex = int(val[1:]) - 1
+            x = eval('plotlist['+str(dex)+'].x')
+        elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
+            dex = ord(val.upper()) - ord('A')
+            x = eval('plotlist['+str(dex)+'].x')
+
+        if same_step and set(x) != set(shared_x):
+            same_step = False
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
-    c.x = plotlist[0].x # eval(sendlinex)  # eval not working properly? so doing this individually
-    c.y = eval(sendliney)  # eval not working properly? so doing this individually
-    c.name = ' '.join(line).replace('commander.', '').title()  # set name
+    if type == 'step' and same_step: # linear interpolation for step functions with same step does not work correctly
+        c.x = eval('plotlist['+str(dexplot)+'].x')
+        c.y = eval(sendliney)
+    print(c.x,c.y)
+    c.name = ' '.join(line).replace('commander.', '').title() + str(same_step) + type
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')
