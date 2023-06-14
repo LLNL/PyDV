@@ -5,7 +5,7 @@ Release Notes
 
 3.1.11
 ------
-* Fixed `parsemath()`` not working with step functions for addition, subraction, multiplication, and division
+* Fixed `parsemath()` not working with step functions for addition, subraction, multiplication, and division
 
 3.1.10
 ------
