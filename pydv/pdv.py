@@ -6564,6 +6564,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         """
         Applies the changes made by the user from the GUI.
         """
+        # this attribute value never gets updated... apply_uichanges() never gets called
         self.plotter.plotChanged = False
         cur_axes = plt.gca()      # Get current axes
 
@@ -6630,7 +6631,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.updatestyle = False
 
             plt.clf()
-            cur_axes = self.plotter.current_axes
+            # cur_axes = self.plotter.current_axes
+            cur_axes = plt.gca()
             cur_axes.cla()
 
             # Border
@@ -6724,9 +6726,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             yls = self.ylogscale
 
             if(xls):
-                cur_axes.set_xscale('log', nonposx='clip')
+                cur_axes.set_xscale('log')
+                # cur_axes.set_xscale('log', nonposx='clip')
             if(yls):
-                cur_axes.set_yscale('log', nonposy='clip')
+                cur_axes.set_yscale('log')
+                # cur_axes.set_yscale('log', nonposy='clip')
 
 # thinking about what we want here
 #              xticks de

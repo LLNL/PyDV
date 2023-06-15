@@ -118,7 +118,12 @@ read {os.path.join(TEST_DIR, 'testData.ult')}
 cur 7 8
 group""",
 """labelfilenames on""",
-"""labelfilenames off"""
+"""labelfilenames off""",
+f"""erase
+read {os.path.join(TEST_DIR, 'testDataLog.ult')}
+cur 8 9 10""",
+"""yls on
+xls on""",
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')

@@ -3,6 +3,9 @@
 Release Notes
 =============
 
+3.1.11
+------
+* Axes log scale bug fixed
 
 3.1.10
 ------
