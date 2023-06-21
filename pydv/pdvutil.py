@@ -79,55 +79,93 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     line = line.split()
     # build the line of operations
     sendline = ''
-    sendliney = ''
-    dexplot=None
+    step = True
     shared_x = []
     print('PLOTLIST',plotlist)
     for c in plotlist:
         print(c.__dict__)
-    type = None
+
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
             dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
-            sendliney += ' plotlist['+str(dex)+'].y '
-            shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            
+            try:
+                step_i = eval('plotlist['+str(dex)+'].step')
+                if step_i and step:
+                    shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            except:
+                pass
+
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
             sendline += ' plotlist['+ str(dex) +'] '
-            sendliney += ' plotlist['+ str(dex) +'].y '
-            shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            
+            try:
+                step_i = eval('plotlist['+str(dex)+'].step')
+                if step_i and step:
+                    shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            except:
+                pass
+
         else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
-            sendliney += val
-
-        if dexplot is None:
-            dexplot = dex
-    sendline = sendline.lstrip()
-    sendliney = sendliney.lstrip()
-    
-    step = True
-    same_step = True
-    for val in line:
-        dex = None
-        if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
-            dex = int(val[1:]) - 1
-            x = eval('plotlist['+str(dex)+'].x')
-            step_i = eval('plotlist['+str(dex)+'].step')
-        elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
-            dex = ord(val.upper()) - ord('A')
-            x = eval('plotlist['+str(dex)+'].x')
-            step_i = eval('plotlist['+str(dex)+'].step')
-
-        if same_step and set(x) != set(shared_x):
-            same_step = False
         if not step_i:
             step = False
+
+    sendline = sendline.lstrip()
+    shared_x = set(shared_x)
+    
+    
+
+    print('here2', shared_x)
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
-    if step and same_step: # linear interpolation for step functions with same step does not work correctly
-        c.x = eval('plotlist['+str(dexplot)+'].x')
-        c.y = eval(sendliney)
+    if step:
+    
+        sendliney = ''
+        same_step = True
+        dexplot=None
+        for val in line:
+            dex = None
+            if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
+                dex = int(val[1:]) - 1
+                x = eval('plotlist['+str(dex)+'].x')
+                sendliney += ' plotlist['+str(dex)+'].y '
+                
+                for xs in shared_x:
+                    if xs not in x:
+                        print('not',xs)
+                
+            elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
+                dex = ord(val.upper()) - ord('A')
+                x = eval('plotlist['+str(dex)+'].x')
+                sendliney += ' plotlist['+str(dex)+'].y '
+                
+
+                for xs in shared_x:
+                    if xs not in x:
+                        print('not',xs)
+            else:
+                sendliney += val     
+
+            print(x)
+            if same_step and set(x) != set(shared_x):
+                same_step = False
+            
+            if dexplot is None:
+                dexplot = dex
+            
+        print('here3')
+        sendliney = sendliney.lstrip()
+        if same_step: # linear interpolation for step functions with same step does not work correctly
+            c.x = eval('plotlist['+str(dexplot)+'].x')
+            c.y = eval(sendliney)
+        elif not same_step:
+            print('here', shared_x)
+        
+        
+        
     c.name = ' '.join(line).replace('commander.', '').title()
     c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
