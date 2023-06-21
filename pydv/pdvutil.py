@@ -82,6 +82,10 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     sendliney = ''
     dexplot=None
     shared_x = []
+    print('PLOTLIST',plotlist)
+    for c in plotlist:
+        print(c.__dict__)
+    type = None
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
@@ -103,20 +107,25 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     sendline = sendline.lstrip()
     sendliney = sendliney.lstrip()
     
+    step = True
     same_step = True
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
             dex = int(val[1:]) - 1
             x = eval('plotlist['+str(dex)+'].x')
+            step_i = eval('plotlist['+str(dex)+'].step')
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
             x = eval('plotlist['+str(dex)+'].x')
+            step_i = eval('plotlist['+str(dex)+'].step')
 
         if same_step and set(x) != set(shared_x):
             same_step = False
+        if not step_i:
+            step = False
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
-    if type == 'step' and same_step: # linear interpolation for step functions with same step does not work correctly
+    if step and same_step: # linear interpolation for step functions with same step does not work correctly
         c.x = eval('plotlist['+str(dexplot)+'].x')
         c.y = eval(sendliney)
     c.name = ' '.join(line).replace('commander.', '').title()

@@ -1102,6 +1102,9 @@ class Command(cmd.Cmd, object):
 
     #graph the given curves##
     def do_curve(self, line):
+        print(self.curvelist)
+        for c in self.curvelist:
+            print('test',c.__dict__)
         if not line:
             return 0
         try:
@@ -1133,6 +1136,9 @@ class Command(cmd.Cmd, object):
                 self.do_curve(pdvutil.getnumberargs(line, self.filelist))
                 return 0
             else:
+                print('here')
+                for c in self.curvelist:
+                    print('test',c.__dict__)
                 line = line.split()
                 for i in range(len(line)):
                     curvedex = 0
@@ -1156,7 +1162,12 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy()
+                        print(self.curvelist[curvedex].__dict__)
+                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is ommiting some of the attributes
+                        current.step =  self.curvelist[curvedex].step
+                        print('current',current.__dict__)
+                        # print('step attribute')
+                        # print(current._step)
                         self.addtoplot(current)
                 self.plotedit = True
         except:
@@ -1308,6 +1319,7 @@ class Command(cmd.Cmd, object):
                 print('    Ebar = {}'.format(cur.ebar))
                 print('    Erange = {}'.format(cur.erange))
                 print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                print('    Step Function = {}'.format(cur.step))
                 print('\n')
             else:
                 raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
@@ -6919,6 +6931,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##load an ultra file and add parsed curves to the curvelist##
     def load(self, fname, gnu=False, pattern=None, matches=None):
         curves = pydvif.read(fname, gnu, self.xCol, self.debug, pattern, matches)
+        for c in curves:
+            print('load', c.__dict__)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))

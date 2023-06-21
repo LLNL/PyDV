@@ -443,9 +443,11 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
             _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
             _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
+            _curve.step = True
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
+            _curve.step = False
 
         return _curve
 
