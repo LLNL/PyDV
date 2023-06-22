@@ -836,7 +836,7 @@ class Command(cmd.Cmd, object):
                 else:
                     line = line.split()
                     line = ' / '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]), type=type)
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
                 self.plotedit = True
         except:
             print('error - usage: divide <curve-list> [value]')

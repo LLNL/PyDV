@@ -71,7 +71,7 @@ def getCurveIndex(plotname, plotlist):
     raise CurveIndexError("pdvutil.py getCurveIndex - failed to find curve index")
         
 ##parses and calculates mathematical input for curves, then updates plot##
-def parsemath(line, plotlist, commander, xdomain, type='regular'):
+def parsemath(line, plotlist, commander, xdomain):
     line = line.replace('+', ' + ')
     line = line.replace('-', ' - ')
     line = line.replace('*', ' * ')
@@ -83,10 +83,6 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     sendline = ''
     step = True
     shared_x = []
-    print('PLOTLIST',plotlist)
-    for c in plotlist:
-        print(c.__dict__)
-
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
@@ -113,22 +109,17 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
 
         else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
+
         if not step_i:
             step = False
 
     sendline = sendline.lstrip()
-    shared_x = set(shared_x)
-    
-    
-
-    # print('here2', shared_x)
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
+    shared_x = set(shared_x)
     if step:
-    
         sendliney = ''
         same_step = True
         dexplot=None
-        # shared_y=[]
         maths = [0] * len(line)
         for i, val in enumerate(line):
             dex = None
@@ -143,14 +134,10 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                 
             elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
                 dex = ord(val.upper()) - ord('A')
-                x = eval('plotlist['+str(dex)+'].x')
-                y = eval('plotlist['+str(dex)+'].y')
+                x = list(eval('plotlist['+str(dex)+'].x'))
+                y = list(eval('plotlist['+str(dex)+'].y'))
                 
-                
-                x = list(x)
                 x_original = x.copy()
-                y = list(y)
-                # new_x.insert(0, 10)
                 print('original x', x)
                 print('original y', y)
                 for xs in shared_x:
@@ -160,54 +147,40 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                         # print(x)
                         
                         idxs = [i for i,v in enumerate(x) if v < xs]
-                        # print( idxs )
-                        # print(len(x))
+                        print( 'idx',idxs , not idxs)
                         
-                        if idxs[-1]+2>len(x): #need when idx = 0
-                            y[-1] = 0
-                            y.insert(idxs[-1]+1, 0)
-                            y.insert(idxs[-1]+2, 0)
-                            # y.insert(idxs[-1]+3, 0)
-                            
-                        else:
+                        if not idxs: # missing data at the beginning of the list
+                            print('here')
+                            y.insert(0, 0.0)
+                            y.insert(1, 0.0)
+                            x.insert(0, xs)
+                            x.insert(1, x[1])
+                        elif idxs[-1]+2>len(x): # missing data at the end of the list
+                            y[-1] = 0.0
+                            y.insert(idxs[-1]+1, 0.0)
+                            y.insert(idxs[-1]+2, 0.0)
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
+                        else: # missing data in between
+                            print('here2')
                             y.insert(idxs[-1]+1, y[idxs[-1]])
                             y.insert(idxs[-1]+2, y[idxs[-1]])
-                            # y.insert(idxs[-1]+3, y[idxs[-1]])
-                        x.insert(idxs[-1]+1, xs)
-                        x.insert(idxs[-1]+2, xs)
-                        # x.insert(idxs[-1]+3, xs)
-                        
-                        # new_x.insert(0, 10)
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
                 
                 maths[i] = np.array(y)
-                # sendliney += ' y '
                 sendliney += ' maths['+str(i)+'] '
                 print('new_x     ',x)
                 print('new_y     ',y)
             else:
-                sendliney += val   
-                # print(val)
-                y  = [] 
+                sendliney += val
 
-            # print(sendliney)
-            # print(sendliney)
-            # if not shared_y:
-            #     shared_y = y
-            #     print('HERE', shared_y)
-            # elif y:
-            #     print('HERE2',y, shared_y)
-            #     shared_y= [i + j for i, j in zip(shared_y, y)]
-            # print('original',x_original)
-            # print(shared_y)
             if same_step and set(x_original) != set(shared_x):
                 same_step = False
             
             if dexplot is None:
                 dexplot = dex
-            
-        print('here3')
-        
-        # print(shared_y)
+
         sendliney = sendliney.lstrip()
         print(sendliney)
         print(x)
