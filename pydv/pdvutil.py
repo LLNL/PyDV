@@ -128,8 +128,9 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
         sendliney = ''
         same_step = True
         dexplot=None
-        shared_y=[]
-        for val in line:
+        # shared_y=[]
+        maths = [0] * len(line)
+        for i, val in enumerate(line):
             dex = None
             if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
                 dex = int(val[1:]) - 1
@@ -144,7 +145,7 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                 dex = ord(val.upper()) - ord('A')
                 x = eval('plotlist['+str(dex)+'].x')
                 y = eval('plotlist['+str(dex)+'].y')
-                sendliney += ' plotlist['+str(dex)+'].y '
+                
                 
                 x = list(x)
                 x_original = x.copy()
@@ -163,10 +164,11 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                         # print(len(x))
                         
                         if idxs[-1]+2>len(x): #need when idx = 0
-                            y.insert(idxs[-1], 0)
+                            y[-1] = 0
                             y.insert(idxs[-1]+1, 0)
                             y.insert(idxs[-1]+2, 0)
                             # y.insert(idxs[-1]+3, 0)
+                            
                         else:
                             y.insert(idxs[-1]+1, y[idxs[-1]])
                             y.insert(idxs[-1]+2, y[idxs[-1]])
@@ -176,22 +178,27 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                         # x.insert(idxs[-1]+3, xs)
                         
                         # new_x.insert(0, 10)
-                        
-                print('new_x',x)
-                print('new_y',y)
+                
+                maths[i] = np.array(y)
+                # sendliney += ' y '
+                sendliney += ' maths['+str(i)+'] '
+                print('new_x     ',x)
+                print('new_y     ',y)
             else:
                 sendliney += val   
+                # print(val)
                 y  = [] 
 
-            
-            if not shared_y:
-                shared_y = y
-                print('HERE', shared_y)
-            elif y:
-                print('HERE2',y, shared_y)
-                shared_y= [i + j for i, j in zip(shared_y, y)]
-            print('original',x_original)
-            print(shared_y)
+            # print(sendliney)
+            # print(sendliney)
+            # if not shared_y:
+            #     shared_y = y
+            #     print('HERE', shared_y)
+            # elif y:
+            #     print('HERE2',y, shared_y)
+            #     shared_y= [i + j for i, j in zip(shared_y, y)]
+            # print('original',x_original)
+            # print(shared_y)
             if same_step and set(x_original) != set(shared_x):
                 same_step = False
             
@@ -199,15 +206,22 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                 dexplot = dex
             
         print('here3')
-        print(x)
-        print(shared_y)
+        
+        # print(shared_y)
         sendliney = sendliney.lstrip()
+        print(sendliney)
+        print(x)
+        print(maths[0])
+        print(maths[2])
+        print(maths[0] + maths[2])
         if same_step: # linear interpolation for step functions with same step does not work correctly
             c.x = eval('plotlist['+str(dexplot)+'].x')
             c.y = eval(sendliney)
         elif not same_step:
             c.x = x
-            c.y = shared_y
+            c.y = eval(sendliney)#shared_y
+            
+        print(eval(sendliney))
         
         
         
