@@ -59,6 +59,8 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
+import numpy as np
+
 class CurveIndexError(ValueError): pass
 
 ## getCurveIndex returns integer index to curve in plotlist from plotname
@@ -119,13 +121,14 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
     
     
 
-    print('here2', shared_x)
+    # print('here2', shared_x)
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
     if step:
     
         sendliney = ''
         same_step = True
         dexplot=None
+        shared_y=[]
         for val in line:
             dex = None
             if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
@@ -135,34 +138,76 @@ def parsemath(line, plotlist, commander, xdomain, type='regular'):
                 
                 for xs in shared_x:
                     if xs not in x:
-                        print('not',xs)
+                        print('not',xs, np.where(xs>x))
                 
             elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
                 dex = ord(val.upper()) - ord('A')
                 x = eval('plotlist['+str(dex)+'].x')
+                y = eval('plotlist['+str(dex)+'].y')
                 sendliney += ' plotlist['+str(dex)+'].y '
                 
-
+                x = list(x)
+                x_original = x.copy()
+                y = list(y)
+                # new_x.insert(0, 10)
+                print('original x', x)
+                print('original y', y)
                 for xs in shared_x:
                     if xs not in x:
-                        print('not',xs)
+                        # print('NOT')
+                        # print(xs)
+                        # print(x)
+                        
+                        idxs = [i for i,v in enumerate(x) if v < xs]
+                        # print( idxs )
+                        # print(len(x))
+                        
+                        if idxs[-1]+2>len(x): #need when idx = 0
+                            y.insert(idxs[-1], 0)
+                            y.insert(idxs[-1]+1, 0)
+                            y.insert(idxs[-1]+2, 0)
+                            # y.insert(idxs[-1]+3, 0)
+                        else:
+                            y.insert(idxs[-1]+1, y[idxs[-1]])
+                            y.insert(idxs[-1]+2, y[idxs[-1]])
+                            # y.insert(idxs[-1]+3, y[idxs[-1]])
+                        x.insert(idxs[-1]+1, xs)
+                        x.insert(idxs[-1]+2, xs)
+                        # x.insert(idxs[-1]+3, xs)
+                        
+                        # new_x.insert(0, 10)
+                        
+                print('new_x',x)
+                print('new_y',y)
             else:
-                sendliney += val     
+                sendliney += val   
+                y  = [] 
 
-            print(x)
-            if same_step and set(x) != set(shared_x):
+            
+            if not shared_y:
+                shared_y = y
+                print('HERE', shared_y)
+            elif y:
+                print('HERE2',y, shared_y)
+                shared_y= [i + j for i, j in zip(shared_y, y)]
+            print('original',x_original)
+            print(shared_y)
+            if same_step and set(x_original) != set(shared_x):
                 same_step = False
             
             if dexplot is None:
                 dexplot = dex
             
         print('here3')
+        print(x)
+        print(shared_y)
         sendliney = sendliney.lstrip()
         if same_step: # linear interpolation for step functions with same step does not work correctly
             c.x = eval('plotlist['+str(dexplot)+'].x')
             c.y = eval(sendliney)
         elif not same_step:
-            print('here', shared_x)
+            c.x = x
+            c.y = shared_y
         
         
         
