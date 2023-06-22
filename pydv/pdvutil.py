@@ -115,7 +115,9 @@ def parsemath(line, plotlist, commander, xdomain):
 
     sendline = sendline.lstrip()
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
-    
+    c.name = ' '.join(line).replace('commander.', '').title()
+    c.plotname = commander.getcurvename()                      # set label
+
     if step:
         shared_x = set(shared_x)
         sendliney = ''
@@ -219,10 +221,6 @@ def parsemath(line, plotlist, commander, xdomain):
         print(eval(sendliney))
 
         
-        
-        
-    c.name = ' '.join(line).replace('commander.', '').title()
-    c.plotname = commander.getcurvename()                      # set label
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')
         return 0
