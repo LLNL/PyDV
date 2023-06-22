@@ -1140,7 +1140,7 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is ommiting some of the attributes
+                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
                         current.step =  self.curvelist[curvedex].step
                         self.addtoplot(current)
                 self.plotedit = True
