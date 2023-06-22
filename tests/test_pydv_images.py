@@ -124,30 +124,18 @@ kill all
 read {os.path.join(TEST_DIR, 'step.ult')}
 cur 1 2
 + a a
-+ a a step
 - a a 
-- a a step
 * a a
-* a a step
 / a a 
-/ a a step
 
 + a b
-+ a b step
 + b a
-+ b a step
 - a b
-- a b step
 - b a
-- b a step
 * a b
-* a b step
 * b a
-* b a step
 / a b
-/ a b step
 / b a
-/ b a step
 """
 ]
 

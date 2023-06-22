@@ -115,7 +115,7 @@ def parsemath(line, plotlist, commander, xdomain):
 
     sendline = sendline.lstrip()
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
-    c.name = ' '.join(line).replace('commander.', '').title()
+    c.name = ' '.join(line).replace('commander.', '').title()  # set name
     c.plotname = commander.getcurvename()                      # set label
 
     if step:
