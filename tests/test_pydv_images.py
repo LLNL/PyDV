@@ -120,6 +120,11 @@ group""",
 """labelfilenames on""",
 """labelfilenames off""",
 f"""erase
+read {os.path.join(TEST_DIR, 'testDataLog.ult')}
+cur 8 9 10""",
+"""yls on
+xls on""",
+f"""erase
 kill all
 read {os.path.join(TEST_DIR, 'step.ult')}
 cur 1 2

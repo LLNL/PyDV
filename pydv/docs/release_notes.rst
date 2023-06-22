@@ -3,9 +3,13 @@
 Release Notes
 =============
 
-3.1.11
+3.1.12
 ------
 * Fixed `parsemath()` not working with step functions for addition, subraction, multiplication, and division
+
+3.1.11
+------
+* Axes log scale bug fixed
 
 3.1.10
 ------
