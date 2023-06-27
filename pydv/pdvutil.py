@@ -130,19 +130,12 @@ def parsemath(line, plotlist, commander, xdomain):
                 x = list(eval('plotlist['+str(dex)+'].x'))
                 y = list(eval('plotlist['+str(dex)+'].y'))
                 
-                print('original x', x)
-                print('original y', y)
                 for xs in shared_x:
                     if xs not in x:
-                        # print('NOT')
-                        # print(xs)
-                        # print(x)
                         
                         idxs = [i for i,v in enumerate(x) if v < xs]
-                        print( 'idx',idxs , not idxs)
                         
                         if not idxs: # missing data at the beginning of the list
-                            print('here')
                             y.insert(0, 0.0)
                             y.insert(1, 0.0)
                             x.insert(0, xs)
@@ -154,7 +147,6 @@ def parsemath(line, plotlist, commander, xdomain):
                             x.insert(idxs[-1]+1, xs)
                             x.insert(idxs[-1]+2, xs)
                         else: # missing data in between
-                            print('here2')
                             y.insert(idxs[-1]+1, y[idxs[-1]])
                             y.insert(idxs[-1]+2, y[idxs[-1]])
                             x.insert(idxs[-1]+1, xs)
@@ -162,27 +154,18 @@ def parsemath(line, plotlist, commander, xdomain):
                 
                 maths[i] = np.array(y)
                 sendliney += ' maths['+str(i)+'] '
-                print('new_x     ',x)
-                print('new_y     ',y)
                 
             elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
                 dex = ord(val.upper()) - ord('A')
                 x = list(eval('plotlist['+str(dex)+'].x'))
                 y = list(eval('plotlist['+str(dex)+'].y'))
                 
-                print('original x', x)
-                print('original y', y)
                 for xs in shared_x:
                     if xs not in x:
-                        # print('NOT')
-                        # print(xs)
-                        # print(x)
                         
                         idxs = [i for i,v in enumerate(x) if v < xs]
-                        print( 'idx',idxs , not idxs)
                         
                         if not idxs: # missing data at the beginning of the list
-                            print('here')
                             y.insert(0, 0.0)
                             y.insert(1, 0.0)
                             x.insert(0, xs)
@@ -194,7 +177,6 @@ def parsemath(line, plotlist, commander, xdomain):
                             x.insert(idxs[-1]+1, xs)
                             x.insert(idxs[-1]+2, xs)
                         else: # missing data in between
-                            print('here2')
                             y.insert(idxs[-1]+1, y[idxs[-1]])
                             y.insert(idxs[-1]+2, y[idxs[-1]])
                             x.insert(idxs[-1]+1, xs)
@@ -202,24 +184,14 @@ def parsemath(line, plotlist, commander, xdomain):
                 
                 maths[i] = np.array(y)
                 sendliney += ' maths['+str(i)+'] '
-                print('new_x     ',x)
-                print('new_y     ',y)
+
             else:
                 sendliney += val
 
-
         sendliney = sendliney.lstrip()
-        print(sendliney)
-        print(x)
-        print(maths[0])
-        print(maths[2])
-        print(maths[0] + maths[2])
 
         c.x = x
         c.y = eval(sendliney)
-            
-        print(eval(sendliney))
-
         
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')
