@@ -1140,7 +1140,8 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy()
+                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
+                        current.step =  self.curvelist[curvedex].step
                         self.addtoplot(current)
                 self.plotedit = True
         except:
@@ -1292,6 +1293,7 @@ class Command(cmd.Cmd, object):
                 print('    Ebar = {}'.format(cur.ebar))
                 print('    Erange = {}'.format(cur.erange))
                 print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                print('    Step Function = {}'.format(cur.step))
                 print('\n')
             else:
                 raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))

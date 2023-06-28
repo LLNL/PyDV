@@ -124,6 +124,24 @@ read {os.path.join(TEST_DIR, 'testDataLog.ult')}
 cur 8 9 10""",
 """yls on
 xls on""",
+f"""erase
+kill all
+read {os.path.join(TEST_DIR, 'step.ult')}
+cur 1 2
++ a a
+- a a 
+* a a
+/ a a 
+
++ a b
++ b a
+- a b
+- b a
+* a b
+* b a
+/ a b
+/ b a
+"""
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
