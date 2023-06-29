@@ -72,7 +72,7 @@ run_tests:
 .ONESHELL:
 run_rz_tests:
 	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)";
-	umask 007 && sg weavedev -c '$(call do_run_rz_tests)'
+	xsu weaveci -c "umask 007 && sg weavedev -c '$(call do_run_rz_tests)'"
 
 
 .PHONY: release
