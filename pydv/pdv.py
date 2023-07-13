@@ -5438,8 +5438,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 #print locals()
 
                 for func in funcs:
-                    print(func)
-                    exec('self.' + func + ' = types.MethodType(' + func + ', self)') #removing Command works but can't use it in pydv terminal
+                    exec('self.' + func + ' = types.MethodType(' + func + ', self)')
             except:
                 print("error - invalid file: {}".format(fname))
                 if self.debug:
