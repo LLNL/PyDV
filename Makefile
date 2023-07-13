@@ -21,7 +21,7 @@ define create_env
 	source $1/bin/activate &&
 	pip3 install --upgrade pip &&
 	pip3 install --force pytest &&
-	pip3 install numpy scipy matplotlib==3.2.0 PySide2 &&
+	pip3 install numpy scipy matplotlib PySide2 &&
 	which pytest
 endef
 
@@ -72,7 +72,7 @@ run_tests:
 .ONESHELL:
 run_rz_tests:
 	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)";
-	umask 007 && sg weavedev -c '$(call do_run_rz_tests)'
+	xsu weaveci -c "umask 007 && sg weavedev -c '$(call do_run_rz_tests)'"
 
 
 .PHONY: release

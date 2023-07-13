@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
 # e-mail: rusu1@llnl.gov
@@ -95,7 +95,10 @@ try:
 except:
     stylesLoaded = False
 
-import curve
+try:
+    from . import curve
+except ImportError:
+    import curve
 
 try:
     import pact.pdb as pdb
@@ -444,9 +447,11 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
             _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
             _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
+            _curve.step = True
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
+            _curve.step = False
 
         return _curve
 

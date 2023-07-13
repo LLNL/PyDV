@@ -93,10 +93,16 @@ import readline
 import code
 from numbers import Number
 
-import pydvpy as pydvif
-import curve
-import pdvplot
-import pdvutil
+try:
+    from . import pydvpy as pydvif
+    from . import curve
+    from . import pdvplot
+    from . import pdvutil
+except ImportError:
+    import pydvpy as pydvif
+    import curve
+    import pdvplot
+    import pdvutil
 
 try:
     from matplotlib import style
@@ -105,6 +111,11 @@ except:
     stylesLoaded = False
 
 from enum import Enum
+
+PYDV_DIR = os.path.dirname(os.path.abspath(__file__))
+version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
+with open(version_file, 'r') as fp:
+    pydv_version = fp.read()
 
 
 class LogEnum(Enum):
@@ -1129,7 +1140,8 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy()
+                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
+                        current.step =  self.curvelist[curvedex].step
                         self.addtoplot(current)
                 self.plotedit = True
         except:
@@ -1281,6 +1293,7 @@ class Command(cmd.Cmd, object):
                 print('    Ebar = {}'.format(cur.ebar))
                 print('    Erange = {}'.format(cur.erange))
                 print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                print('    Step Function = {}'.format(cur.step))
                 print('\n')
             else:
                 raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
@@ -6562,6 +6575,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         """
         Applies the changes made by the user from the GUI.
         """
+        # this attribute value never gets updated... apply_uichanges() never gets called
         self.plotter.plotChanged = False
         cur_axes = plt.gca()      # Get current axes
 
@@ -6628,8 +6642,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.updatestyle = False
 
             plt.clf()
-            plt.cla()
+            # cur_axes = self.plotter.current_axes
             cur_axes = plt.gca()
+            cur_axes.cla()
 
             # Border
             cur_axes.spines['bottom'].set_color(self.bordercolor)
@@ -6668,9 +6683,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             plt.xticks(size=self.axistickfont)
             plt.yticks(size=self.axistickfont)
-            for tlabel in plt.axes().get_xticklabels(minor=True):
+            
+            for tlabel in cur_axes.get_xticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
-            for tlabel in plt.axes().get_yticklabels(minor=True):
+            for tlabel in cur_axes.get_yticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
 
             if len(self.plotlist) < 1:
@@ -6719,10 +6735,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             # LogFormatterMathtext produces 10**0,10**1,10**2,...
             xls = self.xlogscale
             yls = self.ylogscale
+
             if(xls):
-                cur_axes.set_xscale('log', nonposx='clip')
+                cur_axes.set_xscale('log')
+                # cur_axes.set_xscale('log', nonposx='clip')
             if(yls):
-                cur_axes.set_yscale('log', nonposy='clip')
+                cur_axes.set_yscale('log')
+                # cur_axes.set_yscale('log', nonposy='clip')
 
 # thinking about what we want here
 #              xticks de
@@ -6878,9 +6897,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 plt.text(text[0], text[1], text[2], fontsize = self.annotationfont)
 
             plt.draw()
-
             self.plotter.canvas.update()
             self.plotter.canvas.draw()
+
         except RuntimeError as detail:
             if(detail[-1].split()[0] == 'LaTeX'):
                 print('error: invalid LaTeX syntax')
@@ -7034,7 +7053,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.1.9  -  06.06.2023\n\tType "help" for more information.\n\n')
+            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  06.06.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

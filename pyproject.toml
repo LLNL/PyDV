@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "PyDV"
-version = "3.1.9"
+version = "3.1.12"
 description = "PyDV: Python Data Visualizer"
 license = "BSD"
 classifiers = [
@@ -34,7 +34,7 @@ include = ['img/*']
 
 [tool.poetry.dependencies]
 python = ">=3.6"
-matplotlib = "3.2"
+matplotlib = "*"
 numpy = "*"
 scikit-learn = "*"
 scipy = "*"
@@ -62,7 +62,7 @@ build-backend = "poetry.core.masonry.api"
 line-length = 79
 
 [tool.bumpver]
-current_version = "3.1.9"
+current_version = "3.1.11"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true
