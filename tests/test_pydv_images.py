@@ -141,6 +141,17 @@ cur 1 2
 * b a
 / a b
 / b a
+""",
+f"""erase
+kill all
+custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
+mycustomfunction
+myothercustomfunction
+cur 1 2 3 4 5 6 7 8
++ a a
++ a b
++ a e
++ a g
 """
 ]
 
