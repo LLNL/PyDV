@@ -1141,7 +1141,10 @@ class Command(cmd.Cmd, object):
                         skip = True
                     if not skip:
                         current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
-                        current.step =  self.curvelist[curvedex].step
+                        try:
+                            current.step =  self.curvelist[curvedex].step
+                        except:
+                            current.step = False
                         self.addtoplot(current)
                 self.plotedit = True
         except:

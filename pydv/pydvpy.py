@@ -76,7 +76,6 @@ import traceback
 import sys
 import re
 import random as sysrand
-import yaml
 
 from distutils.version import LooseVersion
 

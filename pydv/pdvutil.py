@@ -94,7 +94,7 @@ def parsemath(line, plotlist, commander, xdomain):
                 if step_i and step:
                     shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
             except:
-                pass
+                step_i = False
 
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
@@ -105,7 +105,7 @@ def parsemath(line, plotlist, commander, xdomain):
                 if step_i and step:
                     shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
             except:
-                pass
+                step_i = False
 
         else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
