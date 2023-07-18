@@ -6,7 +6,6 @@ Release Notes
 3.1.14
 ------
 * Bug fix for custom functions
-* Added length to menu and list
 * Bug fix for step functions
 
 3.1.13
