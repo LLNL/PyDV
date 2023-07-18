@@ -151,6 +151,9 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     :type fname: str
     :returns: curve -- the curve generated from the x and y list of values.
     """
+    if len(x) != len(y):
+        print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
+        name += " !!!ERROR:len(x)!=len(y)!!!"            
     c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
@@ -670,7 +673,7 @@ def readsina(fname, verbose=False):
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
-                sina_file = json.load(fp) # Can only have on json.load(fp)?
+                sina_file = json.load(fp)
                 record_id = sina_file['records'][0]['id']
                 curve_sets = sina_file['records'][0]['curve_sets']
                 library_data = sina_file['records'][0]['library_data']

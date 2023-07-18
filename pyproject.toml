@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "PyDV"
-version = "3.1.13"
+version = "3.1.14"
 description = "PyDV: Python Data Visualizer"
 license = "BSD"
 classifiers = [

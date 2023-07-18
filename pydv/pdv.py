@@ -1141,7 +1141,10 @@ class Command(cmd.Cmd, object):
                         skip = True
                     if not skip:
                         current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
-                        current.step =  self.curvelist[curvedex].step
+                        try:
+                            current.step =  self.curvelist[curvedex].step
+                        except:
+                            current.step = False
                         self.addtoplot(current)
                 self.plotedit = True
         except:
@@ -3598,7 +3601,7 @@ class Command(cmd.Cmd, object):
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for curve in self.plotlist:
                 searchline = curve.name + ' ' + curve.filename
                 if not line or reg.search(searchline):
@@ -3672,7 +3675,7 @@ class Command(cmd.Cmd, object):
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
                           namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for i in range(start, stop):
                 curve = self.plotlist[i]
                 plotname = ""
@@ -3778,7 +3781,7 @@ class Command(cmd.Cmd, object):
             print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))            
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1            
 
             for i in range(start, stop):
                 index = str(i + 1)
@@ -3827,7 +3830,7 @@ class Command(cmd.Cmd, object):
             print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9)))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
@@ -5422,12 +5425,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     fname = os.getenv('HOME') + fname[1:]
                 f = open(fname, 'r')
                 funcfile = f.read()
-                funcs = re.findall(r'do_\w+', funcfile)
+                funcs = re.findall(r'def do_\w+', funcfile)
+                funcs = [func.replace('def ','') for func in funcs]
                 exec(funcfile)
                 #print locals()
 
                 for func in funcs:
-                    exec('self.' + func + ' = types.MethodType(' + func + ', self, Command)')
+                    exec('self.' + func + ' = types.MethodType(' + func + ', self)')
             except:
                 print("error - invalid file: {}".format(fname))
                 if self.debug:

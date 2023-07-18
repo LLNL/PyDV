@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.14
+------
+* Bug fix for custom functions
+* Bug fix for step functions
+
 3.1.13
 ------
 * Sina curve sets in library data can now be read
