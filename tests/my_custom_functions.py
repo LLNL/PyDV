@@ -1,8 +1,9 @@
 import os
+
+
 def do_mycustomfunction(self, line):
 
     for i in range(4):
-        print(i)
         x = [i, i+1, i+2]
         y = x
         name = f'TestCurve_{i}'
