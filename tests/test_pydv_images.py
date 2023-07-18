@@ -141,6 +141,11 @@ cur 1 2
 * b a
 / a b
 / b a
+""",
+f"""erase
+kill all
+readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
+cur 1 2 3
 """
 ]
 

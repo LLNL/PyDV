@@ -1,0 +1,93 @@
+{
+    "records": [
+        {
+            "type": "run",
+            "id": "dummyID",
+            "library_data": {
+                "myLibrary": {
+                    "curve_sets": {
+                        "set1": {
+                            "independent": {
+                                "time": {
+                                    "value": [
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5
+                                    ]
+                                }
+                            },
+                            "dependent": {
+                                "speed": {
+                                    "value": [
+                                        1,
+                                        4,
+                                        9,
+                                        16,
+                                        25
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "mySecondLibrary": {
+                    "curve_sets": {
+                        "set1": {
+                            "independent": {
+                                "time": {
+                                    "value": [
+                                        1,
+                                        2,
+                                        3,
+                                        4,
+                                        5
+                                    ]
+                                }
+                            },
+                            "dependent": {
+                                "speed": {
+                                    "value": [
+                                        1,
+                                        4,
+                                        9,
+                                        16,
+                                        25
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "curve_sets": {
+                "set1": {
+                    "independent": {
+                        "time": {
+                            "value": [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5
+                            ]
+                        }
+                    },
+                    "dependent": {
+                        "speed": {
+                            "value": [
+                                1,
+                                4,
+                                9,
+                                16,
+                                25
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "relationships": []
+}
