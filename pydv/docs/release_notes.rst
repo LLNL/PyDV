@@ -3,6 +3,16 @@
 Release Notes
 =============
 
+3.1.14
+------
+* Bug fix for custom functions
+* Added length to menu and list
+* Bug fix for step functions
+
+3.1.13
+------
+* Sina curve sets in library data can now be read
+
 3.1.12
 ------
 * Fixed `parsemath()` not working with step functions for addition, subraction, multiplication, and division

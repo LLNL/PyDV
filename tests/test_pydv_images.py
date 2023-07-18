@@ -144,6 +144,11 @@ cur 1 2
 """,
 f"""erase
 kill all
+readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
+cur 1 2 3
+""",
+f"""erase
+kill all
 custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
 mycustomfunction
 myothercustomfunction
