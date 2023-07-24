@@ -3986,7 +3986,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        f.write('#' + cur.name + '\n')
+                        f.write('# ' + cur.name + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
