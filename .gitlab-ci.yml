@@ -1,0 +1,154 @@
+stages:
+  - create_env
+  - run_tests
+  - release
+  - deploy
+  - deploy_to_develop
+    
+.create_env:
+  script:
+    - make create_env
+
+.run_tests:
+  script:
+    - make run_tests
+
+.run_rz_tests:
+  script:
+    - make run_rz_tests
+
+.release:
+  script:
+    - make release
+
+.deploy:
+  script:
+    - make deploy
+
+.on_cz:
+  tags:
+    - shell
+    - ruby
+    
+.on_rz:
+  tags:
+    - shell
+    - rztopaz
+
+.on_scf:
+  tags:
+    - shell
+    - magma
+    
+.run_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG == null && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/"'
+
+.run_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG == null && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/"'
+
+.run_on_scf:
+  rules:
+    - if: '$SOURCE_ZONE == "SCF" && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_COMMIT_TAG == null && $CI_COMMIT_MESSAGE !~ "/^DO NOT CREATE A TAG/"'
+    
+    
+.tag_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'
+
+.tag_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'
+    
+.tag_on_scf:
+  rules:
+    - if: '$SOURCE_ZONE == "SCF" && $CI_COMMIT_TAG =~ "/^pydv-[0-9]+.[0-9]+.[0-9]+$/"'    
+
+.deploy_to_develop_on_cz:
+  rules:
+    - if: '$SOURCE_ZONE == "CZ" && $CI_COMMIT_BRANCH == "develop"'
+
+.deploy_to_develop_on_rz:
+  rules:
+    - if: '$SOURCE_ZONE == "RZ" && $CI_COMMIT_BRANCH == "develop"'
+
+.deploy_to_develop_on_scf:
+  rules:
+    - if: '$SOURCE_ZONE == "SCF" && $CI_COMMIT_BRANCH == "develop"'
+    
+create_env_on_cz:
+  stage: create_env
+  extends: [ .on_cz, .run_on_cz, .create_env ]
+  
+run_tests_on_cz:
+  stage: run_tests
+  extends: [ .on_cz, .run_on_cz, .run_tests ]
+
+release_on_cz:
+  stage: release
+  extends: [ .on_cz, .tag_on_cz, .release ]
+
+deploy_on_cz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "prod"
+  extends: [ .on_cz, .tag_on_cz, .deploy ]    
+
+deploy_to_develop_on_cz:
+  stage: deploy_to_develop
+  extends: [ .on_cz, .deploy_to_develop_on_cz ]
+  script:
+    - make deploy_to_develop
+      
+create_env_on_rz:
+  stage: create_env
+  extends: [ .on_rz, .run_on_rz, .create_env ]
+  
+run_tests_on_rz:
+  stage: run_tests
+  extends: [ .on_rz, .run_on_rz, .run_tests ]
+
+run_rz_tests_on_rz:
+  stage: run_tests
+  extends: [ .on_rz, .run_on_rz, .run_rz_tests ]
+
+release_on_rz:
+  stage: release
+  extends: [ .on_rz, .tag_on_rz, .release ]
+
+deploy_on_rz:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "prod"
+  extends: [ .on_rz, .tag_on_rz, .deploy ]    
+
+deploy_to_develop_on_rz:
+  stage: deploy_to_develop
+  extends: [ .on_rz, .deploy_to_develop_on_rz ]
+  script:
+    - make deploy_to_develop
+
+create_env_on_scf:
+  stage: create_env
+  extends: [ .on_scf, .run_on_scf, .create_env ]
+  
+run_tests_on_scf:
+  stage: run_tests
+  extends: [ .on_scf, .run_on_scf, .run_tests ]
+
+release_on_scf:
+  stage: release
+  extends: [ .on_scf, .tag_on_scf, .release ]
+
+deploy_on_scf:
+  stage: deploy
+  variables:
+    DEPLOY_TO: "prod"
+  extends: [ .on_scf, .tag_on_scf, .deploy ]    
+
+deploy_to_develop_on_scf:
+  stage: deploy_to_develop
+  extends: [ .on_scf, .deploy_to_develop_on_scf ]
+  script:
+    - make deploy_to_develop

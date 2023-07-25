@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
 # e-mail: rusu1@llnl.gov
@@ -94,7 +94,10 @@ try:
 except:
     stylesLoaded = False
 
-import curve
+try:
+    from . import curve
+except ImportError:
+    import curve
 
 try:
     import pact.pdb as pdb
@@ -130,7 +133,7 @@ def span(xmin, xmax, numpts=100):
     return c
 
 
-def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
+def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id=''):
     """
     Generate a curve from two lists of numbers.
 
@@ -148,12 +151,12 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title=''):
     :type fname: str
     :returns: curve -- the curve generated from the x and y list of values.
     """
-    c = curve.Curve(fname, name)
+    if len(x) != len(y):
+        print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
+        name += " !!!ERROR:len(x)!=len(y)!!!"            
+    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
-    c.xlabel = xlabel
-    c.ylabel = ylabel
-    c.title = title
 
     return c
 
@@ -222,7 +225,7 @@ def create_plot(curvelist, **kwargs):
         elif key == 'ylabel':
             ylabel = val
         elif key == 'legend':
-            legend = val
+            legend = val 
         elif key == 'stylename':
             stylename = val
         elif key == 'xls':
@@ -414,7 +417,7 @@ def savecsv(fname, curvelist, verbose=False):
             f.close()
 
 
-def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
+def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     """
     Read the file and add parsed curves to a curvelist
 
@@ -422,8 +425,8 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
     >>> curves = pydvif.read('testData.txt', False, 0, False, '*_name', 20)
 
-    :param file_name: ULTRA filename
-    :type file_name: str
+    :param fname: ULTRA filename
+    :type fname: str
     :param gnu: optional, flag to determine if the file is a column oriented (.gnu) file.
     :type gnu: bool
     :param xcol: optional, x-column number for column oriented (.gnu) files
@@ -443,9 +446,11 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
             _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
             _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
+            _curve.step = True
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
+            _curve.step = False
 
         return _curve
 
@@ -454,16 +459,16 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
 
     if pattern:
         regex = re.compile(r"%s" % pattern)
-    file_name = os.path.expanduser(file_name)
-    _, ext = os.path.splitext(file_name)
+    fname = os.path.expanduser(fname)
+    _, ext = os.path.splitext(fname)
     try:
         if gnu or ext == '.gnu':
-            return __loadcolumns(file_name, xcol)
+            return __loadcolumns(fname, xcol)
 
         if pdbLoaded:
             try:
-                fpdb = pdb.open(file_name, 'r')
-                return __loadpdb(file_name, fpdb)
+                fpdb = pdb.open(fname, 'r')
+                return __loadpdb(fname, fpdb)
             except:
                 pass
 
@@ -473,9 +478,9 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
         current = None
         new_curve = True
         potential_curve_name = ""
-        with open(file_name, 'r') as f:
+        with open(fname, 'r') as f:
             for line in f:
-                split_line = re.split(r'[ _]+', str.strip(line))
+                split_line = re.split(r'[ _\t]+', str.strip(line))
                 if not split_line or not split_line[0]:
                     continue
                 elif split_line[0] in {'##', 'end', 'End', 'END'}:
@@ -489,11 +494,16 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                     # getting to the actual data, then the new_curve flag will
                     # keep us from adding all those comments as curves.
                     if current and not new_curve: 
+
+                        # Need this since it will add last match below and outside loop
+                        if matches and match_count >= matches:
+                            break
+
                         curve_list.append(bundle_curve(current, build_list_x, build_list_y))
                         build_list_x = list()
                         build_list_y = list()
 
-                    # Beging setup of new curve
+                    # Begin setup of new curve
                     new_curve = True
                     potential_curve_name = ' '.join(split_line[1:])
                 else:
@@ -503,28 +513,30 @@ def read(file_name, gnu=False, xcol=0, verbose=False, pattern=None, matches=None
                         if regex:
                             if regex.search(curve_name):
                                 match_count += 1
-                                current = curve.Curve(file_name, curve_name)
+                                current = curve.Curve(fname, curve_name)
+                                build_list_x += split_line[::2]
+                                build_list_y += split_line[1::2]
                             else:
                                 current = None
                         else:
-                            current = curve.Curve(file_name, curve_name)
+                            current = curve.Curve(fname, curve_name)
+                            build_list_x += split_line[::2]
+                            build_list_y += split_line[1::2]
 
-                    build_list_x += split_line[::2]
-                    build_list_y += split_line[1::2]
-
-                    if matches and match_count >= matches:
-                        break
+                    elif current and not new_curve: # add data to current curve
+                        build_list_x += split_line[::2]
+                        build_list_y += split_line[1::2]
 
         # Append the last curve that we built
         if current:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:
-        print('could not load file: {}'.format(file_name))
+        print('could not load file: {}'.format(fname))
         if verbose:
             traceback.print_exc(file=sys.stdout)
     except ValueError:
-        print('invalid pydv file: {}'.format(file_name))
+        print('invalid pydv file: {}'.format(fname))
         if verbose:
             traceback.print_exc(file=sys.stdout)
 
@@ -645,7 +657,7 @@ def readsina(fname, verbose=False):
     We assume JSON conforming to the Sina schema, with each curve defined in a curve_set. We assume
     there is only one record, and if there are more then we only read the first one. We also assume
     only one independent variable per curve_set; if there are more than one, then PyDV may exhibit
-    undefined behavior.
+    undefined behavior. Can also read curve_sets within libraries in library_data.
     
     >>> curves = readsina('testData.json')
 
@@ -661,25 +673,42 @@ def readsina(fname, verbose=False):
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
-                curve_sets = json.load(fp)['records'][0]['curve_sets']
-                for curve_set_name, curve_set in curve_sets.items():
-                    independent_dict = next(iter(curve_set['independent'].items()))
-                    independent_name = independent_dict[0]
-                    independent_value = independent_dict[1]['value']
-                    for name, v in curve_set['dependent'].items():
-                        # TODO: Save the name x and y names with the curves
-                        dependent_variable_name = name
-                        full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
-                        dependent_variable_value = v['value']
-                        curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
-                            curve_set_name + ")"
-                        c = makecurve(x=independent_value, y=dependent_variable_value,
-                            name=curve_name, fname=fname, xlabel=independent_name,
-                            ylabel=dependent_variable_name, title=curve_name)
-                        print("Appended curve: {}, len x,y: {},{}"
-                              .format(dependent_variable_name, len(c.x), len(c.y)))
-                        curves[full_name] = c
-                        listed_order.append(full_name)
+                sina_file = json.load(fp)
+                record_id = sina_file['records'][0]['id']
+                curve_sets = sina_file['records'][0]['curve_sets']
+                library_data = sina_file['records'][0]['library_data']
+
+                def add_curve_set(curve_sets, curves, listed_order, library=''):
+                    for curve_set_name, curve_set in curve_sets.items():
+                        independent_dict = next(iter(curve_set['independent'].items()))
+                        independent_name = independent_dict[0]
+                        independent_value = independent_dict[1]['value']
+                        for name, v in curve_set['dependent'].items():
+                            # TODO: Save the name x and y names with the curves
+                            dependent_variable_name = name
+                            full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
+                            dependent_variable_value = v['value']
+                            curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
+                                curve_set_name + ")"
+                            if library != '':
+                                curve_name += ' ' + library
+                                full_name += '__LIBRARY__' + library
+                            c = makecurve(x=independent_value, y=dependent_variable_value,
+                                name=curve_name, fname=fname, xlabel=independent_name,
+                                ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
+                            c.step = False
+                            print("Appended curve: {}, len x,y: {},{}"
+                                .format(dependent_variable_name, len(c.x), len(c.y)))
+                            curves[full_name] = c
+                            listed_order.append(full_name)
+                    return curves, listed_order
+
+                curves, listed_order = add_curve_set(curve_sets, curves, listed_order)
+
+                for library in library_data:
+                    if 'curve_sets' in library_data[library]:
+                        curve_sets = library_data[library]['curve_sets']
+                        curves, listed_order = add_curve_set(curve_sets, curves, listed_order, library=library)
             except KeyError:
                 print('readsina: Sina file {} is malformed'.format(fname))
                 if verbose:
@@ -2991,11 +3020,16 @@ def vs(c1, c2):
     :type c2: Curve
     :return: Curve -- the new curve
     """
-    nc = curve.Curve('', __toCurveString(c1) + ' vs ' + __toCurveString(c2))
+    newfilename = ''
+    newrecord_id = ''
+    if c1.filename == c2.filename:
+        newfilename = c1.filename 
+        if c1.record_id == c2.record_id:
+            newrecord_id = c1.record_id
+    nc = curve.Curve(newfilename, __toCurveString(c1) + ' vs ' + __toCurveString(c2), newrecord_id, c2.ylabel, c1.ylabel)
     ic1, ic2 = curve.getinterp(c1, c2)
     nc.x = np.array(ic2.y)
     nc.y = np.array(ic1.y)
-
     return nc
 
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
 # e-mail: rusu1@llnl.gov
@@ -59,6 +59,8 @@
 # Security, LLC, and shall not be used for advertising or product
 # endorsement purposes.
 
+import numpy as np
+
 class CurveIndexError(ValueError): pass
 
 ## getCurveIndex returns integer index to curve in plotlist from plotname
@@ -79,21 +81,120 @@ def parsemath(line, plotlist, commander, xdomain):
     line = line.split()
     # build the line of operations
     sendline = ''
+    step = True
+    shared_x = []
     for val in line:
         dex = None
         if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
             dex = int(val[1:]) - 1
             sendline += ' plotlist['+str(dex)+'] '
+            
+            try:
+                step_i = eval('plotlist['+str(dex)+'].step')
+                if step_i and step:
+                    shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            except:
+                step_i = False
+
         elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
             dex = ord(val.upper()) - ord('A')
             sendline += ' plotlist['+ str(dex) +'] '
+            
+            try:
+                step_i = eval('plotlist['+str(dex)+'].step')
+                if step_i and step:
+                    shared_x.extend(eval('plotlist['+ str(dex) +'].x'))
+            except:
+                step_i = False
+
         else:                                         # no?, then just insert the operation (+,-,*,/, etc)
             sendline += val
+
+        if not step_i:
+            step = False
+
     sendline = sendline.lstrip()
-    #print sendline
     c = eval(sendline)  # evaluate it --- this works because math ops are defined for, and return, curve objects
     c.name = ' '.join(line).replace('commander.', '').title()  # set name
     c.plotname = commander.getcurvename()                      # set label
+    c.step = False
+
+    if step:
+        shared_x = set(shared_x)
+        sendliney = ''
+        maths = [0] * len(line)
+
+        for i, val in enumerate(line):
+            dex = None
+            if(val[0] == '@'): # are we a curve labeled @N, i.e., beyond a-z?
+                dex = int(val[1:]) - 1
+                x = list(eval('plotlist['+str(dex)+'].x'))
+                y = list(eval('plotlist['+str(dex)+'].y'))
+                
+                for xs in shared_x:
+                    if xs not in x:
+                        
+                        idxs = [i for i,v in enumerate(x) if v < xs]
+                        
+                        if not idxs: # missing data at the beginning of the list
+                            y.insert(0, 0.0)
+                            y.insert(1, 0.0)
+                            x.insert(0, xs)
+                            x.insert(1, x[1])
+                        elif idxs[-1]+2>len(x): # missing data at the end of the list
+                            y[-1] = 0.0
+                            y.insert(idxs[-1]+1, 0.0)
+                            y.insert(idxs[-1]+2, 0.0)
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
+                        else: # missing data in between
+                            y.insert(idxs[-1]+1, y[idxs[-1]])
+                            y.insert(idxs[-1]+2, y[idxs[-1]])
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
+                
+                maths[i] = np.array(y)
+                sendliney += ' maths['+str(i)+'] '
+                
+            elif(len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')): # or a curve a-z?
+                dex = ord(val.upper()) - ord('A')
+                x = list(eval('plotlist['+str(dex)+'].x'))
+                y = list(eval('plotlist['+str(dex)+'].y'))
+                
+                for xs in shared_x:
+                    if xs not in x:
+                        
+                        idxs = [i for i,v in enumerate(x) if v < xs]
+                        
+                        if not idxs: # missing data at the beginning of the list
+                            y.insert(0, 0.0)
+                            y.insert(1, 0.0)
+                            x.insert(0, xs)
+                            x.insert(1, x[1])
+                        elif idxs[-1]+2>len(x): # missing data at the end of the list
+                            y[-1] = 0.0
+                            y.insert(idxs[-1]+1, 0.0)
+                            y.insert(idxs[-1]+2, 0.0)
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
+                        else: # missing data in between
+                            y.insert(idxs[-1]+1, y[idxs[-1]])
+                            y.insert(idxs[-1]+2, y[idxs[-1]])
+                            x.insert(idxs[-1]+1, xs)
+                            x.insert(idxs[-1]+2, xs)
+                
+                maths[i] = np.array(y)
+                sendliney += ' maths['+str(i)+'] '
+
+            else:
+                sendliney += val
+
+        sendliney = sendliney.lstrip()
+
+        c.x = x
+        c.y = eval(sendliney)
+        c.step = True
+        
     if c.x is None or len(c.x) < 2:
         print('error: curve overlap is not sufficient')
         return 0
@@ -215,9 +316,14 @@ def getletterargs(line):
 
 
 ##truncate a string to given length##
-def truncate(string, size):
+def truncate(string, size, justify='left'):
+
     if len(string) > size:
-        string = string[:size]
+        if justify == 'left':
+            string = string[:size]
+        elif justify == 'right':
+            extra = len(string) - size + 3
+            string = '...'+string[extra:]
 
     return string
 

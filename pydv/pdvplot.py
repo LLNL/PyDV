@@ -1,7 +1,7 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
-# e-mail: rusu1@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
+# e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.  
   
@@ -60,12 +60,19 @@
 # endorsement purposes.
 
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg
+try:
+    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+except:
+      from matplotlib.backends.backend_qtagg import FigureCanvas
 
 from os import path
 
-from pdvnavbar import PyDVToolbar
-import pdvutil
+try:
+    from .pdvnavbar import PyDVToolbar
+    from . import pdvutil
+except ImportError:
+    from pdvnavbar import PyDVToolbar
+    import pdvutil
 
 try:
     from matplotlib import style
@@ -83,6 +90,12 @@ else:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
     from PyQt5.QtWidgets import *
+
+
+PYDV_DIR = path.dirname(path.abspath(__file__))
+version_file = path.join(PYDV_DIR, 'scripts/version.txt')
+with open(version_file, 'r') as fp:
+    pydv_version = fp.read()
 
 
 class Plotter(QMainWindow):
@@ -114,7 +127,7 @@ class Plotter(QMainWindow):
         here = path.abspath(path.dirname(__file__))
 
         # Setup Application
-        self.setWindowTitle('Python Data Visualizer 3.1.2')
+        self.setWindowTitle(f'Python Data Visualizer {pydv_version}')
         self.setWindowIcon(QIcon(path.join(here, 'img/app_icon3.png')))
         self._pydvcmd = pydvcmd
 
@@ -164,11 +177,12 @@ class Plotter(QMainWindow):
 
         # Figure Canvas
         self.fig = plt.figure(figsize=(1,1))
+        self.current_axes = self.fig.subplots()
         self.fig.set_facecolor(self.figcolor)
 
         self.defaultPlotLayout = dict(vars(self.fig.subplotpars))
 
-        self.canvas = FigureCanvasQTAgg(self.fig)
+        self.canvas = FigureCanvas(self.fig)
         self.setCentralWidget(self.canvas)
 
         toolbar = PyDVToolbar(self.canvas, self, True)   # Add False as third parameter to turn off coordinates
@@ -212,7 +226,7 @@ class Plotter(QMainWindow):
             self._listDialog.setModal(False)
 
         # Curves List
-        headerLabels = ['Plot Name', 'Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name']
+        headerLabels = ['Plot Name', 'Label', 'X Label', 'Y Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
         rows = len(self._pydvcmd.plotlist)
         cols = len(headerLabels)
 
@@ -252,6 +266,16 @@ class Plotter(QMainWindow):
             self._tableWidget.setItem(row, col, labelItem)
             col += 1
 
+            # X Label
+            xlabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.xlabel, self._pydvcmd.namewidth)))
+            self._tableWidget.setItem(row, col, xlabelItem)
+            col += 1
+
+            # Y Label
+            ylabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.ylabel, self._pydvcmd.namewidth)))
+            self._tableWidget.setItem(row, col, ylabelItem)
+            col += 1
+
             # xmin
             xminItem = QTableWidgetItem(self.tr("%.2e" % min(c.x)))
             self._tableWidget.setItem(row, col, xminItem)
@@ -275,6 +299,11 @@ class Plotter(QMainWindow):
             # File Name
             fnameItem = QTableWidgetItem(self.tr(c.filename))
             self._tableWidget.setItem(row, col, fnameItem)
+            col += 1
+
+            # Sina Record ID
+            recidItem = QTableWidgetItem(self.tr(c.record_id))
+            self._tableWidget.setItem(row, col, recidItem)
 
             row += 1
 
@@ -325,7 +354,7 @@ class Plotter(QMainWindow):
             self._menuDialog.setModal(False)
 
         # Available Curves
-        headerLabels = ['Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name']
+        headerLabels = ['Label', 'X Label', 'Y Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
         rows = len(self._pydvcmd.curvelist)
         cols = len(headerLabels)
 
@@ -369,6 +398,16 @@ class Plotter(QMainWindow):
             self._menuTableWidget.setItem(row, col, labelItem)
             col += 1
 
+            # X Label
+            xlabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.xlabel, self._pydvcmd.namewidth)))
+            self._menuTableWidget.setItem(row, col, xlabelItem)
+            col += 1
+
+            # Y Label
+            ylabelItem = QTableWidgetItem(self.tr(pdvutil.truncate(c.ylabel, self._pydvcmd.namewidth)))
+            self._menuTableWidget.setItem(row, col, ylabelItem)
+            col += 1
+
             # xmin
             xminItem = QTableWidgetItem(self.tr("%.2e" % min(c.x)))
             self._menuTableWidget.setItem(row, col, xminItem)
@@ -392,6 +431,11 @@ class Plotter(QMainWindow):
             # File Name
             fnameItem = QTableWidgetItem(self.tr(c.filename))
             self._menuTableWidget.setItem(row, col, fnameItem)
+            col += 1
+
+            # Sina Record ID
+            recidItem = QTableWidgetItem(self.tr(c.record_id))
+            self._menuTableWidget.setItem(row, col, recidItem)
 
             row += 1
 
@@ -429,10 +473,10 @@ class Plotter(QMainWindow):
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC. \
+        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
-                      <p style="font-family:verdana;">e-mail: rusu1@llnl.gov</p> \
+                      <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
+                      <p style="font-family:verdana;">e-mail: eljurf1@llnl.gov, moreno45@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
                       <p style="font-family:courier; font-size:80%;">This file is part of PyDV. For details, see <URL describing code and \
@@ -519,11 +563,11 @@ class Plotter(QMainWindow):
 
     def __aboutPyDV(self):
         QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               '<p style="font-family:courier; font-size:40%;">version 3.1.2</p>'
+                                                               f'<p style="font-family:courier; font-size:40%;">version {pydv_version}</p>'
                                                                '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2022, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">email: rusu1@llnl.gov</p>'
+                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC.</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
+                                                               '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, moreno45@llnl.gov</p>'
                                                                '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
 

@@ -32,7 +32,7 @@ new_version = f'{major}.{minor}.{patch}'
 
 # Replace the version everwhere in the source code where it appears.
 files = [
-    os.path.join(ROOT_DIR, 'setup.py'),
+    os.path.join(ROOT_DIR, 'pyproject.toml'),
     os.path.join(ROOT_DIR, '.github', 'workflows', 'release.yml'),
     os.path.join(SOURCE_DIR, 'pdvplot.py'),
     os.path.join(SOURCE_DIR, 'pdv.py'),

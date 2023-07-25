@@ -1,7 +1,7 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
-# e-mail: rusu1@llnl.gov
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
+# e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -93,10 +93,16 @@ import readline
 import code
 from numbers import Number
 
-import pydvpy as pydvif
-import curve
-import pdvplot
-import pdvutil
+try:
+    from . import pydvpy as pydvif
+    from . import curve
+    from . import pdvplot
+    from . import pdvutil
+except ImportError:
+    import pydvpy as pydvif
+    import curve
+    import pdvplot
+    import pdvutil
 
 try:
     from matplotlib import style
@@ -105,6 +111,11 @@ except:
     stylesLoaded = False
 
 from enum import Enum
+
+PYDV_DIR = os.path.dirname(os.path.abspath(__file__))
+version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
+with open(version_file, 'r') as fp:
+    pydv_version = fp.read()
 
 
 class LogEnum(Enum):
@@ -136,16 +147,20 @@ class Command(cmd.Cmd, object):
 
     ## state variables##
     xlabel = ''
-    xlabel_set_from_curve = True
     ylabel = ''
+    filename = ''
+    record_id = ''
+    title = ''
+    xlabel_set_from_curve = True
     ylabel_set_from_curve = True
+    filename_set_from_curve = True
+    record_id_set_from_curve = True
+    title_set_from_curve = True
     bordercolor = None
     figcolor = None
     plotcolor = None
     xtickcolor = None
     ytickcolor = None
-    title = ''
-    title_set_from_curve = True
     titlecolor = None
     xlabelcolor = None
     ylabelcolor = None
@@ -162,6 +177,8 @@ class Command(cmd.Cmd, object):
     gridwidth = 1.0
     showletters = True
     showcurveinlegend = False
+    showrecordidinlegend = False
+    showfilenameinlegend = False
     xlogscale = False
     ylogscale = False
     titlefont = 'large'
@@ -195,7 +212,11 @@ class Command(cmd.Cmd, object):
     xminortickwidth = 0.5
     ytickwidth = 1
     yminortickwidth = 0.5
-    namewidth = 50
+    namewidth = 40
+    xlabelwidth = 10
+    ylabelwidth = 10
+    filenamewidth = 30
+    recordidwidth = 10
     updatestyle = False
     linewidth = None
 
@@ -237,6 +258,30 @@ class Command(cmd.Cmd, object):
                 else:
                     self.title = title
                     self.title_set_from_curve = from_curve
+
+    def set_filename(self, filename, from_curve=False):
+        if not from_curve:
+            self.filename = filename
+            self.filename_set_from_curve = from_curve if filename != "" else True
+        else:
+            if self.filename_set_from_curve:
+                if len(self.plotlist) > 1 and filename != self.filename:
+                    self.filename = ''
+                else:
+                    self.filename = filename
+                    self.filename_set_from_curve = from_curve
+
+    def set_record_id(self, record_id, from_curve=False):
+        if not from_curve:
+            self.record_id = record_id
+            self.record_id_set_from_curve = from_curve if record_id != "" else True
+        else:
+            if self.record_id_set_from_curve:
+                if len(self.plotlist) > 1 and record_id != self.title:
+                    self.record_id = ''
+                else:
+                    self.record_id = record_id
+                    self.record_id_set_from_curve = from_curve
 
     ##check for special character/operator commands##
     def precmd(self, line):
@@ -1095,7 +1140,11 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy()
+                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
+                        try:
+                            current.step =  self.curvelist[curvedex].step
+                        except:
+                            current.step = False
                         self.addtoplot(current)
                 self.plotedit = True
         except:
@@ -1247,6 +1296,7 @@ class Command(cmd.Cmd, object):
                 print('    Ebar = {}'.format(cur.ebar))
                 print('    Erange = {}'.format(cur.erange))
                 print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                print('    Step Function = {}'.format(cur.step))
                 print('\n')
             else:
                 raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
@@ -2903,10 +2953,94 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_namewidth(self):
-        print('\n   Command: change the width of the first column of the menu and lst output. If no width is given, the'
+        print('\n   Command: change the width of the curve_name column of the menu and lst output. If no width is given, the'
               '\n            current column width will be displayed.'
               '\n   Usage:  namewidth [width]')
 
+    ## adjust the width of the xlabel column in 'menu' and 'lst' commands
+    def do_xlabelwidth(self, line):
+        try:
+            if len(line) == 0:
+                print('xlabel column width is currently', self.xlabelwidth)
+            else:
+                line = line.split()
+                width = int(line[0])
+                if width < 0:
+                    width = 0
+                self.xlabelwidth = width
+                print('changing xlabel column width to', self.xlabelwidth)
+        except:
+            print('error - usage: xlabelwidth [width]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_xlabelwidth(self):
+        print('\n   Command: change the width of the xlabel column of the menu and lst output. If no width is given, the'
+              '\n            current column width will be displayed.'
+              '\n   Usage:  xlabelwidth [width]')
+
+    ## adjust the width of the ylabel column in 'menu' and 'lst' commands
+    def do_ylabelwidth(self, line):
+        try:
+            if len(line) == 0:
+                print('label column width is currently', self.ylabelwidth)
+            else:
+                line = line.split()
+                width = int(line[0])
+                if width < 0:
+                    width = 0
+                self.ylabelwidth = width
+                print('changing ylabel column width to', self.ylabelwidth)
+        except:
+            print('error - usage: ylabelwidth [width]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_ylabelwidth(self):
+        print('\n   Command: change the width of the ylabel column of the menu and lst output. If no width is given, the'
+              '\n            current column width will be displayed.'
+              '\n   Usage:  ylabelwidth [width]')
+
+
+    ## adjust the width of the file column in 'menu' and 'lst' commands
+    def do_filenamewidth(self, line):
+        try:
+            if len(line) == 0:
+                print('file column width is currently', self.filenamewidth)
+            else:
+                line = line.split()
+                width = int(line[0])
+                if width < 0:
+                    width = 0
+                self.filenamewidth = width
+                print('changing file column width to', self.filenamewidth)
+        except:
+            print('error - usage: filenamewidth [width]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_filenamewidth(self):
+        print('\n   Command: change the width of the file column of the menu and lst output. If no width is given, the'
+              '\n            current column width will be displayed.'
+              '\n   Usage:  filenamewidth [width]')
+
+    ## adjust the width of the rec id column in 'menu' and 'lst' commands
+    def do_recordidwidth(self, line):
+        try:
+            if len(line) == 0:
+                print('record_id column width is currently', self.recordidwidth)
+            else:
+                line = line.split()
+                width = int(line[0])
+                if width < 0:
+                    width = 0
+                self.recordidwidth = width
+                print('changing rec id column width to', self.recordidwidth)
+        except:
+            print('error - usage: recordidwidth [width]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+    def help_recordidwidth(self):
+        print('\n   Command: change the width of the record_id column of the menu and lst output. If no width is given, the'
+              '\n            current column width will be displayed.'
+              '\n   Usage:  recordidwidth [width]')
 
     ##adjust the length of the lines in the legend##
     def do_handlelength(self, line):
@@ -3238,12 +3372,18 @@ class Command(cmd.Cmd, object):
             self.__mod_curve(line, 'lnstyle')
             self.plotedit = True
         except:
-            print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>')
+            print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
+                  '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
+                  '| loosely_dashdotted | dashdotted | densely_dashdotted '
+                  '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_lnstyle(self):
         print('\n   Procedure: Set the line style of curves'
-              '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot>\n')
+              '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
+                  '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
+                  '| loosely_dashdotted | dashdotted | densely_dashdotted '
+                  '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>\n')
 
     ##set draw style of given curves##
     def do_drawstyle(self, line):
@@ -3281,6 +3421,84 @@ class Command(cmd.Cmd, object):
         [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
    See matplotlib 'set_dashes' command for more information.
 ''')
+
+
+    def do_group(self, line):
+
+        pn, cn, fn = self.do_listr('1')
+        
+        # Setting Linestyles at the file level
+        files = []
+
+        for f in fn: # ordered set
+            if f not in files:
+                files.append(f)
+                        
+        groups = {}
+        
+        for f in files:
+            temp = []
+            for i, plotname in enumerate(pn):
+                if fn[i] == f:
+                    temp.append(plotname)
+            
+            groups[f] = temp
+            
+        styles = [
+                    ('solid', 'solid'),      # Same as (0, ()) or '-'
+                    ('dot', 'dot'),    # Same as (0, (1, 1)) or ':'
+                    ('dash', 'dash'),    # Same as '--'
+                    ('dashdot', 'dashdot'),  # Same as '-.'
+                    ('loosely_dotted',        '(0, (1, 10))'),
+                    ('long_dash_with_offset', '(5, (10, 3))'),
+                    ('loosely_dashed',        '(0, (5, 10))'),
+                    ('dashed',                '(0, (5, 5))'),
+                    ('loosely_dashdotted',    '(0, (3, 10, 1, 10))'),
+                    ('dashdotted',            '(0, (3, 5, 1, 5))'),
+                    ('densely_dashdotted',    '(0, (3, 1, 1, 1))'),
+                    ('dashdotdotted',         '(0, (3, 5, 1, 5, 1, 5))'),
+                    ('loosely_dashdotdotted', '(0, (3, 10, 1, 10, 1, 10))'),
+                    ('densely_dashdotdotted', '(0, (3, 1, 1, 1, 1, 1))')
+                 ]
+
+        for i, filename in enumerate(groups):
+            if i<14:
+                curves_ = " ".join(groups[filename])
+                self.do_lnstyle(curves_+' '+styles[i][0].replace("'",""))
+            else:
+                print('There are only fourteen linestyles available. Please reduce the number of files.')
+            
+        # Setting Colors at the curve level
+        curve_names = []
+
+        for curve_name  in cn: # ordered set
+            temp_cn = curve_name.split(' - ')[0]
+            if temp_cn not in curve_names:
+                curve_names.append(temp_cn)
+                
+        groups = {}
+        
+        for curve_name in curve_names:
+            temp = []
+            for i, plotname in enumerate(pn):
+                if cn[i].split(' - ')[0] == curve_name:
+                    temp.append(plotname)
+            
+            groups[curve_name] = temp
+        
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+        for i, curve_name in enumerate(groups):
+            if i<10:
+                curves_ = " ".join(groups[curve_name])
+                self.do_color(curves_+' '+colors[i].replace("'",""))
+            else:
+                print('There are only ten colors available. Please reduce the number of same name curves.')
+
+        self.updateplot
+    def help_group(self):
+        print('\n   Group curves based on name and file if curve names are the same.\n')
+        
 
     ##turn hiding on for given curves##
     def do_hide(self, line):
@@ -3380,6 +3598,10 @@ class Command(cmd.Cmd, object):
                     print("error - invalid label-pattern")
                     return 0
 
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for curve in self.plotlist:
                 searchline = curve.name + ' ' + curve.filename
                 if not line or reg.search(searchline):
@@ -3387,13 +3609,25 @@ class Command(cmd.Cmd, object):
                     if curve.edited:
                         plotname = "*"
                     plotname = plotname + curve.plotname
+                    name = curve.name
                     name = pdvutil.truncate(curve.name.ljust(self.namewidth), self.namewidth)
+                    xlabel = curve.xlabel
+                    xlabel = xlabel.ljust(self.xlabelwidth)
+                    xlabel = pdvutil.truncate(xlabel, self.xlabelwidth)
+                    ylabel = curve.ylabel
+                    ylabel = ylabel.ljust(self.ylabelwidth)
+                    ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                     fname = curve.filename
+                    fname = fname.ljust(self.filenamewidth)
+                    fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                    record_id = curve.record_id
+                    record_id = record_id.ljust(self.recordidwidth)
+                    record_id = pdvutil.truncate(record_id, self.recordidwidth)
                     xmin = "%.2e" % min(curve.x)
                     xmax = "%.2e" % max(curve.x)
                     ymin = "%.2e" % min(curve.y)
                     ymax = "%.2e" % max(curve.y)
-                    print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(plotname, name, xmin, xmax, ymin, ymax, fname))
+                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: list [<label-pattern>]")
             if self.debug:
@@ -3408,6 +3642,10 @@ class Command(cmd.Cmd, object):
 
     ##list currently graphed curves##
     def do_listr(self, line):
+        group_plotnames = []
+        group_curvenames = []
+        group_filenames = []
+
         try:
             if not line:
                 self.help_listr()
@@ -3434,25 +3672,47 @@ class Command(cmd.Cmd, object):
             if stop > pllen:
                 stop = pllen
 
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
+                          namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for i in range(start, stop):
                 curve = self.plotlist[i]
                 plotname = ""
                 if curve.edited:
                     plotname = "*"
                 plotname = plotname + curve.plotname
+                name = curve.name
                 name = pdvutil.truncate(curve.name.ljust(self.namewidth), self.namewidth)
+                xlabel = curve.xlabel
+                xlabel = xlabel.ljust(self.xlabelwidth)
+                xlabel = pdvutil.truncate(xlabel, self.xlabelwidth)
+                ylabel = curve.ylabel
+                ylabel = ylabel.ljust(self.ylabelwidth)
+                ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                 fname = curve.filename
+                fname = fname.ljust(self.filenamewidth)
+                fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                record_id = curve.record_id
+                record_id = record_id.ljust(self.recordidwidth)
+                record_id = pdvutil.truncate(record_id, self.recordidwidth)
                 xmin = "%.2e" % min(curve.x)
                 xmax = "%.2e" % max(curve.x)
                 ymin = "%.2e" % min(curve.y)
                 ymax = "%.2e" % max(curve.y)
-                print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(plotname, name, xmin, xmax, ymin, ymax, fname))
+                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+
+                group_plotnames.append(plotname)
+                group_curvenames.append(name)
+                group_filenames.append(fname)
+
         except:
             print("error - usage: listr <start> [stop]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+            return group_plotnames, group_curvenames, group_filenames
     def help_listr(self):
         print("\n   Macro: Display curves in range from start to stop in the list. If stop is not specified, it will"
               "\n          be set to the end of the plot list."
@@ -3518,17 +3778,33 @@ class Command(cmd.Cmd, object):
             if stop > len(self.curvelist):
                 stop = len(self.curvelist)
 
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1            
+
             for i in range(start, stop):
                 index = str(i + 1)
                 name = self.curvelist[i].name
                 name = name.ljust(self.namewidth)
                 name = pdvutil.truncate(name, self.namewidth)
+                xlabel = self.curvelist[i].xlabel
+                xlabel = xlabel.ljust(self.xlabelwidth)
+                xlabel = pdvutil.truncate(xlabel, self.xlabelwidth)
+                ylabel = self.curvelist[i].ylabel
+                ylabel = ylabel.ljust(self.ylabelwidth)
+                ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                 fname = self.curvelist[i].filename
+                fname = fname.ljust(self.filenamewidth)
+                fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                record_id = self.curvelist[i].record_id
+                record_id = record_id.ljust(self.recordidwidth)
+                record_id = pdvutil.truncate(record_id, self.recordidwidth)
                 xmin = "%.2e" % min(self.curvelist[i].x)
                 xmax = "%.2e" % max(self.curvelist[i].x)
                 ymin = "%.2e" % min(self.curvelist[i].y)
                 ymax = "%.2e" % max(self.curvelist[i].y)
-                print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(index, name, xmin, xmax, ymin, ymax, fname))
+                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: menur <start> [stop]")
             if self.debug:
@@ -3551,6 +3827,10 @@ class Command(cmd.Cmd, object):
                     print("error: invalid expression")
                     return 0
 
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
+            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
@@ -3558,12 +3838,23 @@ class Command(cmd.Cmd, object):
                     name = self.curvelist[i].name
                     name = name.ljust(self.namewidth)
                     name = pdvutil.truncate(name, self.namewidth)
+                    xlabel = self.curvelist[i].xlabel
+                    xlabel = xlabel.ljust(self.xlabelwidth)
+                    xlabel = pdvutil.truncate(xlabel, self.xlabelwidth)
+                    ylabel = self.curvelist[i].ylabel
+                    ylabel = ylabel.ljust(self.ylabelwidth)
+                    ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                     fname = self.curvelist[i].filename
+                    fname = fname.ljust(self.filenamewidth)
+                    fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                    record_id = self.curvelist[i].record_id
+                    record_id = record_id.ljust(self.recordidwidth)
+                    record_id = pdvutil.truncate(record_id, self.recordidwidth)
                     xmin = "%.2e" % min(self.curvelist[i].x)
                     xmax = "%.2e" % max(self.curvelist[i].x)
                     ymin = "%.2e" % min(self.curvelist[i].y)
                     ymax = "%.2e" % max(self.curvelist[i].y)
-                    print("{:>5} {} {:9} {:9} {:9} {:9} {}".format(index, name, xmin, xmax, ymin, ymax, fname))
+                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: menu [<regex>]")
             if self.debug:
@@ -3695,7 +3986,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        f.write('#' + cur.name + '\n')
+                        f.write('# ' + cur.name + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
@@ -4153,6 +4444,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             c2 = self.plotlist[idx]
 
             nc = pydvif.vs(c1, c2)
+
             self.addtoplot(nc)
             self.plotedit = True
         except:
@@ -4187,7 +4479,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         icur1, icur2 = _extract_curvelist_number(arg0), _extract_curvelist_number(arg1)
         xc1, yc1 = numpy.array(self.curvelist[icur1].x), numpy.array(self.curvelist[icur1].y)
         xc2, yc2 = numpy.array(self.curvelist[icur2].x), numpy.array(self.curvelist[icur2].y)
-        nc = curve.Curve('', '%s vs %s' % (arg0, arg1))
+        newfilename = ''
+        newrecord_id = ''
+        if self.curvelist[icur2].filename == self.curvelist[icur1].filename:
+            newfilename = self.curvelist[icur2].filename 
+            if self.curvelist[icur2].record_id == self.curvelist[icur1].record_id:
+                newrecord_id = self.curvelist[icur2].record_id
+        nc = curve.Curve(newfilename, '%s vs %s' % (arg0, arg1), newrecord_id, self.curvelist[icur2].ylabel, self.curvelist[icur1].ylabel)
         nc.x = yc2
         nc.y = numpy.interp(xc2, xc1, yc1)
         self.addtoplot(nc)
@@ -4994,27 +5292,44 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
 
 
+    ##change label for a curve to the recordid##
+    def do_labelrecordids(self, line):
+            try:
+                line = line.strip()
+                if line == '0' or line.upper() == 'OFF':
+                    self.showrecordidinlegend = False
+                elif line == '1' or line.upper() == 'ON':
+                    self.showrecordidinlegend = True
+                else:
+                    raise RuntimeError('invalid input: requires on or off as argument')
+            except:
+                print('error - usage: labelrecordids <on | off>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+    def help_labelrecordids(self):
+        print('\n   Variable: Add curve recordid to the legend label if "on", otherwise hide curve recordid if "off".'
+              '\n   Usage: labelrecordids <on | off>')
+    
+
     ##change label for a curve to the filename##
     def do_labelfilenames(self, line):
         try:
-            for j in range(len(self.plotlist)):
-                cur = self.plotlist[j]
-
-                if cur.name.find(cur.filename) == -1:
-                    cur.name += ' - ' + cur.filename
-                    self.plotedit = True
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showfilenameinlegend = False
+            elif line == '1' or line.upper() == 'ON':
+                self.showfilenameinlegend = True
+            else:
+                raise RuntimeError('invalid input: requires on or off as argument')
         except:
-            print('error - usage: labelfilenames')
+            print('error - usage: labelfilenames <on | off>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
     def help_labelfilenames(self):
-        print('\n   Procedure: Change the key and list labels for the plotted curves by appending the filename.'
-              '\n              This command only affects the curves plotted at the time of execution. Any new curve'
-              '\n              will need to have this command run again to append the filename.'
-              '\n   Usage: labelfilenames\n')
+        print('\n   Variable: Add curve filename to the legend label if "on", otherwise hide curve filename if "off".'
+              '\n   Usage: labelfilenames <on | off>\n')
 
-
-    ##change label for a curve to the filename##
+    ##change label for a curve to the curve letter##
     def do_labelcurve(self, line):
             try:
                 line = line.strip()
@@ -5110,12 +5425,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     fname = os.getenv('HOME') + fname[1:]
                 f = open(fname, 'r')
                 funcfile = f.read()
-                funcs = re.findall('do_\w+', funcfile)
+                funcs = re.findall(r'def do_\w+', funcfile)
+                funcs = [func.replace('def ','') for func in funcs]
                 exec(funcfile)
                 #print locals()
 
                 for func in funcs:
-                    exec('self.' + func + ' = types.MethodType(' + func + ', self, Command)')
+                    exec('self.' + func + ' = types.MethodType(' + func + ', self)')
             except:
                 print("error - invalid file: {}".format(fname))
                 if self.debug:
@@ -5780,6 +6096,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
         self.set_title(cur.title, from_curve=True)
+        self.set_filename(cur.filename, from_curve=True)
+        self.set_record_id(cur.record_id, from_curve=True)
 
     ##return derivative of curve##
     def derivative(self, cur):
@@ -5869,6 +6187,26 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.linestyle = '--'
                         elif modvalue == 'dashdot':
                             cur.linestyle = '-.'
+                        elif modvalue == 'loosely_dotted':
+                            cur.linestyle = (0, (1, 10))
+                        elif modvalue == 'long_dash_with_offset':
+                            cur.linestyle = (5, (10, 3))
+                        elif modvalue == 'loosely_dashed':
+                            cur.linestyle = (0, (5, 10))
+                        elif modvalue == 'dashed':
+                            cur.linestyle = (0, (5, 5))
+                        elif modvalue == 'loosely_dashdotted':
+                            cur.linestyle = (0, (3, 10, 1, 10))
+                        elif modvalue == 'dashdotted':
+                            cur.linestyle = (0, (3, 5, 1, 5))
+                        elif modvalue == 'densely_dashdotted':
+                            cur.linestyle = (0, (3, 1, 1, 1))
+                        elif modvalue == 'dashdotdotted':
+                            cur.linestyle = (0, (3, 5, 1, 5, 1, 5))
+                        elif modvalue == 'loosely_dashdotdotted':
+                            cur.linestyle = (0, (3, 10, 1, 10, 1, 10))
+                        elif modvalue == 'densely_dashdotdotted':
+                            cur.linestyle = (0, (3, 1, 1, 1, 1, 1))                           
                         cur.dashes = None      # Restore default dash behaviour
                     elif(flag == 'drawstyle'):
                         # default, steps, steps-pre, steps-post
@@ -6232,6 +6570,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         """
         Applies the changes made by the user from the GUI.
         """
+        # this attribute value never gets updated... apply_uichanges() never gets called
         self.plotter.plotChanged = False
         cur_axes = plt.gca()      # Get current axes
 
@@ -6298,8 +6637,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     self.updatestyle = False
 
             plt.clf()
-            plt.cla()
+            # cur_axes = self.plotter.current_axes
             cur_axes = plt.gca()
+            cur_axes.cla()
 
             # Border
             cur_axes.spines['bottom'].set_color(self.bordercolor)
@@ -6338,9 +6678,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             plt.xticks(size=self.axistickfont)
             plt.yticks(size=self.axistickfont)
-            for tlabel in plt.axes().get_xticklabels(minor=True):
+            
+            for tlabel in cur_axes.get_xticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
-            for tlabel in plt.axes().get_yticklabels(minor=True):
+            for tlabel in cur_axes.get_yticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
 
             if len(self.plotlist) < 1:
@@ -6349,15 +6690,34 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.plotter.canvas.draw()
                 return 0
 
-            # Show curve letter in legend is enabled
+            # Show in legend if enabled
             for cur in self.plotlist:
+                # Show curve letter in legend if enabled
                 addstr = str('[' + cur.plotname + ']')
                 if cur.name.find(addstr) != -1:
                     strarr = cur.name.split(addstr)
                     cur.name = ''.join(strarr).strip()
-
                 if self.showcurveinlegend:
                     cur.name = addstr + ' ' + cur.name
+
+                # only for sina files
+                if cur.filename.endswith('.json'):
+                    # Show curve recordid in legend if enabled
+                    addrstr = str('- ' + cur.record_id)
+                    if cur.name.find(addrstr) != -1:
+                        rstrarr = cur.name.split(addrstr)
+                        cur.name = ''.join(rstrarr).strip()
+                    if self.showrecordidinlegend:
+                        cur.name =  cur.name + ' ' + addrstr
+
+                    # Show curve filename in legend if enabled
+                    addfstr = str('- ' + cur.filename)
+                    if cur.name.find(addfstr) != -1:
+                        fstrarr = cur.name.split(addfstr)
+                        cur.name = ''.join(fstrarr).strip()
+                    if self.showfilenameinlegend:
+                        cur.name =  cur.name + ' ' + addfstr
+        
 
             #set scaling and tick locations
             #
@@ -6370,10 +6730,13 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             # LogFormatterMathtext produces 10**0,10**1,10**2,...
             xls = self.xlogscale
             yls = self.ylogscale
+
             if(xls):
-                cur_axes.set_xscale('log', nonposx='clip')
+                cur_axes.set_xscale('log')
+                # cur_axes.set_xscale('log', nonposx='clip')
             if(yls):
-                cur_axes.set_yscale('log', nonposy='clip')
+                cur_axes.set_yscale('log')
+                # cur_axes.set_yscale('log', nonposy='clip')
 
 # thinking about what we want here
 #              xticks de
@@ -6529,9 +6892,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 plt.text(text[0], text[1], text[2], fontsize = self.annotationfont)
 
             plt.draw()
-
             self.plotter.canvas.update()
             self.plotter.canvas.draw()
+
         except RuntimeError as detail:
             if(detail[-1].split()[0] == 'LaTeX'):
                 print('error: invalid LaTeX syntax')
@@ -6550,7 +6913,6 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
     ##load an ultra file and add parsed curves to the curvelist##
     def load(self, fname, gnu=False, pattern=None, matches=None):
         curves = pydvif.read(fname, gnu, self.xCol, self.debug, pattern, matches)
-
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -6587,6 +6949,14 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         self.title = val
                     elif(var == 'namewidth'):
                         self.namewidth = int(val)
+                    elif(var == 'xlabelwidth'):
+                        self.xlabelwidth = int(val)
+                    elif(var == 'ylabelwidth'):
+                        self.ylabelwidth = int(val)
+                    elif(var == 'filenamewidth'):
+                        self.filenamewidth = int(val)
+                    elif(var == 'recordidwidth'):
+                        self.recordidwidth = int(val)
                     elif(var == 'key'):
                         if(val.upper() == 'ON' or val == str(1)):
                             self.showkey = True
@@ -6678,7 +7048,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
     def console_run(self):
         while True:
-            self.cmdloop('\n\tPython Data Visualizer 3.1.2  -  08.11.2022\n\tType "help" for more information.\n\n')
+            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  06.06.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
@@ -6786,6 +7156,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.loadrc()
 
         qInstallMessageHandler(self.__qtMsgHandler)
+
         self.app = QApplication(sys.argv)
         self.plotter = pdvplot.Plotter(self)
         self.plotter.updatePlotGeometry(self.geometry)

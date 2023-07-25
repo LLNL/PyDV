@@ -1,10 +1,11 @@
-
 import os
 import shutil
 import subprocess
+import pytest
 
 from matplotlib import image
-from numpy import testing as np
+import numpy as np
+
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -24,7 +25,7 @@ os.makedirs(output_dir)
 # place an "image" statement, which will cause PyDV to save the current state of
 # the plot.
 commands = [
-f"""rd {os.path.join(TEST_DIR, "testData.txt")}
+f"""rd {os.path.join(TEST_DIR, 'testData.txt')}
 cur 1 2""",
 "legend off",
 "erase",
@@ -105,9 +106,62 @@ gaussian 1 1 5""",
 "logx A",
 """exp A
 sin A
-log A"""
+log A""",
+f"""readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
+readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
+cur 3 4 5 6
+labelcurve on""",
+"""labelcurve off
+labelrecordids on""",
+f"""labelrecordids off
+read {os.path.join(TEST_DIR, 'testData.ult')}
+cur 7 8
+group""",
+"""labelfilenames on""",
+"""labelfilenames off""",
+f"""erase
+read {os.path.join(TEST_DIR, 'testDataLog.ult')}
+cur 8 9 10""",
+"""yls on
+xls on""",
+f"""erase
+kill all
+read {os.path.join(TEST_DIR, 'step.ult')}
+cur 1 2
++ a a
+- a a 
+* a a
+/ a a 
+
++ a b
++ b a
+- a b
+- b a
+* a b
+* b a
+/ a b
+/ b a
+""",
+f"""erase
+kill all
+readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
+cur 1 2 3
+""",
+f"""erase
+kill all
+custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
+mycustomfunction
+myothercustomfunction
+cur 1 2 3 4 5 6 7 8
++ a a
++ a b
++ a e
++ a g
+"""
 ]
+
 commands_file = os.path.join(output_dir, 'pydv_commands')
+
 with open(commands_file, 'w') as fp:
     for i, command in enumerate(commands):
         image_file = os.path.join(output_dir, f"test_image_{i+1:02d}")
@@ -120,7 +174,14 @@ exec_command = f"{os.path.join(PYDV_DIR, 'pydv', 'pdv')} -i {commands_file}"
 process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
 output, error = process.communicate()
 
+test_images = [_ for _ in os.listdir(output_dir) if _.endswith(".png")]
+baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
 
+@pytest.mark.parametrize("baseline_image, test_image",  list(zip(baseline_images, test_images)))
+def test_image(baseline_image, test_image):
+    baseline = image.imread(os.path.join(BASELINE_DIR, baseline_image))
+    output = image.imread(os.path.join(output_dir, test_image))
+    np.array_equal(baseline, output)
 
 # ----------------- #
 # --- Run tests --- #
@@ -138,303 +199,3 @@ output, error = process.communicate()
 # """
 #         fp.write(statement)
 #         statement = ''
-
-def test_image_01():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_01.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_01.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_02():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_02.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_02.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_03():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_03.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_03.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_04():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_04.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_04.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_05():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_05.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_05.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_06():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_06.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_06.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_07():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_07.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_07.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_08():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_08.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_08.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_09():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_09.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_09.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_10():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_10.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_10.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_11():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_11.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_11.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_12():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_12.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_12.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_13():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_13.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_13.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_14():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_14.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_14.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_15():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_15.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_15.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_16():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_16.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_16.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_17():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_17.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_17.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_18():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_18.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_18.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_19():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_19.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_19.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_20():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_20.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_20.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_21():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_21.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_21.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_22():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_22.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_22.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_23():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_23.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_23.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_24():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_24.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_24.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_25():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_25.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_25.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_26():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_26.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_26.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_27():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_27.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_27.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_28():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_28.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_28.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_29():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_29.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_29.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_30():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_30.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_30.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_31():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_31.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_31.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_32():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_32.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_32.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_33():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_33.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_33.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_34():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_34.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_34.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_35():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_35.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_35.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_36():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_36.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_36.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_37():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_37.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_37.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_38():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_38.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_38.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_39():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_39.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_39.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_40():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_40.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_40.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_41():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_41.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_41.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_42():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_42.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_42.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_43():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_43.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_43.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_44():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_44.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_44.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_45():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_45.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_45.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_46():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_46.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_46.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_47():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_47.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_47.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_48():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_48.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_48.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_49():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_49.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_49.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_50():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_50.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_50.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_51():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_51.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_51.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_52():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_52.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_52.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_53():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_53.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_53.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_54():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_54.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_54.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_55():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_55.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_55.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_56():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_56.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_56.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_57():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_57.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_57.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_58():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_58.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_58.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_59():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_59.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_59.png'))
-    np.assert_equal(baseline, output)
-
-def test_image_60():
-    baseline = image.imread(os.path.join(BASELINE_DIR, 'test_image_60.png'))
-    output = image.imread(os.path.join(output_dir, 'test_image_60.png'))
-    np.assert_equal(baseline, output)

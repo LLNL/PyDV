@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory  
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
 # e-mail: rusu1@llnl.gov
@@ -67,6 +67,10 @@ class Curve(object):
 
     name = ''
     filename = ''
+    record_id = ''
+    xlabel = ''
+    ylabel = ''
+    title = ''
     plotname = ''
     color = ''
     edited = False
@@ -87,14 +91,15 @@ class Curve(object):
     markerfacecolor = None
     markeredgecolor = None
     plotprecedence = 0
-    xlabel = ''
-    ylabel = ''
-    title = ''
     legend_show = True
     
-    def __init__(self, filename='', name=''):
+    def __init__(self, filename='', name='', record_id='', xlabel='', ylabel='', title=''):
         self.filename = filename
         self.name = name
+        self.record_id = record_id
+        self.xlabel = xlabel
+        self.ylabel = ylabel
+        self.title = title
     
     
     def __add__(a, b):
@@ -187,7 +192,7 @@ class Curve(object):
     
     ##return a new copy of the curve object##
     def copy(self):
-        c = Curve(self.filename, self.name)
+        c = Curve(self.filename, self.name, self.record_id, self.xlabel, self.ylabel, self.title)
         c.plotname = self.plotname
         c.x = np.array(self.x)
         c.y = np.array(self.y)
@@ -208,9 +213,6 @@ class Curve(object):
         c.ebar = self.ebar
         c.erange = self.erange
         c.plotprecedence = self.plotprecedence
-        c.xlabel = self.xlabel
-        c.ylabel = self.ylabel
-        c.title = self.title
         
         return c
 
