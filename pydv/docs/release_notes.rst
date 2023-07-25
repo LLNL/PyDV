@@ -3,6 +3,10 @@
 Release Notes
 =============
 
+3.1.15
+------
+* Bug fix for save command
+
 3.1.14
 ------
 * Bug fix for custom functions

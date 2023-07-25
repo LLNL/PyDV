@@ -81,3 +81,17 @@ def test_read():
     np.testing.assert_allclose(curve_5.y,  np.array([0, 1, 4, 9, 16]))
     # lightness
     np.testing.assert_allclose(curve_6.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+
+    # create and save gaussian curves
+    main.do_gaussian('1 1 5')
+    main.do_gaussian('1 1 1')
+    main.do_save(os.path.join(TEST_DIR, 'testSave.txt') + ' a:b')
+
+    # read saved gaussian curves
+    main.do_read(os.path.join(TEST_DIR, 'testSave.txt'))
+    assert len(main.curvelist) == 8
+
+    curve_7 = main.curvelist[6]
+    curve_8 = main.curvelist[7]
+    assert curve_7.name == 'Gaussian'
+    assert curve_8.name == 'Gaussian'
