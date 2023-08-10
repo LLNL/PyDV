@@ -6,7 +6,7 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
 
 sys.path.append(os.path.join(PYDV_DIR, "pydv"))
-import pdv
+import pdv  # noqa E402
 
 
 def test_read():
@@ -20,7 +20,7 @@ def test_read():
     curve_2 = main.curvelist[1]
     assert curve_1.name == 'darkness vs cycle (lux_cycle_series)'
     assert curve_2.name == 'lightness vs cycle (lux_cycle_series)'
- 
+
     # darkness
     np.testing.assert_allclose(curve_1.y,  np.array([0, 1, 4, 9, 16]))
     # lightness
@@ -76,7 +76,7 @@ def test_read():
     curve_6 = main.curvelist[5]
     assert curve_5.name == 'darkness'
     assert curve_6.name == 'lightness'
- 
+
     # darkness
     np.testing.assert_allclose(curve_5.y,  np.array([0, 1, 4, 9, 16]))
     # lightness

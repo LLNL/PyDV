@@ -25,140 +25,140 @@ os.makedirs(output_dir)
 # place an "image" statement, which will cause PyDV to save the current state of
 # the plot.
 commands = [
-f"""rd {os.path.join(TEST_DIR, 'testData.txt')}
-cur 1 2""",
-"legend off",
-"erase",
-"""cur 1 2
-L1 a b""",
-"L2 a b  3.0 5.5",
-"del c d",
-"color a blue",
-"color a red",
-"add a b",
-"annot FOO 3 7",
-"convolve a b",
-"""del d
-copy a""",
-"cos a",
-"""del d
-dashstyle b [2, 2, 4, 2]""",
-"dataid off",
-"""dataid on
-delannot 1""",
-"derivative a",
-"""del d
-dy b 2.5
-dx b 3""",
-"""dx b -3
-divide c a""",
-"""del d
-divx c 2
-divy c 2""",
-"dom 0 10",
-"dom de",
-"exp a",
-"log a",
-"grid off",
-"""grid on
-integrate a""",
-"""del d
-linespoints a on
-marker a . 20""",
-"lnwidth b 10",
-"""lnwidth b 3
-makecurve (1 2 3) (5 2 3)""",
-"""del d
-mx c 2""",
-"my a 3",
-"recip a",
-"scatter b on",
-"""scatter b off
-cos b""",
-"acos b",
-"cosh b",
-"acosh b",
-"sin c",
-"asin c",
-"sinh c",
-"asinh c",
-"sqr b",
-"sqrt b",
-"sqrx b",
-"sqrtx b",
-"tan a",
-"atan a",
-"tanh a",
-"atanh a",
-"a - b",
-"""del d
-b ** 2""",
-"c / b",
-"smooth d",
-"""dy d -3
-abs d""",
-"""erase
-legend on
-gaussian 1 1 5""",
-"exp A",
-"log A",
-"expx A",
-"logx A",
-"""exp A
-sin A
-log A""",
-f"""readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
-readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
-cur 3 4 5 6
-labelcurve on""",
-"""labelcurve off
-labelrecordids on""",
-f"""labelrecordids off
-read {os.path.join(TEST_DIR, 'testData.ult')}
-cur 7 8
-group""",
-"""labelfilenames on""",
-"""labelfilenames off""",
-f"""erase
-read {os.path.join(TEST_DIR, 'testDataLog.ult')}
-cur 8 9 10""",
-"""yls on
-xls on""",
-f"""erase
-kill all
-read {os.path.join(TEST_DIR, 'step.ult')}
-cur 1 2
-+ a a
-- a a 
-* a a
-/ a a 
+            f"""rd {os.path.join(TEST_DIR, 'testData.txt')}
+            cur 1 2""",
+            "legend off",
+            "erase",
+            """cur 1 2
+            L1 a b""",
+            "L2 a b  3.0 5.5",
+            "del c d",
+            "color a blue",
+            "color a red",
+            "add a b",
+            "annot FOO 3 7",
+            "convolve a b",
+            """del d
+            copy a""",
+            "cos a",
+            """del d
+            dashstyle b [2, 2, 4, 2]""",
+            "dataid off",
+            """dataid on
+            delannot 1""",
+            "derivative a",
+            """del d
+            dy b 2.5
+            dx b 3""",
+            """dx b -3
+            divide c a""",
+            """del d
+            divx c 2
+            divy c 2""",
+            "dom 0 10",
+            "dom de",
+            "exp a",
+            "log a",
+            "grid off",
+            """grid on
+            integrate a""",
+            """del d
+            linespoints a on
+            marker a . 20""",
+            "lnwidth b 10",
+            """lnwidth b 3
+            makecurve (1 2 3) (5 2 3)""",
+            """del d
+            mx c 2""",
+            "my a 3",
+            "recip a",
+            "scatter b on",
+            """scatter b off
+            cos b""",
+            "acos b",
+            "cosh b",
+            "acosh b",
+            "sin c",
+            "asin c",
+            "sinh c",
+            "asinh c",
+            "sqr b",
+            "sqrt b",
+            "sqrx b",
+            "sqrtx b",
+            "tan a",
+            "atan a",
+            "tanh a",
+            "atanh a",
+            "a - b",
+            """del d
+            b ** 2""",
+            "c / b",
+            "smooth d",
+            """dy d -3
+            abs d""",
+            """erase
+            legend on
+            gaussian 1 1 5""",
+            "exp A",
+            "log A",
+            "expx A",
+            "logx A",
+            """exp A
+            sin A
+            log A""",
+            f"""readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
+            readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
+            cur 3 4 5 6
+            labelcurve on""",
+            """labelcurve off
+            labelrecordids on""",
+            f"""labelrecordids off
+            read {os.path.join(TEST_DIR, 'testData.ult')}
+            cur 7 8
+            group""",
+            """labelfilenames on""",
+            """labelfilenames off""",
+            f"""erase
+            read {os.path.join(TEST_DIR, 'testDataLog.ult')}
+            cur 8 9 10""",
+            """yls on
+            xls on""",
+            f"""erase
+            kill all
+            read {os.path.join(TEST_DIR, 'step.ult')}
+            cur 1 2
+            + a a
+            - a a
+            * a a
+            / a a
 
-+ a b
-+ b a
-- a b
-- b a
-* a b
-* b a
-/ a b
-/ b a
-""",
-f"""erase
-kill all
-readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
-cur 1 2 3
-""",
-f"""erase
-kill all
-custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
-mycustomfunction
-myothercustomfunction
-cur 1 2 3 4 5 6 7 8
-+ a a
-+ a b
-+ a e
-+ a g
-"""
-]
+            + a b
+            + b a
+            - a b
+            - b a
+            * a b
+            * b a
+            / a b
+            / b a
+            """,
+            f"""erase
+            kill all
+            readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
+            cur 1 2 3
+            """,
+            f"""erase
+            kill all
+            custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
+            mycustomfunction
+            myothercustomfunction
+            cur 1 2 3 4 5 6 7 8
+            + a a
+            + a b
+            + a e
+            + a g
+            """
+            ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
 
@@ -176,6 +176,7 @@ output, error = process.communicate()
 
 test_images = [_ for _ in os.listdir(output_dir) if _.endswith(".png")]
 baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
+
 
 @pytest.mark.parametrize("baseline_image, test_image",  list(zip(baseline_images, test_images)))
 def test_image(baseline_image, test_image):
