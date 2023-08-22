@@ -4932,8 +4932,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   This slower method uses direct integration and minimal interpolations.'
               '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc')
 
-    ##make two new curves - the diff-measure of two given curves##
     def do_diffMeasure(self, line):
+        """
+        Make two new curves - the diff-measure of two given curves
+        """
+
         if not line:
             return 0
         try:
@@ -4961,12 +4964,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error: requires exactly two curves as arguments')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_diffMeasure(self):
         print('\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its '
               'average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n')
 
-    ## Compute the correlation function of the two curves ##
     def do_correl(self, line):
+        """
+        Compute the correlation function of the two curves
+        """
+
         if not line:
             return 0
 
@@ -4994,12 +5001,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.help_correl()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_correl(self):
         print('\n   Procedure: Compute the correlation function of the two curves.'
               '\n   Usage: correl <curve1> <curve2>\n')
 
-    ## Changes background color of the plot, window, or both. ##
     def do_bkgcolor(self, line):
+        """
+        Changes background color of the plot, window, or both
+        """
+
         try:
             line = line.split()
             color = line[-1]
@@ -5040,14 +5051,18 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('usage: bkgcolor <[plot | window] color-name | reset>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_bkgcolor(self):
         print("\n    Procedure: Change the background color of the given component. If no component name is specified,"
               " then both components will be given the same color. See (https://matplotlib.org/users/colors.html) for "
               "all the different ways to specify color-name. \'reset\' will return the plot and window colors to their"
               " original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>")
 
-    ##edits the font color for various text components##
     def do_fontcolor(self, line):
+        """
+        Edits the font color for various text components
+        """
+
         try:
             line = line.split()
             color = line[-1]
@@ -5091,55 +5106,59 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_fontcolor(self):
         print('\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.'
               '\n   Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
 
-    ##edits the font size for various text components##
     def do_fontsize(self, line):
+        """
+        Edits the font size for various text components
+        """
+
         try:
             line = line.split()
             size = line[-1]
             if size != 'default' and size != 'de' and size != 'x-small' and size != 'small' and size != 'medium' and size != 'large' and size != 'x-large':
                 size = float(size)
-                if(size > 40):
+                if (size > 40):
                     size = 40
-            if(len(line) > 1):
+            if (len(line) > 1):
                 com = line[0]
             else:
                 com = 'all'
-            if(com == 'all' or com == 'title'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'title'):
+                if (size == 'default' or size == 'de'):
                     self.titlefont = 'large'
                 else:
                     self.titlefont = size
-            if(com == 'all' or com == 'xlabel'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'xlabel'):
+                if (size == 'default' or size == 'de'):
                     self.xlabelfont = 'medium'
                 else:
                     self.xlabelfont = size
-            if(com == 'all' or com == 'ylabel'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'ylabel'):
+                if (size == 'default' or size == 'de'):
                     self.ylabelfont = 'medium'
                 else:
                     self.ylabelfont = size
-            if(com == 'all' or com == 'legend'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'legend'):
+                if (size == 'default' or size == 'de'):
                     self.keyfont = 'small'
                 else:
                     self.keyfont = size
-            if(com == 'all' or com == 'tick'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'tick'):
+                if (size == 'default' or size == 'de'):
                     self.axistickfont = 'medium'
                 else:
                     self.axistickfont = size
-            if(com == 'all' or com == 'curve'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'curve'):
+                if (size == 'default' or size == 'de'):
                     self.curvelabelfont = 'medium'
                 else:
                     self.curvelabelfont = size
-            if(com == 'all' or com == 'annotation'):
-                if(size == 'default' or size == 'de'):
+            if (com == 'all' or com == 'annotation'):
+                if (size == 'default' or size == 'de'):
                     self.annotationfont = 'medium'
                 else:
                     self.annotationfont = size
@@ -5148,13 +5167,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                   '<numerical-size | small | medium | large | default>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_fontsize(self):
         print('\n   Procedure: Change the font size of given component, or overall scaling factor'
               '\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
 
-
-    ## Generate a gaussian function ##
     def do_gaussian(self, line):
+        """
+        Generate a gaussian function
+        """
+
         if not line:
             return 0
         try:
@@ -5183,12 +5205,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_gaussian(self):
         print('\n   Procedure: Generate a gaussian function.\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n')
 
-
-    ##change the window size and location##
     def do_geometry(self, line):
+        """
+        Change the window size and location
+        """
+
         try:
             line = line.split()
             if len(line) != 4:
@@ -5201,14 +5226,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: geometry <xsize> <ysize> <xlocation> <ylocation>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_geometry(self):
         print('\n   Procedure: Change the window size and location in pixels'
               '\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>'
               '\n   Shortcuts: geom\n')
 
-
-    ##adjust the plot layout parameters##
     def do_plotlayout(self, line):
+        """
+        Adjust the plot layout parameters
+        """
+
         try:
             line = line.split()
             paramcnt = len(line)
@@ -5243,6 +5271,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print("error - usage: plotlayout [<left> <right> <top> <bottom> || de]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_plotlayout(self):
         print("\n   Procedure: Adjust the plot layout parameters. Where 'left' is the position of the left edge of the"
               "\n              plot as a fraction of the figure width, 'right' is the position of the right edge of the"
@@ -5254,27 +5283,32 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               "\n   Usage: plotlayout [<left> <right> <top> <bottom> || de]"
               "\n   Shortcut: pl\n")
 
-
-    ##re-id command re-identifies all the curves into continuous alphabetical order##
     def do_reid(self, line):
+        """
+        Re-id command re-identifies all the curves into continuous alphabetical order
+        """
+
         try:
             for i in range(len(self.plotlist)):
-                c = self.plotlist[i] # get i'th curve object
-                if(i < 26):
-                    c.plotname = chr(ord('A')+i) # label by alphabet
+                c = self.plotlist[i]  # get i'th curve object
+                if (i < 26):
+                    c.plotname = chr(ord('A')+i)  # label by alphabet
                 else:
-                    c.plotname = '@'+str(i+1) # after first 26 curves, go to @N labels
+                    c.plotname = '@'+str(i+1)  # after first 26 curves, go to @N labels
         except:
             print('error - usage: re-id or reid')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_reid(self):
         print('\n   Procedure: relabel all the curves in order.'
               '\n   Usage: re-id\n')
 
-
-    ##change label for a curve##
     def do_label(self, line):
+        """
+        Change label for a curve
+        """
+
         try:
             line = line.split()
             c = line.pop(0)
@@ -5288,31 +5322,37 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: label <curve> <new-label>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_label(self):
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
 
-
-    ##change label for a curve to the recordid##
     def do_labelrecordids(self, line):
-            try:
-                line = line.strip()
-                if line == '0' or line.upper() == 'OFF':
-                    self.showrecordidinlegend = False
-                elif line == '1' or line.upper() == 'ON':
-                    self.showrecordidinlegend = True
-                else:
-                    raise RuntimeError('invalid input: requires on or off as argument')
-            except:
-                print('error - usage: labelrecordids <on | off>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+        """
+        Change label for a curve to the recordid
+        """
+
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showrecordidinlegend = False
+            elif line == '1' or line.upper() == 'ON':
+                self.showrecordidinlegend = True
+            else:
+                raise RuntimeError('invalid input: requires on or off as argument')
+        except:
+            print('error - usage: labelrecordids <on | off>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
     def help_labelrecordids(self):
         print('\n   Variable: Add curve recordid to the legend label if "on", otherwise hide curve recordid if "off".'
               '\n   Usage: labelrecordids <on | off>')
-    
 
-    ##change label for a curve to the filename##
     def do_labelfilenames(self, line):
+        """
+        Change label for a curve to the filename
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -5325,31 +5365,38 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: labelfilenames <on | off>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_labelfilenames(self):
         print('\n   Variable: Add curve filename to the legend label if "on", otherwise hide curve filename if "off".'
               '\n   Usage: labelfilenames <on | off>\n')
 
-    ##change label for a curve to the curve letter##
     def do_labelcurve(self, line):
-            try:
-                line = line.strip()
-                if line == '0' or line.upper() == 'OFF':
-                    self.showcurveinlegend = False
-                elif line == '1' or line.upper() == 'ON':
-                    self.showcurveinlegend = True
-                else:
-                    raise RuntimeError('invalid input: requires on or off as argument')
-            except:
-                print('error - usage: labelcurve <on | off>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+        """
+        Change label for a curve to the curve letter
+        """
+
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showcurveinlegend = False
+            elif line == '1' or line.upper() == 'ON':
+                self.showcurveinlegend = True
+            else:
+                raise RuntimeError('invalid input: requires on or off as argument')
+        except:
+            print('error - usage: labelcurve <on | off>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
     def help_labelcurve(self):
         print('\n   Variable: Add curve letter to the legend label if "on", otherwise hide curve letter if "off".'
               '\n   Usage: labelcurve <on | off>')
 
-
-    ##run a list of commands from a file##
     def do_run(self, line):
+        """
+        Run a list of commands from a file
+        """
+
         try:
             fname = line.strip()
             if fname[0] == '~':
@@ -5381,13 +5428,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.do_quit(line)
         except:
             print('error - usage: run <filename>')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if (self.debug):
+                traceback.print_exc(file=sys.stdout)
+
     def help_run(self):
         print('\n   Procedure: Execute a list of commands from a file\n   Usage: run <filename>\n')
 
-
-    ##move given curves to the front of the plot##
     def do_movefront(self, line):
+        """
+        Move given curves to the front of the plot
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_movefront(pdvutil.getletterargs(line))
@@ -5412,12 +5463,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: movefront <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_movefront(self):
         print('\n   Procedure: Move the given curves so they are plotted on top'
               '\n   Usage: movefront <curve-list>\n')
 
-    ##read in a file of custom functions##
     def do_custom(self, line):
+        """
+        Read in a file of custom functions
+        """
+
         try:
             fname = line.strip()
             try:
@@ -5426,9 +5481,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 f = open(fname, 'r')
                 funcfile = f.read()
                 funcs = re.findall(r'def do_\w+', funcfile)
-                funcs = [func.replace('def ','') for func in funcs]
+                funcs = [func.replace('def ', '') for func in funcs]
                 exec(funcfile)
-                #print locals()
+                # print locals()
 
                 for func in funcs:
                     exec('self.' + func + ' = types.MethodType(' + func + ', self)')
@@ -5442,13 +5497,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_custom(self):
         print("\n   Procedure: Load a file of custom functions to extend PDV. "
               "\n              Functions must be of the form 'def do_commandname(self, line): ...'"
               "\n   Usage: custom <file-name>\n")
 
-    ##allow user defined command synonyms##
     def do_alias(self, line):
+        """
+        Allow user defined command synonyms
+        """
+
         try:
             cmd = line.split()[0]
             alias = line.split()[1]
@@ -5462,11 +5521,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_alias(self):
         print('\n   Procedure: Define a synonym for an existing command\n   Usage: alias <command> <alias>\n')
 
-    ##plot copies of the given curves##
     def do_copy(self, line):
+        """
+        Plot copies of the given curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_copy(pdvutil.getletterargs(line))
@@ -5480,17 +5543,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     curout.plotname = ''
                     curout.color = ''
                     self.addtoplot(curout)
-                    
+
                 self.plotedit = True
         except:
             print('error - usage: copy <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_copy(self):
         print('\n   Procedure: Copy and plot the given curves\n   Usage: copy <curve-list>\n')
 
-    ##Set the y-values such that y[i] *= (x[i+1] - x[i])
     def do_makeextensive(self, line):
+        """
+        Set the y-values such that y[i] *= (x[i+1] - x[i])
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_makeextensive(pdvutil.getletterargs(line))
@@ -5519,9 +5586,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) '
               '\n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
 
-
-    ##Set the y-values such that y[i] /= (x[i+1] - x[i])
     def do_makeintensive(self, line):
+        """
+        Set the y-values such that y[i] /= (x[i+1] - x[i])
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_makeintensive(pdvutil.getletterargs(line))
@@ -5550,9 +5619,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) '
               '\n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
 
-
-    ##Duplicate the x-values such that y = x for each of the given curves##
     def do_dupx(self, line):
+        """
+        Duplicate the x-values such that y = x for each of the given curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_dupx(pdvutil.getletterargs(line))
@@ -5580,8 +5651,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves'
               '\n   Usage: dupx <curve-list>\n')
 
-    ##Create curves with y-values vs. integer index values##
     def do_xindex(self, line):
+        """
+        Create curves with y-values vs. integer index values
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_xindex(pdvutil.getletterargs(line))
@@ -5652,10 +5726,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.yticks = eval(line.strip())
             elif isinstance(eval(line.strip()), tuple):
                 if isinstance(eval(line.strip())[0], Number):
-                   self.yticks = eval(line.strip())
+                    self.yticks = eval(line.strip())
                 else:
-                   locs, labels = eval(line)
-                   self.yticks = (locs, labels)
+                    locs, labels = eval(line)
+                    self.yticks = (locs, labels)
         except:
             print('error - usage: yticks <de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
@@ -5677,10 +5751,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.xticks = eval(line.strip())
             elif isinstance(eval(line.strip()), tuple):
                 if isinstance(eval(line.strip())[0], Number):
-                   self.xticks = eval(line.strip())
+                    self.xticks = eval(line.strip())
                 else:
-                   locs, labels = eval(line)
-                   self.xticks = (locs, labels)
+                    locs, labels = eval(line)
+                    self.xticks = (locs, labels)
         except:
             print('error - usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
