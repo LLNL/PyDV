@@ -1,17 +1,17 @@
 # Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory  
+# Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
 # e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
-# All rights reserved.  
-  
+# All rights reserved.
+
 # This file is part of PyDV.  For details, see <URL describing code and
 # how to download source>. Please also read "Additional BSD Notice".
-  
+
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
 # are met:
-  
+
 # Redistributions of source code must retain the above copyright
 # notice, this list of conditions and the disclaimer below.
 # Redistributions in binary form must reproduce the above copyright
@@ -20,7 +20,7 @@
 # distribution.  Neither the name of the LLNS/LLNL nor the names of
 # its contributors may be used to endorse or promote products derived
 # from this software without specific prior written permission.
- 
+
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 # LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -34,21 +34,21 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 # OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
-    
-# Additional BSD Notice  
-  
+
+# Additional BSD Notice
+
 # 1. This notice is required to be provided under our contract with
 # the U.S.  Department of Energy (DOE).  This work was produced at
 # Lawrence Livermore National Laboratory under Contract
 # No. DE-AC52-07NA27344 with the DOE.
-  
+
 # 2. Neither the United States Government nor Lawrence Livermore
 # National Security, LLC nor any of their employees, makes any
 # warranty, express or implied, or assumes any liability or
 # responsibility for the accuracy, completeness, or usefulness of any
 # information, apparatus, product, or process disclosed, or represents
 # that its use would not infringe privately-owned rights.
-  
+
 # 3.  Also, reference herein to any specific commercial products,
 # process, or services by trade name, trademark, manufacturer or
 # otherwise does not necessarily constitute or imply its endorsement,
@@ -63,7 +63,7 @@ import matplotlib.pyplot as plt
 try:
     from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 except:
-      from matplotlib.backends.backend_qtagg import FigureCanvas
+    from matplotlib.backends.backend_qtagg import FigureCanvas
 
 from os import path
 
@@ -176,7 +176,7 @@ class Plotter(QMainWindow):
                     style.use(self.style)
 
         # Figure Canvas
-        self.fig = plt.figure(figsize=(1,1))
+        self.fig = plt.figure(figsize=(1, 1))
         self.current_axes = self.fig.subplots()
         self.fig.set_facecolor(self.figcolor)
 
@@ -226,7 +226,8 @@ class Plotter(QMainWindow):
             self._listDialog.setModal(False)
 
         # Curves List
-        headerLabels = ['Plot Name', 'Label', 'X Label', 'Y Label', 'XMIN', 'XMAX', 'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
+        headerLabels = ['Plot Name', 'Label', 'X Label', 'Y Label', 'XMIN', 'XMAX',
+                        'YMIN', 'YMAX', 'File Name', 'Sina Record ID']
         rows = len(self._pydvcmd.plotlist)
         cols = len(headerLabels)
 
@@ -340,7 +341,7 @@ class Plotter(QMainWindow):
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
-    @Slot() 
+    @Slot()
     def showMenuDialog(self):
         """
         Shows a dialog with the output of the menu command in a table.
@@ -570,7 +571,6 @@ class Plotter(QMainWindow):
                                                                '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, moreno45@llnl.gov</p>'
                                                                '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
 
-
     def __deleteCurve(self):
         rowcnt = len(self._tableWidget.selectionModel().selectedRows())
 
@@ -589,7 +589,6 @@ class Plotter(QMainWindow):
 
             self._pydvcmd.updateplot
 
-
     def __deleteMenuCurve(self):
         rowcnt = len(self._menuTableWidget.selectionModel().selectedRows())
 
@@ -605,7 +604,6 @@ class Plotter(QMainWindow):
 
                 print("kill %s" % menuindexes)
                 self._pydvcmd.do_kill("%s" % menuindexes)
-
 
     def __plotMenuCurve(self):
         rowcnt = len(self._menuTableWidget.selectionModel().selectedRows())
