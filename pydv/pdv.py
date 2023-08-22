@@ -5611,8 +5611,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Create curves with y-values vs. integer index values'
               '\n   Usage: xindex <curve-list>\n')
 
-    ##set the number of ticks on the axes##
     def do_ticks(self, line):
+        """
+        Set the number of ticks on the axes
+        """
+
         try:
             if line.strip() == 'de':
                 self.xticks = 'de'
@@ -5631,13 +5634,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ticks <quantity> or ticks de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ticks(self):
         print('\n   Variable: Set the maximum number of major ticks on the x- and y-axes'
               '\n   Usage: ticks <quantity> or'
               '\n   Usage: ticks de\n')
 
-    ##set the yticks explicitly##
     def do_yticks(self, line):
+        """
+        Set the yticks explicitly
+        """
+
         try:
             if line.strip() == 'de':
                 self.yticks = 'de'
@@ -5653,12 +5660,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: yticks <de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_yticks(self):
         print('\n   Variable: Set the locations of major ticks on the y axis'
               '\n   Usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
 
-    ## set the xticks explicitly ##
     def do_xticks(self, line):
+        """
+        Set the xticks explicitly
+        """
+
         try:
             if line.strip() == 'de':
                 self.xticks = 'de'
@@ -5674,12 +5685,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xticks(self):
         print('\n   Variable: Set the locations or the maximum number of major ticks on the x axis (de = default).'
               '\n   Usage: xticks <de | integer | (list of locations) | (list of locations), (list of labels)>')
 
-    ## set the color for the x ticks ##
     def do_xtickcolor(self, line):
+        """
+        Set the color for the x ticks
+        """
+
         try:
             line = line.split()
 
@@ -5714,6 +5729,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xtickcolor color [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xtickcolor(self):
         print('\n   Variable: Set the color of the ticks on the x axis. Default is apply to major ticks only.'
               '\n   Usage: xtickcolor color [which: major | minor | both]\n'
@@ -5722,8 +5738,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   The entire set of HTML-standard color names is available.'
               '\n   Try "showcolormap" to see the available named colors!\n')
 
-    ## set the color for the ticks on the y axis ##
     def do_ytickcolor(self, line):
+        """
+        Set the color for the ticks on the y axis
+        """
+
         try:
             line = line.split()
 
@@ -5758,6 +5777,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ytickcolor color [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ytickcolor(self):
         print('\n   Variable: Set the color of the ticks on the y axis. Default is apply to major ticks only.'
               '\n   Usage: ytickcolor color [which: major | minor | both]\n'
@@ -5766,8 +5786,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   The entire set of HTML-standard color names is available.'
               '\n   Try "showcolormap" to see the available named colors!\n')
 
-    ## set the xticks length explicitly ##
     def do_xticklength(self, line):
+        """
+        Set the xticks length explicitly
+        """
+
         try:
             line = line.split()
 
@@ -5802,12 +5825,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xticklength number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xticklength(self):
         print('\n   Variable: Set the length (in points) of x ticks on the x axis. Default is apply to major ticks only.'
               '\n   Usage: xticklength number [which: major | minor | both]')
 
-    ## set the yticks length explicitly ##
     def do_yticklength(self, line):
+        """
+        Set the yticks length explicitly
+        """
+
         try:
             line = line.split()
 
@@ -5842,12 +5869,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: yticklength number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_yticklength(self):
         print('\n   Variable: Set the length (in points) of y ticks on the y axis. Default is apply to major ticks only.'
               '\n   Usage: yticklength number [which: major | minor | both]')
 
-    ## set the xticks width explicitly ##
     def do_xtickwidth(self, line):
+        """
+        Set the xticks width explicitly
+        """
+
         try:
             line = line.split()
 
@@ -5882,12 +5913,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xtickwidth number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xtickwidth(self):
         print('\n   Variable: Set the width (in points) of x ticks on the x axis. Default is apply to major ticks only.'
               '\n   Usage: xtickwidth number [which: major | minor | both]')
 
-    ## set the yticks width explicitly ##
     def do_ytickwidth(self, line):
+        """
+        Set the yticks width explicitly
+        """
+
         try:
             line = line.split()
 
@@ -5922,12 +5957,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ytickwidth number [which: major | minor | both]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ytickwidth(self):
         print('\n   Variable: Set the width (in points) of y ticks on the y axis. Default is apply to major ticks only.'
               '\n   Usage: ytickwidth number [which: major | minor | both]')
 
-    ##set the ytickformat explicitly##
     def do_ytickformat(self, line):
+        """
+        Set the ytickformat explicitly
+        """
+
         try:
             if line.strip() == 'plain':
                 self.ytickformat = 'de'
@@ -5937,14 +5976,18 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ytickformat(self):
         print('\n   Variable: Set the format of major ticks on the y axis'
               '\n   Usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
               '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).'
               '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style formating only applies when ylogscale is set to off.')
 
-    ##set the xtickformat explicitly##
     def do_xtickformat(self, line):
+        """
+        Set the xtickformat explicitly
+        """
+
         try:
             if line.strip() == 'plain':
                 self.xtickformat = 'de'
@@ -5954,25 +5997,33 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xtickformat(self):
         print('\n   Variable: Set the format of major ticks on the x axis'
               '\n   Usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
               '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).'
               '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style formating only applies when xlogscale is set to off.')
 
-    ##set the font family##
     def do_fontstyle(self, line):
+        """
+        Set the font family
+        """
+
         try:
             matplotlib.rc('font', family=line.strip())
         except:
             print('error - usage: fontstyle <serif | sans-serif | monospace>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_fontstyle(self):
         print('\n   Variable: Set the fontstyle family\n   Usage: fontstyle <serif | sans-serif | monospace>\n')
 
-    ##subsample the curves, i.e., reduce to every nth value.
     def do_subsample(self, line):
+        """
+        Subsample the curves, i.e., reduce to every nth value
+        """
+
         try:
             if not line:
                 return 0
@@ -6011,15 +6062,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n    Procedure: Subsample the curves by the optional stride. The default value for stride is 2.'
               '\n    Usage: subsample <curve-list> [stride]')
 
-
     ########################################################################################################
-    #helper functions#
+    # helper functions#
     ########################################################################################################
 
-
-    ##find the proper x-range##
     def find_xrange(self):
-        orderlist = sorted(self.plotlist, key= lambda x: x.plotprecedence)
+        """
+        Find the proper x-range
+        """
+
+        orderlist = sorted(self.plotlist, key=lambda x: x.plotprecedence)
         xmin, xmax = 1e300, -1e300
         for cur in orderlist:
             if not cur.hidden:
@@ -6040,9 +6092,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 xmax = xmin*10000
         return xmin, xmax
 
-    ##find the proper y-range##
     def find_yrange(self):
-        orderlist = sorted(self.plotlist, key= lambda x: x.plotprecedence)
+        """
+        Find the proper y-range
+        """
+
+        orderlist = sorted(self.plotlist, key=lambda x: x.plotprecedence)
         ymin, ymax = 1e300, -1e300
         for cur in orderlist:
             if not cur.hidden:
@@ -6065,9 +6120,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             ymax += bump
         return ymin, ymax
 
-
-    ##get curve from its label/plot name##
     def curvefromlabel(self, label):
+        """
+        Get curve from its label/plot name
+        """
+
         label = label.upper()
         for c in self.plotlist:
             if c.plotname == label:
@@ -6075,24 +6132,27 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
         raise ValueError('label "%s" not found in the plot list' % label)
 
-    ##ensure curve is valid and add it to the plotlist##
     def addtoplot(self, cur):
-        if(cur.plotname == '' or (len(cur.plotname) > 1 and cur.plotname[0] != '@')):
+        """
+        Ensure curve is valid and add it to the plotlist
+        """
+
+        if (cur.plotname == '' or (len(cur.plotname) > 1 and cur.plotname[0] != '@')):
             cur.plotname = self.getcurvename()
 
         cur.x = numpy.array(cur.x)
         cur.y = numpy.array(cur.y)
-        if(len(cur.x) < 2 or len(cur.y) < 2):
+        if (len(cur.x) < 2 or len(cur.y) < 2):
             raise ValueError('curve must have two or more points')
             return
-        if(len(cur.x) != len(cur.y)):
+        if (len(cur.x) != len(cur.y)):
             raise ValueError('curve must have same number of x and y values')
             return
-        if(cur.plotname[:1] != '@' and ord(cur.plotname) >= ord('A') and ord(cur.plotname) <= ord('Z')):
+        if (cur.plotname[:1] != '@' and ord(cur.plotname) >= ord('A') and ord(cur.plotname) <= ord('Z')):
             self.plotlist.insert((ord(cur.plotname) - ord('A')), cur)
         else:
             self.plotlist.insert(int(cur.plotname[1:])-1, cur)
-        
+
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
         self.set_title(cur.title, from_curve=True)
