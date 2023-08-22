@@ -6099,38 +6099,48 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.set_filename(cur.filename, from_curve=True)
         self.set_record_id(cur.record_id, from_curve=True)
 
-    ##return derivative of curve##
     def derivative(self, cur):
+        """
+        Return derivative of curve
+        """
+
         nc = pydvif.derivative(cur)
         nc.plotname = self.getcurvename()
         return nc
 
-    ##find the next available curve name for the plot##
     def getcurvename(self):
+        """
+        Find the next available curve name for the plot
+        """
+
         name = ''
         for i in range(len(self.plotlist)):
-            if(i < 26):
-                if(self.plotlist[i].plotname != chr(ord('A')+i)):
+            if (i < 26):
+                if (self.plotlist[i].plotname != chr(ord('A')+i)):
                     return '' + chr(ord('A')+i)
             else:
-                if(self.plotlist[i].plotname != ('@'+str(i+1))):
+                if (self.plotlist[i].plotname != ('@'+str(i+1))):
                     name = '@' + str(i+1)
                     return name
-        if(len(self.plotlist) < 26):
+        if (len(self.plotlist) < 26):
             return '' + chr(ord('A')+len(self.plotlist))
         else:
             name = '@' + str(len(self.plotlist)+1)
             return name
 
-
-    ##find closest value in numpy array##
     def getclosest(self, array, value):
-        i=(numpy.abs(array-value)).argmin()
+        """
+        Find closest value in numpy array
+        """
+
+        i = (numpy.abs(array-value)).argmin()
         return i
 
-
-    ##operate on given curves by constant value depending on given operation flag##
     def modcurve(self, line, flag, arg):
+        """
+        Operate on given curves by constant value depending on given operation flag
+        """
+
         if not line:
             return 0
         modvalue = arg
@@ -6144,39 +6154,39 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     curidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     cur = self.plotlist[curidx]
 
-                    if(flag == 'my'):
+                    if (flag == 'my'):
                         cur.y *= float(modvalue)
                         cur.edited = True
-                    elif(flag == 'mx'):
+                    elif (flag == 'mx'):
                         cur.x *= float(modvalue)
                         cur.edited = True
-                    elif(flag == 'divy'):
-                        if(float(modvalue) == 0):
+                    elif (flag == 'divy'):
+                        if (float(modvalue) == 0):
                             modvalue = '1e-10'
                         cur.y /= float(modvalue)
                         cur.edited = True
-                    elif(flag == 'divx'):
-                        if(float(modvalue) == 0):
+                    elif (flag == 'divx'):
+                        if (float(modvalue) == 0):
                             modvalue = '1e-10'
                         cur.x /= float(modvalue)
                         cur.edited = True
-                    elif(flag == 'dy'):
+                    elif (flag == 'dy'):
                         cur.y += float(modvalue)
                         cur.edited = True
-                    elif(flag == 'dx'):
+                    elif (flag == 'dx'):
                         cur.x += float(modvalue)
                         cur.edited = True
-                    elif(flag == 'scatter'):
-                        if(modvalue == '0' or modvalue.upper() == 'OFF'):
+                    elif (flag == 'scatter'):
+                        if (modvalue == '0' or modvalue.upper() == 'OFF'):
                             cur.scatter = False
-                        elif(modvalue == '1' or modvalue.upper() == 'ON'):
+                        elif (modvalue == '1' or modvalue.upper() == 'ON'):
                             cur.scatter = True
-                    elif(flag == 'linespoints'):
-                        if(modvalue == '0' or modvalue.upper() == 'OFF'):
+                    elif (flag == 'linespoints'):
+                        if (modvalue == '0' or modvalue.upper() == 'OFF'):
                             cur.linespoints = False
-                        elif(modvalue == '1' or modvalue.upper() == 'ON'):
+                        elif (modvalue == '1' or modvalue.upper() == 'ON'):
                             cur.linespoints = True
-                    elif(flag == 'lnwidth'):
+                    elif (flag == 'lnwidth'):
                         cur.linewidth = float(modvalue)
                     elif flag == 'lnstyle':
                         if modvalue == 'solid':
@@ -6206,12 +6216,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         elif modvalue == 'loosely_dashdotdotted':
                             cur.linestyle = (0, (3, 10, 1, 10, 1, 10))
                         elif modvalue == 'densely_dashdotdotted':
-                            cur.linestyle = (0, (3, 1, 1, 1, 1, 1))                           
-                        cur.dashes = None      # Restore default dash behaviour
-                    elif(flag == 'drawstyle'):
+                            cur.linestyle = (0, (3, 1, 1, 1, 1, 1))
+                        cur.dashes = None  # Restore default dash behaviour
+                    elif (flag == 'drawstyle'):
                         # default, steps, steps-pre, steps-post
                         cur.drawstyle = modvalue
-                    elif(flag == 'dashstyle'):
+                    elif (flag == 'dashstyle'):
                         if modvalue[:2].upper() == 'DE':
                             cur.dashes = None
                         else:
@@ -6220,12 +6230,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             assert len(val) % 2 == 0
                             assert min(val) > 0
                             cur.dashes = val
-                    elif(flag == 'hide'):
-                        if(modvalue == 'OFF'):
+                    elif (flag == 'hide'):
+                        if (modvalue == 'OFF'):
                             cur.hidden = False
-                        elif(modvalue == 'ON'):
+                        elif (modvalue == 'ON'):
                             cur.hidden = True
-                    elif(flag == 'getx'):
+                    elif (flag == 'getx'):
                         try:
                             getxvalues = pydvif.getx(cur, float(modvalue))
 
@@ -6238,7 +6248,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         except ValueError as detail:
                             print('Error: %s' % detail)
 
-                    elif(flag == 'gety'):
+                    elif (flag == 'gety'):
                         try:
                             getyvalues = pydvif.gety(cur, float(modvalue))
 
@@ -6250,56 +6260,56 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                     print('    x: %.6e    y: %.6e' % (x, y))
                         except ValueError as detail:
                             print('Error: %s' % detail)
-                    elif(flag == 'xmin'):
+                    elif (flag == 'xmin'):
                         nx = []
                         ny = []
                         for dex in range(len(cur.x)):
-                            if(cur.x[dex] >= float(modvalue)):
+                            if (cur.x[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if(len(nx) >= 2):
+                        if (len(nx) >= 2):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
                         else:
                             cur.plotname = ''
                             self.plotlist.pop(j)
-                    elif(flag == 'xmax'):
+                    elif (flag == 'xmax'):
                         nx = []
                         ny = []
                         for dex in range(len(cur.x)):
-                            if(cur.x[dex] <= float(modvalue)):
+                            if (cur.x[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if(len(nx) >= 2):
+                        if (len(nx) >= 2):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
                         else:
                             cur.plotname = ''
                             self.plotlist.pop(j)
-                    elif(flag == 'ymin'):
+                    elif (flag == 'ymin'):
                         nx = []
                         ny = []
                         for dex in range(len(cur.y)):
-                            if(cur.y[dex] >= float(modvalue)):
+                            if (cur.y[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if(len(nx) >= 2):
+                        if (len(nx) >= 2):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
                         else:
                             cur.plotname = ''
                             self.plotlist.pop(j)
-                    elif(flag == 'ymax'):
+                    elif (flag == 'ymax'):
                         nx = []
                         ny = []
                         for dex in range(len(cur.y)):
-                            if(cur.y[dex] <= float(modvalue)):
+                            if (cur.y[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if(len(nx) >= 2):
+                        if (len(nx) >= 2):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
@@ -6310,8 +6320,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
 
-    ##operate on given curves by a function##
     def func_curve(self, line, flag, do_x=0, arg=0):
+        """
+        Operate on given curves by a function
+        """
+
         import scipy.special
         # scipy.special.errprint(1)
 
@@ -6353,7 +6366,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             else:
                                 cur.name = 'expx(' + cur.name + ')'
                             cur.edited = True
-                    elif(flag == 'sin'):
+                    elif (flag == 'sin'):
                         if (do_x == 0):
                             cur.y = numpy.sin(cur.y)
                             cur.name = 'sin(' + cur.name + ')'
@@ -6380,7 +6393,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.x = numpy.tan(cur.x)
                             cur.name = 'tanx(' + cur.name + ')'
                             cur.edited = True
-                    elif(flag == 'asin'):
+                    elif (flag == 'asin'):
                         if (do_x == 0):
                             cur.y = numpy.arcsin(cur.y)
                             cur.name = 'asin(' + cur.name + ')'
@@ -6407,7 +6420,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.x = numpy.arctan(cur.x)
                             cur.name = 'atanx(' + cur.name + ')'
                             cur.edited = True
-                    elif(flag == 'sinh'):
+                    elif (flag == 'sinh'):
                         if (do_x == 0):
                             cur.y = numpy.sinh(cur.y)
                             cur.name = 'sinh(' + cur.name + ')'
@@ -6434,7 +6447,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.x = numpy.tanh(cur.x)
                             cur.name = 'tanhx(' + cur.name + ')'
                             cur.edited = True
-                    elif(flag == 'asinh'):
+                    elif (flag == 'asinh'):
                         if (do_x == 0):
                             cur.y = numpy.arcsinh(cur.y)
                             cur.name = 'asinh(' + cur.name + ')'
@@ -6508,29 +6521,29 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             cur.edited = True
                     elif (flag == 'yn'):
                         if (do_x == 0):
-                            cur.y = scipy.special.yn(int(arg),cur.y)
+                            cur.y = scipy.special.yn(int(arg), cur.y)
                             cur.name = 'yn(' + cur.name + ')'
                             cur.edited = True
                         else:
-                            cur.x = scipy.special.yn(int(arg),cur.x)
+                            cur.x = scipy.special.yn(int(arg), cur.x)
                             cur.name = 'ynx(' + cur.name + ')'
                             cur.edited = True
                     elif (flag == 'powa'):
                         if (do_x == 0):
-                            cur.y = numpy.power(float(arg),cur.y)
+                            cur.y = numpy.power(float(arg), cur.y)
                             cur.name = 'powa(' + cur.name + ')'
                             cur.edited = True
                         else:
-                            cur.x = numpy.power(float(arg),cur.x)
+                            cur.x = numpy.power(float(arg), cur.x)
                             cur.name = 'powax(' + cur.name + ')'
                             cur.edited = True
                     elif (flag == 'powr'):
                         if (do_x == 0):
-                            cur.y = numpy.power(cur.y,float(arg))
+                            cur.y = numpy.power(cur.y, float(arg))
                             cur.name = 'powr(' + cur.name + ')'
                             cur.edited = True
                         else:
-                            cur.x = numpy.power(cur.x,float(arg))
+                            cur.x = numpy.power(cur.x, float(arg))
                             cur.name = 'powrx(' + cur.name + ')'
                             cur.edited = True
                     elif (flag == 'recip'):
@@ -6564,17 +6577,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
 
-
-
     def apply_uichanges(self):
         """
         Applies the changes made by the user from the GUI.
         """
+
         # this attribute value never gets updated... apply_uichanges() never gets called
         self.plotter.plotChanged = False
-        cur_axes = plt.gca()      # Get current axes
+        cur_axes = plt.gca()  # Get current axes
 
-        #Save Logscale
+        # Save Logscale
         if cur_axes.get_xscale() == "linear":
             self.xlogscale = False
         else:
@@ -6585,19 +6597,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         else:
             self.ylogscale = True
 
-        #Save plot title
+        # Save plot title
         self.title = cur_axes.get_title()
 
-        #Save x and y limits
+        # Save x and y limits
         if self.guilims:
             self.xlim = cur_axes.get_xlim()
             self.ylim = cur_axes.get_ylim()
 
-        #Save x and y labels
+        # Save x and y labels
         self.xlabel = cur_axes.get_xlabel()
         self.ylabel = cur_axes.get_ylabel()
 
-        #Update Curves
+        # Update Curves
         orderlist = sorted(self.plotlist, key=lambda x: x.plotprecedence)
         plotcurvelist = cur_axes.get_lines()
 
@@ -6615,9 +6627,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 c.markerfacecolor = plotcurvelist[i].get_markerfacecolor()
                 c.markeredgecolor = plotcurvelist[i].get_markeredgecolor()
 
-    ##iterates through plotlist and displays curves on graph##
     @property
     def updateplot(self):
+        """
+        Iterates through plotlist and displays curves on graph
+        """
+
         try:
             if stylesLoaded:
                 if self.updatestyle:
@@ -6628,7 +6643,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         style.use(styles[idx])
                     except:
                         if len(styles) > 0:
-                            print("\nStyle Error: %s doesn't exist, defaulting to %s\n" % (self.plotter.style, styles[0]))
+                            print("\nStyle Error: %s doesn't exist, defaulting to %s\n" % (self.plotter.style,
+                                                                                           styles[0]))
                             self.plotter.style = styles[0]
                             style.use(styles[0])
                         else:
@@ -6656,15 +6672,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.plotter.fig.set_facecolor(self.figcolor)
 
             # Setup Plot Attributes
-            xlabeltext = plt.xlabel(self.xlabel, fontsize = self.xlabelfont)
+            xlabeltext = plt.xlabel(self.xlabel, fontsize=self.xlabelfont)
             if self.xlabelcolor is not None:
                 xlabeltext.set_color(self.xlabelcolor)
 
-            ylabeltext = plt.ylabel(self.ylabel, fontsize = self.ylabelfont)
+            ylabeltext = plt.ylabel(self.ylabel, fontsize=self.ylabelfont)
             if self.ylabelcolor is not None:
                 ylabeltext.set_color(self.ylabelcolor)
 
-            title = plt.title(self.title, fontsize = self.titlefont)
+            title = plt.title(self.title, fontsize=self.titlefont)
             if self.titlecolor is not None:
                 title.set_color(self.titlecolor)
 
@@ -6678,7 +6694,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
             plt.xticks(size=self.axistickfont)
             plt.yticks(size=self.axistickfont)
-            
+
             for tlabel in cur_axes.get_xticklabels(minor=True):
                 plt.setp(tlabel, size=self.axistickfont)
             for tlabel in cur_axes.get_yticklabels(minor=True):
@@ -6708,7 +6724,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         rstrarr = cur.name.split(addrstr)
                         cur.name = ''.join(rstrarr).strip()
                     if self.showrecordidinlegend:
-                        cur.name =  cur.name + ' ' + addrstr
+                        cur.name = cur.name + ' ' + addrstr
 
                     # Show curve filename in legend if enabled
                     addfstr = str('- ' + cur.filename)
@@ -6716,10 +6732,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         fstrarr = cur.name.split(addfstr)
                         cur.name = ''.join(fstrarr).strip()
                     if self.showfilenameinlegend:
-                        cur.name =  cur.name + ' ' + addfstr
-        
+                        cur.name = cur.name + ' ' + addfstr
 
-            #set scaling and tick locations
+            # set scaling and tick locations
             #
             # Notes on matplotlib that I found very helpful:
             #
@@ -6731,10 +6746,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             xls = self.xlogscale
             yls = self.ylogscale
 
-            if(xls):
+            if (xls):
                 cur_axes.set_xscale('log')
                 # cur_axes.set_xscale('log', nonposx='clip')
-            if(yls):
+            if (yls):
                 cur_axes.set_yscale('log')
                 # cur_axes.set_yscale('log', nonposy='clip')
 
@@ -6747,8 +6762,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 #              xtickformat = 'sci', 'plain', 'exp', '10**'
             if self.showminorticks:
                 plt.minorticks_on()
-                cur_axes.tick_params(axis='x', which='minor', length=self.xminorticklength, width=self.xminortickwidth, color=self.xminortickcolor)
-                cur_axes.tick_params(axis='y', which='minor', length=self.yminorticklength, width=self.yminortickwidth, color=self.yminortickcolor)
+                cur_axes.tick_params(axis='x', which='minor', length=self.xminorticklength,
+                                     width=self.xminortickwidth, color=self.xminortickcolor)
+                cur_axes.tick_params(axis='y', which='minor', length=self.yminorticklength,
+                                     width=self.yminortickwidth, color=self.yminortickcolor)
 
             # set x,y tick sizes and tick label format
             cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor)
@@ -6761,8 +6778,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             # plot the grid, if grid turned on
             if self.showgrid:
                 if plt.xlim is not None and plt.ylim is not None:
-                    if((plt.xlim()[0]*100 > plt.xlim()[1] and xls) or (plt.ylim()[0]*100 > plt.ylim()[1] and yls)):
-                        plt.grid(True, which='both', color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
+                    if ((plt.xlim()[0]*100 > plt.xlim()[1] and xls) or (plt.ylim()[0]*100 > plt.ylim()[1] and yls)):
+                        plt.grid(True, which='both', color=self.gridcolor,
+                                 linestyle=self.gridstyle, linewidth=self.gridwidth)
                     else:
                         plt.grid(True, color=self.gridcolor, linestyle=self.gridstyle, linewidth=self.gridwidth)
                 else:
@@ -6771,21 +6789,21 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 plt.grid(False)
 
             # order list in which curves should be plotted
-            orderlist = sorted(self.plotlist, key= lambda x: x.plotprecedence)
+            orderlist = sorted(self.plotlist, key=lambda x: x.plotprecedence)
 
-            #plot the curves
+            # plot the curves
             for cur in orderlist:
                 if not cur.hidden:
                     xdat = numpy.array(cur.x)
                     ydat = numpy.array(cur.y)
                     if yls:
                         for i in range(len(ydat)):
-                            if(ydat[i] < 0):
-                                ydat[i] = 1e-301    #custom ydata clipping
+                            if (ydat[i] < 0):
+                                ydat[i] = 1e-301  # custom ydata clipping
                     if xls:
                         for i in range(len(xdat)):
                             if xdat[i] < 0:
-                                xdat[i] = 1e-301    #custom ydata clipping
+                                xdat[i] = 1e-301  # custom ydata clipping
 
                     if cur.ebar is not None:
                         plt.errorbar(xdat,
@@ -6820,12 +6838,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                         if cur.markerfacecolor is None:
                             cur.markerfacecolor = cur.color
 
-                        # plt.setp(c, marker=cur.markerstyle, markeredgecolor=cur.markeredgecolor, markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
-                        plt.setp(c, marker=cur.markerstyle, markersize=cur.markersize, markeredgecolor=cur.markeredgecolor,
+                        # plt.setp(c, marker=cur.markerstyle, markeredgecolor=cur.markeredgecolor,
+                        # markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
+                        plt.setp(c, marker=cur.markerstyle, markersize=cur.markersize,
+                                 markeredgecolor=cur.markeredgecolor,
                                  markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
 
                         c[0].set_drawstyle(cur.drawstyle)
-                        c[0]._invalidx = True # Work-around for set_drawstyle bug (https://github.com/matplotlib/matplotlib/issues/10338)
+                        # Work-around for set_drawstyle bug (https://github.com/matplotlib/matplotlib/issues/10338)
+                        c[0]._invalidx = True
 
                     if cur.linewidth:
                         plt.setp(c, lw=cur.linewidth)
@@ -6840,8 +6861,8 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     if cur.dashes is not None:
                         c[0].set_dashes(cur.dashes)
 
-            #ensure proper view limits
-            #plt.axis('tight')
+            # ensure proper view limits
+            # plt.axis('tight')
 
             if self.xlim is not None:
                 plt.xlim(self.xlim[0], self.xlim[1])
@@ -6849,9 +6870,9 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.ylim is not None:
                 plt.ylim(self.ylim[0], self.ylim[1])
 
-            #plot the curve labels
+            # plot the curve labels
             if self.showletters:
-                #get range and domain of plot
+                # get range and domain of plot
                 xmin = plt.axis()[0]
                 xmax = plt.axis()[1]
                 ymin = plt.axis()[2]
@@ -6870,17 +6891,19 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                                 curxmin = self.xlim[0]
                         spacing = (curxmax-curxmin)/6
                         labelx = curxmin + offset*spacing/len(self.plotlist)
-                        while labelx < curxmax:   #print letter labels along curves
+                        while labelx < curxmax:  # print letter labels along curves
                             close = self.getclosest(cur.x, labelx)
-                            if(cur.y[close] <= ymax and cur.y[close] >= ymin):
-                                plt.text(cur.x[close], cur.y[close], cur.plotname, color=cur.color, fontsize=self.curvelabelfont)
+                            if (cur.y[close] <= ymax and cur.y[close] >= ymin):
+                                plt.text(cur.x[close], cur.y[close], cur.plotname,
+                                         color=cur.color, fontsize=self.curvelabelfont)
                             labelx += spacing
                         plt.text(cur.x[-1], cur.y[-1], cur.plotname, color=cur.color, fontsize=self.curvelabelfont)
                         offset += 1
 
-            #fonts/labels/legend
+            # fonts/labels/legend
             if self.showkey:
-                leg = plt.legend(fancybox=True, numpoints=1, loc=self.key_loc, ncol=self.key_ncol, handlelength=self.handlelength)
+                leg = plt.legend(fancybox=True, numpoints=1, loc=self.key_loc,
+                                 ncol=self.key_ncol, handlelength=self.handlelength)
                 if leg is not None:
                     leg.get_frame().set_alpha(0.9)
                     leg.set_draggable(state=True)
@@ -6889,50 +6912,63 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     plt.setp(ltext, color=self.keycolor)
 
             for text in self.usertexts:
-                plt.text(text[0], text[1], text[2], fontsize = self.annotationfont)
+                plt.text(text[0], text[1], text[2], fontsize=self.annotationfont)
 
             plt.draw()
             self.plotter.canvas.update()
             self.plotter.canvas.draw()
 
         except RuntimeError as detail:
-            if(detail[-1].split()[0] == 'LaTeX'):
+            if (detail[-1].split()[0] == 'LaTeX'):
                 print('error: invalid LaTeX syntax')
             else:
                 print('error: draw may not have completed properly: %s' % detail)
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if (self.debug):
+                traceback.print_exc(file=sys.stdout)
         except OverflowError:
             print('Caught overflow error attempting to plot.  Try using "subsample" to reduce the data.')
         except:
             print('error: draw may not have completed properly')
-            if(self.debug):
+            if (self.debug):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.plotter.updateDialogs()
 
-    ##load an ultra file and add parsed curves to the curvelist##
     def load(self, fname, gnu=False, pattern=None, matches=None):
+        """
+        Load an ultra file and add parsed curves to the curvelist
+        """
+
         curves = pydvif.read(fname, gnu, self.xCol, self.debug, pattern, matches)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
 
-    ##load a csv (commas separated values) text data file, add parsed curves to the curvelist##
     def load_csv(self, fname):
+        """
+        Load a csv (commas separated values) text data file, add parsed curves to the curvelist
+        """
+
         curves = pydvif.readcsv(fname, self.xCol, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
-            
-    ##load a Sina JSON data file, add parsed curves to the curvelist##
+
     def load_sina(self, fname):
+        """
+        Load a Sina JSON data file, add parsed curves to the curvelist
+        """
+
         curves = pydvif.readsina(fname, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
 
-    ##read in a resource definition file##
     def loadrc(self):
+        """
+        Read in a resource definition file
+        """
+
         try:
             f = open(os.getenv('HOME') + '/.pdvrc', 'r')
 
@@ -6941,24 +6977,24 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                     line = line.split('=')
                     var = line[0].strip().lower()
                     val = line[1].strip()
-                    if(var == 'xlabel'):
+                    if (var == 'xlabel'):
                         self.xlabel = val
-                    elif(var == 'ylabel'):
+                    elif (var == 'ylabel'):
                         self.ylabel = val
-                    elif(var == 'title'):
+                    elif (var == 'title'):
                         self.title = val
-                    elif(var == 'namewidth'):
+                    elif (var == 'namewidth'):
                         self.namewidth = int(val)
-                    elif(var == 'xlabelwidth'):
+                    elif (var == 'xlabelwidth'):
                         self.xlabelwidth = int(val)
-                    elif(var == 'ylabelwidth'):
+                    elif (var == 'ylabelwidth'):
                         self.ylabelwidth = int(val)
-                    elif(var == 'filenamewidth'):
+                    elif (var == 'filenamewidth'):
                         self.filenamewidth = int(val)
-                    elif(var == 'recordidwidth'):
+                    elif (var == 'recordidwidth'):
                         self.recordidwidth = int(val)
-                    elif(var == 'key'):
-                        if(val.upper() == 'ON' or val == str(1)):
+                    elif (var == 'key'):
+                        if (val.upper() == 'ON' or val == str(1)):
                             self.showkey = True
                         else:
                             self.showkey = False
@@ -6967,15 +7003,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                             self.showgrid = True
                         else:
                             self.showgrid = False
-                    elif(var == 'letters'):
-                        if(val.upper() == 'ON' or val == str(1)):
-                           self.showletters = True
+                    elif (var == 'letters'):
+                        if (val.upper() == 'ON' or val == str(1)):
+                            self.showletters = True
                         else:
                             self.showletters = False
-                    elif(var == 'geometry'):
+                    elif (var == 'geometry'):
                         vals = val.split()
                         self.geometry = vals[0], vals[1], vals[2], vals[3]
-                    elif(var == 'initcommands'):
+                    elif (var == 'initcommands'):
                         self.initrun = ''.join(val)
                     elif var == 'fontsize':
                         self.titlefont = val
@@ -7031,31 +7067,33 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         # if ticks is set, figure out what user wants for ticks
         if ticks != 'de':
             if isinstance(ticks, int):
-                #print 'setting ticks to number ', ticks
+                # print 'setting ticks to number ', ticks
                 axis.set_major_locator(matplotlib.ticker.MaxNLocator(nbins=ticks))
-            elif isinstance(ticks, tuple): # could be locations, could be (locations, labels)
-                if isinstance(ticks[0], Number): # it's a tuple of locations
-                    #print 'setting ticks to tuple ', ticks
+            elif isinstance(ticks, tuple):  # could be locations, could be (locations, labels)
+                if isinstance(ticks[0], Number):  # it's a tuple of locations
+                    # print 'setting ticks to tuple ', ticks
                     axis.set_major_locator(matplotlib.ticker.FixedLocator(ticks))
                     axis.set_major_formatter(matplotlib.ticker.FixedFormatter(ticks))
-                if isinstance(ticks[0], tuple) and len(ticks) == 2: # it's (locations, labels)
-                    #print 'setting ticks to loc,label ', ticks
+                if isinstance(ticks[0], tuple) and len(ticks) == 2:  # it's (locations, labels)
+                    # print 'setting ticks to loc,label ', ticks
                     axis.set_major_locator(matplotlib.ticker.FixedLocator(ticks[0]))
                     axis.set_major_formatter(matplotlib.ticker.FixedFormatter(ticks[1]))
-            else: # I can't figure this out, throw an exception
+            else:  # I can't figure this out, throw an exception
                 print("CAN'T SET TICKS!!!")
                 raise RuntimeError('ticks set to bad value')
 
     def console_run(self):
         while True:
-            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  06.06.2023\n\tType "help" for more information.\n\n')
+            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  ' +
+                         '06.06.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()
 
 ################################################################################################
-#####  private functions
+#####  private functions  # noqa e266
 ################################################################################################
+
     def __log(self, line, log_type=LogEnum.LOG):
         if not line:
             return 0
@@ -7145,12 +7183,12 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 print("\nUnknown Message Type: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
 
-
 ################################################################################################
-#####  main function
+#####  main function  # noqa e266
 ################################################################################################
 
     def main(self):
+
         matplotlib.rc('text', usetex=False)
         matplotlib.rc('font', family='sans-serif')
         self.loadrc()
@@ -7170,7 +7208,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         # throw into column format mode if there is a -gnu or -csv arg
         gnu = False
         csv = False
-        json = False # throw into JSON mode if there's a -sina
+        json = False  # throw into JSON mode if there's a -sina
         for i in range(len(sys.argv[1:])):
             if sys.argv[i] == '-gnu':
                 gnu = True
@@ -7201,23 +7239,23 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
 
         initarg = False
         for i in range(len(sys.argv)):  # look for command line args:
-            if(i != 0):                 # '-i commandfile', and/or 'datafile1 datafile2 ...'
-                if(sys.argv[i] == '-i' or sys.argv[i] == '--init'):
+            if (i != 0):  # '-i commandfile', and/or 'datafile1 datafile2 ...'
+                if (sys.argv[i] == '-i' or sys.argv[i] == '--init'):
                     initarg = True
-                elif(initarg == True):
+                elif (initarg):
                     initarg = sys.argv[i]
                 elif json:
                     self.load_sina(sys.argv[i])
                 else:
                     if not csv:
-                       self.load(sys.argv[i], gnu)
+                        self.load(sys.argv[i], gnu)
                     else:
-                       self.load_csv(sys.argv[i])
+                        self.load_csv(sys.argv[i])
 
-        if(self.initrun != None):  # does the .pdvrc specify a file to run of initial commands?
+        if (self.initrun is not None):  # does the .pdvrc specify a file to run of initial commands?
             self.do_run(self.initrun)  # yes? then run the file.
 
-        if(isinstance(initarg, str)):  # If there was a '-i file' specified, run that file
+        if (isinstance(initarg, str)):  # If there was a '-i file' specified, run that file
             self.do_run(initarg)
 
         self.postcmd(0, 'run')
@@ -7242,8 +7280,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             else:
                 pass
 
+
 def main():
     Command().main()
+
 
 if __name__ == '__main__':
     main()
