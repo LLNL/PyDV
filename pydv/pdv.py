@@ -3719,8 +3719,11 @@ class Command(cmd.Cmd, object):
               "\n   Usage: listr <start> [stop]"
               "\n   Shortcuts: lstr")
 
-    ## Delete the specified entries from the menu ##
     def do_kill(self, line):
+        """
+        Delete the specified entries from the menu
+        """
+
         try:
             if not line:
                 raise RuntimeError("Argument(s) missing.")
@@ -3747,12 +3750,16 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
+
     def help_kill(self):
         print('\n   Procedure: Delete the specified entries from the menu. number-list is a space separated list of menu indexes'
               '\n   Usage: kill [all | number-list]')
 
-    ##print out curves loaded from files##
     def do_menur(self, line):
+        """
+        Print out curves loaded from files
+        """
+
         try:
             if not line:
                 self.help_menur()
@@ -3811,13 +3818,17 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_menur(self):
         print('\n   Macro: List the available curves from start to stop. If stop is not specified, it will be set to'
               '\n          the end of the curve list.'
               '\n   Usage: menur <start> [stop]')
 
-    ##print out curves loaded from files##
     def do_menu(self, line):
+        """
+        Print out curves loaded from files
+        """
+
         try:
             reg = re.compile(r"")
             if line:
@@ -3861,63 +3872,69 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_menu(self):
         print("""\n   Macro: List the available curves\n   Usage: menu [<regex>]\n
-Regular expressions are based on the Python regex syntax, not the UNIX syntax.
-In particular, '*' is not the wildcard you might be expecting.
+                      Regular expressions are based on the Python regex syntax, not the UNIX syntax.
+                      In particular, '*' is not the wildcard you might be expecting.
 
-Some rules are:
+                      Some rules are:
 
-'abc'   Matches anything that has 'abc' in it anywhere
+                      'abc'   Matches anything that has 'abc' in it anywhere
 
-'.'
-(Dot)   Matches any character except a newline.
+                      '.'
+                      (Dot)   Matches any character except a newline.
 
-'^'
-(Caret) Matches the start of the string.
+                      '^'
+                      (Caret) Matches the start of the string.
 
-'$'     Matches the end of the string.
+                      '$'     Matches the end of the string.
 
-[]      Used to indicate a set of characters.
+                      []      Used to indicate a set of characters.
 
-'*'
-Causes the resulting RE to match 0 or more repetitions of the
-preceding RE, as many repetitions as are possible.  ab* will match
-'a', 'ab', or 'a' followed by any number of 'b's.
+                      '*'
+                      Causes the resulting RE to match 0 or more repetitions of the
+                      preceding RE, as many repetitions as are possible.  ab* will match
+                      'a', 'ab', or 'a' followed by any number of 'b's.
 
-It is useful to know that '.*' matches any number of anythings, which
-is often what people expect '*' to do.
+                      It is useful to know that '.*' matches any number of anythings, which
+                      is often what people expect '*' to do.
 
-EXAMPLES:
+                      EXAMPLES:
 
-energy     matches   'fluid energy', 'energy from gas', and 'blow energy blow'
+                      energy     matches   'fluid energy', 'energy from gas', and 'blow energy blow'
 
-dt.*cycle  matches  'dt [sh] vs. cycle', and 'find dt on a bicycle please'.
+                      dt.*cycle  matches  'dt [sh] vs. cycle', and 'find dt on a bicycle please'.
 
-^foo.*rat$ matches 'foobarat', 'foo rat', and 'foolish boy, now you will be eaten by a rat'
+                      ^foo.*rat$ matches 'foobarat', 'foo rat', and 'foolish boy, now you will be eaten by a rat'
 
-VR[de]     matches 'bigVRdump', 'smallVRexit', but not 'mediumVRfront'
+                      VR[de]     matches 'bigVRdump', 'smallVRexit', but not 'mediumVRfront'
 
-AX[deh-z]  matches 'myAXjob', 'yourAXexit', 'AXnow', but not 'AXfoo'
+                      AX[deh-z]  matches 'myAXjob', 'yourAXexit', 'AXnow', but not 'AXfoo'
 
-For a painfully complete explanation of the regex syntax, type 'help regex'.
-""")
+                      For a painfully complete explanation of the regex syntax, type 'help regex'.
+                      """)
+
     def help_regex(self):
         print("\n    This is the Python help for the 're' module."
               "\n    'help menu' will give you a shorter version.")
         help(re)
 
-
-    ##drop to python prompt##
     def do_drop(self, line):
+        """
+        Drop to python prompt
+        """
         self.redraw = False
         return True
+
     def help_drop(self):
         print('\n   Macro: Enter the python prompt for custom input\n   Usage: drop\n')
 
-
-    ##exit the program##
     def do_quit(self, line):
+        """
+        Exit the program
+        """
+
         try:
             readline.write_history_file(os.getenv('HOME') + '/.pdvhistory')
         except:
@@ -3926,12 +3943,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.app.quit()
             sys.exit()
             return True
+
     def help_quit(self):
         print('\n   Macro: Exit PyDV\n   Usage: quit\n   Shortcuts: q\n')
 
-
-    ##save figure to file##
     def do_image(self, line):
+        """
+        Save figure to file
+        """
+
         try:
             line = line.split()
             optcnt = len(line)
@@ -3959,6 +3979,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                   "\n                   [transparent=False: True | False] [dpi]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_image(self):
         print("\n   Macro: Save the current figure to an image file. All parameters are optional. The default value"
               "\n          for filename is 'plot', the default value for filetype is 'pdf' and the default value for "
@@ -3967,9 +3988,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]"
               "\n                [transparent=False: True | False] [dpi]")
 
-
-    ##save given curves to a new ultra file##
     def do_save(self, line):
+        """
+        Save given curves to a new ultra file
+        """
+
         if not line:
             return 0
         try:
@@ -3997,13 +4020,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_save(self):
         print('\n   Macro: Save curves to file'
               '\n   Usage: save <file-name> <curve-list>\n')
 
-
-    ##save given curves to a CSV file##
     def do_savecsv(self, line):
+        """
+        Save given curves to a CSV file
+        """
+
         if(not line):
             return 0
         try:
@@ -4059,14 +4085,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_savecsv(self):
         print('\n   Macro: Save curves to file in comma separated values (csv) format. Assumes all curves have the '
               '\n   same x basis. CSV file generated with number rows equal to number of points in first curve passed.'
               '\n   Usage: savecsv <file-name> <curve-list>\n')
 
-
-    ##Display text on the plot at the given plot location##
     def do_annot(self, line):
+        """
+        Display text on the plot at the given plot location
+        """
+
         if(not line):
             return 0
         try:
@@ -4080,12 +4109,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: annot <text> <xloc> <yloc>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_annot(self):
         print('\n   Macro: Display text on the plot by axis x and y location\n   Usage: annot <text> <xloc> <yloc>\n')
 
-
-    ##List current annotations##
     def do_listannot(self, line):
+        """
+        List current annotations
+        """
+
         try:
             for i in range(len(self.usertexts)):
                 dex = str(i+1).rjust(5)
@@ -4102,12 +4134,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_listannot(self):
         print('\n   Macro: List current annotations\n   Usage: listannot\n')
 
-
-    ##Remove the specified annotations##
     def do_delannot(self, line):
+        """
+        Remove the specified annotations
+        """
+
         if not line:
             return 0
         try:
@@ -4126,11 +4161,10 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: delannot <number-list-of-annotations>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_delannot(self):
         print('\n   Procedure: Delete annotations from list\n   Usage: delannot <number-list-of-annotations>\n')
 
-
-    ##generate a straight line and add to curve list##
     def do_span(self, line):
         """
         Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points.
@@ -4154,13 +4188,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: span <xmin> <xmax> [<# pts>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_span(self):
         print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points'
               '\n   Usage: span <xmin> <xmax> [<# pts>]\n')
 
-
-    ##generate y = mx + b line##
     def do_line(self, line):
+        """
+        Generate y = mx + b line
+        """
+
         if not line:
             return 0
         try:
@@ -4180,13 +4217,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: line <m> <b> <xmin> <xmax> [<# pts>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_line(self):
         print('\n   Procedure: Generate a line with y = mx + b and an optional number of points'
               '\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n')
 
-
-    ##generate curve from given x and y points##
     def do_makecurve(self, line):
+        """
+        Generate curve from given x and y points
+        """
+
         if not line:
             return 0
         try:
@@ -4206,13 +4246,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: makecurve (<list of x-values>) (<list of y values>)')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_makecurve(self):
         print('\n   Macro: Generate a curve from two lists of numbers'
               '\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n')
 
-
-    ##filter out points##
     def do_ymin(self, line):
+        """
+        Filter out points
+        """
+
         try:
             self.__mod_curve(line, 'ymin')
             self.plotedit = True
@@ -4220,13 +4263,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ymin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ymin(self):
         print('\n   Procedure: Filter out points in curves whose y-values < limit'
               '\n   Usage: ymin <curve-list> <limit>\n')
 
-
-    ##filter out points##
     def do_ymax(self, line):
+        """
+        Filter out points
+        """
+
         try:
             self.__mod_curve(line, 'ymax')
             self.plotedit = True
@@ -4234,13 +4280,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: ymax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ymax(self):
         print('\n   Procedure: Filter out points in curves whose y-values > limit'
               '\n   Usage: ymax <curve-list> <limit>\n')
 
-
-    ##filter out points##
     def do_xmin(self, line):
+        """
+        Filter out points
+        """
+
         try:
             self.__mod_curve(line, 'xmin')
             self.plotedit = True
@@ -4248,13 +4297,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xmin <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xmin(self):
         print('\n   Procedure: Filter out points in curves whose x-values < limit'
               '\n   Usage: xmin <curve-list> <limit>\n')
 
-
-    ##filter out points##
     def do_xmax(self, line):
+        """
+        Filter out points
+        """
+
         try:
             self.__mod_curve(line, 'xmax')
             self.plotedit = True
@@ -4262,14 +4314,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: xmax <curve-list> <limit>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xmax(self):
         print('\n   Procedure: Filter out points in curves whose x-values > limit'
               '\n   Usage: xmax <curve-list> <limit>\n')
 
-
-    ##filter out points; this is the only filter points function that returns a new curve.
-    ##It does that because that's how ULTRA behaved.  Go figure.
     def do_xminmax(self, line):
+        """
+        Filter out points; this is the only filter points function that returns a new curve
+        due to how ULTRA behaved
+        """
+
         if len(line.split(':')) > 1:
             self.do_xminmax(pdvutil.getletterargs(line))
             return
@@ -4309,9 +4364,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Trim the selcted curves'
               '\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm')
 
-
-    ##filter out points##
     def do_yminmax(self, line):
+        """
+        Filter out points
+        """
+
         if len(line.split(':')) > 1:
             self.do_yminmax(pdvutil.getletterargs(line))
             return
@@ -4346,9 +4403,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
               '\n   Shortcuts: ymm')
 
-
-    ##take derivative of the curve##
     def do_derivative(self, line):
+        """
+        Take derivative of the curve
+        """
+
         if not line:
             return 0
         try:
@@ -4368,12 +4427,15 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: der <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_derivative(self):
         print('\n   Procedure: Take derivative of curves\n   Usage: derivative <curve-list>\n   Shortcuts: der\n')
 
-
-    ##take the integral of the curve##
     def do_integrate(self, line):
+        """
+        Take the integral of the curve
+        """
+
         if not line:
             return 0
         try:
@@ -4415,13 +4477,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: integrate <curve-list> [<low-limit> <high-limit>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_integrate(self):
         print('\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]'
               '\n   Shortcuts: int\n')
 
-
-    ##plot y of one curve against y of another curve
     def do_vs(self, line):
+        """
+        Plot y of one curve against y of another curve
+        """
+
         if not line:
             return 0
         try:
@@ -4450,12 +4515,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_vs(self):
         print('\n   Procedure: Plot the range of the first curve against the range of the second curve.'
               '\n   Usage: vs <curve1> <curve2>\n')
 
     def __vs_variant(self, arg0, arg1):
-        # This variant support directly plotting curve numbers against each other.
+        """
+        This variant support directly plotting curve numbers against each other
+        """
+
         def _extract_curvelist_number(arg):
             if ord(arg[0].upper()) >= ord('A') and ord(arg[0].upper()) <= ord('Z'):  # Look for a.% type stuff
                 ifile_target = ord(arg[0].upper()) - ord('A')
@@ -4492,8 +4561,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         self.plotedit = True
         return
 
-    ##define error bars for a curve##
     def do_errorbar(self, line):
+        """
+        Define error bars for a curve
+        """
+
         if not line:
             return 0
         line = line.split()
@@ -4534,14 +4606,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                   ' [<point-skip>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_errorbar(self):
         print('\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves'
               ' and not scalars.\n   Usage: errorbar <curve> <y-error-curve> <y+error-curve> '
               '[<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n')
 
-
-    ##Define a shaded error range for a curve##
     def do_errorrange(self, line):
+        """
+        Define a shaded error range for a curve
+        """
+
         if not line:
             return 0
         try:
@@ -4557,21 +4632,25 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             print('error - usage: errorrange <curve> <y-error-curve> <y+error-curve>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_errorrange(self):
         print('\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are '
               'curves and not scalars\n   Usage: errorrange <curve> <y-error-curve> <y+error-curve>'
               '\n   Shortcuts: error-range\n')
 
-
-    ##set the marker for scatter plots##
     def help_marker(self):
         print('''
-   Procedure: Set the marker symbol for scatter plots
-   Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
-   Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
-         Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-''')
+              Procedure: Set the marker symbol for scatter plots
+              Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
+              Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
+              Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
+              ''')
+
     def do_marker(self, line):
+        """
+        Set the marker for scatter plots
+        """
+
         if not line:
             return 0
         try:
@@ -4608,9 +4687,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
-
-    ##set the marker symbol for the curves##
     def do_linemarker(self, line):
+        """
+        Set the marker symbol for the curves
+        """
+
         if not line:
             return 0
         try:
@@ -4649,6 +4730,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.help_linemarker()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_linemarker(self):
         print('''
        Procedure: Set the marker symbol for the curves
@@ -4657,8 +4739,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
              Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
     ''')
 
-    ##smooth the curve to given degree##
     def do_smooth(self, line):
+        """
+        Smooth the curve to given degree
+        """
+
         if not line:
             return 0
         try:
@@ -4697,8 +4782,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
         print('\n   Procedure: Smooth the curve to the given degree.'
               '\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
 
-    ##make a new curve - the Fourier Transform of y-values the given curves##
     def do_fft(self, line):
+        """
+        Make a new curve - the Fourier Transform of y-values the given curves
+        """
+
         if not line:
             return 0
 
@@ -4720,13 +4808,17 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 print('error - usage: fft <curve-list>')
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
+
     def help_fft(self):
         print('\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.'
               '\n              Return real and imaginary parts.'
               '\n   Usage: fft <curve-list>\n')
 
-    ## Merge list of curves##
     def do_appendcurves(self, line):
+        """
+        Merge list of curves
+        """
+
         if not line:
             return 0
 
@@ -4760,11 +4852,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
                 self.help_appendcurves()
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
+
     def help_appendcurves(self):
         print('\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take'
               '\n              the average of the curve\'s y-values.'
               '\n   Usage: appendcurves <curve-list>\n')
-
 
     def do_alpha(self, line):
         if not line:
@@ -4805,13 +4897,16 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.help_alpha()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_alpha(self):
         print('\n   Procedure: Find the alpha'
               '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
 
-
-    ##make a new curve - the convolution of two given curves##
     def do_convolve(self, line):
+        """
+        Make a new curve - the convolution of two given curves
+        """
+
         if not line:
             return 0
         try:
@@ -4843,6 +4938,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.help_convolve()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_convolve(self):
         print('\n   Procedure: Computes the convolution of the two given curves'
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
@@ -4850,8 +4946,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n              results due to improper padding - use with caution.'
               '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol')
 
-    ##make a new curve - slower convolution which doesn't use FFT's
     def do_convolveb(self, line):
+        """
+        Make a new curve - slower convolution which doesn't use FFT
+        """
+
         if not line:
             return 0
         try:
@@ -4883,6 +4982,7 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
             self.help_convolveb()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_convolveb(self):
         print('\n   Procedure: Computes the convolution of the two given curves'
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
@@ -4891,8 +4991,11 @@ For a painfully complete explanation of the regex syntax, type 'help regex'.
               '\n   curve2 is normalized to unit area before doing the convolution.'
               '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb')
 
-    ##make a new curve - slower convolution which doesn't use FFT's
     def do_convolvec(self, line):
+        """
+        Make a new curve - slower convolution which doesn't use FFT
+        """
+
         if not line:
             return 0
         try:
