@@ -3056,13 +3056,16 @@ class Command(cmd.Cmd, object):
             self.help_handlelength()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_handlelength(self):
         print('\n   Command: change the length of the lines in the legend')
         print('     Usage: handlelength <integer>')
 
-
-    ##show or hide minor ticks##
     def do_minorticks(self, line):
+        """
+        Show or hide minor ticks
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3075,13 +3078,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: minorticks <on | off | 1 | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_minorticks(self):
         print('\n   Variable: Minor ticks are not visible by default.'
               '\n   On or 1 will make the minor ticks visible and off or 0 will hide the minor ticks.'
               '\n   Usage: minorticks <on | off | 1 | 0>')
 
-    ##show or hide the border##
     def do_border(self, line):
+        """
+        Show or hide the border
+        """
+
         try:
             color = None
             line = line.split()
@@ -3113,6 +3120,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: border <on | 1 | off | 0> [color-name]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_border(self):
         print('\n   Procedure: Show the border if on or 1, otherwise hide the border. The color-name'
               '\n              determines the color of the border. By default, the border color is black.'
@@ -3122,8 +3130,11 @@ class Command(cmd.Cmd, object):
               '\n   The entire set of HTML-standard color names is available.'
               '\n   Try "showcolormap" to see the available named colors!')
 
-    ##show or hide the grid##
     def do_grid(self, line):
+        """
+        Show or hide the grid
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3136,11 +3147,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: grid on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_grid(self):
         print('\n   Variable: Show the grid if True\n   Usage: grid on | off\n')
 
-    ##set the grid color##
     def do_gridcolor(self, line):
+        """
+        Set the grid color
+        """
+
         if not line:
             return 0
         try:
@@ -3155,6 +3170,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: gridcolor <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_gridcolor(self):
             print('\n   Procedure: Set the color of the grid'
                   '\n   Usage: gridcolor <color-name>'
@@ -3163,8 +3179,11 @@ class Command(cmd.Cmd, object):
                   '\n   The entire set of HTML-standard color names is available.'
                   '\n   Try "showcolormap" to see the available named colors!')
 
-    ## Change the grid style ##
     def do_gridstyle(self, line):
+        """
+        Change the grid style
+        """
+
         if not line:
             return 0
 
@@ -3181,12 +3200,16 @@ class Command(cmd.Cmd, object):
         else:
             print('error: invalid style ' + style)
             return 0
+
     def help_gridstyle(self):
         print('\n   Procedure: Set the line style for the grid.'
               '\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n')
 
-    ## Set the grid line width ##
     def do_gridwidth(self, line):
+        """
+        Set the grid line width
+        """
+
         if not line:
             return 0
 
@@ -3196,11 +3219,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: gridwidth <width>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_gridwidth(self):
         print('\n   Procedure: Set the grid line width in points.\n   Usage: gridwidth <width>\n')
 
-    ##show or hide letter markers on plotted curves##
     def do_dataid(self, line):
+        """
+        Show or hide letter markers on plotted curves
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3213,13 +3240,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: dataid <on | off>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_dataid(self):
         print('\n   Variable: Show curve identifiers if True'
               '\n   Usage: dataid <on | off>'
               '\n   Shortcuts: data-id\n')
 
-    ##show the x axis on a log scale##
     def do_xlogscale(self, line):
+        """
+        Show the x axis on a log scale
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3236,14 +3267,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: xlogscale <on | 1 | off | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xlogscale(self):
         print('\n   Variable: Show x axis in log scale if True'
               '\n   Usage: xlogscale <on | 1 | off | 0>'
               '\n   Shortcuts: x-log-scale , xls\n')
 
-
-    ##show the y axis on a log scale##
     def do_ylogscale(self, line):
+        """
+        Show the y axis on a log scale
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3260,13 +3294,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: ylogscale <on | 1 | off | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ylogscale(self):
         print('\n   Variable: Show y axis in log scale if True'
               '\n   Usage: ylogscale <on | 1 | off | 0>'
               '\n   Shortcuts: y-log-scale , yls\n')
 
-    ##set whether to update after each command##
     def do_guilims(self, line):
+        """
+        Set whether or not to use the GUI min/max values for the X and Y limits
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3283,12 +3321,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: guilims on | off | 1 | 0')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_guilims(self):
         print('\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.'
               '\n   Usage: guilims on | off | 1 | 0\n')
 
-    ##set whether to update after each command##
     def do_update(self, line):
+        """
+        Set whether to update after each command
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -3301,13 +3343,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: update <on | 1 | off | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_update(self):
         print('\n   Variable: Update the plot after each command if ON or 1, otherwise don\'t update the plot.'
               '\n             Update the plot is ON by default.'
               '\n   Usage: update <on | 1 | off | 0>\n')
 
-    ##set whether or not to use LaTeX font rendering##
     def do_latex(self, line):
+        """
+        Set whether or not to use LaTeX font rendering
+        """
+
         try:
             line = line.strip()
 
@@ -3321,13 +3367,16 @@ class Command(cmd.Cmd, object):
             print('latex on | off | 1 | 0')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_latex(self):
         print('\n   Variable: Use LaTeX font rendering if True. By default, LaTeX font rendering is off.'
               '\n   Usage: latex on | off | 1 | 0\n')
 
-
-    ##show given curves as points rather than continuous line##
     def do_scatter(self, line):
+        """
+        Show given curves as points rather than continuous line
+        """
+
         try:
             self.__mod_curve(line, 'scatter')
             self.plotedit = True
@@ -3335,13 +3384,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: scatter <curve-list> <on | 1 | off | 0>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_scatter(self):
         print('\n   Procedure: Plot curves as scatter plots'
               '\n   Usage: scatter <curve-list> <on | 1 | off | 0>\n')
 
-
-    ##show given curves as points and a line rather than continuous line##
     def do_linespoints(self, line):
+        """
+        Show given curves as points and a line rather than continuous line
+        """
+
         try:
             self.__mod_curve(line, 'linespoints')
             self.plotedit = True
@@ -3349,12 +3401,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: linespoints <curve-list> on | off')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_linespoints(self):
         print('\n   Procedure: Plot curves as linespoints plots\n   Usage: linespoints <curve-list> on | off\n')
 
-
-    ##set line width of given curves##
     def do_lnwidth(self, line):
+        """
+        Set line width of given curves
+        """
+
         try:
             self.__mod_curve(line, 'lnwidth')
             self.plotedit = True
@@ -3362,12 +3417,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: lnwidth <curve-list> <width>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_lnwidth(self):
         print('\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width>\n')
 
-
-    ##set line style of given curves##
     def do_lnstyle(self, line):
+        """
+        Set line style of given curves
+        """
+
         try:
             self.__mod_curve(line, 'lnstyle')
             self.plotedit = True
@@ -3378,6 +3436,7 @@ class Command(cmd.Cmd, object):
                   '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_lnstyle(self):
         print('\n   Procedure: Set the line style of curves'
               '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
@@ -3385,8 +3444,11 @@ class Command(cmd.Cmd, object):
                   '| loosely_dashdotted | dashdotted | densely_dashdotted '
                   '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>\n')
 
-    ##set draw style of given curves##
     def do_drawstyle(self, line):
+        """
+        Set draw style of given curves
+        """
+
         try:
             self.__mod_curve(line, 'drawstyle')
             self.plotedit = True
@@ -3394,12 +3456,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_drawstyle(self):
         print('\n   Procedure: Set the draw style of the curves'
               '\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
 
-    ##set dash style of given curves##
     def do_dashstyle(self, line):
+        """
+        Set dash style of given curves
+        """
+
         try:
             options = line[line.index("["):]
             line = line[0:line.index("[")]
@@ -3410,20 +3476,23 @@ class Command(cmd.Cmd, object):
             self.help_dashstyle()
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_dashstyle(self):
         print('''
-   Procedure: Set the style of dash or dot dash lines
-   Usage: dashstyle <curve-list> <[...]>
-     The python list is a list of integers, alternating how many pixels to turn on and off, for example:
-        [2, 2] : Two pixels on, two off (will result in a dot pattern).
-        [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
-        [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
-        [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
-   See matplotlib 'set_dashes' command for more information.
-''')
-
+                 Procedure: Set the style of dash or dot dash lines
+                 Usage: dashstyle <curve-list> <[...]>
+                     The python list is a list of integers, alternating how many pixels to turn on and off, for example:
+                         [2, 2] : Two pixels on, two off (will result in a dot pattern).
+                         [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
+                         [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
+                         [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
+                 See matplotlib 'set_dashes' command for more information.
+             ''')
 
     def do_group(self, line):
+        """
+        Group curves based on name and file if curve names are the same
+        """
 
         pn, cn, fn = self.do_listr('1')
         
@@ -3496,12 +3565,15 @@ class Command(cmd.Cmd, object):
                 print('There are only ten colors available. Please reduce the number of same name curves.')
 
         self.updateplot
+
     def help_group(self):
         print('\n   Group curves based on name and file if curve names are the same.\n')
-        
 
-    ##turn hiding on for given curves##
     def do_hide(self, line):
+        """
+        Turn hiding on for given curves
+        """
+
         try:
             line = line + ' ' + 'ON'
             self.__mod_curve(line, 'hide')
@@ -3509,12 +3581,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: hide <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_hide(self):
         print('\n   Procedure: Hide curves from view\n   Usage: hide <curve-list>\n')
 
-
-    ##turn hiding off for given curves##
     def do_show(self, line):
+        """
+        Turn hiding off for given curves
+        """
+
         try:
             line = line + ' ' + 'OFF'
             self.__mod_curve(line, 'hide')
@@ -3522,13 +3597,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: show <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_show(self):
         print('\n   Procedure: Reveal curves hidden by hide command'
               '\n   Usage: show <curve-list>\n')
 
-
-    ##Use matplotlib style settings##
     def do_style(self, line):
+        """
+        Use matplotlib style settings
+        """
+
         try:
             line = line.split()
             self.plotter.style = line[0]
@@ -3538,6 +3616,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: style <style-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_style(self):
         print('''
         Procedure: Use matplotlib style settings from a style specification.
@@ -3547,8 +3626,11 @@ class Command(cmd.Cmd, object):
         Usage: style <style-name>
         ''')
 
-    ##change the y range on the graph##
     def do_range(self, line):
+        """
+        Change the y range on the graph
+        """
+
         try:
             line = line.split()
             if line and line[0] == 'de':
@@ -3561,14 +3643,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: range <low-lim> <high-lim> or range de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_range(self):
         print("\n   Procedure: Set the range for plotting. Use 'de' for using the default limits (none)."
               "\n   Usage: range <low-lim> <high-lim> or range de"
               "\n   Shortcuts: ran\n")
 
-
-    ##change the x domain on the graph##
     def do_domain(self, line):
+        """
+        Change the x domain on the graph
+        """
+
         try:
             line = line.split()
             if(line and line[0] == 'de'):
@@ -3581,14 +3666,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: domain <low-lim> <high-lim> or domain de')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_domain(self):
         print('\n   Procedure: Set the domain for plotting'
               '\n   Usage: domain <low-lim> <high-lim> or'
               '\n   Usage: domain de'
               '\n   Shortcuts: dom\n')
 
-    ##list currently graphed curves##
     def do_list(self, line):
+        """
+        List currently graphed curves
+        """
+
         try:
             reg = re.compile(r"")
             if line:
@@ -3640,8 +3729,11 @@ class Command(cmd.Cmd, object):
                                                   "Usage: list [<label-pattern>]",
                                                   "Shortcuts: lst"))
 
-    ##list currently graphed curves##
     def do_listr(self, line):
+        """
+        List currently graphed curves
+        """
+
         group_plotnames = []
         group_curvenames = []
         group_filenames = []
@@ -3713,6 +3805,7 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
             return group_plotnames, group_curvenames, group_filenames
+
     def help_listr(self):
         print("\n   Macro: Display curves in range from start to stop in the list. If stop is not specified, it will"
               "\n          be set to the end of the plot list."
