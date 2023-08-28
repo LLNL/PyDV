@@ -2234,9 +2234,11 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: e**y, exponentiate x values of curves'
               '\n   Usage: expx <curve-list>\n')
 
-
-    ##take the cosine of the curve##
     def do_cos(self, line):
+        """
+        Take cosine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'cos', do_x=0)
             self.plotedit = True
@@ -2244,12 +2246,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: cos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_cos(self):
         print('\n   Procedure: Take cosine of y values of curves'
               '\n   Usage: cos <curve-list>\n')
 
 
     def do_cosx(self, line):
+        """
+        Take cosine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'cos', do_x=1)
             self.plotedit = True
@@ -2257,13 +2264,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: cosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_cosx(self):
         print('\n   Procedure: Take cosine of x values of curves'
               '\n   Usage: cosx <curve-list>\n')
 
-
-    ##take the sine of the curve##
     def do_sin(self, line):
+        """
+        Take sine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'sin', do_x=0)
             self.plotedit = True
@@ -2271,12 +2281,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sin(self):
         print('\n   Procedure: Take sine of y values of curves'
               '\n   Usage: sin <curve-list>\n')
 
-
     def do_sinx(self, line):
+        """
+        Take sine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'sin', do_x=1)
             self.plotedit = True
@@ -2284,13 +2298,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sinx(self):
         print('\n   Procedure: Take sine of x values of curves'
               '\n   Usage: sinx <curve-list>\n')
 
-
-    ##take the tangent of the curve##
     def do_tan(self, line):
+        """
+        Take tangent of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'tan', do_x=0)
             self.plotedit = True
@@ -2298,11 +2315,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: tan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_tan(self):
         print('\n   Procedure: Take tangent of y values of curves'
               '\n   Usage: tan <curve-list>\n')
 
     def do_tanx(self, line):
+        """
+        Take tangent of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'tan', do_x=1)
             self.plotedit = True
@@ -2310,13 +2332,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: tanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_tanx(self):
         print('\n   Procedure: Take tangent of x values of curves'
               '\n   Usage: tanx <curve-list>\n')
 
-
-    ##take the arccosine of the curve##
     def do_acos(self, line):
+        """
+        Take arccosine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'acos', do_x=0)
             self.plotedit = True
@@ -2324,11 +2349,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: acos <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_acos(self):
         print('\n   Procedure: Take arccosine of y values of curves'
               '\n   Usage: acos <curve-list>\n')
 
     def do_acosx(self, line):
+        """
+        Take arccosine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'acos', do_x=1)
             self.plotedit = True
@@ -2336,12 +2366,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: acosx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_acosx(self):
         print('\n   Procedure: Take arccosine of x values of curves'
               '\n   Usage: acosx <curve-list>\n')
 
-    ##take the arcsine of the curve##
     def do_asin(self, line):
+        """
+        Take arcsine of y values of curves.
+        """
+
         try:
             self.__func_curve(line, 'asin', do_x=0)
             self.plotedit = True
@@ -2349,6 +2383,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: asin <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_asin(self):
         print('\n   Procedure: Take arcsine of y values of curves'
               '\n   Usage: asin <curve-list>\n')
@@ -2360,6 +2395,7 @@ class Command(cmd.Cmd, object):
         :param line: User Command-Line Input (arsinx <curve-list>))
         :type line: string
         """
+
         try:
             self.__func_curve(line, 'asin', do_x=1)
             self.plotedit = True
@@ -2367,12 +2403,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: asinx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_asinx(self):
         print('\n   Procedure: Take arcsine of x values of curves'
               '\n   Usage: asinx <curve-list>\n')
 
-    ##take the arctangent of the curve##
     def do_atan(self, line):
+        """
+        Take arctangent of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'atan', do_x=0)
             self.plotedit = True
@@ -2380,11 +2420,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: atan <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_atan(self):
         print('\n   Procedure: Take arctangent of y values of curves'
               '\n   Usage: atan <curve-list>\n')
 
     def do_atanx(self, line):
+        """
+        Take arctangent of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'atan', do_x=1)
             self.plotedit = True
@@ -2392,13 +2437,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: atanx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_atanx(self):
         print('\n   Procedure: Take arctangent of x values of curves'
               '\n   Usage: atanx <curve-list>\n')
 
-    ##peform the atan2 method for a pair of curves##
-    # Note we currently only support atan2 for two distinct curves.
     def do_atan2(self, line):
+        """
+        Take atan2 of two curves
+        """
+
         try:
             letterargs = [x.upper() for x in line.split()]
             assert len(letterargs) == 2
@@ -2415,13 +2463,16 @@ class Command(cmd.Cmd, object):
         except:
             print('error - usage: atan curve1 curve2')
             if(self.debug): traceback.print_exc(file=sys.stdout)
+
     def help_atan2(self):
         print('\n   Procedure: Take atan2 of two curves'
               '\n   Usage: atan2 curve1 curve2\n')
 
-
-    ##take the hyperbolic cosine of the curve##
     def do_cosh(self, line):
+        """
+        Take hyperbolic cosine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'cosh', do_x=0)
             self.plotedit = True
@@ -2429,11 +2480,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: cosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_cosh(self):
         print('\n   Procedure: Take hyperbolic cosine of y values of curves'
               '\n   Usage: cosh <curve-list>\n')
 
     def do_coshx(self, line):
+        """
+        Take hyperbolic cosine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'cosh', do_x=1)
             self.plotedit = True
@@ -2441,13 +2497,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: coshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_coshx(self):
         print('\n   Procedure: Take hyperbolic cosine of x values of curves'
               '\n   Usage: coshx <curve-list>\n')
 
-
-    ##take the hyperbolic sine of the curve##
     def do_sinh(self, line):
+        """
+        Take hyperbolic sine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'sinh', do_x=0)
             self.plotedit = True
@@ -2455,11 +2514,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sinh(self):
         print('\n   Procedure: Take hyperbolic sine of y values of curves'
               '\n   Usage: sinh <curve-list>\n')
 
     def do_sinhx(self, line):
+        """
+        Take hyperbolic sine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'sinh', do_x=1)
             self.plotedit = True
@@ -2467,13 +2531,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sinhx(self):
         print('\n   Procedure: Take hyperbolic sine of x values of curves'
               '\n   Usage: sinhx <curve-list>\n')
 
-
-    ##take the hyperbolic tangent of the curve##
     def do_tanh(self, line):
+        """
+        Take hyperbolic tangent of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'tanh', do_x=0)
             self.plotedit = True
@@ -2481,11 +2548,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: tanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_tanh(self):
         print('\n   Procedure: Take hyperbolic tangent of y values of curves'
               '\n   Usage: tanh <curve-list>\n')
 
     def do_tanhx(self, line):
+        """
+        Take hyperbolic tangent of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'tanh', do_x=1)
             self.plotedit = True
@@ -2493,13 +2565,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: tanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_tanhx(self):
         print('\n   Procedure: Take hyperbolic tangent of x values of curves'
               '\n   Usage: tanhx <curve-list>\n')
 
-
-    ##take the inverse hyperbolic cosine of the curve##
     def do_acosh(self, line):
+        """
+        Take hyperbolic arccosine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'acosh', do_x=0)
             self.plotedit = True
@@ -2512,6 +2587,10 @@ class Command(cmd.Cmd, object):
               '\n   Usage: acosh <curve-list>\n')
 
     def do_acoshx(self, line):
+        """
+        Take hyperbolic arccosine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'acosh', do_x=1)
             self.plotedit = True
@@ -2519,13 +2598,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: acoshx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_acoshx(self):
         print('\n   Procedure: Take hyperbolic arccosine of x values of curves'
               '\n   Usage: acoshx <curve-list>\n')
 
-
-    ##take the hyperbolic arcsine of the curve##
     def do_asinh(self, line):
+        """
+        Take hyperbolic arcsine of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'asinh', do_x=0)
             self.plotedit = True
@@ -2538,6 +2620,10 @@ class Command(cmd.Cmd, object):
               '\n   Usage: asinh <curve-list>\n')
 
     def do_asinhx(self, line):
+        """
+        Take hyperbolic arcsine of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'asinh', do_x=1)
             self.plotedit = True
@@ -2545,13 +2631,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: asinhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_asinhx(self):
         print('\n   Procedure: Take hyperbolic arcsine of x values of curves'
               '\n   Usage: asinhx <curve-list>\n')
 
-
-    ##take the hyperbolic arctangent of the curve##
     def do_atanh(self, line):
+        """
+        Take hyperbolic arctangent of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'atanh', do_x=0)
             self.plotedit = True
@@ -2559,11 +2648,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: atanh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_atanh(self):
         print('\n   Procedure: Take hyperbolic arctangent of y values of curves'
               '\n   Usage: atanh <curve-list>\n')
 
     def do_atanhx(self, line):
+        """
+        Take hyperbolic arctangent of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'atanh', do_x=1)
             self.plotedit = True
@@ -2571,13 +2665,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: atanhx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_atanhx(self):
         print('\n   Procedure: Take hyperbolic arctangent of x values of curves'
               '\n   Usage: atanhx <curve-list>\n')
 
-
-    ##take the zeroth order Bessel function of the curve##
     def do_j0(self, line):
+        """
+        Take the zeroth order Bessel function of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'j0', do_x=0)
             self.plotedit = True
@@ -2585,11 +2682,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: j0 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_j0(self):
         print('\n   Procedure: Take the zeroth order Bessel function of y values of curves'
               '\n   Usage: j0 <curve-list>\n')
 
     def do_j0x(self, line):
+        """
+        Take the zeroth order Bessel function of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'j0', do_x=1)
             self.plotedit = True
@@ -2597,13 +2699,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: j0x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_j0x(self):
         print('\n   Procedure: Take the zeroth order Bessel function of x values of curves'
               '\n   Usage: j0x <curve-list>\n')
 
-
-    ##take the first order Bessel function of the curve##
     def do_j1(self, line):
+        """
+        Take the first order Bessel function of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'j1', do_x=0)
             self.plotedit = True
@@ -2611,11 +2716,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: j1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_j1(self):
         print('\n   Procedure: Take the first order Bessel function of y values of curves'
               '\n   Usage: j1 <curve-list>\n')
 
     def do_j1x(self, line):
+        """
+        Take the first order Bessel function of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'j1', do_x=1)
             self.plotedit = True
@@ -2623,13 +2733,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: j1x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_j1x(self):
         print('\n   Procedure: Take the first order Bessel function of x values of curves'
               '\n   Usage: j1x <curve-list>\n')
 
-
-    ##take the nth order Bessel function of the curve##
     def do_jn(self, line):
+        """
+        Take the nth order Bessel function of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'jn', do_x=0, idx=-1)
             self.plotedit = True
@@ -2637,11 +2750,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: jn <curve-list> <n>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_jn(self):
         print('\n   Procedure: Take the nth order Bessel function of y values of curves'
               '\n   Usage: jn <curve-list> <n>\n')
 
     def do_jnx(self, line):
+        """
+        Take the nth order Bessel function of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'jn', do_x=1, idx=-1)
             self.plotedit = True
@@ -2649,13 +2767,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: jnx <curve-list> <n>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_jnx(self):
         print('\n   Procedure: Take the nth order Bessel function of x values of curves'
               '\n   Usage: jnx <curve-list> <n>\n')
 
-
-    ##take the zeroth order Bessel function of the second kind of the curve##
     def do_y0(self, line):
+        """
+        Take the zeroth order Bessel function of the second kind of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'y0', do_x=0)
             self.plotedit = True
@@ -2663,11 +2784,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: y0 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_y0(self):
         print('\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves'
               '\n   Usage: y0 <curve-list>\n')
 
     def do_y0x(self, line):
+        """
+        Take the zeroth order Bessel function of the second kind of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'y0', do_x=1)
             self.plotedit = True
@@ -2675,13 +2801,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: y0x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_y0x(self):
         print('\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves'
               '\n   Usage: y0x <curve-list>\n')
 
-
-    ##take the first order Bessel function of the second kind of the curve##
     def do_y1(self, line):
+        """
+        Take the first order Bessel function of the second kind of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'y1', do_x=0)
             self.plotedit = True
@@ -2689,11 +2818,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: y1 <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_y1(self):
         print('\n   Procedure: Take the first order Bessel function of the second kind of y values of curves'
               '\n   Usage: y1 <curve-list>\n')
 
     def do_y1x(self, line):
+        """
+        Take the first order Bessel function of the second kind of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'y1', do_x=1)
             self.plotedit = True
@@ -2701,13 +2835,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: y1x <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_y1x(self):
         print('\n   Procedure: Take the first order Bessel function of the second kind of x values of curves'
               '\n   Usage: y1x <curve-list>\n')
 
-
-    ##take the nth order Bessel function of the second kind of the curve##
     def do_yn(self, line):
+        """
+        Take the nth order Bessel function of the second kind of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'yn', do_x=0, idx=-1)
             self.plotedit = True
@@ -2715,11 +2852,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: yn <curve-list> n')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_yn(self):
         print('\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves'
               '\n   Usage: yn <curve-list> <n>\n')
 
     def do_ynx(self, line):
+        """
+        Take the nth order Bessel function of the second kind of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'yn', do_x=1, idx=-1)
             self.plotedit = True
@@ -2727,13 +2869,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: ynx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ynx(self):
         print('\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves'
               '\n   Usage: ynx <curve-list> <n>\n')
 
-
-    ##Raise a fixed value, a, to the power of the y values of the curves
     def do_powa(self, line):
+        """
+        Raise a fixed value, a, to the power of the y values of the curves
+        """
+
         try:
             self.__func_curve(line, 'powa', do_x=0, idx=-1)
             self.plotedit = True
@@ -2741,11 +2886,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: powa <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_powa(self):
         print('\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves'
               '\n   Usage: powa <curve-list> a\n')
 
     def do_powax(self, line):
+        """
+        Raise a fixed value, a, to the power of the x values of the curves
+        """
+
         try:
             self.__func_curve(line, 'powa', do_x=1, idx=-1)
             self.plotedit = True
@@ -2753,13 +2903,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: powax <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_powax(self):
         print('\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves'
               '\n   Usage: powax <curve-list> a\n')
 
-
-    ##Raise the y values of the curves  to a fixed power
     def do_powr(self, line):
+        """
+        Raise the y values of the curves to a fixed power, y=y^p
+        """
+
         try:
             self.__func_curve(line, 'powr', do_x=0, idx=-1)
             self.plotedit = True
@@ -2767,11 +2920,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: powr <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_powr(self):
         print('\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p'
               '\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n')
 
     def do_powrx(self, line):
+        """
+        Raise the x values of the curves to a fixed power, x=x^p
+        """
+
         try:
             self.__func_curve(line, 'powr', do_x=1, idx=-1)
             self.plotedit = True
@@ -2779,13 +2937,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: powrx <curve-list> a')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_powrx(self):
         print('\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p'
               '\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n')
 
-
-    ##Take the reciprocal of the y values of the curves
     def do_recip(self, line):
+        """
+        Take the reciprocal of the y values of the curves
+        """
+
         try:
             self.__func_curve(line, 'recip', do_x=0)
             self.plotedit = True
@@ -2793,11 +2954,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: recip <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_recip(self):
         print('\n   Procedure: Take the reciprocal of the y values of the curves'
               '\n   Usage: recip <curve-list>\n')
 
     def do_recipx(self, line):
+        """
+        Take the reciprocal of the x values of the curves
+        """
+
         try:
             self.__func_curve(line, 'recip', do_x=1)
             self.plotedit = True
@@ -2805,13 +2971,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: recipx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_recipx(self):
         print('\n   Procedure: Take the reciprocal of the x values of the curves'
               '\n   Usage: recipx <curve-list>\n')
 
-
-    ##Take the square of the y values of the curves
     def do_sqr(self, line):
+        """
+        Take the square of the y values of the curves
+        """
+
         try:
             self.__func_curve(line, 'sqr', do_x=0)
             self.plotedit = True
@@ -2819,11 +2988,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sqr <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sqr(self):
         print('\n   Procedure: Take the square of the y values of the curves'
               '\n   Usage: square <curve-list>\n   Shortcut: sqr\n')
 
     def do_sqrx(self, line):
+        """
+        Take the square of the x values of the curves
+        """
+
         try:
             self.__func_curve(line, 'sqr', do_x=1)
             self.plotedit = True
@@ -2831,14 +3005,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sqrx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sqrx(self):
         print('\n   Procedure: Take the square of the x values of the curves'
               '\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n')
 
-    ##Take the square root of the y values of the curves
-
-    ##Take the square root of the y values of the curves
     def do_sqrt(self, line):
+        """
+        Take the square root of the y values of the curves
+        """
+
         try:
             self.__func_curve(line, 'sqrt', do_x=0)
             self.plotedit = True
@@ -2846,11 +3022,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: sqrt <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sqrt(self):
         print('\n   Procedure: Take the square root of the y values of the curves'
               '\n   Usage: sqrt <curve-list>\n')
 
     def do_sqrtx(self, line):
+        """
+        Take the square root of the x values of the curves
+        """
+
         try:
             self.__func_curve(line, 'sqrt', do_x=1)
             self.plotedit = True
@@ -2858,47 +3039,64 @@ class Command(cmd.Cmd, object):
             print('error - usage: sqrtx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_sqrtx(self):
         print('\n   Procedure: Take the square root of the x values of the curves'
               '\n   Usage: sqrtx <curve-list>\n')
 
-
-    ##set labels and titles##
     def do_xlabel(self, line):
+        """
+        Set a label for the x-axis
+        """
+
         try:
             self.set_xlabel(line)
         except:
             print('error - usage: xlabel <label-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xlabel(self):
         print('\n   Procedure: Set a label for the x-axis'
               '\n   Usage: xlabel <label-name>\n')
 
     def do_ylabel(self, line):
+        """
+        Set a label for the y-axis
+        """
+
         try:
             self.set_ylabel(line)
         except:
             print('error - usage: ylabel <label-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ylabel(self):
         print('\n   Procedure: Set a label for the y axis'
               '\n   Usage: ylabel <label-name>\n')
 
     def do_title(self, line):
+        """
+        Set a title for the plot
+        """
+
         try:
             self.set_title(line)
         except:
             print('error - usage: title <title-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_title(self):
         print('\n   Procedure: Set a title for the plot'
               '\n   Usage: title <title-name>\n')
 
-    ##show or hide the key/legend##
     def do_legend(self, line):
+        """
+        Show or hide the key/legend
+        """
+
         try:
             locs = {'best': 0, 'ur': 1, 'ul': 2, 'll': 3, 'lr': 4, 'cl': 6, 'cr': 7, 'lc': 8, 'uc': 9, 'c': 10}
             line = line.strip().split()
@@ -2931,13 +3129,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide cure ids>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_legend(self):
         print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
               '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]\n   Shortcuts: leg, key\n')
 
-
-    ## adjust the width of the label column in 'menu' and 'lst' commands
     def do_namewidth(self, line):
+        """
+        Adjust the width of the label column in 'menu' and 'lst' commands
+        """
+
         try:
             if len(line) == 0:
                 print('label column width is currently', self.namewidth)
@@ -2957,8 +3158,11 @@ class Command(cmd.Cmd, object):
               '\n            current column width will be displayed.'
               '\n   Usage:  namewidth [width]')
 
-    ## adjust the width of the xlabel column in 'menu' and 'lst' commands
     def do_xlabelwidth(self, line):
+        """
+        Adjust the width of the xlabel column in 'menu' and 'lst' commands
+        """
+
         try:
             if len(line) == 0:
                 print('xlabel column width is currently', self.xlabelwidth)
@@ -2973,13 +3177,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: xlabelwidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_xlabelwidth(self):
         print('\n   Command: change the width of the xlabel column of the menu and lst output. If no width is given, the'
               '\n            current column width will be displayed.'
               '\n   Usage:  xlabelwidth [width]')
 
-    ## adjust the width of the ylabel column in 'menu' and 'lst' commands
     def do_ylabelwidth(self, line):
+        """
+        Adjust the width of the ylabel column in 'menu' and 'lst' commands
+        """
+
         try:
             if len(line) == 0:
                 print('label column width is currently', self.ylabelwidth)
@@ -2994,14 +3202,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: ylabelwidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_ylabelwidth(self):
         print('\n   Command: change the width of the ylabel column of the menu and lst output. If no width is given, the'
               '\n            current column width will be displayed.'
               '\n   Usage:  ylabelwidth [width]')
 
-
-    ## adjust the width of the file column in 'menu' and 'lst' commands
     def do_filenamewidth(self, line):
+        """
+        Adjust the width of the file column in 'menu' and 'lst' commands
+        """
+
         try:
             if len(line) == 0:
                 print('file column width is currently', self.filenamewidth)
@@ -3016,13 +3227,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: filenamewidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_filenamewidth(self):
         print('\n   Command: change the width of the file column of the menu and lst output. If no width is given, the'
               '\n            current column width will be displayed.'
               '\n   Usage:  filenamewidth [width]')
 
-    ## adjust the width of the rec id column in 'menu' and 'lst' commands
     def do_recordidwidth(self, line):
+        """
+        Adjust the width of the rec id column in 'menu' and 'lst' commands
+        """
+
         try:
             if len(line) == 0:
                 print('record_id column width is currently', self.recordidwidth)
@@ -3037,13 +3252,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: recordidwidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_recordidwidth(self):
         print('\n   Command: change the width of the record_id column of the menu and lst output. If no width is given, the'
               '\n            current column width will be displayed.'
               '\n   Usage:  recordidwidth [width]')
 
-    ##adjust the length of the lines in the legend##
     def do_handlelength(self, line):
+        """
+        Adjust the length of the lines in the legend
+        """
+
         try:
             key = line.strip().split()[0]
             if key.upper() == "NONE":
