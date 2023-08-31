@@ -1390,8 +1390,11 @@ class Command(cmd.Cmd, object):
               "\n          The entire set of HTML-standard color names is available."
               "\n          Try 'showcolormap' to see the available named colors!")
 
-    ## show available matplotlib styles
     def do_showstyles(self, line):
+        """
+        Show available matplotlib styles
+        """
+
         try:
             if stylesLoaded:
                 ss = pydvif.get_styles()
@@ -1404,12 +1407,16 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_showstyles(self):
         print("\n   Procedure: show the available pre-defined styles provided by matplotlib."
               "\n   Usage: showstyles\n")
 
-    ## show color map
     def do_showcolormap(self, line):
+        """
+        Show the available named colors
+        """
+
         try:
             ax = plt.gca()
             plt.cla() # wipe current axes
@@ -1451,14 +1458,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: showcolormap')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_showcolormap(self):
         print('\n   Procedure: show the available named colors'
               '\n   Usage: showcolormap'
               '\n   Hit <return> after viewing to go back to regular plotting\n')
 
-
-    ##scale curve x values by given factor##
     def do_mx(self, line):
+        """
+        Scale y values of curves by a constant
+        """
+
         try:
             self.__mod_curve(line, 'mx')
             self.plotedit = True
@@ -1466,13 +1476,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: mx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_mx(self):
         print('\n   Procedure: Scale x values of curves by a constant'
               '\n   Usage: mx <curve-list> <value>\n')
 
-
-    ##scale curve x values by given factor##
     def do_divx(self, line):
+        """
+        Divide x values of curves by a constant
+        """
+
         try:
             self.__mod_curve(line, 'divx')
             self.plotedit = True
@@ -1480,12 +1493,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: divx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_divx(self):
         print('\n   Procedure: Divide x values of curves by a constant\n   Usage: divx <curve-list> <value>\n')
 
-
-    ##scale curve y values by given factor##
     def do_my(self, line):
+        """
+        Scale y values of curves by a constant
+        """
+
         try:
             self.__mod_curve(line, 'my')
             self.plotedit = True
@@ -1493,13 +1509,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: my <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_my(self):
         print('\n   Procedure: Scale y values of curves by a constant'
               '\n   Usage: my <curve-list> <value>\n')
 
-
-    ##scale curve y values by given factor##
     def do_divy(self, line):
+        """
+        Divide y values of curves by a constant
+        """
+
         try:
             self.__mod_curve(line, 'divy')
             self.plotedit = True
@@ -1507,13 +1526,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: divy <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_divy(self):
         print('\n   Procedure: Divide y values of curves by a constant'
               '\n   Usage: divy <curve-list> <value>\n')
 
-
-    ##shift curve x values by given factor##
     def do_dx(self, line):
+        """
+        Shift curve x values by given constant
+        """
+
         try:
             self.__mod_curve(line, 'dx')
             self.plotedit = True
@@ -1521,12 +1543,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: dx <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_dx(self):
         print('\n   Procedure: Shift x values of curves by a constant\n   Usage: dx <curve-list> <value>\n')
 
-
-    ##shift curve y values by given factor##
     def do_dy(self, line):
+        """
+        Shift curve y values by given constant
+        """
+
         try:
             self.__mod_curve(line, 'dy')
             self.plotedit = True
@@ -1534,11 +1559,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: dy <curve-list> <value>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_dy(self):
         print('\n   Procedure: Shift y values of curves by a constant\n   Usage: dy <curve-list> <value>\n')
 
-    ## take L2 norm of two curves
     def do_L2(self, line):
+        """
+        Take L2 norm of two curves
+        """
+
         try:
             """take L2 norm of two curves given as args"""
             args = line.strip().split()
@@ -1555,13 +1584,17 @@ class Command(cmd.Cmd, object):
             print("error - usage: L2 <curve> <curve> [<xmin> <xmax>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_L2(self):
         print('\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is '
               '\n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .'
               '\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
-    ## take L1 norm of two curves
     def do_L1(self, line):
+        """
+        Take L1 norm of two curves
+        """
+
         try:
             """take L1 norm of two curves given as args"""
             args = line.strip().split()
@@ -1578,13 +1611,17 @@ class Command(cmd.Cmd, object):
             print("error - usage: L1 <curve> <curve> [<xmin> <xmax>]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_L1(self):
         print('\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is '
               '\n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .'
               '\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
 
-    ## take arbitrary order norm of two curves
     def do_norm(self, line):
+        """
+        Take arbitrary order norm of two curves
+        """
+
         try:
             """take norm of order N of two curves given as args"""
             args = line.strip().split()
@@ -1625,6 +1662,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: norm <curve> <curve> <p> [<xmin> <xmax>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_norm(self):
         print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is '
               '\n              (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .'
@@ -1632,8 +1670,11 @@ class Command(cmd.Cmd, object):
               '\n          where p=order which can be "inf" or an integer. '
               'Also prints value of integral to command line.\n')
 
-    ## make a new curve - the max of the specified curves ##
     def do_max(self, line):
+        """
+        Make a new curve - the max of the specified curves
+        """
+
         try:
             if not line:
                 return 0
@@ -1669,8 +1710,11 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: makes new curve with max y values of curves.'
               '\n   Usage: max <curve-list>\n')
 
-    ## make a new curve - the min of the specified curves ##
     def do_min(self, line):
+        """
+        Make a new curve - the min of the specified curves
+        """
+
         if not line:
             return 0
 
@@ -1702,12 +1746,16 @@ class Command(cmd.Cmd, object):
                 self.help_min()
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
+
     def help_min(self):
         print('\n   Procedure: makes new curve with min y values of curves.'
               '\n   Usage: min <curve-list>\n')
 
-    ## make a new curve - the average of the specified curves ##
     def do_average(self, line):
+        """
+        Make a new curve - the average of the specified curves
+        """
+
         if not line:
             return 0
 
@@ -1741,12 +1789,16 @@ class Command(cmd.Cmd, object):
                 self.help_average()
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
+
     def help_average(self):
         print('\n   Procedure: Average the specified curvelist over the intersection of their domains.'
               '\n   Usage: average <curvelist>\n')
 
-    ## fit a curve with a polynomial function ##
     def do_fit(self, line):
+        """
+        Fit a curve with a polynomial function
+        """
+
         try:
             """fit curve to line: usage is 'fit curve [n] [logx] [logy]', where n=order of fit, default is linear"""
             print("fitting curve: {}".format(line))
@@ -1778,15 +1830,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: fit <curve> [n] [logx] [logy]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_fit(self):
         print('\n   Procedure: make new curve that is polynomial fit to argument.'
               '\n   Usage: fit <curve> [n] [logx] [logy]'
               '\n   n=1 by default, logy means take log(y-values) before fitting,'
               '\n   logx means take log(x-values) before fitting\n')
 
-
-    ##return x values on curves at y value##
     def do_getx(self, line):
+        """
+        Return x values for a given y
+        """
+
         try:
             self.__mod_curve(line, 'getx')
             print('')
@@ -1796,12 +1851,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getx(self):
         print('\n   Procedure: Return x values for a given y\n   Usage: getx <curve-list> <y-value>\n')
 
-
-    ##return y values on curves at x value##
     def do_gety(self, line):
+        """
+        Return y values for a given x
+        """
+
         try:
             self.__mod_curve(line, 'gety')
             print('')
@@ -1811,12 +1869,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_gety(self):
         print('\n   Procedure: Return y values for a given x\n   Usage: gety <curve-list> <x-value>\n')
 
-
-    ##get the range of the given curves##
     def do_getrange(self, line):
+        """
+        Return range of curves
+        """
+
         if not line:
             return
         try:
@@ -1842,12 +1903,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getrange(self):
         print('\n   Procedure: Return range of curves\n   Usage: getrange <curve-list>\n   Shortcuts: get-range\n')
 
-
-    ##get the domain of the given curves##
     def do_getdomain(self, line):
+        """
+        Return domain of curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_getdomain(pdvutil.getletterargs(line))
@@ -1872,12 +1936,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getdomain(self):
         print('\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n')
 
-
-    ##get the max y-value for the given curve##
     def do_getymax(self, line):
+        """
+        Return the maximum y-value for the curve within the specified domain
+        """
+
         if not line:
             return 0
         try:
@@ -1915,9 +1982,11 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Return the maximum y-value for the curve within the specified domain.'
               '\n   Usage: getymax <curve> [<xmin> <xmax>]\n')
 
-
-    ##get the min y-value for the given curve##
     def do_getymin(self, line):
+        """
+        Return the minimum y-value for the curve within the specified domain
+        """
+
         if not line:
             return 0
         try:
@@ -1950,13 +2019,16 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getymin(self):
         print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.'
               '\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
 
-
-    ##get the label of a given curve##
     def do_getlabel(self, line):
+        """
+        Return the given curve's label
+        """
+
         try:
             line = line.split()
 
@@ -1970,11 +2042,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getlabel(self):
         print("\n   Procedure: Return the given curve's label\n   Usage: getlabel <curve>\n")
 
-    ## sort curves in ascending x value ##
     def do_sort(self, line):
+        """
+        Sort the specified curves so that their points are plotted in order of ascending x values
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_sort(pdvutil.getletterargs(line))
@@ -2000,8 +2076,11 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x values.'
               '\n   Usage: sort <curve-list>\n')
 
-    ## swap x and y values for the specified curves ##
     def do_rev(self, line):
+        """
+        Swap x and y values for the specified curves.
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_rev(pdvutil.getletterargs(line))
@@ -2026,8 +2105,11 @@ class Command(cmd.Cmd, object):
         print('\n    Procedure: Swap x and y values for the specified curves. You may want to sort after this one. '
               '\n    Usage: rev <curve-list>\n')
 
-    ## generate random y values between -1 and 1 ##
     def do_random(self, line):
+        """
+        Generate random y values between -1 and 1 for the specified curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_random(pdvutil.getletterargs(line))
@@ -2052,8 +2134,11 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. '
               '\n   Usage: random <curve-list>\n')
 
-    ##Display the y-values in the specified curves##
     def do_disp(self, line):
+        """
+        Display the y-values in the specified curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_disp(pdvutil.getletterargs(line))
@@ -2075,12 +2160,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_disp(self):
         print('\n   Procedure: Display the y-values in the specified curve(s). \n   Usage: disp <curve-list>\n')
 
-
-    ##Display the x-values in the specified curves##
     def do_dispx(self, line):
+        """
+        Display the x-values in the specified curves
+        """
+
         try:
             if len(line.split(':')) > 1:
                 self.do_dispx(pdvutil.getletterargs(line))
@@ -2106,8 +2194,11 @@ class Command(cmd.Cmd, object):
     def help_dispx(self):
         print('\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n')
 
-    ## Display the number of points for the given curve ##
     def do_getnumpoints(self, line):
+        """
+        Display the number of points for the given curve
+        """
+
         if not line:
             return 0
         try:
@@ -2121,11 +2212,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getnumpoints(self):
         print ('\n   Display the given curve\'s number of points.\n   usage: getnumpoints <curve>')
 
-    ##modify curve to absolute all y values##
     def do_abs(self, line):
+        """
+        Take absolute value of y values of curves
+        """
+
         try:
             self.__func_curve(line, 'abs', do_x=0)
             self.plotedit = True
@@ -2133,11 +2228,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: abs <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_abs(self):
         print('\n   Procedure: Take absolute value of y values of curves'
               '\n   Usage: abs <curve-list>\n')
 
     def do_absx(self, line):
+        """
+        Take absolute value of x values of curves
+        """
+
         try:
             self.__func_curve(line, 'abs', do_x=1)
             self.plotedit = True
@@ -2145,12 +2245,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: absx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_absx(self):
         print('\n   Procedure: Take absolute value of x values of curves'
               '\n   Usage: absx <curve-list>\n')
 
-    ## take the natural logarithm of the curve y-values##
     def do_log(self, line):
+        """
+        Take the natural logarithm of the curve y-values
+        """
+
         try:
             self.__log(line, LogEnum.LOG)
             self.plotedit = True
@@ -2158,14 +2262,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: log <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
                 print(traceback.print_exc(file=sys.stdout))
+
     def help_log(self):
         print('\n   Procedure: take natural logarithm of y-values of curves.'
               '\n              If the optional argument keep-neg-vals is set to True, then zero and negative'
               '\n              y-values will not be discarded. keep-neg-vals is False by default.'
               '\n   Usage: log <curve-list> [keep-neg-vals: True | False]\n   Shortcut: ln\n')
 
-    ## take the natural logarithm of the curve x-values ##
     def do_logx(self, line):
+        """
+        Take the natural logarithm of the curve x-values
+        """
+
         try:
             self.__log(line, LogEnum.LOGX)
             self.plotedit = True
@@ -2173,14 +2281,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: logx <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
                 print(traceback.print_exc(file=sys.stdout))
+
     def help_logx(self):
         print('\n   Procedure: take natural logarithm of x-values of curves.'
               '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
               '\n              will not be discarded. keep-neg-vals is False by default.\n'
               '\n   Usage: logx <curve-list> [keep-neg-vals: True | False]\n   Shortcut: lnx\n')
 
-    ## take the base 10 logarithm of the curve y-values##
     def do_log10(self, line):
+        """
+        Take the base 10 logarithm of the curve y-values
+        """
+
         try:
             self.__log(line, LogEnum.LOG10)
             self.plotedit = True
@@ -2188,14 +2300,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: log10 <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
                 print(traceback.print_exc(file=sys.stdout))
+
     def help_log10(self):
         print('\n   Procedure: take base 10 logarithm of y values of curves.'
               '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
               '\n              will not be discarded. keep-neg-vals is False by default.'
               '\n   Usage: log10 <curve-list> [keep-neg-vals: True | False]')
 
-    ## take the base 10 logarithm of the curve x-values##
     def do_log10x(self, line):
+        """
+        Take the base 10 logarithm of the curve x-values
+        """
+
         try:
             self.__log(line, LogEnum.LOG10X)
             self.plotedit = True
@@ -2203,14 +2319,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: log10x <curve-list> [keep-neg-vals: True | False]')
             if self.debug:
                 print(traceback.print_exc(file=sys.stdout))
+
     def help_log10x(self):
         print('\n   Procedure: take base 10 logarithm of x values of curves.\n'
               '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
               '\n              will not be discarded. keep-neg-vals is False by default.'
               '\n   Usage: log10x <curve-list> [keep-neg-vals: True | False]')
 
-    ## exponentiate the curve##
     def do_exp(self, line):
+        """
+        Exponentiate y values of curves, e**y
+        """
+
         try:
             self.__func_curve(line, 'exp', do_x=0)
             self.plotedit = True
@@ -2218,11 +2338,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: exp <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_exp(self):
         print('\n   Procedure: e**y, exponentiate y values of curves'
               '\n   Usage: exp <curve-list>\n')
 
     def do_expx(self, line):
+        """
+        Exponentiate x values of curves, e**x
+        """
+
         try:
             self.__func_curve(line, 'exp', do_x=1)
             self.plotedit = True
@@ -2230,6 +2355,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: expx <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_expx(self):
         print('\n   Procedure: e**y, exponentiate x values of curves'
               '\n   Usage: expx <curve-list>\n')
