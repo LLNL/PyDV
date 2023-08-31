@@ -283,8 +283,11 @@ class Command(cmd.Cmd, object):
                     self.record_id = record_id
                     self.record_id_set_from_curve = from_curve
 
-    ##check for special character/operator commands##
     def precmd(self, line):
+        """
+        Check for special character/operator commands
+        """
+
         pl = []
         for i in range(len(self.plotlist)):
             pl.append(self.plotlist[i].copy())
@@ -355,8 +358,11 @@ class Command(cmd.Cmd, object):
 
         return line
 
-    ##check for arithmetic calculation##
     def default(self, line):
+        """
+        Check for arithmetic calculation
+        """
+
         try:
             pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
             self.plotedit = True
@@ -366,8 +372,11 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
-    ## save current state for undo/redo##
     def postcmd(self, stop, line):
+        """
+        Save current state for undo/redo
+        """
+
         if self.plotedit:
             #self.history.pop(-1)
             #pl = []
@@ -397,8 +406,10 @@ class Command(cmd.Cmd, object):
         self.redraw = True
         return stop
 
-    ##override cmd empty line function to not repeat last command##
     def emptyline(self):
+        """
+        Override cmd empty line function to not repeat last command
+        """
         self.redraw = False
 
     ##normal shortcut commands##
@@ -481,8 +492,11 @@ class Command(cmd.Cmd, object):
     def do_pl(self, line):
         self.do_plotlayout(line)
 
-    ##override help function to check for shortcuts##
     def do_help(self, arg):
+        """
+        Override help function to check for shortcuts
+        """
+
         if(arg == '+'):
             arg = 'add'
         elif(arg == '-' or arg == 'sub'):
@@ -573,9 +587,13 @@ class Command(cmd.Cmd, object):
         self.redraw = False  # never need to redraw after a 'help'
         return super(Command, self).do_help(arg)
 
-    ##execute shell commands##
     def do_shell(self, line):
+        """
+        Execute shell commands
+        """
+
         os.system(line)
+
     def help_shell(self):
         print("\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'."
               "\n   Usage: <shell | system> <command>\n")
@@ -584,9 +602,11 @@ class Command(cmd.Cmd, object):
     #command functions#
     ########################################################################################################
 
-
-    ##evaluate a line of mathematical operations##
     def do_newcurve (self, line):
+        """
+        Evaluate a line of mathematical operations
+        """
+
         try:
             # check for obvious input errors
             if not line:
@@ -626,6 +646,7 @@ class Command(cmd.Cmd, object):
             print('try "help newcurve" for much more info')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_newcurve(self):
         print('\n   newcurve creats a new curve from an expression\n   Usage: newcurve <numpy expression>\n')
         print('For convenience, both math and numpy modules have been imported into the namespace.')
@@ -647,9 +668,11 @@ class Command(cmd.Cmd, object):
         print('  will almost certainly not be what you intended.')
         print()
 
-
-    ##evaluate a line of mathematical operations##
     def do_eval(self, line):
+        """
+        Evaluate a line of mathematical operations
+        """
+
         try:
             line = line.replace('integrate', 'commander.integrate').replace('int', 'commander.integrate')
             line = line.replace('derivative', 'commander.derivative').replace('der', 'commander.derivative')
@@ -660,12 +683,15 @@ class Command(cmd.Cmd, object):
             print('error - usage: eval <curve-operations>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_eval(self):
         print('\n   Procedure: Evaluate mathematical operations on curves\n   Usage: eval <curve-operations>\n')
 
-
-    ##turn on debug tracebacks for commands##
     def do_debug(self, line):
+        """
+        Turn on debug tracebacks for commands
+        """
+
         try:
             line = line.strip()
             if line == '0' or line.upper() == 'OFF':
@@ -679,12 +705,15 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_debug(self):
         print('\n   Variable: Show debug tracebacks if True\n   Usage: debug on | off\n')
 
-
-    ##undo last operation on a curve##
     def do_undo(self, line):
+        """
+        Undo last operation on a curve
+        """
+
         try:
             if self.histptr > 0:
                 if self.histptr == len(self.history)-1:
@@ -704,13 +733,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: undo')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_undo(self):
         print('\n   Procedure: Undo the last operation on plotted curves'
               '\n   Usage: undo\n')
 
-
-    ##redo last curve operation undo##
     def do_redo(self, line):
+        """
+        Redo last curve operation undo
+        """
+
         try:
             if self.histptr < len(self.history)-2:
                 self.histptr += 1
@@ -724,13 +756,16 @@ class Command(cmd.Cmd, object):
             print('error - usage: redo')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_redo(self):
         print('\n   Procedure: Redo the last undone curve operation'
               '\n   Usage: redo\n')
 
-
-    ##add one or more curves and plot resulting curve##
     def do_add(self, line):
+        """
+        Add one or more curves and plot resulting curve
+        """
+
         try:
             try:
                 value = float(line.split().pop(-1))
@@ -758,9 +793,11 @@ class Command(cmd.Cmd, object):
               '\n   Usage: add <curve-list> [value]'
               '\n   Shortcuts: +\n')
 
-
-    ##subtract one or more curves##
     def do_subtract(self, line):
+        """
+        Subtract one or more curves
+        """
+
         try:
             try:
                 nline = line.split()
@@ -784,6 +821,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: subtract <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_subtract(self):
         print('\n   Procedure: Take difference of curves. A single curve can be specified, resulting in '
               '\n              the negating of its y-values. If the optional value is specified it will subtract'
@@ -793,9 +831,11 @@ class Command(cmd.Cmd, object):
               '\n   Usage: subtract <curve-list> [value]'
               '\n   Shortcuts: - , sub\n')
 
-
-    ##multiply one or more curves##
     def do_multiply(self, line):
+        """
+        Multiply one or more curves
+        """
+
         try:
             try:
                 value = float(line.split().pop(-1))
@@ -813,6 +853,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: mult <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_multiply(self):
         print('\n   Procedure: Take product of curves. If the optional value is specified it will multiply'
               '\n              the y-values of the curves by value (equivalent to using the my command).'
@@ -821,9 +862,11 @@ class Command(cmd.Cmd, object):
               '\n   Usage: multiply <curve-list> [value]'
               '\n   Shortcuts: * , mult\n')
 
-
-    ##divide one or more curves##
     def do_divide(self, line):
+        """
+        Divide one or more curves
+        """
+
         try:
             # If dividing by a number then send to divy
             try:
@@ -842,6 +885,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: divide <curve-list> [value]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_divide(self):
         print('\n   Procedure: Take quotient of curves. If the optional value is specified it will divide'
               '\n              the y-values of the curves by value (equivalent to using the divy command).'
@@ -850,9 +894,11 @@ class Command(cmd.Cmd, object):
               '\n   Usage: divide <curve-list> [value]'
               '\n   Shortcuts: / , div\n')
 
-
-    ##read in an ultra file##
     def do_read(self, line):
+        """
+        Read in an ultra file
+        """
+
         try:
             line = line.split()
             n = len(line)
@@ -886,6 +932,7 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
+
     def help_read(self):
         print ('\n    Macro: Read curve data file'
                '\n    Usage: read [(regex) matches] [x-col] <file-name>'
@@ -893,8 +940,11 @@ class Command(cmd.Cmd, object):
                '\n    If using regex, set matches equal to a negative number for unlimited matches.'
                '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n')
 
-    ##read in a csv file##
     def do_readcsv(self, line):
+        """
+        Read in a csv file
+        """
+
         try:
             line = line.split()
 
@@ -908,14 +958,18 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
+
     def help_readcsv(self):
         print('\n   Macro: Read csv data file. For column oriented (.gnu) files optionally specify the x-column'
               '\n          number (e.g., readcsv file.csv 1).'
               '\n   Usage: readcsv <file-name> [xcol]'
               '\n   Shortcuts: rdcsv\n')
 
-    ##read in a sina file##
     def do_readsina(self, line):
+        """
+        Read in a Sina file
+        """
+
         try:
             line = line.split()
             self.load_sina(line[0])
@@ -925,13 +979,17 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
+
     def help_readsina(self):
         print('\n   Macro: Read all curves from sina data file.'
               '\n   Usage: readsina <file-name>'
               '\n   Shortcuts: rdsina\n')
 
-    ## set x-column for cxv or gnu files explicitly
     def do_setxcolumn(self, line):
+        """
+        Set x-column for cxv or gnu files explicitly
+        """
+
         try:
             line = line.split()
 
@@ -945,6 +1003,7 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_setxcolumn(self):
         print("\n    Variable: set x column for reading column formatted data files (.gnu or .csv)."
               "\n    Usage: setxcolumn <n>, where n is an integer.")
@@ -991,8 +1050,11 @@ class Command(cmd.Cmd, object):
         else:
             raise RuntimeError("error: Expecting more than 1 curve")
 
-    ##add menu curves##
     def do_add_h(self, line):
+        """
+        Add menu curves
+        """
+
         if not line:
             return 0
 
@@ -1008,13 +1070,17 @@ class Command(cmd.Cmd, object):
             print('error - usage: add_h <list-of-menu-numbers>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_add_h(self):
         print('\n   Procedure: Adds curves that have been read from a file but not yet plotted. list-of-menu-numbers '
               '\n              are the index values displayed in the first column of the menu command.'
               '\n   Usage: add_h <list-of-menu-numbers>')
 
-    ##subtract menu curves##
     def do_subtract_h(self, line):
+        """
+        Subtract menu curves
+        """
+
         if not line:
             return 0
 
@@ -1030,14 +1096,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: subtract_h <list-of-menu-numbers>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_subtract_h(self):
         print('\n   Procedure: Subtracts curves that have been read from a file but not yet plotted.  '
               '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
               '\n              command.'
               '\n   Usage: subtract_h <list-of-menu-numbers>')
 
-    ##multiply menu curves##
     def do_multiply_h(self, line):
+        """
+        Multiply menu curves
+        """
+
         if not line:
             return 0
 
@@ -1060,8 +1130,11 @@ class Command(cmd.Cmd, object):
               '\n              command.'
               '\n   Usage: multiply_h <list-of-menu-numbers>')
 
-    ##divide menu curves##
     def do_divide_h(self, line):
+        """
+        Divide menu curves
+        """
+
         if not line:
             return 0
 
@@ -1084,8 +1157,11 @@ class Command(cmd.Cmd, object):
               '\n              command.'
               '\n   Usage: divide_h <list-of-menu-numbers>')
 
-    #graph the given curves##
     def do_curve(self, line):
+        """
+        Graph the given curves
+        """
+
         if not line:
             return 0
         try:
@@ -1151,24 +1227,30 @@ class Command(cmd.Cmd, object):
             print('error - usage: curve <(<regex>) | list-of-menu-numbers>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_curve(self):
         print('\n   Procedure: Select curves from the menu for plotting'
               '\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
 
-
-    ##remove all curves from the graph##
     def do_erase(self, line):
+        """
+        Remove all curves from the graph
+        """
+
         self.plotlist = []
         self.usertexts = []
 
         self.plotedit = True
+
     def help_erase(self):
         print('\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase'
               '\n   Shortcuts: era\n')
 
-
-    ##remove a curve from the graph##
     def do_delete(self, line):
+        """
+        Remove a curve from the graph
+        """
+
         try:
             if not line:
                 return 0
@@ -1193,9 +1275,11 @@ class Command(cmd.Cmd, object):
     def help_delete(self):
         print('\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n')
 
-
-    ##set a specific color for a list of curves##
     def do_color(self, line):
+        """
+        Set a specific color for a list of curves
+        """
+
         if not line:
             return 0
         try:
@@ -1222,14 +1306,18 @@ class Command(cmd.Cmd, object):
             print('error - usage: color <curve-list> <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_color(self):
         print('\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   '
               'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue '
               'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" '
               'to see the available named colors!')
 
-    ##return a curves mean and standard deviation##
     def do_stats(self,line):
+        """
+        Return a curves mean and standard deviation
+        """
+
         if not line:
             return 0
 
@@ -1257,12 +1345,16 @@ class Command(cmd.Cmd, object):
                     traceback.print_exc(file=sys.stdout)
             finally:
                 self.redraw = False
+
     def help_stats(self):
         print ('\n   Display the mean and standard deviation for the given curves.'
                '\n   usage: stats <curve-list>\n')
 
-    ##return a curve's attributes##
     def do_getattributes(self, line):
+        """
+        Return a curve's attributes
+        """
+
         if not line:
             return 0
         try:
@@ -1305,13 +1397,16 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
+
     def help_getattributes(self):
         print('\n   Display the given curve\'s attributes, such as: color, style, and width.'
               '\n   usage: getattributes <curve>')
 
-
-    ##set the markerface color for a list of curves##
     def do_markerfacecolor(self, line):
+        """
+        Set the markerface color for a list of curves
+        """
+
         try:
             if not line:
                 return 0
@@ -1350,8 +1445,11 @@ class Command(cmd.Cmd, object):
               '\n          The entire set of HTML-standard color names is available.'
               '\n          Try "showcolormap" to see the available named colors!')
 
-    ##set the markeredge color for a list of curves##
     def do_markeredgecolor(self, line):
+        """
+        Set the markeredge color for a list of curves
+        """
+
         try:
             if not line:
                 return 0
@@ -5614,7 +5712,8 @@ class Command(cmd.Cmd, object):
 
             if len(line) > 1:
                 com = line[0]
-                if com != 'xlabel' and com != 'ylabel' and com != 'xaxis' and com != 'yaxis' and com != 'title' and com != 'legend':
+                if (com != 'xlabel' and com != 'ylabel' and com != 'xaxis' and com != 'yaxis'
+                        and com != 'title' and com != 'legend'):  # noqaw503
                     raise ValueError('\'%s\' is an invalid component name' % com)
             else:
                 com = 'all'
@@ -5640,16 +5739,19 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
         except ValueError as ve:
             print('\nerror - %s' % ve.message)
-            print('usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>')
+            print('usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis '
+                  '| legend | title>] <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         except:
-            print('error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>')
+            print('error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis '
+                  '| legend | title>] <color-name>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_fontcolor(self):
-        print('\n   Procedure: Change the font color of given component. If no component is given the font color is changed for all components.'
+        print('\n   Procedure: Change the font color of given component. '
+              'If no component is given the font color is changed for all components.'
               '\n   Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
 
     def do_fontsize(self, line):
@@ -5660,7 +5762,8 @@ class Command(cmd.Cmd, object):
         try:
             line = line.split()
             size = line[-1]
-            if size != 'default' and size != 'de' and size != 'x-small' and size != 'small' and size != 'medium' and size != 'large' and size != 'x-large':
+            if (size != 'default' and size != 'de' and size != 'x-small' and size != 'small'
+                    and size != 'medium' and size != 'large' and size != 'x-large'):  # noqaw503
                 size = float(size)
                 if (size > 40):
                     size = 40
@@ -5711,7 +5814,8 @@ class Command(cmd.Cmd, object):
 
     def help_fontsize(self):
         print('\n   Procedure: Change the font size of given component, or overall scaling factor'
-              '\n   Usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
+              '\n   Usage: fontsize [<component: title | xlabel | ylabel | legend '
+              '| tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
 
     def do_gaussian(self, line):
         """
@@ -5748,7 +5852,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_gaussian(self):
-        print('\n   Procedure: Generate a gaussian function.\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n')
+        print('\n   Procedure: Generate a gaussian function.'
+              '\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n')
 
     def do_geometry(self, line):
         """
@@ -5833,9 +5938,9 @@ class Command(cmd.Cmd, object):
             for i in range(len(self.plotlist)):
                 c = self.plotlist[i]  # get i'th curve object
                 if (i < 26):
-                    c.plotname = chr(ord('A')+i)  # label by alphabet
+                    c.plotname = chr(ord('A') + i)  # label by alphabet
                 else:
-                    c.plotname = '@'+str(i+1)  # after first 26 curves, go to @N labels
+                    c.plotname = '@' + str(i + 1)  # after first 26 curves, go to @N labels
         except:
             print('error - usage: re-id or reid')
             if self.debug:
@@ -5956,7 +6061,7 @@ class Command(cmd.Cmd, object):
                         self.updateplot
                     args = ' '.join(args)
                     send = 'self.do_' + cmd + '(\'' + args + '\')'
-                    result = eval(send)
+                    result = eval(send)  # noqa f841
                 except SystemExit:
                     self.do_quit(line)
                 except:
@@ -6442,7 +6547,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_xticklength(self):
-        print('\n   Variable: Set the length (in points) of x ticks on the x axis. Default is apply to major ticks only.'
+        print('\n   Variable: Set the length (in points) of x ticks on the x axis. '
+              'Default is apply to major ticks only.'
               '\n   Usage: xticklength number [which: major | minor | both]')
 
     def do_yticklength(self, line):
@@ -6486,7 +6592,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_yticklength(self):
-        print('\n   Variable: Set the length (in points) of y ticks on the y axis. Default is apply to major ticks only.'
+        print('\n   Variable: Set the length (in points) of y ticks on the y axis. '
+              'Default is apply to major ticks only.'
               '\n   Usage: yticklength number [which: major | minor | both]')
 
     def do_xtickwidth(self, line):
@@ -6595,8 +6702,10 @@ class Command(cmd.Cmd, object):
     def help_ytickformat(self):
         print('\n   Variable: Set the format of major ticks on the y axis'
               '\n   Usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
-              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).'
-              '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style formating only applies when ylogscale is set to off.')
+              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) '
+              'format string (e.g., %5.1e).'
+              '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style '
+              'formating only applies when ylogscale is set to off.')
 
     def do_xtickformat(self, line):
         """
@@ -6616,8 +6725,10 @@ class Command(cmd.Cmd, object):
     def help_xtickformat(self):
         print('\n   Variable: Set the format of major ticks on the x axis'
               '\n   Usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
-              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) format string (e.g., %5.1e).'
-              '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style formating only applies when xlogscale is set to off.')
+              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) '
+              'format string (e.g., %5.1e).'
+              '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style '
+              'formating only applies when xlogscale is set to off.')
 
     def do_fontstyle(self, line):
         """
@@ -6704,7 +6815,7 @@ class Command(cmd.Cmd, object):
                     if localmin and localmin < xmin:
                         xmin = localmin
             if xmax < xmin:
-                xmax = xmin*10000
+                xmax = xmin * 10000
         return xmin, xmax
 
     def find_yrange(self):
@@ -6726,11 +6837,11 @@ class Command(cmd.Cmd, object):
                     if localmin and localmin < ymin:
                         ymin = localmin
             if ymax < ymin:
-                ymax = ymin*10000
+                ymax = ymin * 10000
             ymin *= 0.95
             ymax *= 1.05
         else:
-            bump = 0.05*(ymax - ymin)
+            bump = 0.05 * (ymax - ymin)
             ymin -= bump
             ymax += bump
         return ymin, ymax
@@ -6766,7 +6877,7 @@ class Command(cmd.Cmd, object):
         if (cur.plotname[:1] != '@' and ord(cur.plotname) >= ord('A') and ord(cur.plotname) <= ord('Z')):
             self.plotlist.insert((ord(cur.plotname) - ord('A')), cur)
         else:
-            self.plotlist.insert(int(cur.plotname[1:])-1, cur)
+            self.plotlist.insert(int(cur.plotname[1:]) - 1, cur)
 
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
@@ -6791,16 +6902,16 @@ class Command(cmd.Cmd, object):
         name = ''
         for i in range(len(self.plotlist)):
             if (i < 26):
-                if (self.plotlist[i].plotname != chr(ord('A')+i)):
-                    return '' + chr(ord('A')+i)
+                if (self.plotlist[i].plotname != chr(ord('A') + i)):
+                    return '' + chr(ord('A') + i)
             else:
-                if (self.plotlist[i].plotname != ('@'+str(i+1))):
-                    name = '@' + str(i+1)
+                if (self.plotlist[i].plotname != ('@' + str(i + 1))):
+                    name = '@' + str(i + 1)
                     return name
         if (len(self.plotlist) < 26):
-            return '' + chr(ord('A')+len(self.plotlist))
+            return '' + chr(ord('A') + len(self.plotlist))
         else:
-            name = '@' + str(len(self.plotlist)+1)
+            name = '@' + str(len(self.plotlist) + 1)
             return name
 
     def getclosest(self, array, value):
@@ -6808,7 +6919,7 @@ class Command(cmd.Cmd, object):
         Find closest value in numpy array
         """
 
-        i = (numpy.abs(array-value)).argmin()
+        i = (numpy.abs(array - value)).argmin()
         return i
 
     def modcurve(self, line, flag, arg):
@@ -7453,7 +7564,7 @@ class Command(cmd.Cmd, object):
             # plot the grid, if grid turned on
             if self.showgrid:
                 if plt.xlim is not None and plt.ylim is not None:
-                    if ((plt.xlim()[0]*100 > plt.xlim()[1] and xls) or (plt.ylim()[0]*100 > plt.ylim()[1] and yls)):
+                    if ((plt.xlim()[0] * 100 > plt.xlim()[1] and xls) or (plt.ylim()[0] * 100 > plt.ylim()[1] and yls)):
                         plt.grid(True, which='both', color=self.gridcolor,
                                  linestyle=self.gridstyle, linewidth=self.gridwidth)
                     else:
@@ -7552,7 +7663,7 @@ class Command(cmd.Cmd, object):
                 xmax = plt.axis()[1]
                 ymin = plt.axis()[2]
                 ymax = plt.axis()[3]
-                spacing = (xmax-xmin)/6
+                spacing = (xmax - xmin) / 6
                 offset = 0
                 for cur in orderlist:
                     if not cur.hidden:
@@ -7564,8 +7675,8 @@ class Command(cmd.Cmd, object):
                                 curxmax = self.xlim[1]
                             if self.xlim[0] > curxmin:
                                 curxmin = self.xlim[0]
-                        spacing = (curxmax-curxmin)/6
-                        labelx = curxmin + offset*spacing/len(self.plotlist)
+                        spacing = (curxmax - curxmin) / 6
+                        labelx = curxmin + offset * spacing / len(self.plotlist)
                         while labelx < curxmax:  # print letter labels along curves
                             close = self.getclosest(cur.x, labelx)
                             if (cur.y[close] <= ymax and cur.y[close] >= ymin):
@@ -7759,7 +7870,7 @@ class Command(cmd.Cmd, object):
 
     def console_run(self):
         while True:
-            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  ' +
+            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  '
                          '06.06.2023\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
@@ -7888,8 +7999,8 @@ class Command(cmd.Cmd, object):
             if sys.argv[i] == '-gnu':
                 gnu = True
                 try:
-                    self.xCol = int(sys.argv[i+1])
-                    sys.argv.pop(i+1)
+                    self.xCol = int(sys.argv[i + 1])
+                    sys.argv.pop(i + 1)
                 except ValueError:
                     self.xCol = 0
                 sys.argv.remove('-gnu')
@@ -7897,8 +8008,8 @@ class Command(cmd.Cmd, object):
             if sys.argv[i] == '-csv':
                 csv = True
                 try:
-                    self.xCol = int(sys.argv[i+1])
-                    sys.argv.pop(i+1)
+                    self.xCol = int(sys.argv[i + 1])
+                    sys.argv.pop(i + 1)
                 except ValueError:
                     self.xCol = 0
                 sys.argv.remove('-csv')

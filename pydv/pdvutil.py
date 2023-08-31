@@ -138,8 +138,8 @@ def parsemath(line, plotlist, commander, xdomain):
             dex = None
             if (val[0] == '@'):  # are we a curve labeled @N, i.e., beyond a-z?
                 dex = int(val[1:]) - 1
-                x = list(eval('plotlist['+str(dex)+'].x'))
-                y = list(eval('plotlist['+str(dex)+'].y'))
+                x = list(eval('plotlist[' + str(dex) + '].x'))
+                y = list(eval('plotlist[' + str(dex) + '].y'))
 
                 for xs in shared_x:
                     if xs not in x:
@@ -151,25 +151,25 @@ def parsemath(line, plotlist, commander, xdomain):
                             y.insert(1, 0.0)
                             x.insert(0, xs)
                             x.insert(1, x[1])
-                        elif idxs[-1]+2 > len(x):  # missing data at the end of the list
+                        elif idxs[-1] + 2 > len(x):  # missing data at the end of the list
                             y[-1] = 0.0
-                            y.insert(idxs[-1]+1, 0.0)
-                            y.insert(idxs[-1]+2, 0.0)
-                            x.insert(idxs[-1]+1, xs)
-                            x.insert(idxs[-1]+2, xs)
+                            y.insert(idxs[-1] + 1, 0.0)
+                            y.insert(idxs[-1] + 2, 0.0)
+                            x.insert(idxs[-1] + 1, xs)
+                            x.insert(idxs[-1] + 2, xs)
                         else:  # missing data in between
-                            y.insert(idxs[-1]+1, y[idxs[-1]])
-                            y.insert(idxs[-1]+2, y[idxs[-1]])
-                            x.insert(idxs[-1]+1, xs)
-                            x.insert(idxs[-1]+2, xs)
+                            y.insert(idxs[-1] + 1, y[idxs[-1]])
+                            y.insert(idxs[-1] + 2, y[idxs[-1]])
+                            x.insert(idxs[-1] + 1, xs)
+                            x.insert(idxs[-1] + 2, xs)
 
                 maths[i] = np.array(y)
-                sendliney += ' maths['+str(i)+'] '
+                sendliney += ' maths[' + str(i) + '] '
 
             elif (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')):  # or a curve a-z?
                 dex = ord(val.upper()) - ord('A')
-                x = list(eval('plotlist['+str(dex)+'].x'))
-                y = list(eval('plotlist['+str(dex)+'].y'))
+                x = list(eval('plotlist[' + str(dex) + '].x'))
+                y = list(eval('plotlist[' + str(dex) + '].y'))
 
                 for xs in shared_x:
                     if xs not in x:
@@ -181,20 +181,20 @@ def parsemath(line, plotlist, commander, xdomain):
                             y.insert(1, 0.0)
                             x.insert(0, xs)
                             x.insert(1, x[1])
-                        elif idxs[-1]+2 > len(x):  # missing data at the end of the list
+                        elif idxs[-1] + 2 > len(x):  # missing data at the end of the list
                             y[-1] = 0.0
-                            y.insert(idxs[-1]+1, 0.0)
-                            y.insert(idxs[-1]+2, 0.0)
-                            x.insert(idxs[-1]+1, xs)
-                            x.insert(idxs[-1]+2, xs)
+                            y.insert(idxs[-1] + 1, 0.0)
+                            y.insert(idxs[-1] + 2, 0.0)
+                            x.insert(idxs[-1] + 1, xs)
+                            x.insert(idxs[-1] + 2, xs)
                         else:  # missing data in between
-                            y.insert(idxs[-1]+1, y[idxs[-1]])
-                            y.insert(idxs[-1]+2, y[idxs[-1]])
-                            x.insert(idxs[-1]+1, xs)
-                            x.insert(idxs[-1]+2, xs)
+                            y.insert(idxs[-1] + 1, y[idxs[-1]])
+                            y.insert(idxs[-1] + 2, y[idxs[-1]])
+                            x.insert(idxs[-1] + 1, xs)
+                            x.insert(idxs[-1] + 2, xs)
 
                 maths[i] = np.array(y)
-                sendliney += ' maths['+str(i)+'] '
+                sendliney += ' maths[' + str(i) + '] '
 
             else:
                 sendliney += val
@@ -212,7 +212,7 @@ def parsemath(line, plotlist, commander, xdomain):
     if (c.plotname[:1] != '@' and ord(c.plotname) >= ord('A') and ord(c.plotname) <= ord('Z')):
         plotlist.insert((ord(c.plotname) - ord('A')), c)
     else:
-        plotlist.insert((int(c.plotname[1:])-1), c)
+        plotlist.insert((int(c.plotname[1:]) - 1), c)
     return c
     # pultry.updateplot()
 
@@ -232,7 +232,7 @@ def getnumberargs(line, filelist):
             nolist.pop(-1)
             nolist = ' '.join(nolist)
             arglist += nolist + ' '
-        for i in range(len(line)-1):
+        for i in range(len(line) - 1):
             if (i > 0):
                 if (len(line[i].split()) > 2):  # check for non list args
                     nolist = line[i].split()
@@ -241,7 +241,7 @@ def getnumberargs(line, filelist):
                     nolist = ' '.join(nolist)
                     arglist += nolist + ' '
             start = line[i].split()[-1]
-            end = line[i+1].split()[0]
+            end = line[i + 1].split()[0]
             if (len(start.split('.')) > 1):
                 filedex = ord(start[0].upper()) - ord('A')
                 start = start.split('.')[-1]
@@ -289,7 +289,7 @@ def getletterargs(line):
             nolist = ' '.join(nolist)
             arglist += nolist + ' '
 
-        for i in range(len(line)-1):
+        for i in range(len(line) - 1):
             if i > 0:
                 # check for non list args
                 if len(line[i].split()) > 2:
@@ -306,7 +306,7 @@ def getletterargs(line):
             else:
                 start = ord(start[0]) - ord('A')
 
-            end = line[i+1].split()[0].upper()
+            end = line[i + 1].split()[0].upper()
 
             if end[0] == '@':
                 end = int(end[1:]) - 1
@@ -314,11 +314,11 @@ def getletterargs(line):
                 end = ord(end[0]) - ord('A')
 
             args = ''
-            for j in range((int(end)-int(start))+1):
-                if j+int(start) > 25:
-                    args += '@' + str(j+int(start)+1) + ' '
+            for j in range((int(end) - int(start)) + 1):
+                if j + int(start) > 25:
+                    args += '@' + str(j + int(start) + 1) + ' '
                 else:
-                    args += chr(j+int(start) + ord('A')) + ' '
+                    args += chr(j + int(start) + ord('A')) + ' '
             arglist += args + ''
 
         # check for non list args
@@ -341,7 +341,7 @@ def truncate(string, size, justify='left'):
             string = string[:size]
         elif justify == 'right':
             extra = len(string) - size + 3
-            string = '...'+string[extra:]
+            string = '...' + string[extra:]
 
     return string
 

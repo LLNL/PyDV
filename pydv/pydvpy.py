@@ -626,7 +626,7 @@ def readcsv(fname, xcol=0, verbose=False):
         # First, get data into lists of numbers
         numDataLines = len(lines) - iLine
         localCurves = []
-        for i in range(numcurves+1):
+        for i in range(numcurves + 1):
             localCurves.append([])  # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
         # turn the strings into numbers
         for l in lines[iLine:]:
@@ -634,7 +634,7 @@ def readcsv(fname, xcol=0, verbose=False):
             # print 'nums = ', nums, 'numcurves = ', numcurves
             assert len(nums) == numcurves + 1
             if xcol >= numcurves:
-                print('xcolumn is %d, larger than the number of curves ' % xcol +
+                print('xcolumn is %d, larger than the number of curves' % xcol,
                       'in the file, use "setxcolumn" to fix that')
             for colID in range(numcurves + 1):
                 localCurves[colID].append(nums[colID])
@@ -740,7 +740,7 @@ def readsina(fname, verbose=False):
     try:
         curves_lst = [curves[name] for name in order_options]
     except KeyError:
-        print('readsina: mismatch between dependent variable names in the curve_sets and the ' +
+        print('readsina: mismatch between dependent variable names in the curve_sets and the '
               'ordering specified in SINA_timeplot_order. Using default ordering instead.')
         if verbose:
             traceback.print_exc(File=sys.stdout)
@@ -1692,7 +1692,7 @@ def norm(c1, c2, p, xmin=None, xmax=None):
         return d
     else:
         d = integrate(c, xmin, xmax)
-        d[0] = d[0]**(1.0/N)
+        d[0] = d[0]**(1.0 / N)
         d[0].name = "L%d of " % N + __toCurveString(c1) + " and " + __toCurveString(c2)
 
         return d[0]
@@ -2615,8 +2615,8 @@ def integrate(curvelist, low=None, high=None):
             high = max(nc.x)
 
         r = __get_sub_range(nc.x, low, high)
-        nc.x = nc.x[r[0]:r[1]+1]
-        nc.y = nc.y[r[0]:r[1]+1]
+        nc.x = nc.x[r[0]:r[1] + 1]
+        nc.y = nc.y[r[0]:r[1] + 1]
         nc.y = np.array(scipy.integrate.cumtrapz(nc.y, nc.x, initial=0.0))
 
         ncurves.append(nc)
@@ -2687,7 +2687,7 @@ def getymax(c, xmin=None, xmax=None):
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
-        ymax = max(c.y[r[0]:r[1]+1])
+        ymax = max(c.y[r[0]:r[1] + 1])
     else:
         ymax = max(c.y)
     xy_pairs_at_max = getx(c, ymax, xmin, xmax)
@@ -2711,7 +2711,7 @@ def getymin(c, xmin=None, xmax=None):
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
-        ymin = min(c.y[r[0]:r[1]+1])
+        ymin = min(c.y[r[0]:r[1] + 1])
     else:
         ymin = min(c.y)
     xy_pairs_at_min = getx(c, ymin, xmin, xmax)
@@ -2996,21 +2996,21 @@ def diffMeasure(c1, c2, tol=1e-8):
     :type tol: float
     :return: tuple -- Two curves representing the fractional difference measure and its average
     """
-    cdiff = curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(c2) +
+    cdiff = curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(c2) +  # noqaw504
                         '$|$/($|$' + __toCurveString(c1) + '$|$ + $|$' + __toCurveString(c2) + '$|$)')
     ic1, ic2 = curve.getinterp(c1, c2)
     f1 = tol * (np.max(ic1.y) - np.min(ic1.y))
     f2 = tol * (np.max(ic2.y) - np.min(ic2.y))
     ydiff = np.abs(ic1.y - ic2.y)
-    yden = (np.abs(ic1.y)+f1) + (np.abs(ic2.y)+f2)
+    yden = (np.abs(ic1.y) + f1) + (np.abs(ic2.y) + f2)
     dx = np.max(ic1.x) - np.min(ic1.x)
     cdiff.x = np.array(ic1.x)
-    cdiff.y = np.array(ydiff/yden)
+    cdiff.y = np.array(ydiff / yden)
 
     cint = curve.Curve('', 'Integral(FD)/dX')
     yint = scipy.integrate.cumtrapz(cdiff.y, cdiff.x, initial=0.0)
     cint.x = np.array(ic1.x)
-    cint.y = np.array(yint/dx)
+    cint.y = np.array(yint / dx)
 
     return cdiff, cint
 
@@ -3119,26 +3119,26 @@ def smooth(curvelist, factor=1):
         for i in range(len(c.x)):
             tfactor = factor
 
-            if i-factor < 0 and i < (len(c.x)-1)/2:
+            if i - factor < 0 and i < (len(c.x) - 1) / 2:
                 tfactor = i
-            elif i+factor >= len(c.x):
+            elif i + factor >= len(c.x):
                 tfactor = len(c.x) - 1 - i
 
             xsum = 0
             ysum = 0
 
-            for j in range(-tfactor, tfactor+1):
-                xsum += c.x[i+j]
-            for j in range(-factor, factor+1):
-                if 0 <= i+j < len(c.x):
-                    ysum += c.y[i+j]
-                elif i+j < 0:
+            for j in range(-tfactor, tfactor + 1):
+                xsum += c.x[i + j]
+            for j in range(-factor, factor + 1):
+                if 0 <= i + j < len(c.x):
+                    ysum += c.y[i + j]
+                elif i + j < 0:
                     ysum += c.y[0]
                 else:
                     ysum += c.y[-1]
 
-            x.append(xsum/(2*tfactor+1))
-            y.append(ysum/(2*factor+1))
+            x.append(xsum / (2 * tfactor + 1))
+            y.append(ysum / (2 * factor + 1))
 
         c.x = np.array(x)
         c.y = np.array(y)
@@ -3416,15 +3416,15 @@ def getx(c, value, xmin=None, xmax=None):
             xypairs.append((c.x[i], float(value)))
         else:
             ymax = c.y[i]
-            if i+1 < len(c.y):
-                ymax = c.y[i+1]
+            if i + 1 < len(c.y):
+                ymax = c.y[i + 1]
 
             if c.y[i] < float(value) < ymax:
-                x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i+1]])
+                x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i + 1]])
                 if x <= r[1]:
                     xypairs.append((x, float(value)))
             elif ymax < float(value) < c.y[i]:
-                x = np.interp(float(value), [ymax, c.y[i]], [c.x[i+1], c.x[i]])
+                x = np.interp(float(value), [ymax, c.y[i]], [c.x[i + 1], c.x[i]])
                 if x <= r[1]:
                     xypairs.append((x, float(value)))
 
@@ -3461,14 +3461,14 @@ def gety(c, value):
             xypairs.append((float(value), c.y[i]))
         else:
             xmax = c.x[i]
-            if i+1 < len(c.x):
-                xmax = c.x[i+1]
+            if i + 1 < len(c.x):
+                xmax = c.x[i + 1]
 
             if c.x[i] < float(value) < xmax:
-                y = np.interp(float(value), [c.x[i], xmax], [c.y[i], c.y[i+1]])
+                y = np.interp(float(value), [c.x[i], xmax], [c.y[i], c.y[i + 1]])
                 xypairs.append((float(value), y))
             elif xmax < float(value) < c.x[i]:
-                y = np.interp(float(value), [xmax, c.x[i]], [c.y[i+1], c.y[i]])
+                y = np.interp(float(value), [xmax, c.x[i]], [c.y[i + 1], c.y[i]])
                 xypairs.append((float(value), y))
 
     return xypairs
@@ -3542,7 +3542,7 @@ def makeextensive(curvelist):
 
     for c in curves:
         for i in range(1, len(c.y)):
-            c.y[i] *= (c.x[i] - c.x[i-1])
+            c.y[i] *= (c.x[i] - c.x[i - 1])
 
         c.y[0] = c.y[1]
         c.name = 'mkext(' + c.name + ')'
@@ -3570,7 +3570,7 @@ def makeintensive(curvelist):
 
     for c in curves:
         for i in range(1, len(c.y)):
-            d = c.x[i] - c.x[i-1] if (c.x[i] - c.x[i-1]) != 0 else 0.000000001
+            d = c.x[i] - c.x[i - 1] if (c.x[i] - c.x[i - 1]) != 0 else 0.000000001
             c.y[i] /= d
 
         c.y[0] = c.y[1]
@@ -4021,7 +4021,7 @@ def __loadcolumns(fname, xcol):
         # First, get data into lists of numbers
         numDataLines = len(lines) - iLine
         localCurves = []
-        for i in range(numcurves+1):
+        for i in range(numcurves + 1):
             localCurves.append([])
         # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
         for l in lines[iLine:]:
