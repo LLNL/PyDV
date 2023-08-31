@@ -318,7 +318,7 @@ class Plotter(QMainWindow):
 
             # Scroll Bar
             scroll = QScrollArea(self._listDialog)
-            scroll.setGeometry(QRect(10, 20, cols*115, maxrows*50))
+            scroll.setGeometry(QRect(10, 20, cols * 115, maxrows * 50))
             scroll.setMinimumSize(150, 150)
             scroll.setWidget(self._tableWidget)
             scroll.setWidgetResizable(True)
@@ -337,7 +337,7 @@ class Plotter(QMainWindow):
 
             vbox.addLayout(hbox)
 
-        self._listDialog.resize(cols*115, maxrows*50)
+        self._listDialog.resize(cols * 115, maxrows * 50)
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
@@ -450,7 +450,7 @@ class Plotter(QMainWindow):
 
             # Scroll Bar
             scroll = QScrollArea(self._menuDialog)
-            scroll.setGeometry(QRect(10, 20, cols*115, maxrows*50))
+            scroll.setGeometry(QRect(10, 20, cols * 115, maxrows * 50))
             scroll.setMinimumSize(150, 150)
             scroll.setWidget(self._menuTableWidget)
             scroll.setWidgetResizable(True)
@@ -469,7 +469,7 @@ class Plotter(QMainWindow):
 
             vbox.addLayout(hbox)
 
-        self._menuDialog.resize(cols*115, maxrows*50)
+        self._menuDialog.resize(cols * 115, maxrows * 50)
         if not self._menuDialog.isVisible():
             self._menuDialog.show()
 
@@ -600,7 +600,7 @@ class Plotter(QMainWindow):
                 menuindexes = str()
                 for index in self._menuTableWidget.selectionModel().selectedRows():
                     row = index.row()
-                    menuindexes += "%d " % (row+1)
+                    menuindexes += "%d " % (row + 1)
 
                 print("kill %s" % menuindexes)
                 self._pydvcmd.do_kill("%s" % menuindexes)
@@ -613,7 +613,7 @@ class Plotter(QMainWindow):
 
             for index in self._menuTableWidget.selectionModel().selectedRows():
                 row = index.row()
-                plotnames += " %d" % (row+1)
+                plotnames += " %d" % (row + 1)
 
             print("curve%s" % plotnames)
             self._pydvcmd.do_curve("%s" % plotnames)

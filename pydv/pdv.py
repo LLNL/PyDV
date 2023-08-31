@@ -142,10 +142,13 @@ class Command(cmd.Cmd, object):
     histptr = -1
     plotedit = False
 
-    plotter = None#pdvplot.Plotter()
+    plotter = None  # pdvplot.Plotter()
     app = None
 
-    ## state variables##
+    ########################################################################################################
+    # state variables #
+    ########################################################################################################
+
     xlabel = ''
     ylabel = ''
     filename = ''
@@ -346,7 +349,7 @@ class Command(cmd.Cmd, object):
 
         line = line.replace('integrate(', 'commander.integrate(').replace('int(', 'commander.integrate(')
         line = line.replace('derivative(', 'commander.derivative(').replace('der(', 'commander.derivative(')
-        #print line
+        # print line
 
         if self.showkey:
             if plt.gca().get_legend() is not None:
@@ -364,7 +367,7 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+            pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
             self.plotedit = True
         except:
             self.redraw = False
@@ -378,26 +381,26 @@ class Command(cmd.Cmd, object):
         """
 
         if self.plotedit:
-            #self.history.pop(-1)
-            #pl = []
-            #for i in range(len(self.plotlist)):
+            # self.history.pop(-1)
+            # pl = []
+            # for i in range(len(self.plotlist)):
             #    pl.append(self.plotlist[i].copy())
 
-            #print self.history
-            #print pl
+            # print self.history
+            # print pl
 
-            if len(self.history) > self.histptr+1:
-                self.history = self.history[:self.histptr+1]
+            if len(self.history) > self.histptr + 1:
+                self.history = self.history[:self.histptr + 1]
 
             self.histptr += 1
-            self.history.append(self.oldlist)#(self.histptr, self.oldlist)
+            self.history.append(self.oldlist)  # (self.histptr, self.oldlist)
 
             if len(self.history) > 15:
                 self.history.pop(0)
                 self.histptr -= 1
 
-            #print self.history
-            #print self.histptr
+            # print self.history
+            # print self.histptr
 
             self.plotedit = False
         if self.update:
@@ -412,83 +415,124 @@ class Command(cmd.Cmd, object):
         """
         self.redraw = False
 
-    ##normal shortcut commands##
+    ########################################################################################################
+    # normal shortcut commands #
+    ########################################################################################################
+
     def do_q(self, line):
         self.do_quit(line)
+
     def do_ran(self, line):
         self.do_range(line)
+
     def do_dom(self, line):
         self.do_domain(line)
+
     def do_rd(self, line):
         self.do_read(line)
+
     def do_rdcsv(self, line):
         self.do_readcsv(line)
+
     def do_rdsina(self, line):
         self.do_readsina(line)
+
     def do_cur(self, line):
         self.do_curve(line)
+
     def do_era(self, line):
         self.do_erase(line)
+
     def do_del(self, line):
         self.do_delete(line)
+
     def do_lst(self, line):
         self.do_list(line)
+
     def do_lstr(self, line):
         self.do_listr(line)
+
     def do_sub(self, line):
         self.do_subtract(line)
+
     def do_div(self, line):
         self.do_divide(line)
+
     def do_mult(self, line):
         self.do_multiply(line)
+
     def do_xls(self, line):
         self.do_xlogscale(line)
+
     def do_yls(self, line):
         self.do_ylogscale(line)
+
     def do_der(self, line):
         self.do_derivative(line)
+
     def do_pow(self, line):
         self.do_powr(line)
+
     def do_power(self, line):
         self.do_powr(line)
+
     def do_powx(self, line):
         self.do_powrx(line)
+
     def do_powerx(self, line):
         self.do_powrx(line)
+
     def do_square(self, line):
         self.do_sqr(line)
+
     def do_squarex(self, line):
         self.do_sqrx(line)
+
     def do_convol(self, line):
         self.do_convolve(line)
+
     def do_convolb(self, line):
         self.do_convolveb(line)
+
     def do_convolc(self, line):
         self.do_convolvec(line)
+
     def do_int(self, line):
         self.do_integrate(line)
+
     def do_geom(self, line):
         self.do_geometry(line)
+
     def do_xmm(self, line):
         self.do_xminmax(line)
+
     def do_ymm(self, line):
         self.do_yminmax(line)
+
     def do_key(self, line):
         self.do_legend(line)
+
     def do_leg(self, line):
         self.do_legend(line)
+
     def do_ln(self, line):
         self.do_log(line)
+
     def do_lnx(self, line):
         self.do_logx(line)
+
     def do_nc(self, line):
         self.do_newcurve(line)
+
     def do_mkext(self, line):
         self.do_makeextensive(line)
+
     def do_mkint(self, line):
         self.do_makeintensive(line)
+
     def do_system(self, line):
         self.do_shell(line)
+
     def do_pl(self, line):
         self.do_plotlayout(line)
 
@@ -497,91 +541,91 @@ class Command(cmd.Cmd, object):
         Override help function to check for shortcuts
         """
 
-        if(arg == '+'):
+        if (arg == '+'):
             arg = 'add'
-        elif(arg == '-' or arg == 'sub'):
+        elif (arg == '-' or arg == 'sub'):
             arg = 'subtract'
-        elif(arg == '*' or arg == 'mult'):
+        elif (arg == '*' or arg == 'mult'):
             arg = 'multiply'
-        elif(arg == '/' or arg == 'div'):
+        elif (arg == '/' or arg == 'div'):
             arg = 'divide'
-        elif(arg == 'rd'):
+        elif (arg == 'rd'):
             arg = 'read'
-        elif(arg == 'rdcsv'):
+        elif (arg == 'rdcsv'):
             arg = 'readcsv'
-        elif(arg == 'rdsina'):
+        elif (arg == 'rdsina'):
             arg = 'readsina'
-        elif(arg == 'convol'):
+        elif (arg == 'convol'):
             arg = 'convolve'
         elif (arg == 'convolb'):
             arg = 'convolveb'
-        elif(arg == 'convolc'):
+        elif (arg == 'convolc'):
             arg = 'convolvec'
-        elif(arg == 'cur'):
+        elif (arg == 'cur'):
             arg = 'curve'
-        elif(arg == 'era'):
+        elif (arg == 'era'):
             arg = 'erase'
-        elif(arg == 'del'):
+        elif (arg == 'del'):
             arg = 'delete'
-        elif(arg == 'ran'):
+        elif (arg == 'ran'):
             arg = 'range'
-        elif(arg == 'dom'):
+        elif (arg == 'dom'):
             arg = 'domain'
-        elif(arg == 'lst'):
+        elif (arg == 'lst'):
             arg = 'list'
-        elif(arg == 'lstr'):
+        elif (arg == 'lstr'):
             arg = 'listr'
-        elif(arg == 'q'):
+        elif (arg == 'q'):
             arg = 'quit'
-        elif(arg == 'data-id'):
+        elif (arg == 'data-id'):
             arg = 'dataid'
-        elif(arg == 're-id'):
+        elif (arg == 're-id'):
             arg = 'reid'
-        elif(arg == 'x-log-scale' or arg == 'xls'):
+        elif (arg == 'x-log-scale' or arg == 'xls'):
             arg = 'xlogscale'
-        elif(arg == 'y-log-scale' or arg == 'yls'):
+        elif (arg == 'y-log-scale' or arg == 'yls'):
             arg = 'ylogscale'
-        elif(arg == 'der'):
+        elif (arg == 'der'):
             arg = 'derivative'
-        elif(arg == 'pow' or arg == 'power'):
+        elif (arg == 'pow' or arg == 'power'):
             arg = 'powr'
-        elif(arg == 'powx' or arg == 'powerx'):
+        elif (arg == 'powx' or arg == 'powerx'):
             arg = 'powrx'
-        elif(arg == 'make-curve'):
+        elif (arg == 'make-curve'):
             arg = 'makecurve'
-        elif(arg == 'error-bar'):
+        elif (arg == 'error-bar'):
             arg = 'errorbar'
-        elif(arg == 'int'):
+        elif (arg == 'int'):
             arg = 'integrate'
-        elif(arg == 'geom'):
+        elif (arg == 'geom'):
             arg = 'geometry'
-        elif(arg == 'key'):
+        elif (arg == 'key'):
             arg = 'legend'
-        elif(arg == 'leg'):
+        elif (arg == 'leg'):
             arg = 'legend'
-        elif(arg == 'error-range'):
+        elif (arg == 'error-range'):
             arg = 'errorrange'
-        elif(arg == 'get-domain'):
+        elif (arg == 'get-domain'):
             arg = 'getdomain'
-        elif(arg == 'get-range'):
+        elif (arg == 'get-range'):
             arg = 'getrange'
-        elif(arg == 'xmm'):
+        elif (arg == 'xmm'):
             arg = 'xminmax'
-        elif(arg == 'ymm'):
+        elif (arg == 'ymm'):
             arg = 'yminmax'
-        elif(arg == 'ln'):
+        elif (arg == 'ln'):
             arg = 'log'
-        elif(arg == 'lnx'):
+        elif (arg == 'lnx'):
             arg = 'logx'
-        elif(arg == 'nc'):
+        elif (arg == 'nc'):
             arg = 'newcurve'
-        elif(arg == 'mkext'):
+        elif (arg == 'mkext'):
             arg = 'makeextensive'
-        elif(arg == 'mkint'):
+        elif (arg == 'mkint'):
             arg = 'makeintensive'
-        elif(arg == 'system'):
+        elif (arg == 'system'):
             arg = 'shell'
-        elif(arg == 'pl'):
+        elif (arg == 'pl'):
             arg = 'plotlayout'
 
         self.redraw = False  # never need to redraw after a 'help'
@@ -599,10 +643,10 @@ class Command(cmd.Cmd, object):
               "\n   Usage: <shell | system> <command>\n")
 
     ########################################################################################################
-    #command functions#
+    # command functions #
     ########################################################################################################
 
-    def do_newcurve (self, line):
+    def do_newcurve(self, line):
         """
         Evaluate a line of mathematical operations
         """
@@ -614,27 +658,27 @@ class Command(cmd.Cmd, object):
             if len(line.split(':')) > 1:
                 print('error - NOT HANDLING RANGES YET, not even sure what that would mean yet')
                 return 0
-            else: # ok, got through input error checking, let's get to work
-                newline = line # copy the original line, we need the original for labeling
+            else:  # ok, got through input error checking, let's get to work
+                newline = line  # copy the original line, we need the original for labeling
 
                 # replace all the *.x and *.y entries in the line with
                 # their actual data arrays in the plotlist.
                 import re  # we are going to need regex!
                 arrayMarkers = ['.x', '.y']
                 for arrayMarker in arrayMarkers:
-                    arrayInsts = re.findall(r"\w\%s" % arrayMarker, line) # finds [a-z].x then [a-z].y
+                    arrayInsts = re.findall(r"\w\%s" % arrayMarker, line)  # finds [a-z].x then [a-z].y
                     for aInst in arrayInsts:
-                        plotname = aInst[0] # BLAGO!! hard wired for single-letter labels
+                        plotname = aInst[0]  # BLAGO!! hard wired for single-letter labels
                         cID = pdvutil.getCurveIndex(plotname, self.plotlist)
                         newline = re.sub(r"%s\%s" % (plotname, arrayMarker),
                                          "self.plotlist[%d]%s" % (cID, arrayMarker), newline)
 
                 # now newline holds a string that can be evaluated by Python
-                newYArray = eval(newline) # line returns a new numpy.array
+                newYArray = eval(newline)  # line returns a new numpy.array
 
                 # make newYArray into a legitimate curve
-                c = curve.Curve(filename='', name=line) # we name the curve with the input 'line'
-                c.plotname = self.getcurvename() # get the next available data ID label
+                c = curve.Curve(filename='', name=line)  # we name the curve with the input 'line'
+                c.plotname = self.getcurvename()  # get the next available data ID label
                 c.y = newYArray
                 # get the x-values from one of the curves used in the expression
                 c.x = self.plotlist[cID].x
@@ -677,7 +721,7 @@ class Command(cmd.Cmd, object):
             line = line.replace('integrate', 'commander.integrate').replace('int', 'commander.integrate')
             line = line.replace('derivative', 'commander.derivative').replace('der', 'commander.derivative')
 
-            pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+            pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
             self.plotedit = True
         except:
             print('error - usage: eval <curve-operations>')
@@ -716,17 +760,17 @@ class Command(cmd.Cmd, object):
 
         try:
             if self.histptr > 0:
-                if self.histptr == len(self.history)-1:
+                if self.histptr == len(self.history) - 1:
                     pl = []
                     for i in range(len(self.plotlist)):
                         pl.append(self.plotlist[i].copy())
                     self.history.append(pl)
                 self.plotlist = self.history[self.histptr]
-                #self.history = self.history[:self.histptr]
+                # self.history = self.history[:self.histptr]
                 self.histptr -= 1
 
-                #print self.history
-                #print self.histptr
+                # print self.history
+                # print self.histptr
             else:
                 print('error - cannot undo further')
         except:
@@ -744,12 +788,12 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            if self.histptr < len(self.history)-2:
+            if self.histptr < len(self.history) - 2:
                 self.histptr += 1
-                self.plotlist = self.history[self.histptr+1]
+                self.plotlist = self.history[self.histptr + 1]
 
-                #print self.history
-                #print self.histptr
+                # print self.history
+                # print self.histptr
             else:
                 print('error - cannot redo further')
         except:
@@ -777,9 +821,9 @@ class Command(cmd.Cmd, object):
                 else:
                     line = line.split()
                     line = ' + '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
-                
+
         except:
             print('error - usage: add <curve-list> [value]')
             if self.debug:
@@ -815,7 +859,7 @@ class Command(cmd.Cmd, object):
                         line = '-' + line[0]
                     else:
                         line = ' - '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
         except:
             print('error - usage: subtract <curve-list> [value]')
@@ -879,7 +923,7 @@ class Command(cmd.Cmd, object):
                 else:
                     line = line.split()
                     line = ' / '.join(line)
-                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0],plt.axis()[1]))
+                    pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
         except:
             print('error - usage: divide <curve-list> [value]')
@@ -934,11 +978,11 @@ class Command(cmd.Cmd, object):
             self.plotter.updateDialogs()
 
     def help_read(self):
-        print ('\n    Macro: Read curve data file'
-               '\n    Usage: read [(regex) matches] [x-col] <file-name>'
-               '\n    Shortcuts: rd\n'
-               '\n    If using regex, set matches equal to a negative number for unlimited matches.'
-               '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n')
+        print('\n    Macro: Read curve data file'
+              '\n    Usage: read [(regex) matches] [x-col] <file-name>'
+              '\n    Shortcuts: rd\n'
+              '\n    If using regex, set matches equal to a negative number for unlimited matches.'
+              '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n')
 
     def do_readcsv(self, line):
         """
@@ -1009,7 +1053,7 @@ class Command(cmd.Cmd, object):
               "\n    Usage: setxcolumn <n>, where n is an integer.")
 
     def __menu_curve_math(self, operation, line):
-        if len(line.split(':')) > 1:   #check for list notation
+        if len(line.split(':')) > 1:  # check for list notation
             return self.__menu_curve_math(operation, pdvutil.getnumberargs(line, self.filelist))
         else:
             line = line.split()
@@ -1165,7 +1209,7 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            if len(line.split(')')) > 1:   #check for regular expression
+            if len(line.split(')')) > 1:  # check for regular expression
                 line = line.strip().split(')')
                 reg = re.compile(r"")
                 for i in range(len(line)):
@@ -1182,13 +1226,13 @@ class Command(cmd.Cmd, object):
                 for i in range(len(self.curvelist)):
                     searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                     if reg.search(searchline):
-                        regline += str(i+1) + ' '
+                        regline += str(i + 1) + ' '
                 line[0] = regline
                 line = ' '.join(line)
-                self.do_curve(line) # call curve again but with regexp results
+                self.do_curve(line)  # call curve again but with regexp results
                 self.redraw = True
                 return 0
-            if len(line.split(':')) > 1:   #check for list notation
+            if len(line.split(':')) > 1:  # check for list notation
                 # call curve again with list expanded
                 self.do_curve(pdvutil.getnumberargs(line, self.filelist))
                 return 0
@@ -1197,28 +1241,29 @@ class Command(cmd.Cmd, object):
                 for i in range(len(line)):
                     curvedex = 0
                     skip = False
-                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  #check for a.% b.% file index notation
-                        filedex = ord(line[i][0].upper()) - ord('A') # file index we want
-                        prevfile = '' # set prevfile to impossible value
+                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  # check for a.% b.% file index notation
+                        filedex = ord(line[i][0].upper()) - ord('A')  # file index we want
+                        prevfile = ''  # set prevfile to impossible value
                         filecounter = 0
-                        while filecounter <= filedex: # count files up to the one we want
-                            if self.curvelist[curvedex].filename != prevfile: # inc count if name changes
+                        while filecounter <= filedex:  # count files up to the one we want
+                            if self.curvelist[curvedex].filename != prevfile:  # inc count if name changes
                                 prevfile = self.curvelist[curvedex].filename
                                 filecounter += 1
-                            curvedex += 1 # this will end up being one past what we want
+                            curvedex += 1  # this will end up being one past what we want
                             if curvedex >= len(self.curvelist):
                                 print("error: in curve list did not find matching file for %s" % line[i])
-                        curvedex -= 1 # back curvedex up to point to start of file's curves
-                        curvedex += int(line[i].split('.')[-1])-1
+                        curvedex -= 1  # back curvedex up to point to start of file's curves
+                        curvedex += int(line[i].split('.')[-1]) - 1
                     elif 0 < int(line[i]) <= len(self.curvelist):
-                        curvedex = int(line[i])-1
+                        curvedex = int(line[i]) - 1
                     else:
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        current = self.curvelist[curvedex].copy() # this is not a deep copy so it is omitting some of the attributes
+                        # this is not a deep copy so it is omitting some of the attributes
+                        current = self.curvelist[curvedex].copy()
                         try:
-                            current.step =  self.curvelist[curvedex].step
+                            current.step = self.curvelist[curvedex].step
                         except:
                             current.step = False
                         self.addtoplot(current)
@@ -1266,7 +1311,7 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
                 self.plotedit = True
-        
+
         except:
             print('error - usage: del <curve-list>')
             if self.debug:
@@ -1313,7 +1358,7 @@ class Command(cmd.Cmd, object):
               'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" '
               'to see the available named colors!')
 
-    def do_stats(self,line):
+    def do_stats(self, line):
         """
         Return a curves mean and standard deviation
         """
@@ -1347,8 +1392,8 @@ class Command(cmd.Cmd, object):
                 self.redraw = False
 
     def help_stats(self):
-        print ('\n   Display the mean and standard deviation for the given curves.'
-               '\n   usage: stats <curve-list>\n')
+        print('\n   Display the mean and standard deviation for the given curves.'
+              '\n   usage: stats <curve-list>\n')
 
     def do_getattributes(self, line):
         """
@@ -1370,7 +1415,7 @@ class Command(cmd.Cmd, object):
                 elif cur.linestyle == ':':
                     pp_linestyle = 'dot'
                 elif cur.linestyle == '--':
-                    pp_linestyle= 'dash'
+                    pp_linestyle = 'dash'
                 elif cur.linestyle == '-.':
                     pp_linestyle = 'dashdot'
                 print('    Style = {}'.format(pp_linestyle))
@@ -1378,7 +1423,7 @@ class Command(cmd.Cmd, object):
                 print('    Edited = {}'.format(cur.edited))
                 print('    Scatter = {}'.format(cur.scatter))
                 print('    Linespoints = {}'.format(cur.linespoints))
-                print('    Drawstyle = {}'.format (cur.drawstyle))
+                print('    Drawstyle = {}'.format(cur.drawstyle))
                 print('    Dashes = {}'.format(cur.dashes))
                 print('    Hidden = {}'.format(cur.hidden))
                 print('    Marker = {}'.format(cur.marker))
@@ -1517,7 +1562,7 @@ class Command(cmd.Cmd, object):
 
         try:
             ax = plt.gca()
-            plt.cla() # wipe current axes
+            plt.cla()  # wipe current axes
 
             ratio = 1.0 / 3.0
             count = ceil(sqrt(len(mclr.cnames)))
@@ -1537,9 +1582,9 @@ class Command(cmd.Cmd, object):
                 pos = (x / x_count, y / y_count)
                 rectangle = plt.Rectangle(pos, w, h, color=c)
                 patches.append(rectangle)
-                ax.add_artist(rectangle) # needed for colors to show up, sigh :-(
+                ax.add_artist(rectangle)  # needed for colors to show up, sigh :-(
                 ax.annotate(c, xy=pos, fontsize='xx-small', verticalalignment='bottom', horizontalalignment='left')
-                if y >= y_count-1:
+                if y >= y_count - 1:
                     x += 1
                     y = 0
                 else:
@@ -1551,7 +1596,7 @@ class Command(cmd.Cmd, object):
             self.plotter.canvas.draw()
 
             x = input('hit return to go back to your plots: ')
-            self.plotedit=True
+            self.plotedit = True
         except:
             print('error - usage: showcolormap')
             if self.debug:
@@ -1728,10 +1773,10 @@ class Command(cmd.Cmd, object):
             # curves a and b will be our operands
             a = self.curvefromlabel(args[0])
             b = self.curvefromlabel(args[1])
-            c = a - b  # new numpy.array object
-            c.y = abs(c.y) # absolute value
+            c = a - b   # new numpy.array object
+            c.y = abs(c.y)  # absolute value
             if args[2].lower() != "inf":
-                N = int(args[2]) # order of the norm
+                N = int(args[2])  # order of the norm
                 c = c**N
             if len(args) == 5:
                 xmin = float(args[3])
@@ -1748,11 +1793,11 @@ class Command(cmd.Cmd, object):
                         Linf = max(Linf, yi)
                 print("Linf norm = {:.4f}".format(Linf))
                 d = c
-                d.y = numpy.array([Linf]*c.y.shape[0])
+                d.y = numpy.array([Linf] * c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
-                d = pydvif.integrate(c, xmin, xmax)[0] # d = integral( c**N )
-                d = d**(1.0/N)
+                d = pydvif.integrate(c, xmin, xmax)[0]  # d = integral( c**N )
+                d = d**(1.0 / N)
                 print("L{:d} norm = {:.4f}".format(N, max(d.y)))
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
             self.addtoplot(d)
@@ -2171,7 +2216,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_sort(self):
-        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending x values.'
+        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending '
+              'x values.'
               '\n   Usage: sort <curve-list>\n')
 
     def do_rev(self, line):
@@ -2312,7 +2358,7 @@ class Command(cmd.Cmd, object):
             self.redraw = False
 
     def help_getnumpoints(self):
-        print ('\n   Display the given curve\'s number of points.\n   usage: getnumpoints <curve>')
+        print('\n   Display the given curve\'s number of points.\n   usage: getnumpoints <curve>')
 
     def do_abs(self, line):
         """
@@ -2474,7 +2520,6 @@ class Command(cmd.Cmd, object):
     def help_cos(self):
         print('\n   Procedure: Take cosine of y values of curves'
               '\n   Usage: cos <curve-list>\n')
-
 
     def do_cosx(self, line):
         """
@@ -2686,7 +2731,8 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
         except:
             print('error - usage: atan curve1 curve2')
-            if(self.debug): traceback.print_exc(file=sys.stdout)
+            if (self.debug):
+                traceback.print_exc(file=sys.stdout)
 
     def help_atan2(self):
         print('\n   Procedure: Take atan2 of two curves'
@@ -2806,6 +2852,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: acosh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_acosh(self):
         print('\n   Procedure: Take hyperbolic arccosine of y values of curves'
               '\n   Usage: acosh <curve-list>\n')
@@ -2839,6 +2886,7 @@ class Command(cmd.Cmd, object):
             print('error - usage: asinh <curve-list>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_asinh(self):
         print('\n   Procedure: Take hyperbolic arcsine of y values of curves'
               '\n   Usage: asinh <curve-list>\n')
@@ -3335,11 +3383,11 @@ class Command(cmd.Cmd, object):
                 elif key == 'off':
                     self.showkey = False
                 elif key in ['hide', 'show']:
-                    if line[i+1] == 'all': # show/hide all curves
+                    if line[i + 1] == 'all':  # show/hide all curves
                         for curve in self.plotlist:
                             curve.legend_show = False if key == 'hide' else True
                     else:
-                        ids = [line[j] for j in range(i+1, len(line))]
+                        ids = [line[j] for j in range(i + 1, len(line))]
                         for curve_id in ids:
                             curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
                             curve.legend_show = False if key == 'hide' else True
@@ -3355,8 +3403,10 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_legend(self):
-        print('\n   Variable: Show the legend if True. Set legend position as best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]\n   Shortcuts: leg, key\n')
+        print('\n   Variable: Show the legend if True. Set legend position as '
+              'best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]'
+              '\n   Shortcuts: leg, key\n')
 
     def do_namewidth(self, line):
         """
@@ -3377,9 +3427,10 @@ class Command(cmd.Cmd, object):
             print('error - usage: namewidth [width]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
+
     def help_namewidth(self):
-        print('\n   Command: change the width of the curve_name column of the menu and lst output. If no width is given, the'
-              '\n            current column width will be displayed.'
+        print('\n   Command: change the width of the curve_name column of the menu and lst output. '
+              'If no width is given, the current column width will be displayed.'
               '\n   Usage:  namewidth [width]')
 
     def do_xlabelwidth(self, line):
@@ -3403,8 +3454,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_xlabelwidth(self):
-        print('\n   Command: change the width of the xlabel column of the menu and lst output. If no width is given, the'
-              '\n            current column width will be displayed.'
+        print('\n   Command: change the width of the xlabel column of the menu and lst output. '
+              'If no width is given, the current column width will be displayed.'
               '\n   Usage:  xlabelwidth [width]')
 
     def do_ylabelwidth(self, line):
@@ -3428,8 +3479,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_ylabelwidth(self):
-        print('\n   Command: change the width of the ylabel column of the menu and lst output. If no width is given, the'
-              '\n            current column width will be displayed.'
+        print('\n   Command: change the width of the ylabel column of the menu and lst output. '
+              'If no width is given, the current column width will be displayed.'
               '\n   Usage:  ylabelwidth [width]')
 
     def do_filenamewidth(self, line):
@@ -3478,8 +3529,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_recordidwidth(self):
-        print('\n   Command: change the width of the record_id column of the menu and lst output. If no width is given, the'
-              '\n            current column width will be displayed.'
+        print('\n   Command: change the width of the record_id column of the menu and lst output. '
+              'If no width is given, the current column width will be displayed.'
               '\n   Usage:  recordidwidth [width]')
 
     def do_handlelength(self, line):
@@ -3615,12 +3666,12 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_gridcolor(self):
-            print('\n   Procedure: Set the color of the grid'
-                  '\n   Usage: gridcolor <color-name>'
-                  '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-                  '\n   of hexadecimal red-green-blue values (RRGGBB).'
-                  '\n   The entire set of HTML-standard color names is available.'
-                  '\n   Try "showcolormap" to see the available named colors!')
+        print('\n   Procedure: Set the color of the grid'
+              '\n   Usage: gridcolor <color-name>'
+              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
+              '\n   of hexadecimal red-green-blue values (RRGGBB).'
+              '\n   The entire set of HTML-standard color names is available.'
+              '\n   Try "showcolormap" to see the available named colors!')
 
     def do_gridstyle(self, line):
         """
@@ -3703,7 +3754,7 @@ class Command(cmd.Cmd, object):
                 plt.xscale('log')
                 if self.xlim is not None:
                     xmin = max(1e-2, self.xlim[0])
-                    self.xlim = (xmin, max(self.xlim[1], 1000.0*xmin))
+                    self.xlim = (xmin, max(self.xlim[1], 1000.0 * xmin))
             else:
                 print('invalid input: requires on or off as argument')
         except:
@@ -3730,7 +3781,7 @@ class Command(cmd.Cmd, object):
                 plt.yscale('log')
                 if self.ylim is not None:
                     ymin = max(1e-2, self.ylim[0])
-                    self.ylim = (ymin, max(self.ylim[1], 1000.0*ymin))
+                    self.ylim = (ymin, max(self.ylim[1], 1000.0 * ymin))
             else:
                 print('invalid input: requires on or off as argument')
         except:
@@ -3883,9 +3934,9 @@ class Command(cmd.Cmd, object):
     def help_lnstyle(self):
         print('\n   Procedure: Set the line style of curves'
               '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
-                  '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
-                  '| loosely_dashdotted | dashdotted | densely_dashdotted '
-                  '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>\n')
+              '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
+              '| loosely_dashdotted | dashdotted | densely_dashdotted '
+              '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>\n')
 
     def do_drawstyle(self, line):
         """
@@ -3938,72 +3989,70 @@ class Command(cmd.Cmd, object):
         """
 
         pn, cn, fn = self.do_listr('1')
-        
+
         # Setting Linestyles at the file level
         files = []
 
-        for f in fn: # ordered set
+        for f in fn:  # ordered set
             if f not in files:
                 files.append(f)
-                        
+
         groups = {}
-        
+
         for f in files:
             temp = []
             for i, plotname in enumerate(pn):
                 if fn[i] == f:
                     temp.append(plotname)
-            
+
             groups[f] = temp
-            
-        styles = [
-                    ('solid', 'solid'),      # Same as (0, ()) or '-'
-                    ('dot', 'dot'),    # Same as (0, (1, 1)) or ':'
-                    ('dash', 'dash'),    # Same as '--'
-                    ('dashdot', 'dashdot'),  # Same as '-.'
-                    ('loosely_dotted',        '(0, (1, 10))'),
-                    ('long_dash_with_offset', '(5, (10, 3))'),
-                    ('loosely_dashed',        '(0, (5, 10))'),
-                    ('dashed',                '(0, (5, 5))'),
-                    ('loosely_dashdotted',    '(0, (3, 10, 1, 10))'),
-                    ('dashdotted',            '(0, (3, 5, 1, 5))'),
-                    ('densely_dashdotted',    '(0, (3, 1, 1, 1))'),
-                    ('dashdotdotted',         '(0, (3, 5, 1, 5, 1, 5))'),
-                    ('loosely_dashdotdotted', '(0, (3, 10, 1, 10, 1, 10))'),
-                    ('densely_dashdotdotted', '(0, (3, 1, 1, 1, 1, 1))')
-                 ]
+
+        styles = [('solid', 'solid'),      # Same as (0, ()) or '-'
+                  ('dot', 'dot'),    # Same as (0, (1, 1)) or ':'
+                  ('dash', 'dash'),    # Same as '--'
+                  ('dashdot', 'dashdot'),  # Same as '-.'
+                  ('loosely_dotted', '(0, (1, 10))'),
+                  ('long_dash_with_offset', '(5, (10, 3))'),
+                  ('loosely_dashed', '(0, (5, 10))'),
+                  ('dashed', '(0, (5, 5))'),
+                  ('loosely_dashdotted', '(0, (3, 10, 1, 10))'),
+                  ('dashdotted', '(0, (3, 5, 1, 5))'),
+                  ('densely_dashdotted', '(0, (3, 1, 1, 1))'),
+                  ('dashdotdotted', '(0, (3, 5, 1, 5, 1, 5))'),
+                  ('loosely_dashdotdotted', '(0, (3, 10, 1, 10, 1, 10))'),
+                  ('densely_dashdotdotted', '(0, (3, 1, 1, 1, 1, 1))')]
 
         for i, filename in enumerate(groups):
-            if i<14:
+            if i < 14:
                 curves_ = " ".join(groups[filename])
-                self.do_lnstyle(curves_+' '+styles[i][0].replace("'",""))
+                self.do_lnstyle(curves_ + ' ' + styles[i][0].replace("'", ""))
             else:
                 print('There are only fourteen linestyles available. Please reduce the number of files.')
-            
+
         # Setting Colors at the curve level
         curve_names = []
 
-        for curve_name  in cn: # ordered set
+        for curve_name in cn:  # ordered set
             temp_cn = curve_name.split(' - ')[0]
             if temp_cn not in curve_names:
                 curve_names.append(temp_cn)
-                
+
         groups = {}
-        
+
         for curve_name in curve_names:
             temp = []
             for i, plotname in enumerate(pn):
                 if cn[i].split(' - ')[0] == curve_name:
                     temp.append(plotname)
-            
+
             groups[curve_name] = temp
-        
+
         colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
         for i, curve_name in enumerate(groups):
-            if i<10:
+            if i < 10:
                 curves_ = " ".join(groups[curve_name])
-                self.do_color(curves_+' '+colors[i].replace("'",""))
+                self.do_color(curves_ + ' ' + colors[i].replace("'", ""))
             else:
                 print('There are only ten colors available. Please reduce the number of same name curves.')
 
@@ -4099,9 +4148,9 @@ class Command(cmd.Cmd, object):
 
         try:
             line = line.split()
-            if(line and line[0] == 'de'):
+            if (line and line[0] == 'de'):
                 self.xlim = None
-            elif(len(line) == 2):
+            elif (len(line) == 2):
                 self.xlim = (float(line[0]), float(line[1]))
             else:
                 print('error: exactly two arguments required or de for default')
@@ -4132,8 +4181,8 @@ class Command(cmd.Cmd, object):
 
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
-                          namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
             for curve in self.plotlist:
                 searchline = curve.name + ' ' + curve.filename
                 if not line or reg.search(searchline):
@@ -4151,7 +4200,7 @@ class Command(cmd.Cmd, object):
                     ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                     fname = curve.filename
                     fname = fname.ljust(self.filenamewidth)
-                    fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                    fname = pdvutil.truncate(fname, self.filenamewidth, 'right')
                     record_id = curve.record_id
                     record_id = record_id.ljust(self.recordidwidth)
                     record_id = pdvutil.truncate(record_id, self.recordidwidth)
@@ -4208,9 +4257,9 @@ class Command(cmd.Cmd, object):
                 stop = pllen
 
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
-                          namewidth=self.namewidth, xlabelwidth= self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
             for i in range(start, stop):
                 curve = self.plotlist[i]
                 plotname = ""
@@ -4227,7 +4276,7 @@ class Command(cmd.Cmd, object):
                 ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                 fname = curve.filename
                 fname = fname.ljust(self.filenamewidth)
-                fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                fname = pdvutil.truncate(fname, self.filenamewidth, 'right')
                 record_id = curve.record_id
                 record_id = record_id.ljust(self.recordidwidth)
                 record_id = pdvutil.truncate(record_id, self.recordidwidth)
@@ -4270,7 +4319,7 @@ class Command(cmd.Cmd, object):
                 tmpcurvelist = list()
 
                 for i in range(len(self.curvelist)):
-                    if not str(i+1) in line:
+                    if not str(i + 1) in line:
                         tmpcurvelist.append(self.curvelist[i])
 
                 self.curvelist = tmpcurvelist
@@ -4322,9 +4371,9 @@ class Command(cmd.Cmd, object):
                 stop = len(self.curvelist)
 
             print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1            
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
 
             for i in range(start, stop):
                 index = str(i + 1)
@@ -4339,7 +4388,7 @@ class Command(cmd.Cmd, object):
                 ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                 fname = self.curvelist[i].filename
                 fname = fname.ljust(self.filenamewidth)
-                fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                fname = pdvutil.truncate(fname, self.filenamewidth, 'right')
                 record_id = self.curvelist[i].record_id
                 record_id = record_id.ljust(self.recordidwidth)
                 record_id = pdvutil.truncate(record_id, self.recordidwidth)
@@ -4375,13 +4424,13 @@ class Command(cmd.Cmd, object):
                     return 0
 
             print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id', 
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth,recordidwidth=self.recordidwidth))
-            print("".join(['-']*(5+self.namewidth+self.xlabelwidth+self.ylabelwidth+9+9+9+9+self.filenamewidth+self.recordidwidth+9))) # the last digit is number of columns - 1
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
-                    index = str(i+1)
+                    index = str(i + 1)
                     name = self.curvelist[i].name
                     name = name.ljust(self.namewidth)
                     name = pdvutil.truncate(name, self.namewidth)
@@ -4393,7 +4442,7 @@ class Command(cmd.Cmd, object):
                     ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
                     fname = self.curvelist[i].filename
                     fname = fname.ljust(self.filenamewidth)
-                    fname = pdvutil.truncate(fname, self.filenamewidth,'right')
+                    fname = pdvutil.truncate(fname, self.filenamewidth, 'right')
                     record_id = self.curvelist[i].record_id
                     record_id = record_id.ljust(self.recordidwidth)
                     record_id = pdvutil.truncate(record_id, self.recordidwidth)
@@ -4474,7 +4523,8 @@ class Command(cmd.Cmd, object):
         try:
             readline.write_history_file(os.getenv('HOME') + '/.pdvhistory')
         except:
-            if self.debug: traceback.print_exc(file=sys.stdout)
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
         finally:
             self.app.quit()
             sys.exit()
@@ -4509,7 +4559,7 @@ class Command(cmd.Cmd, object):
             if optcnt == 4:
                 dpi = float(line[3])
 
-            plt.savefig(fname=filename+'.'+filetype, dpi=dpi, format=filetype, transparent=transparent)
+            plt.savefig(fname=filename + '.' + filetype, dpi=dpi, format=filetype, transparent=transparent)
         except:
             print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] "
                   "\n                   [transparent=False: True | False] [dpi]")
@@ -4566,25 +4616,25 @@ class Command(cmd.Cmd, object):
         Save given curves to a CSV file
         """
 
-        if(not line):
+        if (not line):
             return 0
         try:
             line = line.split()
             filename = line.pop(0)
             line = ' '.join(line)
-            if(len(line.split(':')) > 1):
+            if (len(line.split(':')) > 1):
                 self.do_savecsv(filename + ' ' + pdvutil.getletterargs(line))
                 return 0
             else:
                 # make list of curve indices
                 indices = []
-                #used to ensure number of points in each curve appended is equal
+                # used to ensure number of points in each curve appended is equal
                 assertlength = None
                 line = line.split()
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
                         pname = self.plotlist[j].plotname
-                        if(pname == line[i].upper()):
+                        if (pname == line[i].upper()):
                             if assertlength is not None and len(self.plotlist[j].x) != assertlength:
                                 print('error - All curves must have the same number of points.')
                                 return 0
@@ -4632,7 +4682,7 @@ class Command(cmd.Cmd, object):
         Display text on the plot at the given plot location
         """
 
-        if(not line):
+        if (not line):
             return 0
         try:
             argline = line.split()
@@ -4656,7 +4706,7 @@ class Command(cmd.Cmd, object):
 
         try:
             for i in range(len(self.usertexts)):
-                dex = str(i+1).rjust(5)
+                dex = str(i + 1).rjust(5)
                 xloc = '%.4f' % self.usertexts[i][0]
                 xloc.ljust(5)
                 yloc = '%.4f' % self.usertexts[i][1]
@@ -4682,7 +4732,7 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            if len(line.split(':')) > 1:   #check for list notation
+            if len(line.split(':')) > 1:  # check for list notation
                 self.do_delannot(pdvutil.getnumberargs(line, self.filelist))
                 return 0
             else:
@@ -4690,7 +4740,7 @@ class Command(cmd.Cmd, object):
                 line = line.split()
                 rmlist = []
                 for i in range(len(line)):
-                    rmlist.append(self.usertexts[int(line[i])-1])
+                    rmlist.append(self.usertexts[int(line[i]) - 1])
                 for text in rmlist:
                     self.usertexts.remove(text)
         except:
@@ -4703,7 +4753,8 @@ class Command(cmd.Cmd, object):
 
     def do_span(self, line):
         """
-        Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points.
+        Generates a straight line of slope 1 and y intercept 0 in the specified
+            domain with an optional number of points.
 
         :param line: User Command-Line Input (span <xmin> <xmax> [<# pts>])
         :type line: string
@@ -4726,7 +4777,8 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_span(self):
-        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points'
+        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 '
+              'in the specified domain with an optional number of points'
               '\n   Usage: span <xmin> <xmax> [<# pts>]\n')
 
     def do_line(self, line):
@@ -4878,16 +4930,17 @@ class Command(cmd.Cmd, object):
                         pass
 
                 for curve in curves:
-                    curve_new = curve.copy() # new curve
-                    curve_new.name = 'Extract ' + curve.name.upper() # ULTRA naming
+                    curve_new = curve.copy()  # new curve
+                    curve_new.name = 'Extract ' + curve.name.upper()  # ULTRA naming
                     curve_new.plotname = self.getcurvename()
-                    curve_new.color = '' # PyDV will pick a color on its own
+                    curve_new.color = ''  # PyDV will pick a color on its own
                     self.addtoplot(curve_new)
                     minline = ' '.join(curve_new.plotname) + ' ' + xmin
                     maxline = ' '.join(curve_new.plotname) + ' ' + xmax
                     self.do_xmin(minline)
                     self.do_xmax(maxline)
-                    curve_new.edited = False # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
+                    # don't mark the new curve as having been edited by min and max; user doesn't care how we did it.
+                    curve_new.edited = False
 
                 self.plotedit = True
 
@@ -5087,10 +5140,11 @@ class Command(cmd.Cmd, object):
         newfilename = ''
         newrecord_id = ''
         if self.curvelist[icur2].filename == self.curvelist[icur1].filename:
-            newfilename = self.curvelist[icur2].filename 
+            newfilename = self.curvelist[icur2].filename
             if self.curvelist[icur2].record_id == self.curvelist[icur1].record_id:
                 newrecord_id = self.curvelist[icur2].record_id
-        nc = curve.Curve(newfilename, '%s vs %s' % (arg0, arg1), newrecord_id, self.curvelist[icur2].ylabel, self.curvelist[icur1].ylabel)
+        nc = curve.Curve(newfilename, '%s vs %s' % (arg0, arg1), newrecord_id, self.curvelist[icur2].ylabel,
+                         self.curvelist[icur1].ylabel)
         nc.x = yc2
         nc.y = numpy.interp(xc2, xc1, yc1)
         self.addtoplot(nc)
@@ -5175,12 +5229,13 @@ class Command(cmd.Cmd, object):
               '\n   Shortcuts: error-range\n')
 
     def help_marker(self):
-        print('''
-              Procedure: Set the marker symbol for scatter plots
-              Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
-              Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
-              Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-              ''')
+        print('\n   Procedure: Set the marker symbol for scatter plots'
+              '\n   Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
+              '\n   Note: When setting this value through the interface or the curve object directly, '
+              'use ONLY matplotlib supported marker types.'
+              '\n       Matplotlib marker types are also supported here as well. '
+              'See matplotlib documentation on markers for further information.'
+              )
 
     def do_marker(self, line):
         """
@@ -5258,7 +5313,7 @@ class Command(cmd.Cmd, object):
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
                             cur.markerstyle = marker
-                            if(markersize):
+                            if (markersize):
                                 cur.markersize = markersize
                             break
             self.plotedit = True
@@ -5268,12 +5323,13 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_linemarker(self):
-        print('''
-       Procedure: Set the marker symbol for the curves
-       Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
-       Note: When setting this value through the interface or the curve object directly, use ONLY matplotlib supported marker types.
-             Matplotlib marker types are also supported here as well. See matplotlib documentation on markers for further information.
-    ''')
+        print('\n   Procedure: Set the marker symbol for the curves'
+              '\n   Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
+              '\n   Note: When setting this value through the interface or the curve object directly, '
+              'use ONLY matplotlib supported marker types.'
+              '\n       Matplotlib marker types are also supported here as well. '
+              'See matplotlib documentation on markers for further information.'
+              )
 
     def do_smooth(self, line):
         """
@@ -6789,7 +6845,7 @@ class Command(cmd.Cmd, object):
               '\n    Usage: subsample <curve-list> [stride]')
 
     ########################################################################################################
-    # helper functions#
+    # helper functions #
     ########################################################################################################
 
     def find_xrange(self):
@@ -7876,9 +7932,9 @@ class Command(cmd.Cmd, object):
             console = code.InteractiveConsole(locals())
             console.interact()
 
-################################################################################################
-#####  private functions  # noqa e266
-################################################################################################
+    ################################################################################################
+    # private functions #
+    ################################################################################################
 
     def __log(self, line, log_type=LogEnum.LOG):
         if not line:
@@ -7969,9 +8025,9 @@ class Command(cmd.Cmd, object):
             else:
                 print("\nUnknown Message Type: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
 
-################################################################################################
-#####  main function  # noqa e266
-################################################################################################
+    ################################################################################################
+    # main function #
+    ################################################################################################
 
     def main(self):
 
