@@ -22,9 +22,9 @@ def test_read():
     assert curve_2.name == 'lightness vs cycle (lux_cycle_series)'
 
     # darkness
-    np.testing.assert_allclose(curve_1.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_1.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_2.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_2.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # do_xlabelwidth
     main.do_xlabelwidth('')
@@ -64,9 +64,9 @@ def test_read():
     assert curve_4.name == 'lightness'
 
     # darkness
-    np.testing.assert_allclose(curve_3.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_3.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_4.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_4.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # read tab-delimited ult
     main.do_read(os.path.join(TEST_DIR, 'testData.ult'))
@@ -78,9 +78,9 @@ def test_read():
     assert curve_6.name == 'lightness'
 
     # darkness
-    np.testing.assert_allclose(curve_5.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_5.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_6.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_6.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # create and save gaussian curves
     main.do_gaussian('1 1 5')

@@ -15,7 +15,7 @@ import pydvpy  # noqa E402
 test_files = list(pathlib.Path(TEST_DIR).glob('testData.*'))
 
 
-@pytest.mark.parametrize("test_file",  test_files)
+@pytest.mark.parametrize("test_file", test_files)
 def test_read(test_file):
     curves = pydvpy.read(test_file)
 
@@ -45,7 +45,7 @@ def test_sinaread():
 test_files = list(pathlib.Path(TEST_DIR).glob('testDataregex.*'))
 
 
-@pytest.mark.parametrize("test_file",  test_files)
+@pytest.mark.parametrize("test_file", test_files)
 def test_read_regex(test_file):
 
     # darkness

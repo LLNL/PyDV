@@ -4,7 +4,7 @@ import os
 def do_mycustomfunction(self, line):
 
     for i in range(4):
-        x = [i, i+1, i+2]
+        x = [i, i + 1, i + 2]
         y = x
         name = f'TestCurve_{i}'
         fname = f'TestFilename_{i}'
