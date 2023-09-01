@@ -60,9 +60,9 @@
 # endorsement purposes.
 
 import cmd
-import sys, os, re, time
-import string
-import types
+import sys
+import os
+import re
 import warnings
 warnings.filterwarnings("ignore", category=Warning)
 
@@ -82,11 +82,11 @@ use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
 if use_pyside:
     from PySide2.QtCore import *
     from PySide2.QtGui import *
-    from PySide2.QtWidgets import *
+    from PySide2.QtWidgets import QApplication
 else:
     from PyQt5.QtCore import *
     from PyQt5.QtGui import *
-    from PyQt5.QtWidgets import *
+    from PyQt5.QtWidgets import QApplication
 
 import traceback
 import readline
