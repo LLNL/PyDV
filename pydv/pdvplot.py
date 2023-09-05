@@ -478,57 +478,66 @@ class Plotter(QMainWindow):
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;">Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC. \
+        msg = self.tr('<b><p style="font-family:verdana;"> \
+                      Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
+                      <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, \
+                      Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
                       <p style="font-family:verdana;">e-mail: eljurf1@llnl.gov, moreno45@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
-                      <p style="font-family:courier; font-size:80%;">This file is part of PyDV. For details, see <URL describing code and \
-                       how to download source>. Please also read "Additional BSD Notice".</p> \
-                       <p style="font-family:courier; font-size:80%;"> Redistribution and use in source and binary forms, with or without \
-                       modification, are permitted provided that the following conditions are met:</p> \
-                       <p style="font-family:courier; font-size:80%;"> Redistributions of source code must retain the above copyright \
-                       notice, this list of conditions and the disclaimer below. \
-                       Redistributions in binary form must reproduce the above copyright \
-                       notice, this list of conditions and the disclaimer (as noted below) \
-                       in the documentation and/or other materials provided with the \
-    distribution.  Neither the name of the LLNS/LLNL nor the names of \
-    its contributors may be used to endorse or promote products derived \
-    from this software without specific prior written permission.</p> \
-    <p style="font-family:courier; font-size:80%;"> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \
-    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT \
-    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS \
-    FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL LAWRENCE \
-    LIVERMORE NATIONAL SECURITY, LLC, THE U.S. DEPARTMENT OF ENERGY OR \
-    CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, \
-    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT \
-    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF \
-    USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND \
-    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, \
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT \
-    OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF \
-    SUCH DAMAGE.</p> \
-    <p style="font-family:courier; font-size:80%;">Additional BSD Notice</p> \
-    <p style="font-family:courier; font-size:80%;"> 1. This notice is required to be provided under our contract with \
-    the U.S.  Department of Energy (DOE).  This work was produced at \
-    Lawrence Livermore National Laboratory under Contract \
-    No. DE-AC52-07NA27344 with the DOE.</p> \
-    <p style="font-family:courier; font-size:80%;"> 2. Neither the United States Government nor Lawrence Livermore \
-    National Security, LLC nor any of their employees, makes any \
-    warranty, express or implied, or assumes any liability or \
-    responsibility for the accuracy, completeness, or usefulness of any \
-    information, apparatus, product, or process disclosed, or represents \
-    that its use would not infringe privately-owned rights.</p> \
-    <p style="font-family:courier; font-size:80%;"> 3.  Also, reference herein to any specific commercial products, \
-    process, or services by trade name, trademark, manufacturer or \
-    otherwise does not necessarily constitute or imply its endorsement, \
-    recommendation, or favoring by the United States Government or \
-    Lawrence Livermore National Security, LLC.  The views and opinions \
-    of authors expressed herein do not necessarily state or reflect \
-    those of the United States Government or Lawrence Livermore National \
-    Security, LLC, and shall not be used for advertising or product \
-    endorsement purposes.</p>')
+                      <p style="font-family:courier; font-size:80%;">This file is part of PyDV. \
+                      For details, see <URL describing code and \
+                      how to download source>. Please also read "Additional BSD Notice".</p> \
+                      <p style="font-family:courier; font-size:80%;"> Redistribution and use in \
+                      source and binary forms, with or without \
+                      modification, are permitted provided that the following conditions are met:</p> \
+                      <p style="font-family:courier; font-size:80%;"> Redistributions of source code \
+                      must retain the above copyright \
+                      notice, this list of conditions and the disclaimer below. \
+                      Redistributions in binary form must reproduce the above copyright \
+                      notice, this list of conditions and the disclaimer (as noted below) \
+                      in the documentation and/or other materials provided with the \
+                      distribution.  Neither the name of the LLNS/LLNL nor the names of \
+                      its contributors may be used to endorse or promote products derived \
+                      from this software without specific prior written permission.</p> \
+                      <p style="font-family:courier; font-size:80%;"> THIS SOFTWARE IS PROVIDED \
+                      BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \
+                      "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT \
+                      LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS \
+                      FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL LAWRENCE \
+                      LIVERMORE NATIONAL SECURITY, LLC, THE U.S. DEPARTMENT OF ENERGY OR \
+                      CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, \
+                      SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT \
+                      LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF \
+                      USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND \
+                      ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, \
+                      OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT \
+                      OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF \
+                      SUCH DAMAGE.</p> \
+                      <p style="font-family:courier; font-size:80%;">Additional BSD Notice</p> \
+                      <p style="font-family:courier; font-size:80%;"> 1. This notice is required \
+                      to be provided under our contract with \
+                      the U.S.  Department of Energy (DOE).  This work was produced at \
+                      Lawrence Livermore National Laboratory under Contract \
+                      No. DE-AC52-07NA27344 with the DOE.</p> \
+                      <p style="font-family:courier; font-size:80%;"> 2. Neither the United States \
+                      Government nor Lawrence Livermore \
+                      National Security, LLC nor any of their employees, makes any \
+                      warranty, express or implied, or assumes any liability or \
+                      responsibility for the accuracy, completeness, or usefulness of any \
+                      information, apparatus, product, or process disclosed, or represents \
+                      that its use would not infringe privately-owned rights.</p> \
+                      <p style="font-family:courier; font-size:80%;"> 3.  Also, reference herein to \
+                      any specific commercial products, \
+                      process, or services by trade name, trademark, manufacturer or \
+                      otherwise does not necessarily constitute or imply its endorsement, \
+                      recommendation, or favoring by the United States Government or \
+                      Lawrence Livermore National Security, LLC.  The views and opinions \
+                      of authors expressed herein do not necessarily state or reflect \
+                      those of the United States Government or Lawrence Livermore National \
+                      Security, LLC, and shall not be used for advertising or product \
+                      endorsement purposes.</p>')
 
         # Copyright Dialog
         copy_dialog = QDialog(self)
@@ -567,13 +576,21 @@ class Plotter(QMainWindow):
         QMessageBox.aboutQt(self)
 
     def __aboutPyDV(self):
-        QMessageBox.about(self, self.tr('About PyDV'), self.tr('<h2>About PyDV</h2>'
-                                                               f'<p style="font-family:courier; font-size:40%;">version {pydv_version}</p>'
-                                                               '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                                               '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC.</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">Written by: Jorge Moreno, Sarah El-Jurf, Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
-                                                               '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, moreno45@llnl.gov</p>'
-                                                               '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, All rights reserved.</i></p>'))
+        QMessageBox.about(self,
+                          self.tr('About PyDV'),
+                          self.tr('<h2>About PyDV</h2>'
+                                  f'<p style="font-family:courier; font-size:40%;">version {pydv_version}</p>'
+                                  '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">\
+                                  PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
+                                  '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2023, \
+                                  Lawrence Livermore National Security, LLC.</p>'
+                                  '<p style="font-family:veranda; font-size:80%;">Written by: \
+                                  Jorge Moreno, Sarah El-Jurf, \
+                                  Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
+                                  '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, \
+                                  moreno45@llnl.gov</p>'
+                                  '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, \
+                                  All rights reserved.</i></p>'))
 
     def __deleteCurve(self):
         rowcnt = len(self._tableWidget.selectionModel().selectedRows())
