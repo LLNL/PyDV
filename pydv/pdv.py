@@ -4181,10 +4181,14 @@ class Command(cmd.Cmd, object):
                     print("error - invalid label-pattern")
                     return 0
 
-            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
-            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
+                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin',
+                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
+                                   self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
             for cur in self.plotlist:
                 searchline = cur.name + ' ' + cur.filename
                 if not line or reg.search(searchline):
@@ -4210,7 +4214,8 @@ class Command(cmd.Cmd, object):
                     xmax = "%.2e" % max(cur.x)
                     ymin = "%.2e" % min(cur.y)
                     ymax = "%.2e" % max(cur.y)
-                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin,
+                                                                            xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: list [<label-pattern>]")
             if self.debug:
@@ -4258,10 +4263,14 @@ class Command(cmd.Cmd, object):
             if stop > pllen:
                 stop = pllen
 
-            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
-            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
+                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin',
+                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
+                                   self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
             for i in range(start, stop):
                 curve = self.plotlist[i]
                 plotname = ""
@@ -4286,7 +4295,8 @@ class Command(cmd.Cmd, object):
                 xmax = "%.2e" % max(curve.x)
                 ymin = "%.2e" % min(curve.y)
                 ymax = "%.2e" % max(curve.y)
-                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin,
+                                                                        xmax, ymin, ymax, fname, record_id))
 
                 group_plotnames.append(plotname)
                 group_curvenames.append(name)
@@ -4339,7 +4349,8 @@ class Command(cmd.Cmd, object):
             self.plotter.updateDialogs()
 
     def help_kill(self):
-        print('\n   Procedure: Delete the specified entries from the menu. number-list is a space separated list of menu indexes'
+        print('\n   Procedure: Delete the specified entries from the menu. \
+              number-list is a space separated list of menu indexes'
               '\n   Usage: kill [all | number-list]')
 
     def do_menur(self, line):
@@ -4372,10 +4383,14 @@ class Command(cmd.Cmd, object):
             if stop > len(self.curvelist):
                 stop = len(self.curvelist)
 
-            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
-            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
+                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin',
+                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
+                                   self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
 
             for i in range(start, stop):
                 index = str(i + 1)
@@ -4398,7 +4413,8 @@ class Command(cmd.Cmd, object):
                 xmax = "%.2e" % max(self.curvelist[i].x)
                 ymin = "%.2e" % min(self.curvelist[i].y)
                 ymax = "%.2e" % max(self.curvelist[i].y)
-                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+                print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin,
+                                                                        xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: menur <start> [stop]")
             if self.debug:
@@ -4425,10 +4441,14 @@ class Command(cmd.Cmd, object):
                     print("error: invalid expression")
                     return 0
 
-            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
-                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
-            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
+                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin',
+                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+                          namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
+            print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
+                                   self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
             for i in range(len(self.curvelist)):
                 searchline = self.curvelist[i].name + ' ' + self.curvelist[i].filename
                 if not line or reg.search(searchline):
@@ -4452,7 +4472,8 @@ class Command(cmd.Cmd, object):
                     xmax = "%.2e" % max(self.curvelist[i].x)
                     ymin = "%.2e" % min(self.curvelist[i].y)
                     ymax = "%.2e" % max(self.curvelist[i].y)
-                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
+                    print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin,
+                                                                            xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: menu [<regex>]")
             if self.debug:
