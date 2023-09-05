@@ -29,7 +29,7 @@ class TestFlake8(unittest.TestCase):
         print()
         cmd = "flake8 --show-source --statistics " +\
               "--max-line-length=120 {} {} ".format(code_pth, test_pth) +\
-              "--ignore=E722 --per-file-ignores='kosh/kosh_command.py:E265'"
+              "--ignore=E722 --per-file-ignores='pydv/pdv.py.py:E402'"
         if not sys.platform.startswith("win"):
             cmd = shlex.split(cmd)
         P = Popen(cmd,

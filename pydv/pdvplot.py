@@ -83,13 +83,13 @@ except:
 from matplotlib.backends import qt_compat
 use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
 if use_pyside:
-    from PySide2.QtCore import Qt, QRect
+    from PySide2.QtCore import Qt, QRect, Slot
     from PySide2.QtGui import QIcon
     from PySide2.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
                                    QMessageBox, QTableWidgetItem, QAction, QAbstractItemView, QTableWidget,
                                    QMainWindow)
 else:
-    from PyQt5.QtCore import Qt, QRect
+    from PyQt5.QtCore import Qt, QRect, Slot
     from PyQt5.QtGui import QIcon
     from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
                                  QMessageBox, QTableWidgetItem, QAction, QAbstractItemView, QTableWidget,
@@ -216,7 +216,7 @@ class Plotter(QMainWindow):
     # SLOTS
     ########################################################################################################
 
-    @Slot()  # noqaf821
+    @Slot()
     def showCurvelistDialog(self):
         """
         Shows a dialog with the output of the list command in a table.
@@ -345,7 +345,7 @@ class Plotter(QMainWindow):
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
-    @Slot()  # noqaf821
+    @Slot()
     def showMenuDialog(self):
         """
         Shows a dialog with the output of the menu command in a table.

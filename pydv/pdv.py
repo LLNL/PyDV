@@ -69,8 +69,8 @@ warnings.filterwarnings("ignore", category=Warning)
 from threading import Thread
 
 import numpy
-from math import *
-from numpy import *
+# from math import *
+# from numpy import *
 
 import matplotlib
 matplotlib.use('Qt5Agg')
@@ -80,12 +80,14 @@ import matplotlib.colors as mclr
 from matplotlib.backends import qt_compat
 use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
 if use_pyside:
-    from PySide2.QtCore import *
-    from PySide2.QtGui import *
+    from PySide2.QtCore import (qInstallMessageHandler, QtDebugMsg, QtWarningMsg,
+                                QtCriticalMsg, QtFatalMsg, QtSystemMsg, QtInfoMsg)
+    # from PySide2.QtGui import *
     from PySide2.QtWidgets import QApplication
 else:
-    from PyQt5.QtCore import *
-    from PyQt5.QtGui import *
+    from PyQt5.QtCore import (qInstallMessageHandler, QtDebugMsg, QtWarningMsg,
+                              QtCriticalMsg, QtFatalMsg, QtSystemMsg, QtInfoMsg)
+    # from PyQt5.QtGui import *
     from PyQt5.QtWidgets import QApplication
 
 import traceback
@@ -812,7 +814,7 @@ class Command(cmd.Cmd, object):
 
         try:
             try:
-                value = float(line.split().pop(-1))
+                # value = float(line.split().pop(-1))
                 self.do_dy(line)
             except:
                 if len(line.split(':')) > 1:
@@ -882,7 +884,7 @@ class Command(cmd.Cmd, object):
 
         try:
             try:
-                value = float(line.split().pop(-1))
+                # value = float(line.split().pop(-1))
                 self.do_my(line)
             except:
                 if len(line.split(':')) > 1:
@@ -914,7 +916,7 @@ class Command(cmd.Cmd, object):
         try:
             # If dividing by a number then send to divy
             try:
-                value = float(line.split().pop(-1))
+                # value = float(line.split().pop(-1))
                 self.do_divy(line)
             except:
                 if len(line.split(':')) > 1:
@@ -1565,7 +1567,7 @@ class Command(cmd.Cmd, object):
             plt.cla()  # wipe current axes
 
             ratio = 1.0 / 3.0
-            count = ceil(sqrt(len(mclr.cnames)))
+            count = numpy.ceil(numpy.sqrt(len(mclr.cnames)))
             x_count = count * ratio
             y_count = count / ratio
             x = 0
@@ -3384,8 +3386,8 @@ class Command(cmd.Cmd, object):
                     self.showkey = False
                 elif key in ['hide', 'show']:
                     if line[i + 1] == 'all':  # show/hide all curves
-                        for curve in self.plotlist:
-                            curve.legend_show = False if key == 'hide' else True
+                        for cur in self.plotlist:
+                            cur.legend_show = False if key == 'hide' else True
                     else:
                         ids = [line[j] for j in range(i + 1, len(line))]
                         for curve_id in ids:
@@ -4183,31 +4185,31 @@ class Command(cmd.Cmd, object):
                   .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth, filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
             print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 + self.filenamewidth + self.recordidwidth + 9)))  # the last digit is number of columns - 1
-            for curve in self.plotlist:
-                searchline = curve.name + ' ' + curve.filename
+            for cur in self.plotlist:
+                searchline = cur.name + ' ' + cur.filename
                 if not line or reg.search(searchline):
                     plotname = ""
-                    if curve.edited:
+                    if cur.edited:
                         plotname = "*"
-                    plotname = plotname + curve.plotname
-                    name = curve.name
-                    name = pdvutil.truncate(curve.name.ljust(self.namewidth), self.namewidth)
-                    xlabel = curve.xlabel
+                    plotname = plotname + cur.plotname
+                    name = cur.name
+                    name = pdvutil.truncate(cur.name.ljust(self.namewidth), self.namewidth)
+                    xlabel = cur.xlabel
                     xlabel = xlabel.ljust(self.xlabelwidth)
                     xlabel = pdvutil.truncate(xlabel, self.xlabelwidth)
-                    ylabel = curve.ylabel
+                    ylabel = cur.ylabel
                     ylabel = ylabel.ljust(self.ylabelwidth)
                     ylabel = pdvutil.truncate(ylabel, self.ylabelwidth)
-                    fname = curve.filename
+                    fname = cur.filename
                     fname = fname.ljust(self.filenamewidth)
                     fname = pdvutil.truncate(fname, self.filenamewidth, 'right')
-                    record_id = curve.record_id
+                    record_id = cur.record_id
                     record_id = record_id.ljust(self.recordidwidth)
                     record_id = pdvutil.truncate(record_id, self.recordidwidth)
-                    xmin = "%.2e" % min(curve.x)
-                    xmax = "%.2e" % max(curve.x)
-                    ymin = "%.2e" % min(curve.y)
-                    ymax = "%.2e" % max(curve.y)
+                    xmin = "%.2e" % min(cur.x)
+                    xmax = "%.2e" % max(cur.x)
+                    ymin = "%.2e" % min(cur.y)
+                    ymax = "%.2e" % max(cur.y)
                     print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin, xmax, ymin, ymax, fname, record_id))
         except:
             print("error - usage: list [<label-pattern>]")
@@ -4929,9 +4931,9 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
 
-                for curve in curves:
-                    curve_new = curve.copy()  # new curve
-                    curve_new.name = 'Extract ' + curve.name.upper()  # ULTRA naming
+                for cur in curves:
+                    curve_new = cur.copy()  # new curve
+                    curve_new.name = 'Extract ' + cur.name.upper()  # ULTRA naming
                     curve_new.plotname = self.getcurvename()
                     curve_new.color = ''  # PyDV will pick a color on its own
                     self.addtoplot(curve_new)
@@ -7068,7 +7070,7 @@ class Command(cmd.Cmd, object):
                             cur.dashes = None
                         else:
                             val = eval(modvalue)
-                            assert type(val) == list
+                            assert isinstance(val, list)
                             assert len(val) % 2 == 0
                             assert min(val) > 0
                             cur.dashes = val
@@ -7115,7 +7117,7 @@ class Command(cmd.Cmd, object):
                             cur.edited = True
                         else:
                             cur.plotname = ''
-                            self.plotlist.pop(j)
+                            self.plotlist.pop(j)  # noqaf821
                     elif (flag == 'xmax'):
                         nx = []
                         ny = []
@@ -7129,7 +7131,7 @@ class Command(cmd.Cmd, object):
                             cur.edited = True
                         else:
                             cur.plotname = ''
-                            self.plotlist.pop(j)
+                            self.plotlist.pop(j)  # noqaf821
                     elif (flag == 'ymin'):
                         nx = []
                         ny = []
@@ -7143,7 +7145,7 @@ class Command(cmd.Cmd, object):
                             cur.edited = True
                         else:
                             cur.plotname = ''
-                            self.plotlist.pop(j)
+                            self.plotlist.pop(j)  # noqaf821
                     elif (flag == 'ymax'):
                         nx = []
                         ny = []
@@ -7157,7 +7159,7 @@ class Command(cmd.Cmd, object):
                             cur.edited = True
                         else:
                             cur.plotname = ''
-                            self.plotlist.pop(j)
+                            self.plotlist.pop(j)  # noqaf821
                 except:
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
