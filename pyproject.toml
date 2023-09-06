@@ -46,7 +46,6 @@ sphinx = "*"
 pytest = "*"
 sphinx-autoapi = "*"
 six = "*"
-flake8 = "*"
 
 [tool.poetry.plugins."console_scripts"]
 'pdv' = 'pydv.pdv:main'

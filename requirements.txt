@@ -13,7 +13,6 @@ cycler==0.11.0
     # via matplotlib
 fonttools==4.41.1
     # via matplotlib
-flake8==6.1.0
 importlib-resources==6.0.0
     # via matplotlib
 joblib==1.3.1
