@@ -93,10 +93,7 @@ try:
 except:
     stylesLoaded = False
 
-try:
-    from . import curve
-except ImportError:
-    import curve
+from pydv import curve
 
 try:
     import pact.pdb as pdb

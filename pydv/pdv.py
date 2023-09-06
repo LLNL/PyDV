@@ -69,8 +69,6 @@ warnings.filterwarnings("ignore", category=Warning)
 from threading import Thread
 
 import numpy
-# from math import *
-# from numpy import *
 
 import matplotlib
 matplotlib.use('Qt5Agg')
@@ -95,16 +93,7 @@ import readline
 import code
 from numbers import Number
 
-try:
-    from . import pydvpy as pydvif
-    from . import curve
-    from . import pdvplot
-    from . import pdvutil
-except ImportError:
-    import pydvpy as pydvif
-    import curve
-    import pdvplot
-    import pdvutil
+from pydv import pydvpy as pydvif, curve, pdvplot, pdvutil
 
 try:
     from matplotlib import style

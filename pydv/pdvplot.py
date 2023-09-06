@@ -67,12 +67,8 @@ except:
 
 from os import path
 
-try:
-    from .pdvnavbar import PyDVToolbar
-    from . import pdvutil
-except ImportError:
-    from pdvnavbar import PyDVToolbar
-    import pdvutil
+from pydv.pdvnavbar import PyDVToolbar
+from pydv import pdvutil
 
 try:
     from matplotlib import style

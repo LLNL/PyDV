@@ -41,5 +41,3 @@ class TestFlake8(unittest.TestCase):
         if out != "":
             print(out)
         self.assertEqual(out, "")
-
-# "--exclude pydv/scripts/* " +\
