@@ -93,7 +93,16 @@ import readline
 import code
 from numbers import Number
 
-from pydv import pydvpy as pydvif, curve, pdvplot, pdvutil
+try:
+    from . import pydvpy as pydvif
+    from . import curve
+    from . import pdvplot
+    from . import pdvutil
+except ImportError:
+    import pydvpy as pydvif
+    import curve
+    import pdvplot
+    import pdvutil
 
 try:
     from matplotlib import style

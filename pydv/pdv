@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
-import pydv.pdv
+#import sys
 
-pydv.pdv.Command().main()
+#sys.path.append("/collab/usr/gapps/pdv/bin")
+
+import pdv
+
+pdv.Command().main()

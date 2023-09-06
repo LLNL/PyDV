@@ -1,9 +1,12 @@
 import os
 import numpy as np
 import sys
-from pydv import pdv
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+PYDV_DIR = os.path.dirname(TEST_DIR)
+
+sys.path.append(os.path.join(PYDV_DIR, "pydv"))
+import pdv  # noqa E402
 
 
 def test_read():

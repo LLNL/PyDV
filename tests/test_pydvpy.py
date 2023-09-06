@@ -3,9 +3,15 @@ import pathlib
 import pytest
 import numpy as np
 import sys
-from pydv import pydvpy
+
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+PYDV_DIR = os.path.dirname(TEST_DIR)
+
+sys.path.append(os.path.join(PYDV_DIR, "pydv"))
+import pydvpy  # noqa E402
+
+
 test_files = list(pathlib.Path(TEST_DIR).glob('testData.*'))
 
 
