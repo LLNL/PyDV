@@ -52,4 +52,4 @@ threadpoolctl==3.2.0
     # via scikit-learn
 zipp==3.16.2
     # via importlib-resources
-flake8
+flake8==6.1.0
