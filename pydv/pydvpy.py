@@ -2682,7 +2682,7 @@ def getymax(c, xmin=None, xmax=None):
     :type xmax: float, optional
     :return: str -- curve name
              list -- a list of tuples where each tuple contains the x-value and
-                the max y-value.
+             the max y-value.
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
@@ -2706,7 +2706,7 @@ def getymin(c, xmin=None, xmax=None):
     :type xmax: float, optional
     :return: str -- curve name
              list -- a list of tuples where each tuple contains the x-value and
-                the min y-value.
+             the min y-value.
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)

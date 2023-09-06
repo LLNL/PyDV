@@ -18,11 +18,11 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../pydv'))
 
 DOCS_DIR = os.path.dirname(os.path.abspath(__file__))
-PYDV_DIR = os.path.dirname(DOCS_DIR)
-version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
+PYDV_DIR = os.path.join(os.path.dirname(DOCS_DIR),'pydv')
+version_file = os.path.join(os.path.dirname(DOCS_DIR), 'scripts/version.txt')
 with open(version_file, 'r') as fp:
     pydv_version = fp.read()
 
@@ -119,7 +119,7 @@ numfig = True
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'furo'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
