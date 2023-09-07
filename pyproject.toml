@@ -41,7 +41,7 @@ scipy = "*"
 PySide2 = "*"
 
 [tool.poetry.dev-dependencies]
-furo = "*"
+sphinx_rtd_theme = "*"
 sphinx = "*"
 pytest = "*"
 sphinx-autoapi = "*"
@@ -63,7 +63,7 @@ build-backend = "poetry.core.masonry.api"
 line-length = 79
 
 [tool.bumpver]
-current_version = "3.1.11"
+current_version = "3.1.16"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true
