@@ -4179,11 +4179,12 @@ class Command(cmd.Cmd, object):
                     print("error - invalid label-pattern")
                     return 0
 
-            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
-                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin',
-                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel',
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          ) + # noqa w504
+                  "{:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
             print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
                                    self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
@@ -4261,11 +4262,12 @@ class Command(cmd.Cmd, object):
             if stop > pllen:
                 stop = pllen
 
-            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
-                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('curve', 'curve_name', 'xlabel', 'ylabel', 'xmin',
-                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+            print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
+                  .format('curve', 'curve_name', 'xlabel', 'ylabel',
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          ) + # noqa w504
+                  "{:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
             print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
                                    self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
@@ -4381,11 +4383,12 @@ class Command(cmd.Cmd, object):
             if stop > len(self.curvelist):
                 stop = len(self.curvelist)
 
-            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
-                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin',
-                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
+                  .format('index', 'curve_name', 'xlabel', 'ylabel',
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          ) + # noqa w504
+                  "{:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
             print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
                                    self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
@@ -4439,11 +4442,12 @@ class Command(cmd.Cmd, object):
                     print("error: invalid expression")
                     return 0
 
-            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} \
-                  {:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
-                  .format('index', 'curve_name', 'xlabel', 'ylabel', 'xmin',
-                          'xmax', 'ymin', 'ymax', 'fname', 'record_id',
+            print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
+                  .format('index', 'curve_name', 'xlabel', 'ylabel',
                           namewidth=self.namewidth, xlabelwidth=self.xlabelwidth, ylabelwidth=self.ylabelwidth,
+                          ) + # noqa w504
+                  "{:<9} {:<9} {:<9} {:<9} {:<{filenamewidth}.{filenamewidth}} {:<{recordidwidth}.{recordidwidth}}"
+                  .format('xmin', 'xmax', 'ymin', 'ymax', 'fname', 'record_id',
                           filenamewidth=self.filenamewidth, recordidwidth=self.recordidwidth))
             print("".join(['-'] * (5 + self.namewidth + self.xlabelwidth + self.ylabelwidth + 9 + 9 + 9 + 9 +  # noqaw504
                                    self.filenamewidth + self.recordidwidth + 9)))  # last digit is number of columns - 1
