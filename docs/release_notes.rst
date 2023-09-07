@@ -3,6 +3,11 @@
 Release Notes
 =============
 
+3.1.16
+------
+* Restore docs theme back to sphinx-rtd-theme
+* Apply flake8 
+
 3.1.15
 ------
 * Bug fix for save command
