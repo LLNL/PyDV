@@ -12,16 +12,16 @@ RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
-PYTHON_CMD = /usr/tce/packages/python/python-3.8.2/bin/python3
+PYTHON_CMD = /usr/tce/bin/python3
 
 define create_env
 	# call from the directory where env will be created
 	# arg1: name of env
-	$(PYTHON_CMD) -m venv --system-site-packages $1
+	$(PYTHON_CMD) -m venv $1
 	source $1/bin/activate &&
 	pip3 install --upgrade pip &&
 	pip3 install --force pytest &&
-	pip3 install numpy scipy matplotlib PySide2 &&
+	pip3 install numpy scipy matplotlib PySide2 flake8 &&
 	which pytest
 endef
 
@@ -30,12 +30,26 @@ define run_pydv_tests
 	# arg1: full path to venv
 	source $1/bin/activate && which pip && which pytest && 
 	if [ -z $(DISPLAY) ]; then 
-	  xvfb-run --auto-servernum --server-num=88 pytest --capture=tee-sys -v tests/; 
+	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/; 
 	else 
 	  pytest --capture=tee-sys -v tests/;
 	fi
 endef
 
+define do_run_rz_tests
+	cd $(RZ_TESTS_WORKDIR) && rm -rf pydv &&
+	/usr/tce/bin/git clone -b $(CI_COMMIT_BRANCH) $(RZ_GITLAB)/$(PROJECT) &&
+	chgrp -R weavedev pydv && cd pydv && 
+	$(call create_env,$(PYDV_ENV)) &&
+	cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd .. &&
+	$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)) &&
+	source $(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)/bin/activate &&
+	if [ -z $(DISPLAY) ]; then
+		xvfb-run --auto-servernum python3 -m pytest tests/wsc_tests/test_*py
+	else
+		python3 -m pytest -v tests/wsc_tests/test_*py
+	fi
+endef
 
 .PHONY: create_env
 create_env:
@@ -57,23 +71,8 @@ run_tests:
 .PHONY: run_rz_tests
 .ONESHELL:
 run_rz_tests:
-	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)"
-	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
-		cd $(RZ_TESTS_WORKDIR) && rm -rf pydv
-		/usr/tce/bin/git clone -b develop $(RZ_GITLAB)/$(PROJECT)
-		cd pydv
-		$(call create_env,$(PYDV_ENV))
-		cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd ..
-		$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV))
-		for t in tests/wsc_tests/test_*py; do
-			echo RUNNING \$$t
-			if [ -z $(DISPLAY) ]; then
-				xvfb-run --auto-servernum --server-num=88 python3 -m pytest \$$t
-			else
-				python3 -m pytest -v \$$t
-			fi
-		done
-	AS_WEAVECI_USER
+	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)";
+	xsu weaveci -c "umask 007 && sg weavedev -c '$(call do_run_rz_tests)'"
 
 
 .PHONY: release
@@ -87,7 +86,6 @@ release:
 	gzip $(TAG).tar; \
 	curl --header "JOB-TOKEN: $(CI_JOB_TOKEN)" --upload-file $(TAG).tar.gz $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz
 
-
 .PHONY: deploy
 .ONESHELL:
 deploy:
@@ -95,9 +93,10 @@ deploy:
 	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
 	wget --header="JOB-TOKEN:$(CI_JOB_TOKEN)" $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz -O $(TAG).tar.gz
 	give weaveci $(TAG).tar.gz
+	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
 		cd $(DEPLOY_PATH)
-		take muryanto -f
+		take $(GIVE_USER) -f
 		chmod 750 $(TAG).tar.gz
 		gunzip $(TAG).tar.gz
 		tar -xvf $(TAG).tar
@@ -119,14 +118,16 @@ deploy_to_develop:
 	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
 	tar -cvf $(VERSION).tar * && gzip $(VERSION).tar
 	give --force weaveci $(VERSION).tar.gz
+	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
 		umask 027
 		cd $(DEPLOY_PATH)
 		if [ ! -d $(DEPLOY_PATH)/develop ]; then mkdir -p $(DEPLOY_PATH)/develop; fi
 		cd $(DEPLOY_PATH)/develop
-		take muryanto -f
+		take $(GIVE_USER) -f
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
 		cd .. && chmod -R 750 develop
 		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv
 	AS_WEAVECI_USER
+

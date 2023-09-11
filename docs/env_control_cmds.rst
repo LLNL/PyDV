@@ -57,6 +57,16 @@ Erase all curves on the screen but leave the limits untouched. **Shortcut: era**
  
    [PyDV]: erase 
 
+filenamewidth
+-------------
+
+Change the width of the fname column of the menu and lst output. If no width is given, the 
+current column width will be displayed.
+
+.. code::
+ 
+   [PyDV]: filenamewidth <integer> 
+
 kill
 ----
 
@@ -75,6 +85,16 @@ Change the width of the first column of the **menu** and **lst** output.
  
    [PyDV]: namewidth <integer> 
 
+recordidwidth
+-------------
+
+Change the width of the record_id column of the menu and lst output. If no width is given, the 
+current column width will be displayed.
+
+.. code::
+ 
+   [PyDV]: recordidwidth <integer> 
+
 quit
 ----
 
@@ -84,3 +104,22 @@ Exit PyDV. **Shortcut: q**
  
    [PyDV]: quit 
 
+xlabelwidth
+-----------
+
+Change the width of the xlabel column of the menu and lst output. If no width is given, the 
+current column width will be displayed.
+
+.. code::
+ 
+   [PyDV]: xlabelwidth <integer> 
+
+ylabelwidth
+-----------
+
+Change the width of the ylabel column of the menu and lst output. If no width is given, the 
+current column width will be displayed.
+
+.. code::
+ 
+   [PyDV]: ylabelwidth <integer> 

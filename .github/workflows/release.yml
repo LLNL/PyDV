@@ -18,7 +18,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: pydv-3.1.5
-          release_name: PyDV 3.1.5
-          draft: false
+          tag_name: pydv-3.1.16          release_name: PyDV 3.1.16          draft: false
           prerelease: false
