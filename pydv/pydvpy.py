@@ -71,7 +71,6 @@ A python interface for PyDV functionality.
 
 import json
 import os
-import string
 import traceback
 import sys
 import re
@@ -104,6 +103,7 @@ try:
     pdbLoaded = True
 except:
     pdbLoaded = False
+
 
 def span(xmin, xmax, numpts=100):
     """
@@ -153,7 +153,7 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     """
     if len(x) != len(y):
         print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
-        name += " !!!ERROR:len(x)!=len(y)!!!"            
+        name += " !!!ERROR:len(x)!=len(y)!!!"
     c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
@@ -192,7 +192,10 @@ def create_plot(curvelist, **kwargs):
 
     >>> plot1 = pydvif.create_plot(curves, fname='myPlot1')
 
-    >>> plot2 = pydvif.create_plot(curves, fname='myPlot2', ftype='pdf', fwidth=10.1, fheight=11.3, title='My Plot', xlabel='X', ylabel='Y', legend=True, stylename='ggplot')
+    >>> plot2 = pydvif.create_plot(curves, fname='myPlot2', ftype='pdf',
+                                   fwidth=10.1, fheight=11.3, title='My Plot',
+                                   xlabel='X', ylabel='Y', legend=True,
+                                   stylename='ggplot')
 
     :param curvelist: The curve or list of curves to plot
     :type curvelist: list
@@ -225,7 +228,7 @@ def create_plot(curvelist, **kwargs):
         elif key == 'ylabel':
             ylabel = val
         elif key == 'legend':
-            legend = val 
+            legend = val
         elif key == 'stylename':
             stylename = val
         elif key == 'xls':
@@ -251,9 +254,9 @@ def create_plot(curvelist, **kwargs):
     plt.cla()
     axis = plt.gca()
 
-    if(xls):
+    if (xls):
         axis.set_xscale('log', nonposx='clip')
-    if(yls):
+    if (yls):
         axis.set_yscale('log', nonposy='clip')
 
     curves = list()
@@ -263,48 +266,50 @@ def create_plot(curvelist, **kwargs):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        if not curve.hidden:
-            xdat = np.array(curve.x)
-            ydat = np.array(curve.y)
+    for cur in curves:
+        if not cur.hidden:
+            xdat = np.array(cur.x)
+            ydat = np.array(cur.y)
 
-            if(yls):
+            if (yls):
                 for i in range(len(ydat)):
-                    if(ydat[i] < 0):
-                        ydat[i] = 1e-301    #custom ydata clipping
-            if(xls):
+                    if (ydat[i] < 0):
+                        ydat[i] = 1e-301  # custom ydata clipping
+            if (xls):
                 for i in range(len(xdat)):
-                    if(xdat[i] < 0):
-                        xdat[i] = 1e-301    #custom xdata clipping
+                    if (xdat[i] < 0):
+                        xdat[i] = 1e-301  # custom xdata clipping
 
-            if curve.ebar is not None:
-                c = plt.errorbar(xdat, ydat, yerr=[curve.ebar[0], curve.ebar[1]], xerr=[curve.ebar[2], curve.ebar[3]], fmt='-')
-            elif curve.erange is not None:
+            if cur.ebar is not None:
+                c = plt.errorbar(xdat, ydat, yerr=[cur.ebar[0], cur.ebar[1]],
+                                 xerr=[cur.ebar[2], cur.ebar[3]], fmt='-')
+            elif cur.erange is not None:
                 c = plt.plot(xdat, ydat)
-                plt.fill_between(xdat, ydat - curve.erange[0], ydat + curve.erange[1], alpha=0.4, color=c[0].get_color())
+                plt.fill_between(xdat, ydat - cur.erange[0], ydat + cur.erange[1],
+                                 alpha=0.4, color=c[0].get_color())
             else:
                 c = plt.plot(xdat, ydat)
 
-            if curve.linespoints:
-                plt.setp(c[0], marker=curve.marker, markersize=curve.markersize, linestyle=curve.linestyle)
-            elif curve.scatter:
-                plt.setp(c[0], marker=curve.marker, markersize=curve.markersize, linestyle=' ')
+            if cur.linespoints:
+                plt.setp(c[0], marker=cur.marker, markersize=cur.markersize, linestyle=cur.linestyle)
+            elif cur.scatter:
+                plt.setp(c[0], marker=cur.marker, markersize=cur.markersize, linestyle=' ')
             else:
-                plt.setp(c[0], linestyle=curve.linestyle)
+                plt.setp(c[0], linestyle=cur.linestyle)
 
-            if curve.linewidth:
-                plt.setp(c[0], lw=curve.linewidth)
-                plt.setp(c[0], mew=curve.linewidth)
+            if cur.linewidth:
+                plt.setp(c[0], lw=cur.linewidth)
+                plt.setp(c[0], mew=cur.linewidth)
 
-            plt.setp(c[0], label=curve.name)
+            plt.setp(c[0], label=cur.name)
 
-            if curve.color != '':
-                plt.setp(c, color=curve.color)
+            if cur.color != '':
+                plt.setp(c, color=cur.color)
             else:
-                curve.color = c[0].get_color()
+                cur.color = c[0].get_color()
 
-            if curve.dashes is not None:
-                c[0].set_dashes(curve.dashes)
+            if cur.dashes is not None:
+                c[0].set_dashes(cur.dashes)
 
     if legend:
         plt.legend(fancybox=True, numpoints=1, loc=1, ncol=1).get_frame().set_alpha(0.5)
@@ -357,10 +362,10 @@ def save(fname, curvelist, verbose=False):
 
     try:
         f = open(fname, 'w')
-        for curve in curves:
-            f.write('# ' + curve.name + '\n')
-            for dex in range(len(curve.x)):
-                f.write(' ' + str(curve.x[dex]) + ' ' + str(curve.y[dex]) + '\n')
+        for cur in curves:
+            f.write('# ' + cur.name + '\n')
+            for dex in range(len(cur.x)):
+                f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
     except:
         print('Error: Can not write to: ' + fname)
         if verbose:
@@ -398,8 +403,8 @@ def savecsv(fname, curvelist, verbose=False):
     try:
         f = open(fname, 'w')
         s = '# time'
-        for curve in curves:
-            s += ', ' + curve.name
+        for cur in curves:
+            s += ', ' + cur.name
         s += '\n'
         f.write(s)
         for i in range(len(curvelist[0].x)):
@@ -438,7 +443,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     :param matches: optional, maximum number of times to match pattern, if specified
     :type matches: int
     :returns: list -- the list of curves from the file matching pattern, if specified
-    
+
     """
     def bundle_curve(_curve, build_x, build_y):
         if len(build_x) != len(build_y):
@@ -493,7 +498,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     # If there is a sequence of lines that start with # before
                     # getting to the actual data, then the new_curve flag will
                     # keep us from adding all those comments as curves.
-                    if current and not new_curve: 
+                    if current and not new_curve:
 
                         # Need this since it will add last match below and outside loop
                         if matches and match_count >= matches:
@@ -523,7 +528,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             build_list_x += split_line[::2]
                             build_list_y += split_line[1::2]
 
-                    elif current and not new_curve: # add data to current curve
+                    elif current and not new_curve:  # add data to current curve
                         build_list_x += split_line[::2]
                         build_list_y += split_line[1::2]
 
@@ -596,38 +601,40 @@ def readcsv(fname, xcol=0, verbose=False):
     try:
         lines = f.readlines()
         iLine = 0
-        for l in lines:
-            if l[0] != '#':
-                break;
+        for line in lines:
+            if line[0] != '#':
+                break
             iLine += 1
-        if iLine == 0 and False: # FIXME make condition to catch no labels
+        if iLine == 0 and False:  # FIXME make condition to catch no labels
             print('WARNING: columns have no labels, labels will be assigned...someday')
-        alllabels = lines[iLine] # this line has the labels on it.
+        alllabels = lines[iLine]  # this line has the labels on it.
         colLabels = alllabels.split(',')
         colLabels = [w.strip() for w in colLabels]
         for w in colLabels:  # if someone made labels with quotes, kill the quotes
-            if '"' in w: w.replace('"','')
+            if '"' in w:
+                w.replace('"', '')
         # check that we have a label for every column
         if len(colLabels) != len(lines[iLine].split(',')) and iLine > 0:
             raise RuntimeError('Sorry, right now PDV requires you to have a label for every column.')
         # We assume some column is the x-data, every other column
         # is y-data
-        iLine += 1 # go to next line after header labels
+        iLine += 1  # go to next line after header labels
         numcurves = len(lines[iLine].split(',')) - 1
 
         # Make the curves, append them to self.curvelist.
         # First, get data into lists of numbers
-        numDataLines = len(lines) - iLine
+        # numDataLines = len(lines) - iLine
         localCurves = []
-        for i in range(numcurves+1):
-            localCurves.append([]) # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
+        for i in range(numcurves + 1):
+            localCurves.append([])  # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
         # turn the strings into numbers
-        for l in lines[iLine:]:
-            nums = [float(n) for n in l.split(',')]
+        for line in lines[iLine:]:
+            nums = [float(n) for n in line.split(',')]
             # print 'nums = ', nums, 'numcurves = ', numcurves
             assert len(nums) == numcurves + 1
             if xcol >= numcurves:
-                print('xcolumn is %d, larger than the number of curves in the file, use "setxcolumn" to fix that' % xcol)
+                print('xcolumn is %d, larger than the number of curves' % xcol,
+                      'in the file, use "setxcolumn" to fix that')
             for colID in range(numcurves + 1):
                 localCurves[colID].append(nums[colID])
         # convert lists to numpy arrays
@@ -650,6 +657,7 @@ def readcsv(fname, xcol=0, verbose=False):
 
     return curvelist
 
+
 def readsina(fname, verbose=False):
     """
     Load a Sina JSON data file, add parsed curves to a curvelist.
@@ -658,7 +666,7 @@ def readsina(fname, verbose=False):
     there is only one record, and if there are more then we only read the first one. We also assume
     only one independent variable per curve_set; if there are more than one, then PyDV may exhibit
     undefined behavior. Can also read curve_sets within libraries in library_data.
-    
+
     >>> curves = readsina('testData.json')
 
     :param fname: Sina JSON filename
@@ -694,11 +702,11 @@ def readsina(fname, verbose=False):
                                 curve_name += ' ' + library
                                 full_name += '__LIBRARY__' + library
                             c = makecurve(x=independent_value, y=dependent_variable_value,
-                                name=curve_name, fname=fname, xlabel=independent_name,
-                                ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
+                                          name=curve_name, fname=fname, xlabel=independent_name,
+                                          ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
                             c.step = False
                             print("Appended curve: {}, len x,y: {},{}"
-                                .format(dependent_variable_name, len(c.x), len(c.y)))
+                                  .format(dependent_variable_name, len(c.x), len(c.y)))
                             curves[full_name] = c
                             listed_order.append(full_name)
                     return curves, listed_order
@@ -727,21 +735,20 @@ def readsina(fname, verbose=False):
         if verbose:
             traceback.print_exc(file=sys.stdout)
         return []
-    
+
     try:
         curves_lst = [curves[name] for name in order_options]
     except KeyError:
-        print('readsina: mismatch between dependent variable names in the curve_sets and the ' + \
-            'ordering specified in SINA_timeplot_order. Using default ordering instead.')
+        print('readsina: mismatch between dependent variable names in the curve_sets and the '
+              'ordering specified in SINA_timeplot_order. Using default ordering instead.')
         if verbose:
             traceback.print_exc(File=sys.stdout)
         curves_lst = [curves[name] for name in listed_order]
     return curves_lst
 
 
-
 ########################################################
-################## Math Functions  #####################
+################## Math Functions  #####################  # noqa e266
 ########################################################
 
 def cos(curvelist):
@@ -764,8 +771,8 @@ def cos(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.cos(curve.y)
+    for cur in curves:
+        cur.y = np.cos(cur.y)
 
 
 def cosx(curvelist):
@@ -788,8 +795,9 @@ def cosx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.cos(curve.x)
+    for cur in curves:
+        cur.x = np.cos(cur.x)
+
 
 def cosh(curvelist):
     """
@@ -811,8 +819,8 @@ def cosh(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.cosh(curve.y)
+    for cur in curves:
+        cur.y = np.cosh(cur.y)
 
 
 def coshx(curvelist):
@@ -835,8 +843,8 @@ def coshx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.cosh(curve.x)
+    for cur in curves:
+        cur.x = np.cosh(cur.x)
 
 
 def acosh(curvelist):
@@ -859,8 +867,8 @@ def acosh(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.arccosh(curve.y)
+    for cur in curves:
+        cur.y = np.arccosh(cur.y)
 
 
 def acoshx(curvelist):
@@ -883,8 +891,8 @@ def acoshx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.arccosh(curve.x)
+    for cur in curves:
+        cur.x = np.arccosh(cur.x)
 
 
 def acos(curvelist):
@@ -907,8 +915,8 @@ def acos(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.arccos(curve.y)
+    for cur in curves:
+        cur.y = np.arccos(cur.y)
 
 
 def acosx(curvelist):
@@ -931,8 +939,8 @@ def acosx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.arccos(curve.x)
+    for cur in curves:
+        cur.x = np.arccos(cur.x)
 
 
 def sin(curvelist):
@@ -1562,10 +1570,11 @@ def my(curvelist, value):
     for c in curves:
         c.y *= float(value)
 
+
 def l1(c1, c2, xmin=None, xmax=None):
     """
     Make a new curve that is the L1 norm of curve c1 and  curve c2.
-    The L1-norm is the integral(\|c1 - c2\|) over the interval [xmin, xmax].
+    The L1-norm is the integral(\|c1 - c2\|) over the interval [xmin, xmax].  # noqa w605
 
     >>> c = pydvif.l1(curve1, curve2)
 
@@ -1682,7 +1691,7 @@ def norm(c1, c2, p, xmin=None, xmax=None):
         return d
     else:
         d = integrate(c, xmin, xmax)
-        d[0] = d[0]**(1.0/N)
+        d[0] = d[0]**(1.0 / N)
         d[0].name = "L%d of " % N + __toCurveString(c1) + " and " + __toCurveString(c2)
 
         return d[0]
@@ -1708,8 +1717,9 @@ def abs(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.abs(curve.y)
+    for cur in curves:
+        cur.y = np.abs(cur.y)
+
 
 def absx(curvelist):
     """
@@ -1731,8 +1741,8 @@ def absx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.abs(curve.x)
+    for cur in curves:
+        cur.x = np.abs(cur.x)
 
 
 def log(curvelist, keep=True):
@@ -1767,9 +1777,10 @@ def log(curvelist, keep=True):
 
         c.y = np.log(c.y)
         if c.name[:3] == 'exp':
-            c.name = c.name[4:-1] # Pop off the exp( from the front and the ) from the back
+            c.name = c.name[4:-1]  # Pop off the exp( from the front and the ) from the back
         else:
             c.name = 'log(' + c.name + ')'
+
 
 def logx(curvelist, keep=True):
     """
@@ -1803,9 +1814,10 @@ def logx(curvelist, keep=True):
 
         c.x = np.log(c.x)
         if c.name[:4] == 'expx':
-            c.name = c.name[5:-1] # Pop off the expx( from the front and the ) from the back
+            c.name = c.name[5:-1]  # Pop off the expx( from the front and the ) from the back
         else:
             c.name = 'logx(' + c.name + ')'
+
 
 def log10(curvelist, keep=True):
     """
@@ -1819,7 +1831,8 @@ def log10(curvelist, keep=True):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
-    :param keep: flag to determine whether or not to discard zero or negative y-values before taking the base 10 logarithm.
+    :param keep: flag to determine whether or not to discard zero
+                 or negative y-values before taking the base 10 logarithm.
                  keep is True by default.
     :type keep: optional, boolean
     """
@@ -1853,7 +1866,8 @@ def log10x(curvelist, keep=True):
 
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
-    :param keep: flag to determine whether or not to discard zero or negative y-values before taking the base 10 logarithm.
+    :param keep: flag to determine whether or not to discard zero
+                 or negative y-values before taking the base 10 logarithm.
                  keep is True by default.
     :type keep: optional, boolean
     """
@@ -1895,8 +1909,8 @@ def exp(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.exp(curve.y)
+    for cur in curves:
+        cur.y = np.exp(cur.y)
 
 
 def expx(curvelist):
@@ -1919,8 +1933,8 @@ def expx(curvelist):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.exp(curve.x)
+    for cur in curves:
+        cur.x = np.exp(cur.x)
 
 
 def powa(curvelist, a):
@@ -1945,8 +1959,8 @@ def powa(curvelist, a):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.y = np.power(float(a), curve.y)
+    for cur in curves:
+        cur.y = np.power(float(a), cur.y)
 
 
 def powax(curvelist, a):
@@ -1971,8 +1985,8 @@ def powax(curvelist, a):
     else:
         curves.append(curvelist)
 
-    for curve in curves:
-        curve.x = np.power(float(a), curve.x)
+    for cur in curves:
+        cur.x = np.power(float(a), cur.x)
 
 
 def powr(curvelist, a):
@@ -2600,8 +2614,8 @@ def integrate(curvelist, low=None, high=None):
             high = max(nc.x)
 
         r = __get_sub_range(nc.x, low, high)
-        nc.x = nc.x[r[0]:r[1]+1]
-        nc.y = nc.y[r[0]:r[1]+1]
+        nc.x = nc.x[r[0]:r[1] + 1]
+        nc.y = nc.y[r[0]:r[1] + 1]
         nc.y = np.array(scipy.integrate.cumtrapz(nc.y, nc.x, initial=0.0))
 
         ncurves.append(nc)
@@ -2668,11 +2682,11 @@ def getymax(c, xmin=None, xmax=None):
     :type xmax: float, optional
     :return: str -- curve name
              list -- a list of tuples where each tuple contains the x-value and
-                the max y-value.
+             the max y-value.
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
-        ymax = max(c.y[r[0]:r[1]+1])
+        ymax = max(c.y[r[0]:r[1] + 1])
     else:
         ymax = max(c.y)
     xy_pairs_at_max = getx(c, ymax, xmin, xmax)
@@ -2692,11 +2706,11 @@ def getymin(c, xmin=None, xmax=None):
     :type xmax: float, optional
     :return: str -- curve name
              list -- a list of tuples where each tuple contains the x-value and
-                the min y-value.
+             the min y-value.
     """
     if xmin is not None:
         r = __get_sub_range(c.x, xmin, xmax)
-        ymin = min(c.y[r[0]:r[1]+1])
+        ymin = min(c.y[r[0]:r[1] + 1])
     else:
         ymin = min(c.y)
     xy_pairs_at_min = getx(c, ymin, xmin, xmax)
@@ -2728,7 +2742,7 @@ def correlate(c1, c2, mode='valid'):
           ``max(M, N) - min(M, N) + 1``.  The convolution product is only given
           for points where the signals overlap completely.  Values outside
           the signal boundary have no effect.
-    :type mode: 'full'(default), 'same' or 'valid' 
+    :type mode: 'full'(default), 'same' or 'valid'
     :return: Curve -- the cross-correlation of c1.y and c2.y
     """
     nc = curve.Curve('', 'correlate(' + __toCurveString(c1) + ', ' + __toCurveString(c2) + ')')
@@ -2898,7 +2912,9 @@ def fft(c, n=None, axis=-1, norm=None):
 
     :param c: Curve with x- or y-values as input array, can be complex.
     :type c: Curve
-    :param n: Length of the transformed axis of the output. If `n` is smaller than the length of the input, the input is cropped. If it is larger, the input is padded with zeros.  If `n` is not given, the length of the input along the axis specified by `axis` is used.
+    :param n: Length of the transformed axis of the output. If `n` is smaller than
+              the length of the input, the input is cropped. If it is larger, the input is padded with zeros.
+              If `n` is not given, the length of the input along the axis specified by `axis` is used.
     :type n: int, optional
     :param axis: Axis over which to compute the FFT.  If not given, the last axis is used.
     :type axis: int, optional
@@ -2979,26 +2995,27 @@ def diffMeasure(c1, c2, tol=1e-8):
     :type tol: float
     :return: tuple -- Two curves representing the fractional difference measure and its average
     """
-    cdiff = curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(c2) + '$|$/($|$' + __toCurveString(c1) + '$|$ + $|$' + __toCurveString(c2) + '$|$)')
+    cdiff = curve.Curve('', 'FD = $|$' + __toCurveString(c1) + ' - ' + __toCurveString(c2) +  # noqaw504
+                        '$|$/($|$' + __toCurveString(c1) + '$|$ + $|$' + __toCurveString(c2) + '$|$)')
     ic1, ic2 = curve.getinterp(c1, c2)
     f1 = tol * (np.max(ic1.y) - np.min(ic1.y))
     f2 = tol * (np.max(ic2.y) - np.min(ic2.y))
     ydiff = np.abs(ic1.y - ic2.y)
-    yden = (np.abs(ic1.y)+f1) + (np.abs(ic2.y)+f2)
+    yden = (np.abs(ic1.y) + f1) + (np.abs(ic2.y) + f2)
     dx = np.max(ic1.x) - np.min(ic1.x)
     cdiff.x = np.array(ic1.x)
-    cdiff.y = np.array(ydiff/yden)
+    cdiff.y = np.array(ydiff / yden)
 
     cint = curve.Curve('', 'Integral(FD)/dX')
     yint = scipy.integrate.cumtrapz(cdiff.y, cdiff.x, initial=0.0)
     cint.x = np.array(ic1.x)
-    cint.y = np.array(yint/dx)
+    cint.y = np.array(yint / dx)
 
     return cdiff, cint
 
 
 ########################################################
-##################  Curve Related  #####################
+##################  Curve Related  #####################  # noqa e266
 ########################################################
 
 def vs(c1, c2):
@@ -3023,10 +3040,11 @@ def vs(c1, c2):
     newfilename = ''
     newrecord_id = ''
     if c1.filename == c2.filename:
-        newfilename = c1.filename 
+        newfilename = c1.filename
         if c1.record_id == c2.record_id:
             newrecord_id = c1.record_id
-    nc = curve.Curve(newfilename, __toCurveString(c1) + ' vs ' + __toCurveString(c2), newrecord_id, c2.ylabel, c1.ylabel)
+    nc = curve.Curve(newfilename, __toCurveString(c1) + ' vs ' + __toCurveString(c2),
+                     newrecord_id, c2.ylabel, c1.ylabel)
     ic1, ic2 = curve.getinterp(c1, c2)
     nc.x = np.array(ic2.y)
     nc.y = np.array(ic1.y)
@@ -3100,26 +3118,26 @@ def smooth(curvelist, factor=1):
         for i in range(len(c.x)):
             tfactor = factor
 
-            if i-factor < 0 and i < (len(c.x)-1)/2:
+            if i - factor < 0 and i < (len(c.x) - 1) / 2:
                 tfactor = i
-            elif i+factor >= len(c.x):
+            elif i + factor >= len(c.x):
                 tfactor = len(c.x) - 1 - i
 
             xsum = 0
             ysum = 0
 
-            for j in range(-tfactor, tfactor+1):
-                xsum += c.x[i+j]
-            for j in range(-factor, factor+1):
-                if 0 <= i+j < len(c.x):
-                    ysum += c.y[i+j]
-                elif i+j < 0:
+            for j in range(-tfactor, tfactor + 1):
+                xsum += c.x[i + j]
+            for j in range(-factor, factor + 1):
+                if 0 <= i + j < len(c.x):
+                    ysum += c.y[i + j]
+                elif i + j < 0:
                     ysum += c.y[0]
                 else:
                     ysum += c.y[-1]
 
-            x.append(xsum/(2*tfactor+1))
-            y.append(ysum/(2*factor+1))
+            x.append(xsum / (2 * tfactor + 1))
+            y.append(ysum / (2 * factor + 1))
 
         c.x = np.array(x)
         c.y = np.array(y)
@@ -3257,7 +3275,7 @@ def fit(c, n=1, logx=False, logy=False):
     else:
         print("coefficients are: ", coeffs)
 
-    if n==1:
+    if n == 1:
         oString = "1st "
     elif n == 2:
         oString = "2nd "
@@ -3397,15 +3415,15 @@ def getx(c, value, xmin=None, xmax=None):
             xypairs.append((c.x[i], float(value)))
         else:
             ymax = c.y[i]
-            if i+1 < len(c.y):
-                ymax = c.y[i+1]
+            if i + 1 < len(c.y):
+                ymax = c.y[i + 1]
 
             if c.y[i] < float(value) < ymax:
-                x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i+1]])
+                x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i + 1]])
                 if x <= r[1]:
                     xypairs.append((x, float(value)))
             elif ymax < float(value) < c.y[i]:
-                x = np.interp(float(value), [ymax, c.y[i]], [c.x[i+1], c.x[i]])
+                x = np.interp(float(value), [ymax, c.y[i]], [c.x[i + 1], c.x[i]])
                 if x <= r[1]:
                     xypairs.append((x, float(value)))
 
@@ -3430,8 +3448,8 @@ def gety(c, value):
     """
     xypairs = list()
 
-    #if float(value) < np.amin(c.x) or float(value) > np.amax(c.x):
-        #raise ValueError, 'x-value out of range'
+    # if float(value) < np.amin(c.x) or float(value) > np.amax(c.x):
+    # raise ValueError, 'x-value out of range'
 
     for i in range(len(c.x)):
         if float(value) < np.amin(c.x):
@@ -3442,14 +3460,14 @@ def gety(c, value):
             xypairs.append((float(value), c.y[i]))
         else:
             xmax = c.x[i]
-            if i+1 < len(c.x):
-                xmax = c.x[i+1]
+            if i + 1 < len(c.x):
+                xmax = c.x[i + 1]
 
             if c.x[i] < float(value) < xmax:
-                y = np.interp(float(value), [c.x[i], xmax], [c.y[i], c.y[i+1]])
+                y = np.interp(float(value), [c.x[i], xmax], [c.y[i], c.y[i + 1]])
                 xypairs.append((float(value), y))
             elif xmax < float(value) < c.x[i]:
-                y = np.interp(float(value), [xmax, c.x[i]], [c.y[i+1], c.y[i]])
+                y = np.interp(float(value), [xmax, c.x[i]], [c.y[i + 1], c.y[i]])
                 xypairs.append((float(value), y))
 
     return xypairs
@@ -3500,6 +3518,7 @@ def line(m, b, xmin, xmax, numpts=100):
 
     return c
 
+
 def makeextensive(curvelist):
     """
     Set the y-values such that ``y[i] *= (x[i+1] - x[i])``
@@ -3522,10 +3541,11 @@ def makeextensive(curvelist):
 
     for c in curves:
         for i in range(1, len(c.y)):
-            c.y[i] *= (c.x[i] - c.x[i-1])
+            c.y[i] *= (c.x[i] - c.x[i - 1])
 
         c.y[0] = c.y[1]
         c.name = 'mkext(' + c.name + ')'
+
 
 def makeintensive(curvelist):
     """
@@ -3549,11 +3569,12 @@ def makeintensive(curvelist):
 
     for c in curves:
         for i in range(1, len(c.y)):
-            d = c.x[i] - c.x[i-1] if (c.x[i] - c.x[i-1]) != 0 else 0.000000001
+            d = c.x[i] - c.x[i - 1] if (c.x[i] - c.x[i - 1]) != 0 else 0.000000001
             c.y[i] /= d
 
         c.y[0] = c.y[1]
         c.name = 'mkint(' + c.name + ')'
+
 
 def dupx(curvelist):
     """
@@ -3578,6 +3599,7 @@ def dupx(curvelist):
     for c in curves:
         c.y = np.copy(c.x)
 
+
 def sort(curve):
     """
     Sort the specified curve so that their points are plotted in order of ascending x values.
@@ -3600,6 +3622,7 @@ def sort(curve):
     curve.x = np.array(x)
     curve.y = np.array(y)
 
+
 def rev(curve):
     """
     Swap x and y values for the specified curves. You may want to sort after this one.
@@ -3617,6 +3640,7 @@ def rev(curve):
     curve.x = x
     curve.y = y
 
+
 def random(curve):
     """
     Generate random y values between -1 and 1 for the specified curves.
@@ -3630,6 +3654,7 @@ def random(curve):
     """
     for i in range(len(curve.y)):
         curve.y[i] = sysrand.uniform(-1, 1)
+
 
 def xindex(curvelist):
     """
@@ -3682,7 +3707,7 @@ def appendcurves(curvelist):
 
     suffix = ''
     for c in curvelist:
-         suffix += "%s" % c.plotname
+        suffix += "%s" % c.plotname
 
     nc.name = 'Append(' + suffix + ')'
 
@@ -3694,7 +3719,8 @@ def max_curve(curvelist):
     Construct a curve from the maximum y values of the intersection of the curves domain.
 
     :param curvelist: the specified curves
-    :return: Curve -- a new curve with the maximum y-values over the intersection of the domains of the specified curves.
+    :return: Curve -- a new curve with the maximum y-values over the intersection of the
+             domains of the specified curves.
     """
     # Get union of domains
     if len(curvelist) <= 1:
@@ -3727,7 +3753,7 @@ def max_curve(curvelist):
             except:
                 pass
 
-    nc = curve.Curve('','Max(' + name_suffix + ')')
+    nc = curve.Curve('', 'Max(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
@@ -3739,7 +3765,8 @@ def min_curve(curvelist):
     Construct a curve from the minimum y values of the intersection of the curves domain.
 
     :param curvelist: the specified curves
-    :return: Curve -- a new curve with the minimum y-values over the intersection of the domains of the specified curves.
+    :return: Curve -- a new curve with the minimum y-values over the intersection of the
+             domains of the specified curves.
     """
     # Get union of domains
     if len(curvelist) <= 1:
@@ -3772,11 +3799,12 @@ def min_curve(curvelist):
             except:
                 pass
 
-    nc = curve.Curve('','Min(' + name_suffix + ')')
+    nc = curve.Curve('', 'Min(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
     return nc
+
 
 def average_curve(curvelist):
     """
@@ -3818,7 +3846,7 @@ def average_curve(curvelist):
 
         y[i] /= cnt
 
-    nc = curve.Curve('','Average(' + name_suffix + ')')
+    nc = curve.Curve('', 'Average(' + name_suffix + ')')
     nc.x = np.array(x)
     nc.y = y
 
@@ -3826,7 +3854,7 @@ def average_curve(curvelist):
 
 
 ########################################################
-################## Private Methods #####################
+################## Private Methods #####################  # noqa e266
 ########################################################
 
 def __fft(c):
@@ -3872,7 +3900,7 @@ def __ifft(cr, ci):
     carray = np.zeros(len(cr.y), dtype=complex)
 
     for i in range(len(cr.y)):
-       carray[i] = complex(cr.y[i], ci.y[i])
+        carray[i] = complex(cr.y[i], ci.y[i])
 
     numpy1_10 = LooseVersion(np.__version__) >= LooseVersion("1.10.0")
 
@@ -3970,13 +3998,13 @@ def __loadcolumns(fname, xcol):
         f = open(fname, 'r')
         lines = f.readlines()
         iLine = 0
-        for l in lines:
-            if l.strip()[0] != '#':
-                break;
+        for line in lines:
+            if line.strip()[0] != '#':
+                break
             iLine += 1
         if iLine == 0:
             print('WARNING: columns have no labels, labels will be assigned...someday')
-        alllabels = lines[iLine - 1][1:] # drop leading '#' character
+        alllabels = lines[iLine - 1][1:]  # drop leading '#' character
         if '"' in alllabels:
             colLabels = [x for x in alllabels.split('"')[1:-1] if len(x.replace(" ", "")) > 0]
         else:
@@ -3990,13 +4018,13 @@ def __loadcolumns(fname, xcol):
 
         # Make the curves, append them to self.curvelist.
         # First, get data into lists of numbers
-        numDataLines = len(lines) - iLine
+        # numDataLines = len(lines) - iLine
         localCurves = []
-        for i in range(numcurves+1):
+        for i in range(numcurves + 1):
             localCurves.append([])
         # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
-        for l in lines[iLine:]:
-            nums = [float(n) for n in l.split()]
+        for line in lines[iLine:]:
+            nums = [float(n) for n in line.split()]
             assert len(nums) == numcurves + 1
             for colID in range(numcurves + 1):
                 localCurves[colID].append(nums[colID])
@@ -4005,7 +4033,7 @@ def __loadcolumns(fname, xcol):
             localCurves[colID] = np.array(localCurves[colID])
         # Make Curve objects, add to curvelist
         for colID in range(numcurves + 1):
-             if colID != xcol:
+            if colID != xcol:
                 c = curve.Curve(fname, colLabels[colID])
                 c.x = localCurves[xcol]
                 c.y = localCurves[colID]
@@ -4022,6 +4050,7 @@ def __loadcolumns(fname, xcol):
 
     return curvelist
 
+
 def __loadpdb(fname, fpdb):
     curvelist = []
 
@@ -4033,9 +4062,9 @@ def __loadpdb(fname, fpdb):
             curveid = fpdb.read(cname).strip('\x00').split('|')
             if (len(curveid) != 8):
                 raise IOError
-            current = curve.Curve( fname, fpdb.read(curveid[1]).strip('\x00') )
-            current.x = np.array( fpdb.read( curveid[3] ) )
-            current.y = np.array( fpdb.read( curveid[4] ) )
+            current = curve.Curve(fname, fpdb.read(curveid[1]).strip('\x00'))
+            current.x = np.array(fpdb.read(curveid[3]))
+            current.y = np.array(fpdb.read(curveid[4]))
             curvelist.append(current)
 
             fpdb.close()

@@ -4,7 +4,7 @@ import os
 def do_mycustomfunction(self, line):
 
     for i in range(4):
-        x = [i, i+1, i+2]
+        x = [i, i + 1, i + 2]
         y = x
         name = f'TestCurve_{i}'
         fname = f'TestFilename_{i}'
@@ -12,8 +12,10 @@ def do_mycustomfunction(self, line):
         ylabel = f'TestYlabel_{i}'
         title = f'TestTitle_{i}'
         record_id = f'TestRecordID_{i}'
-        c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title, record_id=record_id)
+        c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
+                             record_id=record_id)
         self.curvelist.append(c)
+
 
 def do_myothercustomfunction(self, line):
 

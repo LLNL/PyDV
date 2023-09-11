@@ -6,7 +6,7 @@ TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
 
 sys.path.append(os.path.join(PYDV_DIR, "pydv"))
-import pdv
+import pdv  # noqa E402
 
 
 def test_read():
@@ -20,11 +20,11 @@ def test_read():
     curve_2 = main.curvelist[1]
     assert curve_1.name == 'darkness vs cycle (lux_cycle_series)'
     assert curve_2.name == 'lightness vs cycle (lux_cycle_series)'
- 
+
     # darkness
-    np.testing.assert_allclose(curve_1.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_1.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_2.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_2.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # do_xlabelwidth
     main.do_xlabelwidth('')
@@ -64,9 +64,9 @@ def test_read():
     assert curve_4.name == 'lightness'
 
     # darkness
-    np.testing.assert_allclose(curve_3.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_3.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_4.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_4.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # read tab-delimited ult
     main.do_read(os.path.join(TEST_DIR, 'testData.ult'))
@@ -76,11 +76,11 @@ def test_read():
     curve_6 = main.curvelist[5]
     assert curve_5.name == 'darkness'
     assert curve_6.name == 'lightness'
- 
+
     # darkness
-    np.testing.assert_allclose(curve_5.y,  np.array([0, 1, 4, 9, 16]))
+    np.testing.assert_allclose(curve_5.y, np.array([0, 1, 4, 9, 16]))
     # lightness
-    np.testing.assert_allclose(curve_6.y,  np.array([5, 4, 2.5, 2.1, 2.0]))
+    np.testing.assert_allclose(curve_6.y, np.array([5, 4, 2.5, 2.1, 2.0]))
 
     # create and save gaussian curves
     main.do_gaussian('1 1 5')
