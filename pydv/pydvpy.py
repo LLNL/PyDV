@@ -684,7 +684,7 @@ def readsina(fname, verbose=False):
                 sina_file = json.load(fp)
                 record_id = sina_file['records'][0]['id']
                 curve_sets = sina_file['records'][0]['curve_sets']
-                library_data = sina_file['records'][0]['library_data']
+                library_data = sina_file['records'][0].get('library_data', {})
 
                 def add_curve_set(curve_sets, curves, listed_order, library=''):
                     for curve_set_name, curve_set in curve_sets.items():
