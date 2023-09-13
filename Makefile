@@ -81,7 +81,7 @@ release:
 	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
 	env; \
 	$(CI_UTILS)/bin/release-cli create --name "PyDV $(CI_COMMIT_TAG)" --tag-name $(CI_COMMIT_TAG); \
-	tar -cvf $(TAG).tar pydv; \
+	tar -cvf $(TAG).tar pydv scripts docs; \
 	ls; \
 	gzip $(TAG).tar; \
 	curl --header "JOB-TOKEN: $(CI_JOB_TOKEN)" --upload-file $(TAG).tar.gz $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz
@@ -102,6 +102,8 @@ deploy:
 		tar -xvf $(TAG).tar
 		rm $(TAG).tar
 		mv pydv $(TAG)
+		mv scripts $(TAG)
+		mv docs $(TAG)
 		chmod -R 750 $(TAG)
 		rm -f current
 		ln -s $(TAG) current
