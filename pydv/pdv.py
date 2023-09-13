@@ -113,9 +113,15 @@ except:
 from enum import Enum
 
 PYDV_DIR = os.path.dirname(os.path.abspath(__file__))
-version_file = os.path.join(PYDV_DIR, '../scripts/version.txt')
-with open(version_file, 'r') as fp:
-    pydv_version = fp.read()
+try:
+    version_file = os.path.join(PYDV_DIR, '../scripts/version.txt')
+    with open(version_file, 'r') as fp:
+        pydv_version = fp.read()
+
+except:
+    version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
+    with open(version_file, 'r') as fp:
+        pydv_version = fp.read()
 
 
 class LogEnum(Enum):

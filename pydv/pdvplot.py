@@ -97,9 +97,15 @@ else:
 
 
 PYDV_DIR = path.dirname(path.abspath(__file__))
-version_file = path.join(PYDV_DIR, '../scripts/version.txt')
-with open(version_file, 'r') as fp:
-    pydv_version = fp.read()
+try:
+    version_file = path.join(PYDV_DIR, '../scripts/version.txt')
+    with open(version_file, 'r') as fp:
+        pydv_version = fp.read()
+
+except:
+    version_file = path.join(PYDV_DIR, 'scripts/version.txt')
+    with open(version_file, 'r') as fp:
+        pydv_version = fp.read()
 
 
 class Plotter(QMainWindow):
