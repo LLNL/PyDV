@@ -17,7 +17,7 @@ with open(version_file, 'r') as fp:
 
 # Determine the new version from the specified type of change
 parser = argparse.ArgumentParser()
-parser.add_argument('type', choices=['major', 'minor', 'patch'])
+parser.add_argument('type', choices=['major', 'minor', 'patch', 'date'])
 args = parser.parse_args().type
 if args == 'major':
     major += 1
