@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
 # e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
@@ -92,6 +92,7 @@ import traceback
 import readline
 import code
 from numbers import Number
+import types  # noqaf401 used for do_custom()
 
 try:
     from . import pydvpy as pydvif
@@ -118,10 +119,17 @@ try:
     with open(version_file, 'r') as fp:
         pydv_version = fp.read()
 
+    date_file = os.path.join(PYDV_DIR, '../scripts/date.txt')
+    with open(date_file, 'r') as fp:
+        pydv_date = fp.read()
 except:
     version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
     with open(version_file, 'r') as fp:
         pydv_version = fp.read()
+
+    date_file = os.path.join(PYDV_DIR, 'scripts/date.txt')
+    with open(date_file, 'r') as fp:
+        pydv_date = fp.read()
 
 
 class LogEnum(Enum):
@@ -817,10 +825,11 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            try:
+            # If adding a number then send to dy
+            if any(char.isdigit() for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_dy(line)
-            except:
+            else:
                 if len(line.split(':')) > 1:
                     self.do_add(pdvutil.getletterargs(line))
                     return 0
@@ -887,10 +896,11 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            try:
+            # If multiplying by a number then send to my
+            if any(char.isdigit() for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_my(line)
-            except:
+            else:
                 if len(line.split(':')) > 1:
                     self.do_multiply(pdvutil.getletterargs(line))
                     return 0
@@ -916,13 +926,12 @@ class Command(cmd.Cmd, object):
         """
         Divide one or more curves
         """
-
         try:
             # If dividing by a number then send to divy
-            try:
+            if any(char.isdigit() for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_divy(line)
-            except:
+            else:
                 if len(line.split(':')) > 1:
                     self.do_divide(pdvutil.getletterargs(line))
                     return 0
@@ -4590,6 +4599,7 @@ class Command(cmd.Cmd, object):
             if optcnt == 4:
                 dpi = float(line[3])
 
+            plt.gcf().set_size_inches(6, 4.41)
             plt.savefig(fname=filename + '.' + filetype, dpi=dpi, format=filetype, transparent=transparent)
         except:
             print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] "
@@ -7710,6 +7720,8 @@ class Command(cmd.Cmd, object):
                             cur.markeredgecolor = cur.color
                         if cur.markerfacecolor is None:
                             cur.markerfacecolor = cur.color
+                        if cur.markerstyle is None:
+                            cur.markerstyle = 'None'
 
                         # plt.setp(c, marker=cur.markerstyle, markeredgecolor=cur.markeredgecolor,
                         # markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
@@ -7958,7 +7970,7 @@ class Command(cmd.Cmd, object):
     def console_run(self):
         while True:
             self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  '
-                         '06.06.2023\n\tType "help" for more information.\n\n')
+                         f'{pydv_date}\n\tType "help" for more information.\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

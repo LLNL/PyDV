@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
 # e-mail: rusu1@llnl.gov
@@ -2684,11 +2684,28 @@ def getymax(c, xmin=None, xmax=None):
              list -- a list of tuples where each tuple contains the x-value and
              the max y-value.
     """
-    if xmin is not None:
-        r = __get_sub_range(c.x, xmin, xmax)
-        ymax = max(c.y[r[0]:r[1] + 1])
-    else:
-        ymax = max(c.y)
+    try:
+        if xmin is not None:
+            r = __get_sub_range(c.x, xmin, xmax)
+            ymax = max(c.y[r[0]:r[1] + 1])
+        else:
+            ymax = max(c.y)
+    except:
+        pass
+
+    if r[0] >= r[1]:
+        # User range is in between actual curve points
+        # c.x val1 val2 c.x
+        xl = c.x[0] if xmin is None else xmin
+        xr = c.x[-1] if xmax is None else xmax
+        range_x = np.linspace(xl, xr, num=1000)
+        y_interp = np.interp(range_x, c.x, c.y)
+        ymax = max(y_interp)
+
+        # User range has only one curve point in between
+        # val1 c.x val2
+        if r[0] == r[1] and c.y[r[0]] > ymax:  # Local max
+            ymax = c.y[r[0]]
     xy_pairs_at_max = getx(c, ymax, xmin, xmax)
 
     return __toCurveString(c), xy_pairs_at_max
@@ -2708,11 +2725,29 @@ def getymin(c, xmin=None, xmax=None):
              list -- a list of tuples where each tuple contains the x-value and
              the min y-value.
     """
-    if xmin is not None:
-        r = __get_sub_range(c.x, xmin, xmax)
-        ymin = min(c.y[r[0]:r[1] + 1])
-    else:
-        ymin = min(c.y)
+    try:
+        if xmin is not None:
+            r = __get_sub_range(c.x, xmin, xmax)
+            ymin = min(c.y[r[0]:r[1] + 1])
+        else:
+            ymin = min(c.y)
+    except:
+        pass
+
+    if r[0] >= r[1]:
+        # User range is in between actual curve points
+        # c.x val1 val2 c.x
+        xl = c.x[0] if xmin is None else xmin
+        xr = c.x[-1] if xmax is None else xmax
+        range_x = np.linspace(xl, xr, num=1000)
+        y_interp = np.interp(range_x, c.x, c.y)
+        ymin = min(y_interp)
+
+        # User range has only one curve point in between
+        # val1 c.x val2
+        if r[0] == r[1] and c.y[r[0]] < ymin:  # Local min
+            ymin = c.y[r[0]]
+
     xy_pairs_at_min = getx(c, ymin, xmin, xmax)
 
     return __toCurveString(c), xy_pairs_at_min
@@ -3410,22 +3445,38 @@ def getx(c, value, xmin=None, xmax=None):
     if float(value) < np.amin(c.y) or float(value) > np.amax(c.y):
         raise ValueError('y-value out of range')
 
-    for i in range(r[0], r[1] + 1):
-        if c.y[i] == float(value):
-            xypairs.append((c.x[i], float(value)))
-        else:
-            ymax = c.y[i]
-            if i + 1 < len(c.y):
-                ymax = c.y[i + 1]
+    if r[0] < r[1]:
+        for i in range(r[0], r[1] + 1):
+            if c.y[i] == float(value):  # value exists in curve
+                xypairs.append((c.x[i], float(value)))
+            else:  # value does not exist in curve
+                ymax = c.y[i]
+                if i + 1 < len(c.y):
+                    ymax = c.y[i + 1]
 
-            if c.y[i] < float(value) < ymax:
-                x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i + 1]])
-                if x <= r[1]:
+                if c.y[i] < float(value) < ymax:
+                    x = np.interp(float(value), [c.y[i], ymax], [c.x[i], c.x[i + 1]])
                     xypairs.append((x, float(value)))
-            elif ymax < float(value) < c.y[i]:
-                x = np.interp(float(value), [ymax, c.y[i]], [c.x[i + 1], c.x[i]])
-                if x <= r[1]:
+                elif ymax < float(value) < c.y[i]:
+                    x = np.interp(float(value), [ymax, c.y[i]], [c.x[i + 1], c.x[i]])
                     xypairs.append((x, float(value)))
+    else:
+
+        # User range is in between actual curve points
+        # c.x val1 val2 c.x
+        xl = c.x[0] if xmin is None else xmin
+        xr = c.x[-1] if xmax is None else xmax
+        range_x = np.linspace(xl, xr, num=1000)
+        y_interp = np.interp(range_x, c.x, c.y)
+        for x, y in zip(range_x, y_interp):
+            if y == value:
+                xypairs.append((x, y))
+
+        # User range has only one curve point in between
+        # val1 c.x val2
+        if r[0] == r[1]:
+            if c.y[r[0]] == float(value):  # value exists in curve
+                xypairs.append((c.x[r[0]], float(value)))
 
     return xypairs
 

@@ -7,6 +7,9 @@ Release Notes
 ------
 * Restore docs theme back to sphinx-rtd-theme
 * Apply flake8 
+* Bug fix for getx, getymin, getymax
+* Bug fix for addition, subtraction, multiplication, division
+* Bug fix for saving images in command line
 
 3.1.15
 ------
