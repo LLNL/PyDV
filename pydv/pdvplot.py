@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2023, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
 # Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
 # e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
@@ -485,7 +485,7 @@ class Plotter(QMainWindow):
 
     def __viewCopyright(self):
         msg = self.tr('<b><p style="font-family:verdana;"> \
-                      Copyright &copy; 2011-2023, Lawrence Livermore National Security, LLC. \
+                      Copyright &copy; 2011-2024, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
                       <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, \
                       Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
@@ -588,7 +588,7 @@ class Plotter(QMainWindow):
                                   f'<p style="font-family:courier; font-size:40%;">version {pydv_version}</p>'
                                   '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">\
                                   PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                  '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2023, \
+                                  '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2024, \
                                   Lawrence Livermore National Security, LLC.</p>'
                                   '<p style="font-family:veranda; font-size:80%;">Written by: \
                                   Jorge Moreno, Sarah El-Jurf, \

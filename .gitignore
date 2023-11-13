@@ -9,3 +9,4 @@ mypdv
 dist
 docs/_build*
 build
+tests/output
