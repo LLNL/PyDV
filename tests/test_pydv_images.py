@@ -126,6 +126,8 @@ commands = [
     xls on""",
     f"""erase
     kill all
+    xls off
+    yls off
     read {os.path.join(TEST_DIR, 'step.ult')}
     cur 1 2
     + a a

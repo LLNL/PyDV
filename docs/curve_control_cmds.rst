@@ -117,15 +117,6 @@ Delete the specified curves. **Shortcut: del**
     
    [PyDV]: delete <curve-list>
 
-**dupx - 2.4**
---------------
-
-Duplicate the x-values such that y=x for each of the given curves
-
-.. code::
-    
-   [PyDV]: dupx <curve-list>
-
 hide
 ----
 
