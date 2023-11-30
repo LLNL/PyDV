@@ -21,7 +21,7 @@ define create_env
 	source $1/bin/activate &&
 	pip3 install --upgrade pip &&
 	pip3 install --force pytest &&
-	pip3 install numpy scipy matplotlib PySide2 flake8 &&
+	pip3 install numpy scipy matplotlib PySide2 flake8 scikit-image &&
 	which pytest
 endef
 

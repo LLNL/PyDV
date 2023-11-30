@@ -2795,6 +2795,72 @@ def correlate(c1, c2, mode='valid'):
     return nc
 
 
+def theta(xmin, x0, xmax, numpts=100):
+    """
+    Generate a unit step distribution.
+
+    :param xmin: The left most point
+    :type xmin: Union[int,float]
+    :param x0: The step point
+    :type x0: Union[int,float]
+    :param xmax: The right most point
+    :type xmax: Union[int,float]
+    :param numpts: Number of points, defaults to 100
+    :type numpts: Union[int,float], optional
+    :return: The curve
+    :rtype: curve.Curve
+    """
+
+    numpts = round(numpts / 2)
+
+    firstx = np.linspace(xmin, x0, num=numpts)
+    firsty = [0] * len(firstx)
+
+    secondx = np.linspace(x0, xmax, num=numpts)
+    secondy = [1] * len(secondx)
+
+    x = np.concatenate((firstx, secondx), axis=None)
+    y = firsty + secondy
+
+    c = makecurve(x, y, f'Theta {xmin} {x0} {xmax}')
+
+    return c
+
+
+def normalize(c):
+    """
+    Normalize a curve.
+
+    :param c: The curve to normalize
+    :type c: curve.Curve
+    :return: The normalized curve
+    :rtype: curve.Curve
+    """
+
+    return c.normalize()
+
+
+def hypot(c1, c2):
+    """
+    Calculate harmonic average of two curves, sqrt(a^2+b^2).
+
+    :param c1: The first curve
+    :type c1: curve.Curve
+    :param c2: The second curve
+    :type c2: curve.Curve
+    :return: The harmonic average of two curves, sqrt(a^2+b^2)
+    :rtype: curve.Curve
+    """
+
+    if not np.array_equal(c1.x, c2.x):
+        raise ValueError('Curves must have the same x values')
+
+    y = np.sqrt(c1.y**2 + c2.y**2)
+    c = makecurve(c1.x, y, f'hypot {__toCurveString(c1)} {__toCurveString(c2)}')
+
+    return c
+
+
 def convolve(c1, c2, npts=100):
     """
     Compute and return the convolution of two real curves:
