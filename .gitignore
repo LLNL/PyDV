@@ -10,3 +10,5 @@ dist
 docs/_build*
 build
 tests/output
+tests/diff
+tests/testSave.txt

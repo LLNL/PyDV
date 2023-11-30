@@ -181,6 +181,10 @@ class Command(cmd.Cmd, object):
     titlecolor = None
     xlabelcolor = None
     ylabelcolor = None
+    xlabelweight = 'normal'
+    ylabelweight = 'normal'
+    xlabelstyle = 'normal'
+    ylabelstyle = 'normal'
     xlim = None
     ylim = None
     showkey = True
@@ -188,6 +192,8 @@ class Command(cmd.Cmd, object):
     key_loc = 1
     key_ncol = 1
     showgrid = True
+    showaxis = 'on'
+    showplot = 'on'
     showminorticks = False
     gridcolor = 'white'
     gridstyle = 'solid'
@@ -241,6 +247,21 @@ class Command(cmd.Cmd, object):
     # following commands handle the situations where there are multiple plots or
     # where the user specifies the attributes via the direct commands.
     def set_xlabel(self, label, from_curve=False):
+        if 'bold' in label:
+            if self.xlabelweight == 'bold':
+                self.xlabelweight = 'normal'
+            else:
+                self.xlabelweight = 'bold'
+            label = label.replace('bold', '')
+        if 'italic' in label:
+            if self.xlabelstyle == 'italic':
+                self.xlabelstyle = 'normal'
+            else:
+                self.xlabelstyle = 'italic'
+            label = label.replace('italic', '')
+        if label.strip() == '':
+            return
+
         if not from_curve:
             self.xlabel = label
             self.xlabel_set_from_curve = from_curve if label != "" else True
@@ -253,6 +274,21 @@ class Command(cmd.Cmd, object):
                     self.xlabel_set_from_curve = from_curve
 
     def set_ylabel(self, label, from_curve=False):
+        if 'bold' in label:
+            if self.ylabelweight == 'bold':
+                self.ylabelweight = 'normal'
+            else:
+                self.ylabelweight = 'bold'
+            label = label.replace('bold', '')
+        if 'italic' in label:
+            if self.ylabelstyle == 'italic':
+                self.ylabelstyle = 'normal'
+            else:
+                self.ylabelstyle = 'italic'
+            label = label.replace('italic', '')
+        if label.strip() == '':
+            return
+
         if not from_curve:
             self.ylabel = label
             self.ylabel_set_from_curve = from_curve if label != "" else True
@@ -1282,6 +1318,9 @@ class Command(cmd.Cmd, object):
                         except:
                             current.step = False
                         self.addtoplot(current)
+                        if (len(current.x) == 1 and len(current.y) == 1):
+                            current.markerstyle = 'o'
+                            current.linestyle = 'None'
                 self.plotedit = True
         except:
             print('error - usage: curve <(<regex>) | list-of-menu-numbers>')
@@ -1357,6 +1396,8 @@ class Command(cmd.Cmd, object):
                         if name == line[i].upper():
                             if mclr.is_color_like(color):
                                 self.plotlist[j].color = color
+                                self.plotlist[j].markeredgecolor = color
+                                self.plotlist[j].markerfacecolor = color
                             else:
                                 print('error: invalid color ' + color)
                                 return 0
@@ -3402,7 +3443,10 @@ class Command(cmd.Cmd, object):
                         for cur in self.plotlist:
                             cur.legend_show = False if key == 'hide' else True
                     else:
-                        ids = [line[j] for j in range(i + 1, len(line))]
+                        if ':' in line[i + 1]:
+                            ids = list(pdvutil.getletterargs(line[i + 1]).lower().split())
+                        else:
+                            ids = [line[j] for j in range(i + 1, len(line))]
                         for curve_id in ids:
                             curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
                             curve.legend_show = False if key == 'hide' else True
@@ -3659,6 +3703,103 @@ class Command(cmd.Cmd, object):
 
     def help_grid(self):
         print('\n   Variable: Show the grid if True\n   Usage: grid on | off\n')
+
+    def do_axis(self, line):
+        """
+        Show or hide the axis
+        """
+
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showaxis = 'off'
+            elif line == '1' or line.upper() == 'ON':
+                self.showaxis = 'on'
+            else:
+                print('invalid input: requires on or off as argument')
+        except:
+            print('error - usage: axis on | off')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_axis(self):
+        print('\n   Variable: Show the axis if True\n   Usage: axis on | off\n')
+
+    def do_plot(self, line):
+        """
+        Show or hide the line plots
+        """
+
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.showplot = 'off'
+                self.showkey = False  # legend
+            elif line == '1' or line.upper() == 'ON':
+                self.showplot = 'on'
+                self.showkey = True  # legend
+            else:
+                print('invalid input: requires on or off as argument')
+        except:
+            print('error - usage: plot on | off')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_plot(self):
+        print('\n   Variable: Show the line plots if True\n   Usage: plot on | off\n')
+
+    def do_recolor(self, line):
+        """
+        Reset the color of the line plots
+        """
+
+        colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        j = 0
+        for i in range(len(self.plotlist)):
+            self.do_color(f'{self.plotlist[i].plotname} {colors[j]}')
+            j += 1
+            if j == 7:
+                j = 0
+
+    def help_recolor(self):
+        print('\n   Variable: Reset the color of the line plots\n')
+
+    def do_merge(self, line):
+        """
+        Merge ultra files together
+        """
+
+        try:
+            line = line.split()
+            new_file = line[0]
+
+            if os.path.exists(new_file):
+                ans = input(f'{new_file} already exists. Overwrite? [y/n]: ')
+
+                if ans.upper() in ['YES', 'Y']:
+                    print(f'Overwriting {new_file}')
+                elif ans.upper() in ['NO', 'N']:
+                    print(f'Not overwriting {new_file}')
+                    return
+                else:
+                    print('Please try again and type [y/n]')
+                    return
+
+            other_files = line[1:]
+            with open(new_file, 'w') as f1:
+                lines = []
+                for other_file in other_files:
+                    with open(other_file, 'r') as f2:
+                        lines += f2.readlines()
+                        lines += '\n'
+                f1.writelines(lines)
+        except:
+            print('error - usage: merge <newfile> <myfile1> <myfile2> etc..')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_merge(self):
+        print('\n   Variable: Merge ultra files together\n   Usage: merge <newfile> <myfile1> <myfile2> etc..\n')
 
     def do_gridcolor(self, line):
         """
@@ -5742,6 +5883,80 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Compute the correlation function of the two curves.'
               '\n   Usage: correl <curve1> <curve2>\n')
 
+    def do_theta(self, line):
+        """
+        Generate a unit step distribution
+        """
+
+        try:
+            line = line.split()
+            xmin = float(line[0])
+            x0 = float(line[1])
+            xmax = float(line[2])
+            if len(line) == 4:
+                numpts = float(line[3])
+            else:
+                numpts = 100
+
+            c = pydvif.theta(xmin, x0, xmax, numpts)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: xmin x0 xmax [# points]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_theta(self):
+        print('\n   Procedure: Generate a unit step distribution.'
+              '\n   Usage: xmin x0 xmax [# points]\n')
+
+    def do_normalize(self, line):
+        """
+        Normalize a curve
+        """
+
+        try:
+
+            idx = pdvutil.getCurveIndex(line, self.plotlist)
+            c1 = self.plotlist[idx]
+            c = pydvif.normalize(c1)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: normalize <curve>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_normalize(self):
+        print('\n   Procedure: Normalize a curve.'
+              '\n   Usage: normalize <curve>\n')
+
+    def do_hypot(self, line):
+        """
+        Calculate harmonic average of two curves, sqrt(a^2+b^2)
+        """
+
+        try:
+            line = line.split()
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            c1 = self.plotlist[idx]
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            c2 = self.plotlist[idx]
+            c = pydvif.hypot(c1, c2)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: hypot <curve1> <curve2>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_hypot(self):
+        print('\n   Procedure: Calculate harmonic average of two curves, sqrt(a^2+b^2).'
+              '\n   Usage: hypot <curve1> <curve2>\n')
+
     def do_bkgcolor(self, line):
         """
         Changes background color of the plot, window, or both
@@ -6965,8 +7180,8 @@ class Command(cmd.Cmd, object):
 
         cur.x = numpy.array(cur.x)
         cur.y = numpy.array(cur.y)
-        if (len(cur.x) < 2 or len(cur.y) < 2):
-            raise ValueError('curve must have two or more points')
+        if (len(cur.x) < 1 or len(cur.y) < 1):
+            raise ValueError('curve must have one or more points')
             return
         if (len(cur.x) != len(cur.y)):
             raise ValueError('curve must have same number of x and y values')
@@ -7555,11 +7770,13 @@ class Command(cmd.Cmd, object):
                 self.plotter.fig.set_facecolor(self.figcolor)
 
             # Setup Plot Attributes
-            xlabeltext = plt.xlabel(self.xlabel, fontsize=self.xlabelfont)
+            xlabeltext = plt.xlabel(self.xlabel, fontsize=self.xlabelfont,
+                                    weight=self.xlabelweight, style=self.xlabelstyle)
             if self.xlabelcolor is not None:
                 xlabeltext.set_color(self.xlabelcolor)
 
-            ylabeltext = plt.ylabel(self.ylabel, fontsize=self.ylabelfont)
+            ylabeltext = plt.ylabel(self.ylabel, fontsize=self.ylabelfont,
+                                    weight=self.ylabelweight, style=self.ylabelstyle)
             if self.ylabelcolor is not None:
                 ylabeltext.set_color(self.ylabelcolor)
 
@@ -7725,9 +7942,15 @@ class Command(cmd.Cmd, object):
 
                         # plt.setp(c, marker=cur.markerstyle, markeredgecolor=cur.markeredgecolor,
                         # markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
-                        plt.setp(c, marker=cur.markerstyle, markersize=cur.markersize,
+                        if self.showplot == 'off':
+                            linestyle = 'None'
+                            markerstyle = 'None'
+                        else:
+                            linestyle = cur.linestyle
+                            markerstyle = cur.markerstyle
+                        plt.setp(c, marker=markerstyle, markersize=cur.markersize,
                                  markeredgecolor=cur.markeredgecolor,
-                                 markerfacecolor=cur.markerfacecolor, linestyle=cur.linestyle)
+                                 markerfacecolor=cur.markerfacecolor, linestyle=linestyle)
 
                         c[0].set_drawstyle(cur.drawstyle)
                         # Work-around for set_drawstyle bug (https://github.com/matplotlib/matplotlib/issues/10338)
@@ -7756,7 +7979,7 @@ class Command(cmd.Cmd, object):
                 plt.ylim(self.ylim[0], self.ylim[1])
 
             # plot the curve labels
-            if self.showletters:
+            if self.showletters and self.showplot == 'on':
                 # get range and domain of plot
                 xmin = plt.axis()[0]
                 xmax = plt.axis()[1]
@@ -7798,6 +8021,11 @@ class Command(cmd.Cmd, object):
 
             for text in self.usertexts:
                 plt.text(text[0], text[1], text[2], fontsize=self.annotationfont)
+
+            if self.showaxis == 'off':
+                plt.axis('off')
+            else:
+                plt.axis('on')
 
             plt.draw()
             self.plotter.canvas.update()
@@ -8123,19 +8351,26 @@ class Command(cmd.Cmd, object):
             print('Going to JSON format, loading all curves from curve_sets.')
 
         initarg = False
+        other_args = ['-s',]
         for i in range(len(sys.argv)):  # look for command line args:
+            not_in_other_args = sys.argv[i] not in other_args
             if (i != 0):  # '-i commandfile', and/or 'datafile1 datafile2 ...'
                 if (sys.argv[i] == '-i' or sys.argv[i] == '--init'):
                     initarg = True
-                elif (initarg):
-                    initarg = sys.argv[i]
-                elif json:
-                    self.load_sina(sys.argv[i])
-                else:
-                    if not csv:
-                        self.load(sys.argv[i], gnu)
+                if not_in_other_args:
+                    if (initarg):
+                        initarg = sys.argv[i]
+                    elif json:
+                        self.load_sina(sys.argv[i])
                     else:
-                        self.load_csv(sys.argv[i])
+                        if not csv:
+                            self.load(sys.argv[i], gnu)
+                        else:
+                            self.load_csv(sys.argv[i])
+
+                if sys.argv[i] == '-s':
+                    self.showplot = 'off'
+                    self.showkey = False
 
         if (self.initrun is not None):  # does the .pdvrc specify a file to run of initial commands?
             self.do_run(self.initrun)  # yes? then run the file.
