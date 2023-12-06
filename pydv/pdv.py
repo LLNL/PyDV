@@ -6006,7 +6006,7 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
-    def help_diffraction(self):
+    def help_delta(self):
         print('\n   Procedure: Generate a Dirac delta distribution such that.'
               '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
               '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
