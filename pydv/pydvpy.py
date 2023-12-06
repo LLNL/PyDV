@@ -2861,6 +2861,51 @@ def hypot(c1, c2):
     return c
 
 
+def diffraction(radius, npts=100):
+    """
+    Procedure: Compute a diffraction pattern for a circular aperature.
+
+    :param radius: The radius of the circle
+    :type radius: float
+    :param npts: The number of points for the cuve
+    :type npts: int
+    :return: The diffraction pattern for a circular aperature
+    :rtype: curve.Curve
+    """
+    c = span(0.0001, radius, npts)
+    # x = np.linspace(0.0001, float(radius), int(npts))
+
+    y = np.sqrt(c.x/c.x)
+    c = makecurve(c.x, y, f'Diffraction {radius}')
+
+    return c
+
+
+def delta(xmn, x0, xmx, npts=100):
+    """
+    Procedure: Generate a Dirac delta distribution such that
+               Int(xmin, xmax, dt*delta(t - x0)) = 1
+
+    :param xmn: The minimum x location
+    :type xmn: float
+    :param x0: The location of the unit impulse
+    :type x0: float
+    :param xmx: The maximum x location
+    :type xmx: float
+    :param npts: The number of points for the cuve
+    :type npts: int
+    :return: The Dirac delta distribution
+    :rtype: curve.Curve
+    """
+    c = span(0.0001, radius, npts)
+    # x = np.linspace(0.0001, float(radius), int(npts))
+
+    y = np.sqrt(c.x/c.x)
+    c = makecurve(c.x, y, f'Dirac Delta {xmn} {x0) {xmx}')
+
+    return c
+
+
 def convolve(c1, c2, npts=100):
     """
     Compute and return the convolution of two real curves:
