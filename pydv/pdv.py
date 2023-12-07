@@ -5997,7 +5997,7 @@ class Command(cmd.Cmd, object):
                 npts = line[3]
             else:
                 npts = 100
-            c = pydvif.diffraction(xmn, x0, xmx, npts)
+            c = pydvif.delta(xmn, x0, xmx, npts)
             self.addtoplot(c)
             self.plotedit = True
 

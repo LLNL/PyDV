@@ -2873,10 +2873,21 @@ def diffraction(radius, npts=100):
     :rtype: curve.Curve
     """
     c = span(0.0001, radius, npts)
-    # x = np.linspace(0.0001, float(radius), int(npts))
+    c.y = scipy.special.spherical_jn(1,c.x)/c.y
+    # c.y /= np.max(c.y)/.0625
+    # print(max(c.y))
+    # if min(c.y) < 0:
+    #     c.y += np.abs(min(c.y))*1.1
+    # c.y = np.sqrt(c.y)
+    # c.y -= np.abs(max(c.y)) -.25
 
-    y = np.sqrt(c.x/c.x)
-    c = makecurve(c.x, y, f'Diffraction {radius}')
+    # y = scipy.special.jv(c.x, 1)
+    # c.y = np.sqrt(y)
+    # c.y = np.sqrt(y/c.y)
+    # x = np.linspace(0.0001, float(radius), int(npts))
+    # c.y = scipy.special.j1(c.x)/c.y
+    # y = np.sqrt(c.x/c.x)
+    c = makecurve(c.x, c.y, f'Diffraction {radius}')
 
     return c
 
@@ -2897,11 +2908,20 @@ def delta(xmn, x0, xmx, npts=100):
     :return: The Dirac delta distribution
     :rtype: curve.Curve
     """
-    c = span(0.0001, radius, npts)
+    c = span(0.0001, xmx, 10000)
+    c.y = scipy.special.spherical_jn(1,c.x)/c.y
+    print(max(c.y))
+    c.y += np.abs(max(c.y))
+    c.y = np.sqrt(c.y)
+    c.y -= np.abs(max(c.y)) -.25
+    # c.y = scipy.special.j1(c.x)/c.y
+    print(c.y[0],min(c.y))
+    # c.y = c.y/4
+    # c.y = y/c.y
     # x = np.linspace(0.0001, float(radius), int(npts))
 
-    y = np.sqrt(c.x/c.x)
-    c = makecurve(c.x, y, f'Dirac Delta {xmn} {x0) {xmx}')
+    # y = np.sqrt(c.x/c.x)
+    c = makecurve(c.x, c.y, f'Dirac Delta {xmn} {x0} {xmx}')
 
     return c
 
