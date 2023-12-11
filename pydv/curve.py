@@ -61,7 +61,7 @@
 
 import sys
 import numpy as np
-from scipy import interpolate
+from scipy import interpolate, integrate
 
 
 class Curve(object):
@@ -223,11 +223,8 @@ class Curve(object):
 
         c = self.copy()
 
-        norm = np.linalg.norm(c.y)
-        if norm == 0:
-            return c
-
-        c.y /= float(norm)
+        area0 = integrate.simpson(c.y, c.x)
+        c.y /= float(area0)
         c.name = "Normalized %s" % self.plotname
         return c
 
