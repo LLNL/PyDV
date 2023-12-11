@@ -15,6 +15,7 @@ Release Notes
 * Added recolor command
 * Allow multiple labels to be deleted at once
 * Added single point curves
+* Bug fix for module imports
 
 3.1.16
 ------
