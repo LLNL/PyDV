@@ -94,11 +94,14 @@ import code
 from numbers import Number
 import types  # noqaf401 used for do_custom()
 
+# Package Import
 try:
-    from . import pydvpy as pydvif
-    from . import curve
-    from . import pdvplot
-    from . import pdvutil
+    from pydv import pydvpy as pydvif
+    from pydv import curve
+    from pydv import pdvplot
+    from pydv import pdvutil
+
+# HPC Import
 except ImportError:
     import pydvpy as pydvif
     import curve
