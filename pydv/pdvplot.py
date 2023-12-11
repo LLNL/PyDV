@@ -67,9 +67,12 @@ except:
 
 from os import path
 
+# Package Import
 try:
-    from .pdvnavbar import PyDVToolbar
-    from . import pdvutil
+    from pydv.pdvnavbar import PyDVToolbar
+    from pydv import pdvutil
+
+# HPC Import
 except ImportError:
     from pdvnavbar import PyDVToolbar
     import pdvutil
