@@ -3,10 +3,23 @@
 Release Notes
 =============
 
+3.2.0
+------
+* Bug fix for normalize
+* Added bold and italic option for xlabel and ylabel
+* Added theta command
+* Added hypot command
+* Added merge ultra files command
+* Added axis on off command
+* Added plot on off command
+* Added recolor command
+* Allow multiple labels to be deleted at once
+* Added single point curves
+
 3.1.16
 ------
 * Restore docs theme back to sphinx-rtd-theme
-* Apply flake8 
+* Apply flake8
 * Bug fix for getx, getymin, getymax
 * Bug fix for addition, subtraction, multiplication, division
 * Bug fix for saving images in command line
