@@ -486,6 +486,10 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         with open(fname, 'r') as f:
             for line in f:
                 split_line = re.split(r'[ _\t]+', str.strip(line))
+                # No space between curvename and hashtag #mycurve
+                if len(split_line) == 1 and line.startswith('#'):
+                    split_line = re.split(r'#', str.strip(line))
+                    split_line[0] = '#'
                 if not split_line or not split_line[0]:
                     continue
                 elif split_line[0] in {'##', 'end', 'End', 'END'}:
