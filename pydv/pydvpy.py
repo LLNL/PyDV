@@ -490,6 +490,8 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 if len(split_line) == 1 and line.startswith('#'):
                     split_line = re.split(r'#', str.strip(line))
                     split_line[0] = '#'
+                    split_line[1] = split_line[-1]
+                    split_line = split_line[0:2]  # In case there is more than one hashtag
                 if not split_line or not split_line[0]:
                     continue
                 elif split_line[0] in {'##', 'end', 'End', 'END'}:

@@ -5411,7 +5411,7 @@ class Command(cmd.Cmd, object):
               '\n   Shortcuts: error-range\n')
 
     def help_marker(self):
-        print('\n   Procedure: Set the marker symbol for scatter plots'
+        print('\n   Procedure: Set the marker symbol for the curves'
               '\n   Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
               '\n   Note: When setting this value through the interface or the curve object directly, '
               'use ONLY matplotlib supported marker types.'
@@ -5421,44 +5421,9 @@ class Command(cmd.Cmd, object):
 
     def do_marker(self, line):
         """
-        Set the marker for scatter plots
+        Set the marker for curves
         """
-
-        if not line:
-            return 0
-        try:
-            if len(line.split(':')) > 1:
-                self.do_marker(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                ultra_markers = {'circle': 'o',
-                                 'square': 's',
-                                 'diamond': 'd'}
-
-            size = None
-
-            try:
-                size = float(line.pop(-1))
-                marker = line.pop(-1)
-            except:
-                marker = line.pop(-1)
-
-            if marker in ultra_markers:
-                marker = ultra_markers[marker]
-
-            for i in range(len(line)):
-                curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                cur = self.plotlist[curvidx]
-                cur.marker = marker
-                if size is not None:
-                    cur.markersize = size
-
-            self.plotedit = True
-        except:
-            self.help_marker()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        self.do_linemarker(line)
 
     def do_linemarker(self, line):
         """
