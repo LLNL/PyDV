@@ -93,8 +93,11 @@ try:
 except:
     stylesLoaded = False
 
+# Package Import
 try:
-    from . import curve
+    from pydv import curve
+
+# HPC Import
 except ImportError:
     import curve
 
