@@ -6004,7 +6004,7 @@ class Command(cmd.Cmd, object):
             x0 = float(line[1])
             xmx = float(line[2])
             if len(line) > 3:
-                npts = line[3]
+                npts = float(line[3])
             else:
                 npts = 100
             c = pydvif.delta(xmn, x0, xmx, npts)

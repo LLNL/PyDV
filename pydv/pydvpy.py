@@ -2882,7 +2882,10 @@ def diffraction(radius, npts=100):
     :rtype: curve.Curve
     """
     c = span(0.0001, radius, npts)
-    c.y = scipy.special.spherical_jn(1,c.x)/c.y
+    # c.y = scipy.special.airy(c.x)
+    # c.y = (1 -scipy.special.spherical_jn(0,c.x)**2  - scipy.special.spherical_jn(1,c.x)**2)/ c.y
+    # c.y = (scipy.special.spherical_jn(1,c.x) ) / c.y
+    c.y = (scipy.special.j1(c.x) ) / c.y
     # c.y /= np.max(c.y)/.0625
     # print(max(c.y))
     # if min(c.y) < 0:
@@ -2897,40 +2900,6 @@ def diffraction(radius, npts=100):
     # c.y = scipy.special.j1(c.x)/c.y
     # y = np.sqrt(c.x/c.x)
     c = makecurve(c.x, c.y, f'Diffraction {radius}')
-
-    return c
-
-
-def delta(xmn, x0, xmx, npts=100):
-    """
-    Procedure: Generate a Dirac delta distribution such that
-               Int(xmin, xmax, dt*delta(t - x0)) = 1
-
-    :param xmn: The minimum x location
-    :type xmn: float
-    :param x0: The location of the unit impulse
-    :type x0: float
-    :param xmx: The maximum x location
-    :type xmx: float
-    :param npts: The number of points for the cuve
-    :type npts: int
-    :return: The Dirac delta distribution
-    :rtype: curve.Curve
-    """
-    c = span(0.0001, xmx, 10000)
-    c.y = scipy.special.spherical_jn(1,c.x)/c.y
-    print(max(c.y))
-    c.y += np.abs(max(c.y))
-    c.y = np.sqrt(c.y)
-    c.y -= np.abs(max(c.y)) -.25
-    # c.y = scipy.special.j1(c.x)/c.y
-    print(c.y[0],min(c.y))
-    # c.y = c.y/4
-    # c.y = y/c.y
-    # x = np.linspace(0.0001, float(radius), int(npts))
-
-    # y = np.sqrt(c.x/c.x)
-    c = makecurve(c.x, c.y, f'Dirac Delta {xmn} {x0} {xmx}')
 
     return c
 
@@ -3706,6 +3675,48 @@ def line(m, b, xmin, xmax, numpts=100):
     c = curve.Curve('', 'Straight Line')
     c.x = x
     c.y = y
+
+    return c
+
+
+def delta(xmn, x0, xmx, npts=100):
+    """
+    Procedure: Generate a Dirac delta distribution such that
+               Int(xmin, xmax, dt*delta(t - x0)) = 1
+
+    :param xmn: The minimum x location
+    :type xmn: float
+    :param x0: The location of the unit impulse
+    :type x0: float
+    :param xmx: The maximum x location
+    :type xmx: float
+    :param npts: The number of points for the cuve
+    :type npts: int
+    :return: The Dirac delta distribution
+    :rtype: curve.Curve
+    """
+    # From Ultra
+    dxt = xmx - xmn
+    dxi = dxt / npts
+    dxl = x0 - xmn
+    dnl = dxl / dxi
+    xv1 = (dxi * dnl) + xmn
+    xv2 = xv1 + dxi
+    ds = dxi**2
+    yv1 = (xv2- x0) / ds
+    yv2 = (x0 - xv1) / ds
+    dxr = xmx - x0
+    numl = dnl - 1
+    numr = (npts - 2) - numl
+
+    crvl = line(0, 0, xmn, xv1 - dxi, numl)
+    crvr = line(0, 0, xv2 + dxi, xmx, numr)
+    crvm = makecurve([xv1, xv2], [yv1, yv2])
+
+    x = np.concatenate([crvl.x, crvm.x, crvr.x])
+    y = np.concatenate([crvl.y, crvm.y, crvr.y])
+
+    c = makecurve(x, y, f'Dirac Delta {xmn} {x0} {xmx}')
 
     return c
 
