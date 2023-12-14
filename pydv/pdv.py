@@ -5174,6 +5174,61 @@ class Command(cmd.Cmd, object):
               '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
               '\n   Shortcuts: ymm')
 
+    def do_filter(self, line):
+        "Filter out points in the x and y axis"
+
+        if len(line.split(':')) > 1:
+            self.do_filter(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                print(line)
+                ymax = line.pop(-1)
+                ymin = line.pop(-1)
+                xmax = line.pop(-1)
+                xmin = line.pop(-1)
+                good_lines = []
+                for i in range(len(line)):
+                    try:
+                        pdvutil.getCurveIndex(line[i], self.plotlist)
+                        good_lines.append(line[i])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve_letter in good_lines:
+                    x_minline = ' '.join(curve_letter) + ' ' + xmin
+                    x_maxline = ' '.join(curve_letter) + ' ' + xmax
+                    y_minline = ' '.join(curve_letter) + ' ' + ymin
+                    y_maxline = ' '.join(curve_letter) + ' ' + ymax
+                    print(x_minline, x_maxline, y_minline, y_maxline)
+                    try:
+                        self.do_xmin(x_minline)
+                    except:
+                        pass
+                    try:
+                        self.do_xmax(x_maxline)
+                    except:
+                        pass
+                    try:
+                        self.do_ymin(y_minline)
+                    except:
+                        pass
+                    try:
+                        self.do_ymax(y_maxline)
+                    except:
+                        pass
+
+                self.plotedit = True
+            except:
+                print('error - usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
+    def help_filter(self):
+        print('\n   Filter out points in the x and y axis'
+              '\n   Usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
+
     def do_derivative(self, line):
         """
         Take derivative of the curve
