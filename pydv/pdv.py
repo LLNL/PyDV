@@ -5186,7 +5186,6 @@ class Command(cmd.Cmd, object):
         else:
             try:
                 line = line.split()
-                print(line)
                 ymax = line.pop(-1)
                 ymin = line.pop(-1)
                 xmax = line.pop(-1)
@@ -5204,23 +5203,11 @@ class Command(cmd.Cmd, object):
                     x_maxline = ' '.join(curve_letter) + ' ' + xmax
                     y_minline = ' '.join(curve_letter) + ' ' + ymin
                     y_maxline = ' '.join(curve_letter) + ' ' + ymax
-                    print(x_minline, x_maxline, y_minline, y_maxline)
-                    try:
-                        self.do_xmin(x_minline)
-                    except:
-                        pass
-                    try:
-                        self.do_xmax(x_maxline)
-                    except:
-                        pass
-                    try:
-                        self.do_ymin(y_minline)
-                    except:
-                        pass
-                    try:
-                        self.do_ymax(y_maxline)
-                    except:
-                        pass
+
+                    self.do_xmin(x_minline)
+                    self.do_xmax(x_maxline)
+                    self.do_ymin(y_minline)
+                    self.do_ymax(y_maxline)
 
                 self.plotedit = True
             except:
@@ -7442,13 +7429,17 @@ class Command(cmd.Cmd, object):
                             if (cur.x[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'xmax'):
                         nx = []
                         ny = []
@@ -7456,13 +7447,17 @@ class Command(cmd.Cmd, object):
                             if (cur.x[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'ymin'):
                         nx = []
                         ny = []
@@ -7470,13 +7465,17 @@ class Command(cmd.Cmd, object):
                             if (cur.y[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'ymax'):
                         nx = []
                         ny = []
@@ -7484,13 +7483,17 @@ class Command(cmd.Cmd, object):
                             if (cur.y[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                 except:
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
