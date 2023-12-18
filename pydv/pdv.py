@@ -6021,6 +6021,30 @@ class Command(cmd.Cmd, object):
               '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
               '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
 
+    def do_compose(self, line):
+        """
+        Calculate the composition of two curves, f(g(x))
+        """
+
+        try:
+            line = line.split()
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            c1 = self.plotlist[idx]
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            c2 = self.plotlist[idx]
+            c = pydvif.compose(c1, c2)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: compose <curve1> <curve2>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_compose(self):
+        print('\n   Procedure: Calculate the composition of two curves, f(g(x)).'
+              '\n   Usage: compose <curve1> <curve2>\n')
+
     def do_bkgcolor(self, line):
         """
         Changes background color of the plot, window, or both

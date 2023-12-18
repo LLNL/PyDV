@@ -3721,6 +3721,28 @@ def delta(xmn, x0, xmx, npts=100):
     return c
 
 
+def compose(c1, c2):
+    """
+    Calculate the composition of two curves, f(g(x)).
+
+    :param c1: The first curve, f
+    :type c1: curve.Curve
+    :param c2: The second curve, g
+    :type c2: curve.Curve
+    :return: The composition of two curves, f(g(x))
+    :rtype: curve.Curve
+    """
+    new_x = c2.x
+    new_y = []
+    for y2 in c2.y:
+        print(y2,np.interp(y2, c1.x, c1.y))
+        new_y.append(np.interp(y2, c1.x, c1.y))
+    print(new_y)
+    c = makecurve(new_x, new_y, f'Composition')
+    return c
+    # https://www.purplemath.com/modules/fcncomp.htm
+
+
 def makeextensive(curvelist):
     """
     Set the y-values such that ``y[i] *= (x[i+1] - x[i])``
