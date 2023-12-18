@@ -2870,40 +2870,6 @@ def hypot(c1, c2):
     return c
 
 
-def diffraction(radius, npts=100):
-    """
-    Procedure: Compute a diffraction pattern for a circular aperature.
-
-    :param radius: The radius of the circle
-    :type radius: float
-    :param npts: The number of points for the cuve
-    :type npts: int
-    :return: The diffraction pattern for a circular aperature
-    :rtype: curve.Curve
-    """
-    c = span(0.0001, radius, npts)
-    # c.y = scipy.special.airy(c.x)
-    # c.y = (1 -scipy.special.spherical_jn(0,c.x)**2  - scipy.special.spherical_jn(1,c.x)**2)/ c.y
-    # c.y = (scipy.special.spherical_jn(1,c.x) ) / c.y
-    c.y = (scipy.special.j1(c.x) ) / c.y
-    # c.y /= np.max(c.y)/.0625
-    # print(max(c.y))
-    # if min(c.y) < 0:
-    #     c.y += np.abs(min(c.y))*1.1
-    # c.y = np.sqrt(c.y)
-    # c.y -= np.abs(max(c.y)) -.25
-
-    # y = scipy.special.jv(c.x, 1)
-    # c.y = np.sqrt(y)
-    # c.y = np.sqrt(y/c.y)
-    # x = np.linspace(0.0001, float(radius), int(npts))
-    # c.y = scipy.special.j1(c.x)/c.y
-    # y = np.sqrt(c.x/c.x)
-    c = makecurve(c.x, c.y, f'Diffraction {radius}')
-
-    return c
-
-
 def convolve(c1, c2, npts=100):
     """
     Compute and return the convolution of two real curves:
@@ -3719,28 +3685,6 @@ def delta(xmn, x0, xmx, npts=100):
     c = makecurve(x, y, f'Dirac Delta {xmn} {x0} {xmx}')
 
     return c
-
-
-def compose(c1, c2):
-    """
-    Calculate the composition of two curves, f(g(x)).
-
-    :param c1: The first curve, f
-    :type c1: curve.Curve
-    :param c2: The second curve, g
-    :type c2: curve.Curve
-    :return: The composition of two curves, f(g(x))
-    :rtype: curve.Curve
-    """
-    new_x = c2.x
-    new_y = []
-    for y2 in c2.y:
-        print(y2,np.interp(y2, c1.x, c1.y))
-        new_y.append(np.interp(y2, c1.x, c1.y))
-    print(new_y)
-    c = makecurve(new_x, new_y, f'Composition')
-    return c
-    # https://www.purplemath.com/modules/fcncomp.htm
 
 
 def makeextensive(curvelist):

@@ -5967,31 +5967,6 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Calculate harmonic average of two curves, sqrt(a^2+b^2).'
               '\n   Usage: hypot <curve1> <curve2>\n')
 
-    def do_diffraction(self, line):
-        """
-        Procedure: Compute a diffraction pattern for a circular aperature.
-        """
-
-        try:
-            line = line.split()
-            radius = float(line[0])
-            if len(line) > 1:
-                npts = int(line[1])
-            else:
-                npts = 100
-            c = pydvif.diffraction(radius, npts)
-            self.addtoplot(c)
-            self.plotedit = True
-
-        except:
-            print('Usage: diffraction <radius> [<n-points>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_diffraction(self):
-        print('\n   Procedure: Compute a diffraction pattern for a circular aperature.'
-              '\n   Usage: diffraction <radius> [<n-points>]\n')
-
     def do_delta(self, line):
         """
         Procedure: Generate a Dirac delta distribution such that
@@ -6020,30 +5995,6 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Generate a Dirac delta distribution such that.'
               '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
               '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
-
-    def do_compose(self, line):
-        """
-        Calculate the composition of two curves, f(g(x))
-        """
-
-        try:
-            line = line.split()
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            c1 = self.plotlist[idx]
-            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
-            c2 = self.plotlist[idx]
-            c = pydvif.compose(c1, c2)
-            self.addtoplot(c)
-            self.plotedit = True
-
-        except:
-            print('Usage: compose <curve1> <curve2>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_compose(self):
-        print('\n   Procedure: Calculate the composition of two curves, f(g(x)).'
-              '\n   Usage: compose <curve1> <curve2>\n')
 
     def do_bkgcolor(self, line):
         """
@@ -6356,21 +6307,35 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            line = line.split()
-            c = line.pop(0)
-            line = ' '.join(line)
+            if len(line.split(':')) > 1:
+                self.do_label(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line_labels = line.split('#')[1:]  # First entry will be curves
 
-            idx = pdvutil.getCurveIndex(c, self.plotlist)
-            cur = self.plotlist[idx]
-            cur.name = line
-            self.plotedit = True
+                if line_labels:  # Multiple curves and labels
+                    curves = line.split('#')[0].split()
+                else:  # single curve and label
+                    curves = line.split()[0]
+                    line_labels = [' '.join(line.split()[1:])]
+
+                for i in range(len(curves)):
+                    idx = pdvutil.getCurveIndex(curves[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    cur.name = line_labels[i]
+
+                self.plotedit = True
         except:
-            print('error - usage: label <curve> <new-label>')
+            print('error - usage: label <curve> <new-label>\n')
+            print('For multiple curves, each label must start with #')
+            print('label a:c #mynewlabel #my other label #my thirdlabel')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_label(self):
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
+        print('   For multiple curves, each label must start with #')
+        print('   label a:c #mynewlabel #my other label #my thirdlabel')
 
     def do_labelrecordids(self, line):
         """
