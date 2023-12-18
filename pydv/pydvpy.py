@@ -3656,7 +3656,7 @@ def delta(xmn, x0, xmx, npts=100):
     :type x0: float
     :param xmx: The maximum x location
     :type xmx: float
-    :param npts: The number of points for the cuve
+    :param npts: The number of points for the curve
     :type npts: int
     :return: The Dirac delta distribution
     :rtype: curve.Curve
