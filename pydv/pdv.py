@@ -5967,6 +5967,31 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Calculate harmonic average of two curves, sqrt(a^2+b^2).'
               '\n   Usage: hypot <curve1> <curve2>\n')
 
+    def do_diffraction(self, line):
+        """
+        Procedure: Compute a diffraction pattern for a circular aperature.
+        """
+
+        try:
+            line = line.split()
+            radius = float(line[0])
+            if len(line) > 1:
+                npts = int(line[1])
+            else:
+                npts = 100
+            c = pydvif.diffraction(radius, npts)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: diffraction <radius> [<n-points>]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_diffraction(self):
+        print('\n   Procedure: Compute a diffraction pattern for a circular aperature.'
+              '\n   Usage: diffraction <radius> [<n-points>]\n')
+
     def do_delta(self, line):
         """
         Procedure: Generate a Dirac delta distribution such that
@@ -5995,6 +6020,30 @@ class Command(cmd.Cmd, object):
         print('\n   Procedure: Generate a Dirac delta distribution such that.'
               '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
               '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
+
+    def do_compose(self, line):
+        """
+        Calculate the composition of two curves, f(g(x))
+        """
+
+        try:
+            line = line.split()
+            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
+            c1 = self.plotlist[idx]
+            idx = pdvutil.getCurveIndex(line[1], self.plotlist)
+            c2 = self.plotlist[idx]
+            c = pydvif.compose(c1, c2)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: compose <curve1> <curve2>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_compose(self):
+        print('\n   Procedure: Calculate the composition of two curves, f(g(x)).'
+              '\n   Usage: compose <curve1> <curve2>\n')
 
     def do_bkgcolor(self, line):
         """
