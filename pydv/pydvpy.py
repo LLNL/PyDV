@@ -3669,9 +3669,9 @@ def delta(xmn, x0, xmx, npts=100):
     xv1 = (dxi * dnl) + xmn
     xv2 = xv1 + dxi
     ds = dxi**2
-    yv1 = (xv2- x0) / ds
+    yv1 = (xv2 - x0) / ds
     yv2 = (x0 - xv1) / ds
-    dxr = xmx - x0
+    # dxr = xmx - x0
     numl = dnl - 1
     numr = (npts - 2) - numl
 
