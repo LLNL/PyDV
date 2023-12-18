@@ -5177,6 +5177,48 @@ class Command(cmd.Cmd, object):
               '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
               '\n   Shortcuts: ymm')
 
+    def do_filter(self, line):
+        "Filter out points in the x and y axis"
+
+        if len(line.split(':')) > 1:
+            self.do_filter(pdvutil.getletterargs(line))
+            return
+        else:
+            try:
+                line = line.split()
+                ymax = line.pop(-1)
+                ymin = line.pop(-1)
+                xmax = line.pop(-1)
+                xmin = line.pop(-1)
+                good_lines = []
+                for i in range(len(line)):
+                    try:
+                        pdvutil.getCurveIndex(line[i], self.plotlist)
+                        good_lines.append(line[i])
+                    except pdvutil.CurveIndexError:
+                        pass
+
+                for curve_letter in good_lines:
+                    x_minline = ' '.join(curve_letter) + ' ' + xmin
+                    x_maxline = ' '.join(curve_letter) + ' ' + xmax
+                    y_minline = ' '.join(curve_letter) + ' ' + ymin
+                    y_maxline = ' '.join(curve_letter) + ' ' + ymax
+
+                    self.do_xmin(x_minline)
+                    self.do_xmax(x_maxline)
+                    self.do_ymin(y_minline)
+                    self.do_ymax(y_maxline)
+
+                self.plotedit = True
+            except:
+                print('error - usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+
+    def help_filter(self):
+        print('\n   Filter out points in the x and y axis'
+              '\n   Usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
+
     def do_derivative(self, line):
         """
         Take derivative of the curve
@@ -5414,7 +5456,7 @@ class Command(cmd.Cmd, object):
               '\n   Shortcuts: error-range\n')
 
     def help_marker(self):
-        print('\n   Procedure: Set the marker symbol for scatter plots'
+        print('\n   Procedure: Set the marker symbol for the curves'
               '\n   Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
               '\n   Note: When setting this value through the interface or the curve object directly, '
               'use ONLY matplotlib supported marker types.'
@@ -5424,44 +5466,9 @@ class Command(cmd.Cmd, object):
 
     def do_marker(self, line):
         """
-        Set the marker for scatter plots
+        Set the marker for curves
         """
-
-        if not line:
-            return 0
-        try:
-            if len(line.split(':')) > 1:
-                self.do_marker(pdvutil.getletterargs(line))
-                return 0
-            else:
-                line = line.split()
-                ultra_markers = {'circle': 'o',
-                                 'square': 's',
-                                 'diamond': 'd'}
-
-            size = None
-
-            try:
-                size = float(line.pop(-1))
-                marker = line.pop(-1)
-            except:
-                marker = line.pop(-1)
-
-            if marker in ultra_markers:
-                marker = ultra_markers[marker]
-
-            for i in range(len(line)):
-                curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
-                cur = self.plotlist[curvidx]
-                cur.marker = marker
-                if size is not None:
-                    cur.markersize = size
-
-            self.plotedit = True
-        except:
-            self.help_marker()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        self.do_linemarker(line)
 
     def do_linemarker(self, line):
         """
@@ -5959,6 +5966,35 @@ class Command(cmd.Cmd, object):
     def help_hypot(self):
         print('\n   Procedure: Calculate harmonic average of two curves, sqrt(a^2+b^2).'
               '\n   Usage: hypot <curve1> <curve2>\n')
+
+    def do_delta(self, line):
+        """
+        Procedure: Generate a Dirac delta distribution such that
+                   Int(xmin, xmax, dt*delta(t - x0)) = 1
+        """
+
+        try:
+            line = line.split()
+            xmn = float(line[0])
+            x0 = float(line[1])
+            xmx = float(line[2])
+            if len(line) > 3:
+                npts = float(line[3])
+            else:
+                npts = 100
+            c = pydvif.delta(xmn, x0, xmx, npts)
+            self.addtoplot(c)
+            self.plotedit = True
+
+        except:
+            print('Usage: delta <xmin> <x0> <xmax> [<# points>]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_delta(self):
+        print('\n   Procedure: Generate a Dirac delta distribution such that.'
+              '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
+              '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
 
     def do_bkgcolor(self, line):
         """
@@ -7368,13 +7404,17 @@ class Command(cmd.Cmd, object):
                             if (cur.x[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'xmax'):
                         nx = []
                         ny = []
@@ -7382,13 +7422,17 @@ class Command(cmd.Cmd, object):
                             if (cur.x[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'ymin'):
                         nx = []
                         ny = []
@@ -7396,13 +7440,17 @@ class Command(cmd.Cmd, object):
                             if (cur.y[dex] >= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                     elif (flag == 'ymax'):
                         nx = []
                         ny = []
@@ -7410,13 +7458,17 @@ class Command(cmd.Cmd, object):
                             if (cur.y[dex] <= float(modvalue)):
                                 nx.append(cur.x[dex])
                                 ny.append(cur.y[dex])
-                        if (len(nx) >= 2):
+                        if (len(nx) > 0):
                             cur.x = numpy.array(nx)
                             cur.y = numpy.array(ny)
                             cur.edited = True
+                            if len(nx) == 1:
+                                cur.marker = 'o'
+                                cur.markersize = 3
                         else:
+                            j = pdvutil.getCurveIndex(cur.plotname, self.plotlist)
                             cur.plotname = ''
-                            self.plotlist.pop(j)  # noqaf821
+                            self.plotlist.pop(j)
                 except:
                     if self.debug:
                         traceback.print_exc(file=sys.stdout)
