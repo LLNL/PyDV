@@ -2238,12 +2238,17 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            line = line.split()
+            if len(line.split(':')) > 1:
+                self.do_getlabel(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
 
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    print("\nLabel = %s\n" % cur.name)
+                for i in range(len(self.plotlist)):
+                    cur = self.plotlist[i]
+                    for j in range(len(line)):
+                        if cur.plotname == line[j].upper():
+                            print(f"\n {line[j].upper()} Label = {cur.name}")
         except:
             print('error - usage: getlabel <curve>')
             if self.debug:
