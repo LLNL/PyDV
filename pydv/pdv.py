@@ -2177,7 +2177,7 @@ class Command(cmd.Cmd, object):
                 if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
                     raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
-                for i in line:
+                for i in line[:-2]:
                     idx = pdvutil.getCurveIndex(i, self.plotlist)
                     cur = self.plotlist[idx]
                     plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
@@ -2224,7 +2224,7 @@ class Command(cmd.Cmd, object):
                 if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
                     raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
 
-                for i in line:
+                for i in line[:-2]:
                     idx = pdvutil.getCurveIndex(i, self.plotlist)
                     cur = self.plotlist[idx]
                     plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
