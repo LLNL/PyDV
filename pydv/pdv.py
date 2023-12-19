@@ -2156,29 +2156,34 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-            xlow = None
-            xhi = None
-
-            try:
-                xhi = float(line[-1])
-            except:
+            if len(line.split(':')) > 1:
+                self.do_getymax(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                xlow = None
                 xhi = None
 
-            try:
-                xlow = float(line[-2])
-            except:
-                xlow = None
+                try:
+                    xhi = float(line[-1])
+                except:
+                    xhi = None
 
-            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+                try:
+                    xlow = float(line[-2])
+                except:
+                    xlow = None
 
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
-            print('\nCurve ' + plotname)
-            for x, y in xy_values:
-                print('    x: %.6e    y: %.6e\n' % (x, y))
+                if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                    raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
+                    print(f' \n{i.upper()} Curve {plotname}')
+                    for x, y in xy_values:
+                        print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -2198,29 +2203,34 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-            xlow = None
-            xhi = None
-
-            try:
-                xhi = float(line[-1])
-            except:
+            if len(line.split(':')) > 1:
+                self.do_getymin(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                xlow = None
                 xhi = None
 
-            try:
-                xlow = float(line[-2])
-            except:
-                xlow = None
+                try:
+                    xhi = float(line[-1])
+                except:
+                    xhi = None
 
-            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+                try:
+                    xlow = float(line[-2])
+                except:
+                    xlow = None
 
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
-            print('\nCurve ' + plotname)
-            for x, y in xy_values:
-                print('    x: %.6e    y: %.6e\n' % (x, y))
+                if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                    raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
+                    print(f' \n{i.upper()} Curve {plotname}')
+                    for x, y in xy_values:
+                        print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
