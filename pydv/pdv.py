@@ -2416,11 +2416,15 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            print('\n    Number of points = %d\n' % pydvif.getnumpoints(cur))
+            if len(line.split(':')) > 1:
+                self.do_getnumpoints(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                for i in range(len(line)):
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    print(f'\n    {line[i].upper()} Number of points = {pydvif.getnumpoints(cur)}')
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
