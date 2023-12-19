@@ -1458,53 +1458,59 @@ class Command(cmd.Cmd, object):
         """
         Return a curve's attributes
         """
-
-        if not line:
+        if len(line.split(':')) > 1:
+            self.do_getattributes(pdvutil.getletterargs(line))
             return 0
-        try:
-            line = line.split()
-            if len(line) == 1:
-                idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-                cur = self.plotlist[idx]
-                print('\n')
-                print('    Plot name = {}'.format(cur.plotname))
-                print('    Color = {}'.format(cur.color))
-                if cur.linestyle == '-':
-                    pp_linestyle = 'solid'
-                elif cur.linestyle == ':':
-                    pp_linestyle = 'dot'
-                elif cur.linestyle == '--':
-                    pp_linestyle = 'dash'
-                elif cur.linestyle == '-.':
-                    pp_linestyle = 'dashdot'
-                print('    Style = {}'.format(pp_linestyle))
-                print('    Curve width = {} '.format(cur.linewidth))
-                print('    Edited = {}'.format(cur.edited))
-                print('    Scatter = {}'.format(cur.scatter))
-                print('    Linespoints = {}'.format(cur.linespoints))
-                print('    Drawstyle = {}'.format(cur.drawstyle))
-                print('    Dashes = {}'.format(cur.dashes))
-                print('    Hidden = {}'.format(cur.hidden))
-                print('    Marker = {}'.format(cur.marker))
-                print('    Markersize = {}'.format(cur.markersize))
-                print('    Markeredgecolor = {}'.format(cur.markeredgecolor))
-                print('    Markerfacecolor = {}'.format(cur.markerfacecolor))
-                print('    Ebar = {}'.format(cur.ebar))
-                print('    Erange = {}'.format(cur.erange))
-                print('    Plotprecedence = {}'.format(cur.plotprecedence))
-                print('    Step Function = {}'.format(cur.step))
-                print('\n')
-            else:
-                raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
-        except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-        finally:
-            self.redraw = False
+        else:
+            if not line:
+                return 0
+            try:
+                line = line.split()
+                for curve in line:
+                    idx = pdvutil.getCurveIndex(curve, self.plotlist)
+                    cur = self.plotlist[idx]
+                    try:
+                        cur.step = self.curvelist[idx].step
+                    except:
+                        cur.step = False
+                    print('\n')
+                    print('    Plot name = {}'.format(cur.plotname))
+                    print('    Color = {}'.format(cur.color))
+                    if cur.linestyle == '-':
+                        pp_linestyle = 'solid'
+                    elif cur.linestyle == ':':
+                        pp_linestyle = 'dot'
+                    elif cur.linestyle == '--':
+                        pp_linestyle = 'dash'
+                    elif cur.linestyle == '-.':
+                        pp_linestyle = 'dashdot'
+                    print('    Style = {}'.format(pp_linestyle))
+                    print('    Curve width = {} '.format(cur.linewidth))
+                    print('    Edited = {}'.format(cur.edited))
+                    print('    Scatter = {}'.format(cur.scatter))
+                    print('    Linespoints = {}'.format(cur.linespoints))
+                    print('    Drawstyle = {}'.format(cur.drawstyle))
+                    print('    Dashes = {}'.format(cur.dashes))
+                    print('    Hidden = {}'.format(cur.hidden))
+                    print('    Marker = {}'.format(cur.marker))
+                    print('    Markersize = {}'.format(cur.markersize))
+                    print('    Markeredgecolor = {}'.format(cur.markeredgecolor))
+                    print('    Markerfacecolor = {}'.format(cur.markerfacecolor))
+                    print('    Ebar = {}'.format(cur.ebar))
+                    print('    Erange = {}'.format(cur.erange))
+                    print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                    print('    Step Function = {}'.format(cur.step))
+                    print('\n')
+            except:
+                print('\n   usage: getattributes <curves>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+            finally:
+                self.redraw = False
 
     def help_getattributes(self):
         print('\n   Display the given curve\'s attributes, such as: color, style, and width.'
-              '\n   usage: getattributes <curve>')
+              '\n   usage: getattributes <curves>')
 
     def do_markerfacecolor(self, line):
         """
