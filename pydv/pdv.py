@@ -1466,8 +1466,8 @@ class Command(cmd.Cmd, object):
                 return 0
             try:
                 line = line.split()
-                for curve in line:
-                    idx = pdvutil.getCurveIndex(curve, self.plotlist)
+                for c in line:
+                    idx = pdvutil.getCurveIndex(c, self.plotlist)
                     cur = self.plotlist[idx]
                     try:
                         cur.step = self.curvelist[idx].step
