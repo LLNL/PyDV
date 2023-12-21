@@ -367,7 +367,8 @@ def save(fname, curvelist, verbose=False, save_labels=False):
         f = open(fname, 'w')
         for cur in curves:
             if save_labels:
-                f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel  + ' # ylabel ' + cur.ylabel +'\n')
+                print('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
+                f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
             else:
                 f.write('# ' + cur.name + '\n')
             for dex in range(len(cur.x)):
@@ -499,11 +500,14 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 split_line = re.split(r'[ _\t]+', str.strip(line))
 
                 # No space between curvename and hashtag #mycurve
-                if re.search('[a-zA-Z]', split_line[0]):
-                    split_line_2 = re.split(r'#', str.strip(line))
-                    split_line = [None]*2
-                    split_line[0] = '#'
-                    split_line[1] = split_line_2[1]
+                try:  # Exponential numbers and single text will cause issues
+                    if re.search('[a-zA-Z]', split_line[0]):
+                        split_line_2 = re.split(r'#', str.strip(line))
+                        split_line = [None] * 2
+                        split_line[0] = '#'
+                        split_line[1] = split_line_2[1]
+                except:
+                    split_line = re.split(r'[ _\t]+', str.strip(line))
 
                 # Check for labels
                 split_line_3 = re.split(r'#', str.strip(line))
@@ -512,21 +516,16 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     if re.search('[a-zA-Z]', split):
                         if 'xlabel' in split:
                             xlabel = split.replace(' xlabel ', '')
-                            print('xlabel ', xlabel)
                             labels = True
                         if 'ylabel' in split:
                             ylabel = split.replace(' ylabel ', '')
-                            print('ylabel ',ylabel)
                             labels = True
 
                 # Contains x and/or y labels
                 if labels:
-                    split_line = [None]*2
+                    split_line = [None] * 2
                     split_line[0] = '#'
                     split_line[1] = split_line_3[1].strip()
-                    print(split_line_3[1].strip())
-                    print('xlabel ', xlabel)
-                    print('ylabel ',ylabel)
                     xlabels[split_line[1]] = xlabel
                     ylabels[split_line[1]] = ylabel
                     xlabel = ''
@@ -545,8 +544,6 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     # getting to the actual data, then the new_curve flag will
                     # keep us from adding all those comments as curves.
                     if current and not new_curve:
-                        print('xlabels',xlabels,'\n')
-                        print('ylabels',ylabels,'\n\n\n\n')
                         # Need this since it will add last match below and outside loop
                         if matches and match_count >= matches:
                             break
@@ -566,16 +563,16 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             if regex.search(curve_name):
                                 match_count += 1
                                 current = curve.Curve(fname, curve_name,
-                                                      xlabel=xlabels.get(curve_name,''),
-                                                      ylabel=ylabels.get(curve_name,''))
+                                                      xlabel=xlabels.get(curve_name, ''),
+                                                      ylabel=ylabels.get(curve_name, ''))
                                 build_list_x += split_line[::2]
                                 build_list_y += split_line[1::2]
                             else:
                                 current = None
                         else:
                             current = curve.Curve(fname, curve_name,
-                                                      xlabel=xlabels.get(curve_name,''),
-                                                      ylabel=ylabels.get(curve_name,''))
+                                                  xlabel=xlabels.get(curve_name, ''),
+                                                  ylabel=ylabels.get(curve_name, ''))
                             build_list_x += split_line[::2]
                             build_list_y += split_line[1::2]
 

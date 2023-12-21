@@ -4809,7 +4809,7 @@ class Command(cmd.Cmd, object):
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
                         if save_labels:
-                            f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel  + ' # ylabel ' + cur.ylabel +'\n')
+                            f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
                         else:
                             f.write('# ' + cur.name + '\n')
                         for dex in range(len(cur.x)):
