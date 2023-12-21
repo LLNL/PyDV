@@ -4800,18 +4800,24 @@ class Command(cmd.Cmd, object):
                 return 0
             else:
                 f = open(filename, 'w')
+                save_labels = False
+                if 'savelabels' in line:
+                    save_labels = True
                 line = line.split()
                 for i in range(len(line)):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        f.write('# ' + cur.name + '\n')
+                        if save_labels:
+                            f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel  + ' # ylabel ' + cur.ylabel +'\n')
+                        else:
+                            f.write('# ' + cur.name + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
                         print("I/O error: {}".format(rte))
         except:
-            print('error - usage: save <file-name> <curve-list>')
+            print('error - usage: save <file-name> <curve-list> <savelabels>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
@@ -4819,7 +4825,7 @@ class Command(cmd.Cmd, object):
 
     def help_save(self):
         print('\n   Macro: Save curves to file'
-              '\n   Usage: save <file-name> <curve-list>\n')
+              '\n   Usage: save <file-name> <curve-list> <savelabels>\n')
 
     def do_savecsv(self, line):
         """

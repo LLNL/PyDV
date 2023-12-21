@@ -1,0 +1,125 @@
+# my comment
+#myothercomment
+# first curve
+#
+# testing
+#nospace0 # xlabel 0Time
+0	0
+1	1
+2	4
+3	9
+4	16
+# onespace0
+0	0
+1	1
+2	4
+3	9
+4	16
+#nospace1 # xlabel 1aTime [seconds]
+0	0
+1	1
+2	4
+3	9
+4	16
+# onespace1 # xlabel 1bTime [seconds]
+0	0
+1	1
+2	4
+3	9
+4	16
+#nospace2 # ylabel 2aTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace2 # ylabel 2bTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace3 # xlabel 3aTime [seconds] # ylabel 3aTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace3 # xlabel 3bTime [seconds] # ylabel 3bTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace4 # ylabel 4aTemperature [K] # xlabel 4aTime [seconds] 
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace4 # ylabel 4bTemperature [K]  # xlabel 4bTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace5 withspace # xlabel 5aTime [seconds]
+0	0
+1	1
+2	4
+3	9
+4	16
+# onespace5 withspace  # xlabel 5bTime [seconds]
+0	0
+1	1
+2	4
+3	9
+4	16
+#nospace6 withspace  # ylabel 6aTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace6 withspace  # ylabel 6bTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace7 withspace  # xlabel 7aTime [seconds] # ylabel 7aTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace7 withspace  # xlabel 7bTime [seconds] # ylabel 7bTemperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace8 withspace  # ylabel 8aTemperature [K] # xlabel 8aTime [seconds] 
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace8 withspace  # ylabel 8bTemperature [K]  # xlabel 8bTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace9 withspace
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace10 withspace  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
