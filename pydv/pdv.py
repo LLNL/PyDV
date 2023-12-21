@@ -7926,13 +7926,13 @@ class Command(cmd.Cmd, object):
                     if self.showrecordidinlegend:
                         cur.name = cur.name + ' ' + addrstr
 
-                    # Show curve filename in legend if enabled
-                    addfstr = str('- ' + cur.filename)
-                    if cur.name.find(addfstr) != -1:
-                        fstrarr = cur.name.split(addfstr)
-                        cur.name = ''.join(fstrarr).strip()
-                    if self.showfilenameinlegend:
-                        cur.name = cur.name + ' ' + addfstr
+                # Show curve filename in legend if enabled
+                addfstr = str('- ' + cur.filename)
+                if cur.name.find(addfstr) != -1:
+                    fstrarr = cur.name.split(addfstr)
+                    cur.name = ''.join(fstrarr).strip()
+                if self.showfilenameinlegend:
+                    cur.name = cur.name + ' ' + addfstr
 
             # set scaling and tick locations
             #
