@@ -3479,20 +3479,41 @@ class Command(cmd.Cmd, object):
                             curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
                             curve.legend_show = False if key == 'hide' else True
                         break
+                elif key in ['hideid', 'showid']:
+                    if line[i + 1] == 'all':  # show/hide all curves
+                        for cur in self.plotlist:
+                            cur.name = cur.name.replace(f'`{cur.plotname}` ', '')
+                            if key == 'showid':
+                                cur.name = f'`{cur.plotname}` {cur.name}'
+                            else:
+                                cur.name.replace(f'`{cur.plotname}` ', '')
+                    else:
+                        if ':' in line[i + 1]:
+                            ids = list(pdvutil.getletterargs(line[i + 1]).lower().split())
+                        else:
+                            ids = [line[j] for j in range(i + 1, len(line))]
+                        for curve_id in ids:
+                            curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
+                            curve.name = curve.name.replace(f'`{curve.plotname}` ', '')
+                            if key == 'showid':
+                                curve.name = f'`{curve.plotname}` {curve.name}'
+                            else:
+                                curve.name.replace(f'`{curve.plotname}` ', '')
+                        break
                 else:
                     try:
                         self.key_ncol = int(key)
                     except:
                         raise Exception('Invalid argument: %s' % key)
         except:
-            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide cure ids>]')
+            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]')  # noqae501
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_legend(self):
         print('\n   Variable: Show the legend if True. Set legend position as '
               'best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]'  # noqae501
               '\n   Shortcuts: leg, key\n')
 
     def do_namewidth(self, line):
