@@ -51,7 +51,7 @@
 2	2.5
 3	2.1
 4	2.0
-#nospace4 # ylabel 4aTemperature [K] # xlabel 4aTime [seconds] 
+#nospace4 # ylabel 4aTemperature [K] # xlabel 4aTime [seconds]
 0	5
 1	4
 2	2.5
@@ -99,13 +99,13 @@
 2	2.5
 3	2.1
 4	2.0
-#nospace8 withspace  # ylabel 8aTemperature [K] # xlabel 8aTime [seconds] 
+#nospace8 withspace # ylabel 8aTemperature [K]  # xlabel 8aTime [seconds] 
 0	5
 1	4
 2	2.5
 3	2.1
 4	2.0
-# onespace8 withspace  # ylabel 8bTemperature [K]  # xlabel 8bTime [seconds]
+# onespace8 withspace # ylabel 8bTemperature [K]    # xlabel 8bTime [seconds]
 0	5
 1	4
 2	2.5

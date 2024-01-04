@@ -515,10 +515,10 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                     # print(split)
                     if re.search('[a-zA-Z]', split):
                         if 'xlabel' in split:
-                            xlabel = split.replace(' xlabel ', '')
+                            xlabel = split.replace('xlabel', '').strip()
                             labels = True
                         if 'ylabel' in split:
-                            ylabel = split.replace(' ylabel ', '')
+                            ylabel = split.replace('ylabel', '').strip()
                             labels = True
 
                 # Contains x and/or y labels
