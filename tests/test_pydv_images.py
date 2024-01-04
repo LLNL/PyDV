@@ -428,6 +428,14 @@ commands = [
     # 80
     """
     legend show a:c
+    """,
+    # 81
+    """
+    legend showid a:c
+    """,
+    # 82
+    """
+    legend hideid a:b
     """
 ]
 

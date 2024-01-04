@@ -177,7 +177,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymax('a 62.3 65.2')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 6.520000e+01    y: 1.544000e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -190,7 +190,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymax('a 62.3 104.23')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 7.000000e+01    y: 2.000000e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -202,7 +202,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymax('a 104.23 251.56')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 2.515600e+02    y: 2.207720e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -215,7 +215,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymax('a 350.23 449.77')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 3.502300e+02    y: 2.241950e+02\n', '\n',
                    '    x: 4.497700e+02    y: 2.241950e+02\n', '\n']
 
@@ -229,7 +229,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymax('a 62.3 375.23')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 3.000000e+02    y: 4.000000e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -243,7 +243,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymin('a 62.3 65.2')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 6.230000e+01    y: 1.268500e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -256,7 +256,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymin('a 62.3 104.23')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 6.230000e+01    y: 1.268500e+02\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -268,7 +268,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymin('a 104.23 251.56')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 2.000000e+02    y: 3.000000e+01\n', '\n']
 
     with open('out.txt', 'r') as f:
@@ -281,7 +281,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymin('a 450.23 549.77')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 4.502300e+02    y: 2.258050e+02\n', '\n',
                    '    x: 5.497700e+02    y: 2.258050e+02\n', '\n']
 
@@ -295,7 +295,7 @@ def test_getx_getymax_getymin():
         with redirect_stdout(f):
             main.do_getymin('a 62.3 375.23')
 
-    pydv_output = ['\n', 'Curve y vs x\n',
+    pydv_output = [' \n', 'A Curve y vs x\n',
                    '    x: 2.000000e+02    y: 3.000000e+01\n', '\n']
 
     with open('out.txt', 'r') as f:

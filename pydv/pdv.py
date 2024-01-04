@@ -1458,53 +1458,59 @@ class Command(cmd.Cmd, object):
         """
         Return a curve's attributes
         """
-
-        if not line:
+        if len(line.split(':')) > 1:
+            self.do_getattributes(pdvutil.getletterargs(line))
             return 0
-        try:
-            line = line.split()
-            if len(line) == 1:
-                idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-                cur = self.plotlist[idx]
-                print('\n')
-                print('    Plot name = {}'.format(cur.plotname))
-                print('    Color = {}'.format(cur.color))
-                if cur.linestyle == '-':
-                    pp_linestyle = 'solid'
-                elif cur.linestyle == ':':
-                    pp_linestyle = 'dot'
-                elif cur.linestyle == '--':
-                    pp_linestyle = 'dash'
-                elif cur.linestyle == '-.':
-                    pp_linestyle = 'dashdot'
-                print('    Style = {}'.format(pp_linestyle))
-                print('    Curve width = {} '.format(cur.linewidth))
-                print('    Edited = {}'.format(cur.edited))
-                print('    Scatter = {}'.format(cur.scatter))
-                print('    Linespoints = {}'.format(cur.linespoints))
-                print('    Drawstyle = {}'.format(cur.drawstyle))
-                print('    Dashes = {}'.format(cur.dashes))
-                print('    Hidden = {}'.format(cur.hidden))
-                print('    Marker = {}'.format(cur.marker))
-                print('    Markersize = {}'.format(cur.markersize))
-                print('    Markeredgecolor = {}'.format(cur.markeredgecolor))
-                print('    Markerfacecolor = {}'.format(cur.markerfacecolor))
-                print('    Ebar = {}'.format(cur.ebar))
-                print('    Erange = {}'.format(cur.erange))
-                print('    Plotprecedence = {}'.format(cur.plotprecedence))
-                print('    Step Function = {}'.format(cur.step))
-                print('\n')
-            else:
-                raise RuntimeError('Too many arguments, expecting 1 but received {}'.format(len(line)))
-        except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-        finally:
-            self.redraw = False
+        else:
+            if not line:
+                return 0
+            try:
+                line = line.split()
+                for c in line:
+                    idx = pdvutil.getCurveIndex(c, self.plotlist)
+                    cur = self.plotlist[idx]
+                    try:
+                        cur.step = self.curvelist[idx].step
+                    except:
+                        cur.step = False
+                    print('\n')
+                    print('    Plot name = {}'.format(cur.plotname))
+                    print('    Color = {}'.format(cur.color))
+                    if cur.linestyle == '-':
+                        pp_linestyle = 'solid'
+                    elif cur.linestyle == ':':
+                        pp_linestyle = 'dot'
+                    elif cur.linestyle == '--':
+                        pp_linestyle = 'dash'
+                    elif cur.linestyle == '-.':
+                        pp_linestyle = 'dashdot'
+                    print('    Style = {}'.format(pp_linestyle))
+                    print('    Curve width = {} '.format(cur.linewidth))
+                    print('    Edited = {}'.format(cur.edited))
+                    print('    Scatter = {}'.format(cur.scatter))
+                    print('    Linespoints = {}'.format(cur.linespoints))
+                    print('    Drawstyle = {}'.format(cur.drawstyle))
+                    print('    Dashes = {}'.format(cur.dashes))
+                    print('    Hidden = {}'.format(cur.hidden))
+                    print('    Marker = {}'.format(cur.marker))
+                    print('    Markersize = {}'.format(cur.markersize))
+                    print('    Markeredgecolor = {}'.format(cur.markeredgecolor))
+                    print('    Markerfacecolor = {}'.format(cur.markerfacecolor))
+                    print('    Ebar = {}'.format(cur.ebar))
+                    print('    Erange = {}'.format(cur.erange))
+                    print('    Plotprecedence = {}'.format(cur.plotprecedence))
+                    print('    Step Function = {}'.format(cur.step))
+                    print('\n')
+            except:
+                print('\n   usage: getattributes <curves>')
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+            finally:
+                self.redraw = False
 
     def help_getattributes(self):
         print('\n   Display the given curve\'s attributes, such as: color, style, and width.'
-              '\n   usage: getattributes <curve>')
+              '\n   usage: getattributes <curves>')
 
     def do_markerfacecolor(self, line):
         """
@@ -2150,29 +2156,36 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-            xlow = None
-            xhi = None
-
-            try:
-                xhi = float(line[-1])
-            except:
+            if len(line.split(':')) > 1:
+                self.do_getymax(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                xlow = None
                 xhi = None
 
-            try:
-                xlow = float(line[-2])
-            except:
-                xlow = None
+                try:
+                    xhi = float(line[-1])
+                    line.pop(-1)
+                except:
+                    xhi = None
 
-            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+                try:
+                    xlow = float(line[-1])
+                    line.pop(-1)
+                except:
+                    xlow = None
 
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
-            print('\nCurve ' + plotname)
-            for x, y in xy_values:
-                print('    x: %.6e    y: %.6e\n' % (x, y))
+                if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                    raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
+                    print(f' \n{i.upper()} Curve {plotname}')
+                    for x, y in xy_values:
+                        print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymax <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -2192,29 +2205,36 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-            xlow = None
-            xhi = None
-
-            try:
-                xhi = float(line[-1])
-            except:
+            if len(line.split(':')) > 1:
+                self.do_getymin(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                xlow = None
                 xhi = None
 
-            try:
-                xlow = float(line[-2])
-            except:
-                xlow = None
+                try:
+                    xhi = float(line[-1])
+                    line.pop(-1)
+                except:
+                    xhi = None
 
-            if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
-                raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+                try:
+                    xlow = float(line[-1])
+                    line.pop(-1)
+                except:
+                    xlow = None
 
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
-            print('\nCurve ' + plotname)
-            for x, y in xy_values:
-                print('    x: %.6e    y: %.6e\n' % (x, y))
+                if (xlow is None and xhi is not None) or (xlow is not None and xhi is None):
+                    raise RuntimeError("<xmin> and <xmax> must BOTH be specified")
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
+                    print(f' \n{i.upper()} Curve {plotname}')
+                    for x, y in xy_values:
+                        print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
             print('error - usage: getymin <curve> [<xmin> <xmax>]')
             if self.debug:
@@ -2232,12 +2252,17 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            line = line.split()
+            if len(line.split(':')) > 1:
+                self.do_getlabel(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
 
-            for i in range(len(self.plotlist)):
-                cur = self.plotlist[i]
-                if cur.plotname == line[0].upper():
-                    print("\nLabel = %s\n" % cur.name)
+                for i in range(len(self.plotlist)):
+                    cur = self.plotlist[i]
+                    for j in range(len(line)):
+                        if cur.plotname == line[j].upper():
+                            print(f"\n {line[j].upper()} Label = {cur.name}")
         except:
             print('error - usage: getlabel <curve>')
             if self.debug:
@@ -2405,11 +2430,15 @@ class Command(cmd.Cmd, object):
         if not line:
             return 0
         try:
-            line = line.split()
-
-            idx = pdvutil.getCurveIndex(line[0], self.plotlist)
-            cur = self.plotlist[idx]
-            print('\n    Number of points = %d\n' % pydvif.getnumpoints(cur))
+            if len(line.split(':')) > 1:
+                self.do_getnumpoints(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                for i in range(len(line)):
+                    idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    print(f'\n    {line[i].upper()} Number of points = {pydvif.getnumpoints(cur)}')
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -3454,20 +3483,41 @@ class Command(cmd.Cmd, object):
                             curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
                             curve.legend_show = False if key == 'hide' else True
                         break
+                elif key in ['hideid', 'showid']:
+                    if line[i + 1] == 'all':  # show/hide all curves
+                        for cur in self.plotlist:
+                            cur.name = cur.name.replace(f'`{cur.plotname}` ', '')
+                            if key == 'showid':
+                                cur.name = f'`{cur.plotname}` {cur.name}'
+                            else:
+                                cur.name.replace(f'`{cur.plotname}` ', '')
+                    else:
+                        if ':' in line[i + 1]:
+                            ids = list(pdvutil.getletterargs(line[i + 1]).lower().split())
+                        else:
+                            ids = [line[j] for j in range(i + 1, len(line))]
+                        for curve_id in ids:
+                            curve = self.plotlist[pdvutil.getCurveIndex(curve_id, self.plotlist)]
+                            curve.name = curve.name.replace(f'`{curve.plotname}` ', '')
+                            if key == 'showid':
+                                curve.name = f'`{curve.plotname}` {curve.name}'
+                            else:
+                                curve.name.replace(f'`{curve.plotname}` ', '')
+                        break
                 else:
                     try:
                         self.key_ncol = int(key)
                     except:
                         raise Exception('Invalid argument: %s' % key)
         except:
-            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide cure ids>]')
+            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]')  # noqae501
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_legend(self):
         print('\n   Variable: Show the legend if True. Set legend position as '
               'best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve ids>]'
+              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]'  # noqae501
               '\n   Shortcuts: leg, key\n')
 
     def do_namewidth(self, line):
@@ -4775,18 +4825,24 @@ class Command(cmd.Cmd, object):
                 return 0
             else:
                 f = open(filename, 'w')
+                save_labels = False
+                if 'savelabels' in line:
+                    save_labels = True
                 line = line.split()
                 for i in range(len(line)):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        f.write('# ' + cur.name + '\n')
+                        if save_labels:
+                            f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
+                        else:
+                            f.write('# ' + cur.name + '\n')
                         for dex in range(len(cur.x)):
                             f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
                     except RuntimeError as rte:
                         print("I/O error: {}".format(rte))
         except:
-            print('error - usage: save <file-name> <curve-list>')
+            print('error - usage: save <file-name> <curve-list> <savelabels>')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
@@ -4794,7 +4850,7 @@ class Command(cmd.Cmd, object):
 
     def help_save(self):
         print('\n   Macro: Save curves to file'
-              '\n   Usage: save <file-name> <curve-list>\n')
+              '\n   Usage: save <file-name> <curve-list> <savelabels>\n')
 
     def do_savecsv(self, line):
         """
@@ -6307,21 +6363,35 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            line = line.split()
-            c = line.pop(0)
-            line = ' '.join(line)
+            if len(line.split(':')) > 1:
+                self.do_label(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line_labels = line.split('#')[1:]  # First entry will be curves
 
-            idx = pdvutil.getCurveIndex(c, self.plotlist)
-            cur = self.plotlist[idx]
-            cur.name = line
-            self.plotedit = True
+                if line_labels:  # Multiple curves and labels
+                    curves = line.split('#')[0].split()
+                else:  # single curve and label
+                    curves = line.split()[0]
+                    line_labels = [' '.join(line.split()[1:])]
+
+                for i in range(len(curves)):
+                    idx = pdvutil.getCurveIndex(curves[i], self.plotlist)
+                    cur = self.plotlist[idx]
+                    cur.name = line_labels[i]
+
+                self.plotedit = True
         except:
-            print('error - usage: label <curve> <new-label>')
+            print('error - usage: label <curve> <new-label>\n')
+            print('For multiple curves, each label must start with #')
+            print('label a:c #mynewlabel #my other label #my thirdlabel')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_label(self):
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
+        print('   For multiple curves, each label must start with #')
+        print('   label a:c #mynewlabel #my other label #my thirdlabel')
 
     def do_labelrecordids(self, line):
         """
@@ -7881,13 +7951,13 @@ class Command(cmd.Cmd, object):
                     if self.showrecordidinlegend:
                         cur.name = cur.name + ' ' + addrstr
 
-                    # Show curve filename in legend if enabled
-                    addfstr = str('- ' + cur.filename)
-                    if cur.name.find(addfstr) != -1:
-                        fstrarr = cur.name.split(addfstr)
-                        cur.name = ''.join(fstrarr).strip()
-                    if self.showfilenameinlegend:
-                        cur.name = cur.name + ' ' + addfstr
+                # Show curve filename in legend if enabled
+                addfstr = str('- ' + cur.filename)
+                if cur.name.find(addfstr) != -1:
+                    fstrarr = cur.name.split(addfstr)
+                    cur.name = ''.join(fstrarr).strip()
+                if self.showfilenameinlegend:
+                    cur.name = cur.name + ' ' + addfstr
 
             # set scaling and tick locations
             #

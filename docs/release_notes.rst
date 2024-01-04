@@ -3,6 +3,16 @@
 Release Notes
 =============
 
+3.3.0
+------
+* Curvelist support for multiple commands
+* Ability to add Curve ID to plot
+* Ability to read and save ultra files with x and y labels
+* Ultra file curve name issues
+* Consolidate linemarker and marker commands
+* Filter command
+* Dirac Delta command
+
 3.2.0
 ------
 * Bug fix for normalize
