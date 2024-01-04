@@ -9,7 +9,7 @@ Release Notes
 * Ability to add Curve ID to plot
 * Ability to read and save ultra files with x and y labels
 * Ultra file curve name issues
-* Consolidate lienmarker and marker commands
+* Consolidate linemarker and marker commands
 * Filter command
 * Dirac Delta command
 
