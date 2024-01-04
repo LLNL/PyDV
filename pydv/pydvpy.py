@@ -2738,6 +2738,7 @@ def getymax(c, xmin=None, xmax=None):
             ymax = max(c.y[r[0]:r[1] + 1])
         else:
             ymax = max(c.y)
+            r = [0, len(c.x)-1]
     except:
         pass
 
@@ -2779,6 +2780,7 @@ def getymin(c, xmin=None, xmax=None):
             ymin = min(c.y[r[0]:r[1] + 1])
         else:
             ymin = min(c.y)
+            r = [0, len(c.x)-1]
     except:
         pass
 
