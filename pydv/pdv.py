@@ -2166,11 +2166,13 @@ class Command(cmd.Cmd, object):
 
                 try:
                     xhi = float(line[-1])
+                    line.pop(-1)
                 except:
                     xhi = None
 
                 try:
-                    xlow = float(line[-2])
+                    xlow = float(line[-1])
+                    line.pop(-1)
                 except:
                     xlow = None
 
@@ -2213,11 +2215,13 @@ class Command(cmd.Cmd, object):
 
                 try:
                     xhi = float(line[-1])
+                    line.pop(-1)
                 except:
                     xhi = None
 
                 try:
-                    xlow = float(line[-2])
+                    xlow = float(line[-1])
+                    line.pop(-1)
                 except:
                     xlow = None
 
