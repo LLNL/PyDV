@@ -114,7 +114,7 @@ deploy:
 .PHONY: deploy_to_develop
 .ONESHELL:
 deploy_to_develop:
-	$(eval VERSION=`cat $(CI_PROJECT_DIR)/pydv/scripts/version.txt`)
+	$(eval VERSION=`cat $(CI_PROJECT_DIR)/scripts/version.txt`)
 	echo "...deploy_to_develop...VERSION: $(VERSION)"
 	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi
 	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
