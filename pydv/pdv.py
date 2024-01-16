@@ -270,7 +270,13 @@ class Command(cmd.Cmd, object):
             self.xlabel_set_from_curve = from_curve if label != "" else True
         else:
             if self.xlabel_set_from_curve:
-                if len(self.plotlist) > 1 and label != self.xlabel:
+                not_blank = 0
+                for cur in self.plotlist:
+                    if cur.xlabel != '':
+                        not_blank += 1
+                if len(self.plotlist) > 1 and self.xlabel == '' and not_blank == 1 and label != '':
+                    self.xlabel = label
+                elif len(self.plotlist) > 1 and label != self.xlabel:
                     self.xlabel = ''
                 else:
                     self.xlabel = label
@@ -297,7 +303,13 @@ class Command(cmd.Cmd, object):
             self.ylabel_set_from_curve = from_curve if label != "" else True
         else:
             if self.ylabel_set_from_curve:
-                if len(self.plotlist) > 1 and label != self.ylabel:
+                not_blank = 0
+                for cur in self.plotlist:
+                    if cur.ylabel != '':
+                        not_blank += 1
+                if len(self.plotlist) > 1 and self.ylabel == '' and not_blank == 1 and label != '':
+                    self.ylabel = label
+                elif len(self.plotlist) > 1 and label != self.ylabel:
                     self.ylabel = ''
                 else:
                     self.ylabel = label
