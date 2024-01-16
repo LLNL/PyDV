@@ -118,7 +118,7 @@ deploy_to_develop:
 	echo "...deploy_to_develop...VERSION: $(VERSION)"
 	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi
 	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
-	tar -cvf $(VERSION).tar * && gzip $(VERSION).tar
+	tar -cvf $(VERSION).tar * ../scripts ../docs && gzip $(VERSION).tar
 	give --force weaveci $(VERSION).tar.gz
 	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
