@@ -12,7 +12,7 @@ RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
-PYTHON_CMD = /usr/tce/bin/python3
+PYTHON_CMD = /usr/apps/weave/weave-develop-cpu/bin/python3
 
 define create_env
 	# call from the directory where env will be created
