@@ -5,7 +5,7 @@ import argparse
 import fileinput
 
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
-SOURCE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'pydv')
+SOURCE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'pydv')
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Get the version number from the version file
