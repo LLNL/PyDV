@@ -23,6 +23,7 @@ define create_env
 	pip3 install --force pytest &&
 	pip3 install numpy scipy matplotlib PySide2 flake8 scikit-image &&
 	which pytest
+	pip list
 endef
 
 define run_pydv_tests
