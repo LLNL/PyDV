@@ -23,6 +23,7 @@ define create_env
 	pip3 install --force pytest &&
 	pip3 install numpy scipy matplotlib PySide2 flake8 scikit-image &&
 	which pytest
+	pip list
 endef
 
 define run_pydv_tests
@@ -81,7 +82,7 @@ release:
 	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
 	env; \
 	$(CI_UTILS)/bin/release-cli create --name "PyDV $(CI_COMMIT_TAG)" --tag-name $(CI_COMMIT_TAG); \
-	tar -cvf $(TAG).tar pydv scripts docs; \
+	tar -cvf $(TAG).tar pydv docs; \
 	ls; \
 	gzip $(TAG).tar; \
 	curl --header "JOB-TOKEN: $(CI_JOB_TOKEN)" --upload-file $(TAG).tar.gz $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz
@@ -102,7 +103,6 @@ deploy:
 		tar -xvf $(TAG).tar
 		rm $(TAG).tar
 		mv pydv $(TAG)
-		mv scripts $(TAG)
 		mv docs $(TAG)
 		chmod -R 750 $(TAG)
 		rm -f current
@@ -114,11 +114,11 @@ deploy:
 .PHONY: deploy_to_develop
 .ONESHELL:
 deploy_to_develop:
-	$(eval VERSION=`cat $(CI_PROJECT_DIR)/scripts/version.txt`)
+	$(eval VERSION=`cat $(CI_PROJECT_DIR)/pydv/scripts/version.txt`)
 	echo "...deploy_to_develop...VERSION: $(VERSION)"
 	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi
 	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
-	tar -cvf $(VERSION).tar * ../scripts ../docs && gzip $(VERSION).tar
+	tar -cvf $(VERSION).tar * ../docs && gzip $(VERSION).tar
 	give --force weaveci $(VERSION).tar.gz
 	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER

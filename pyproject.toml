@@ -39,6 +39,7 @@ numpy = "*"
 scikit-learn = "*"
 scipy = "*"
 PySide2 = "*"
+PyQt5 = "*"
 
 [tool.poetry.dev-dependencies]
 sphinx_rtd_theme = "*"
