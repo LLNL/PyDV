@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('../pydv'))
 
 DOCS_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.join(os.path.dirname(DOCS_DIR),'pydv')
-version_file = os.path.join(os.path.dirname(DOCS_DIR), 'scripts/version.txt')
+version_file = os.path.join(os.path.dirname(DOCS_DIR), 'pydv/scripts/version.txt')
 with open(version_file, 'r') as fp:
     pydv_version = fp.read()
 
