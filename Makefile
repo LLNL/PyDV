@@ -12,16 +12,16 @@ RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
-PYTHON_CMD = /usr/tce/bin/python3
+WEAVE_DEVELOP_VENV = /usr/apps/weave/weave-develop-cpu
+PYTHON_CMD = $(WEAVE_DEVELOP_VENV)/bin/python3
 
 define create_env
-	# call from the directory where env will be created
-	# arg1: name of env
-	$(PYTHON_CMD) -m venv $1
-	source $1/bin/activate &&
-	pip3 install --upgrade pip &&
-	pip3 install --force pytest &&
-	pip3 install numpy scipy matplotlib PySide2 flake8 scikit-image &&
+	source $(WEAVE_DEVELOP_VENV)/bin/activate
+	$(PYTHON_CMD) -m venv --system-site-packages $1
+	deactivate
+	echo "export PATH=$(PATH):$(WEAVE_DEVELOP_VENV)/bin" >> $1/bin/activate
+	echo "export PYTHONPATH=$(PYTHONPATH):$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages" >> $1/bin/activate
+	source $1/bin/activate
 	which pytest
 	pip list
 endef
