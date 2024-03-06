@@ -19,8 +19,8 @@ define create_env
 	source $(WEAVE_DEVELOP_VENV)/bin/activate
 	$(PYTHON_CMD) -m venv --system-site-packages $1
 	deactivate
-	echo "export PATH=$(PATH):$(WEAVE_DEVELOP_VENV)/bin" >> $1/bin/activate
-	echo "export PYTHONPATH=$(PYTHONPATH):$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages" >> $1/bin/activate
+	echo export PATH=$(PATH):$(WEAVE_DEVELOP_VENV)/bin >> $1/bin/activate
+	echo export PYTHONPATH=$(PYTHONPATH):$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages >> $1/bin/activate
 	source $1/bin/activate
 	which pytest
 	pip list
