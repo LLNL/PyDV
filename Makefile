@@ -15,12 +15,21 @@ RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
 WEAVE_DEVELOP_VENV = /usr/apps/weave/weave-develop-cpu
 PYTHON_CMD = $(WEAVE_DEVELOP_VENV)/bin/python3
 
+ifeq ($(SOURCE_ZONE),SCF)
+	WEAVE_DEPLOY_GROUP = sduser
+else
+	WEAVE_DEPLOY_GROUP = llnl_emp
+endif
+SPACK_WEAVE_VIEW = /usr/workspace/$(WEAVE_DEPLOY_GROUP)/weave/repos/spack/spack_core_environment/0.20/$(LCSCHEDCLUSTER)/local/
+ADD_PATH = $(SPACK_WEAVE_VIEW)/bin:$(WEAVE_DEVELOP_VENV)/bin
+ADD_PYTHONPATH = $(SPACK_WEAVE_VIEW)/lib/python3.9/site-packages:$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages
+
 define create_env
 	source $(WEAVE_DEVELOP_VENV)/bin/activate
 	$(PYTHON_CMD) -m venv --system-site-packages $1
 	deactivate
-	echo export PATH=$(PATH):$(WEAVE_DEVELOP_VENV)/bin >> $1/bin/activate
-	echo export PYTHONPATH=$(PYTHONPATH):$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages >> $1/bin/activate
+	echo export PATH=$(PATH):$(ADD_PATH) >> $1/bin/activate
+	echo export PYTHONPATH=$(PYTHONPATH):$(ADD_PYTHONPATH) >> $1/bin/activate
 	source $1/bin/activate
 	which pytest
 	pip list

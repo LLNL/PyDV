@@ -238,6 +238,7 @@ class Command(cmd.Cmd, object):
     xminortickwidth = 0.5
     ytickwidth = 1
     yminortickwidth = 0.5
+    menulength = 50
     namewidth = 40
     xlabelwidth = 10
     ylabelwidth = 10
@@ -3532,6 +3533,31 @@ class Command(cmd.Cmd, object):
               '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]'  # noqae501
               '\n   Shortcuts: leg, key\n')
 
+    def do_menulength(self, line):
+        """
+        Adjust the number of items shown in the 'menu' command
+        """
+
+        try:
+            if len(line) == 0:
+                print('menu length is currently', self.menulength)
+            else:
+                line = line.split()
+                length = int(line[0])
+                if length <= 0:
+                    length = 1
+                self.menulength = length
+                print('changing menu length to ', self.menulength)
+        except:
+            print('error - usage: menulength [length]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_menulength(self):
+        print('\n   Command: Adjust the number of items shown in the menu command '
+              'If no length is given, the current menu length will be displayed.'
+              '\n   Usage:  menulength [length]')
+
     def do_namewidth(self, line):
         """
         Adjust the width of the label column in 'menu' and 'lst' commands
@@ -4654,6 +4680,8 @@ class Command(cmd.Cmd, object):
         Print out curves loaded from files
         """
 
+        menu_j = 1
+        j = 0
         try:
             reg = re.compile(r"")
             if line:
@@ -4697,6 +4725,13 @@ class Command(cmd.Cmd, object):
                     ymax = "%.2e" % max(self.curvelist[i].y)
                     print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin,
                                                                             xmax, ymin, ymax, fname, record_id))
+                    j += 1
+                if j == self.menulength * menu_j:
+                    menu_j += 1
+                    stop = input(f"Press Enter to see the next {self.menulength} curves OR n and then enter for no. "
+                                 "Change menu length with `menulength #` after exiting the menu display screen.\n")
+                    if stop in ['n', 'no', 'N', 'NO']:
+                        break
         except:
             print("error - usage: menu [<regex>]")
             if self.debug:
@@ -8233,6 +8268,8 @@ class Command(cmd.Cmd, object):
                         self.ylabel = val
                     elif (var == 'title'):
                         self.title = val
+                    elif (var == 'menulength'):
+                        self.menulength = int(val)
                     elif (var == 'namewidth'):
                         self.namewidth = int(val)
                     elif (var == 'xlabelwidth'):
