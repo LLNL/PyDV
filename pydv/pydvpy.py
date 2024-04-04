@@ -497,7 +497,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         with open(fname, 'r') as f:
             for line in f:
                 labels = False
-                split_line = re.split(r'[ _\t]+', str.strip(line))
+                split_line = re.split(r'[ \t]+', str.strip(line))
 
                 # No space between curvename and hashtag #mycurve
                 try:  # Exponential numbers and single text will cause issues
@@ -507,7 +507,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                         split_line[0] = '#'
                         split_line[1] = split_line_2[1]
                 except:
-                    split_line = re.split(r'[ _\t]+', str.strip(line))
+                    split_line = re.split(r'[ \t]+', str.strip(line))
 
                 # Check for labels
                 split_line_3 = re.split(r'#', str.strip(line))
@@ -581,7 +581,16 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                         build_list_y += split_line[1::2]
 
         # Append the last curve that we built
-        if current:
+        # Can cause issues if last curve doesn't have proper data and if file doesn't end with data
+        try:
+            x_any_str = any(isinstance(float(item), str) for item in build_list_x)
+            y_any_str = any(isinstance(float(item), str) for item in build_list_y)
+        except:
+            x_any_str = True
+            y_any_str = True
+            print(f'Last curve is invalid and will be ignored: {current.name}.')
+
+        if current and build_list_x and build_list_y and not x_any_str and not y_any_str:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:

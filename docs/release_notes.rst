@@ -3,6 +3,12 @@
 Release Notes
 =============
 
+3.4.0
+------
+* Re-added underscores to curve names
+* Menu now has menulength option
+* Bugfix when files don't end in valid data
+
 3.3.0
 ------
 * Curvelist support for multiple commands
