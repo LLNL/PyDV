@@ -33,7 +33,7 @@ stages:
 .on_rz:
   tags:
     - shell
-    - rztopaz
+    - rzgenie
 
 .on_scf:
   tags:
