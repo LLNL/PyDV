@@ -15,11 +15,14 @@ These functions control the plotting characteristics of PyDV which affect all di
 annot
 -----
 
-Display text on the plot at point (x, y).
+Display text on the plot at point (x, y). List of annotations can be seen with `listannot`.
 
 .. code::
 
    [PyDV]: annot <text> <x> <y>
+
+   Ex:
+      [PyDV]: annot mytext 1 2
 
 border
 ------
@@ -30,6 +33,11 @@ Show the border if **on** or **1**, otherwise hide the border. The **color-name*
 
    [PyDV]: border <on | 1 | off | 0> [color-name]
 
+   Ex:
+      [PyDV]: border on
+      [PyDV]: border on blue
+      [PyDV]: border off
+
 bkgcolor
 --------
 
@@ -39,42 +47,62 @@ Change the background color of the plot, window, or both
 
    [PyDV]: bkgcolor <[plot | window] color-name | reset>
 
+   Ex:
+      [PyDV]: bkgcolor plot blue
+      [PyDV]: bkgcolor window blue
+      [PyDV]: bkgcolor reset
+
 dashstyle
 ---------
 
 Set the style of dash or dot dash lines. The python list is a list of integers, alternating how many pixels to turn on and off, for example:
 
-    [2, 2] : Two pixels on, two off (will result in a dot pattern).
+   [2, 2] : Two pixels on, two off (will result in a dot pattern).
 
-    [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
+   [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
 
-    [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
+   [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
 
-    [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
+   [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
 
-    See matplotlib 'set_dashes' command for more information.
+   See matplotlib 'set_dashes' command for more information.
 
 .. code::
 
-    [PyDV]: dashstyle <curve-list> <[...]>
+   [PyDV]: dashstyle <curve-list> <[...]>
+
+   Ex:
+      [PyDV]: dashstyle a [2, 2]
+      [PyDV]: dashstyle a:b [2, 2]
+      [PyDV]: dashstyle c d [2, 2]
 
 dataid
 ------
 
-Show curve identifiers if True. **Alternative Form: data-id**
+Show curve identifiers on plot if True. **Alternative Form: data-id**
 
 .. code::
 
    [PyDV]: dataid <on | off>
 
+   Ex:
+      [PyDV]: dataid on
+      [PyDV]: dataid off
+
 delannot
 --------
 
-Delete annotations from list.
+Delete annotations from list. List of annotations can be seen with `listannot`.
 
 .. code::
 
    [PyDV]: delannot <number-list-of-annotations>
+
+   Ex:
+      [PyDV]: listannot
+      [PyDV]: delannot 1
+      [PyDV]: delannot 1:2
+      [PyDV]: delannot 3 4
 
 domain
 ------
@@ -85,9 +113,9 @@ Set the domain for plotting. Using de (for default) will let the curves determin
 
    [PyDV]: domain <low-lim> <high-lim>
 
-                 OR
-
-   [PyDV]: domain de
+   Ex:
+      [PyDV]: domain 3 7
+      [PyDV]: domain de
 
 fontcolor
 ---------
@@ -98,6 +126,13 @@ Change the font color of given plot component.
 
    [PyDV]: fontcolor [<component: xlabel | ylabel | title | xaxis | yaxis>] <color-name>
 
+   Ex:
+      [PyDV]: fontcolor xlabel blue
+      [PyDV]: fontcolor ylabel blue
+      [PyDV]: fontcolor title blue
+      [PyDV]: fontcolor xaxis blue
+      [PyDV]: fontcolor yaxis blue
+
 fontsize
 --------
 
@@ -107,6 +142,15 @@ Change the font size of given component, or overall scaling factor.
 
    [PyDV]: fontsize [<component: title | xlabel | ylabel | key | tick | curve | annotation>] <numerical-size | small | medium | large | default>
 
+   Ex:
+      [PyDV]: fontsize title 12
+      [PyDV]: fontsize xlabel small
+      [PyDV]: fontsize ylabel medium
+      [PyDV]: fontsize key large
+      [PyDV]: fontsize tick default
+      [PyDV]: fontsize curve 12
+      [PyDV]: fontsize annotation small
+
 fontstyle
 ---------
 
@@ -114,7 +158,12 @@ Set the fontstyle family.
 
 .. code::
 
-   [PyDV]: fontstyle <serif | sans-serfif | monospace>
+   [PyDV]: fontstyle <serif | sans-serif | monospace>
+
+   Ex:
+      [PyDV]: fontstyle serif
+      [PyDV]: fontstyle sans-serif
+      [PyDV]: fontstyle monospace
 
 geometry
 --------
@@ -125,6 +174,9 @@ Change the PyDV window size and location in pixels.
 
    [PyDV]: geometry <xsize> <ysize> <xlocation> <ylocation>
 
+   Ex:
+      [PyDV]: geometry 500 500 250 250
+
 grid
 ----
 
@@ -133,6 +185,10 @@ Set whether or not to draw grid lines on the graph. Default is off.
 .. code::
 
    [PyDV]: grid <on | off>
+
+   Ex:
+      [PyDV]: grid on
+      [PyDV]: grid off
 
 gridcolor
 ---------
@@ -143,6 +199,9 @@ Set the color of the grid.
 
    [PyDV]: gridcolor <color-name>
 
+   Ex:
+      [PyDV]: gridcolor blue  # white is default
+
 gridstyle
 ---------
 
@@ -152,6 +211,12 @@ Set the line style for the grid.
 
    [PyDV]: gridstyle <style: solid | dash | dot | dashdot>
 
+   Ex:
+      [PyDV]: gridstyle solid
+      [PyDV]: gridstyle dash
+      [PyDV]: gridstyle dot
+      [PyDV]: gridstyle dashdot
+
 gridwidth
 ---------
 
@@ -160,6 +225,9 @@ Set the grid line width in points.
 .. code::
 
    [PyDV]: gridwidth <width>
+
+   Ex:
+      [PyDV]: gridwidth 5
 
 group
 -----
@@ -179,6 +247,10 @@ Set whether or not to use the GUI min/max values for the X and Y limits. Default
 
    [PyDV]: guilims <on | off>
 
+   Ex:
+      [PyDV]: guilims on
+      [PyDV]: guilims off
+
 handlelength
 ------------
 
@@ -187,6 +259,9 @@ Adjust the length of the line(s) in the legend.
 .. code::
 
    [PyDV]: handlelength <length>
+
+   Ex:
+      [PyDV]: handlelength 10
 
 image
 -----
@@ -200,6 +275,11 @@ the figure's dpi value.
 
    [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi]
 
+   Ex:
+      [PyDV]: image my_plot png
+      [PyDV]: image my_plot png True
+      [PyDV]: image my_plot png True 500
+
 label
 -----
 
@@ -209,6 +289,9 @@ Change the key and list label for a curve.
 
    [PyDV]: label <curve> <new-label>
 
+   Ex:
+      [PyDV]: label a my_new_label
+
 labelcurve
 ----------
 
@@ -217,6 +300,10 @@ Add curve letter to the legend label if **on**, otherwise hide curve letter if *
 .. code::
 
    [PyDV]: labelcurve <on | off>
+
+   Ex:
+      [PyDV]: labelcurve on
+      [PyDV]: labelcurve off
 
 labelfilenames
 --------------
@@ -228,6 +315,10 @@ Note: Command will only work with curves from Sina files.
 
    [PyDV]: labelfilenames <on | off>
 
+   Ex:
+      [PyDV]: labelfilenames on
+      [PyDV]: labelfilenames off
+
 labelrecordids
 --------------
 
@@ -238,6 +329,10 @@ Note: Command will only work with curves from Sina files with valid record ids.
 
    [PyDV]: labelrecordids <on | off>
 
+   Ex:
+      [PyDV]: labelrecordids on
+      [PyDV]: labelrecordids off
+
 latex
 -----
 
@@ -246,6 +341,10 @@ Use LaTeX font rendering if True
 .. code::
 
    [PyDV]: latex on | off
+
+   Ex:
+      [PyDV]: latex on
+      [PyDV]: latex off
 
 legend
 ------
@@ -258,7 +357,21 @@ Note: Commands after `hide`/`show` will not be processed, so make sure these are
 
 .. code::
 
-   [PyDV]: legend <on | off> [position] [<number of columns>] [<show/hide curve ids]
+   [PyDV]: legend <on | off> [position] [<number of columns>] [<show/hide curve ids>]
+
+   Ex:
+      [PyDV]: legend on
+      [PyDV]: legend on ul
+      [PyDV]: legend on ul 2
+      [PyDV]: legend on ul 2
+      [PyDV]: legend on ul 2 showid a
+      [PyDV]: legend on ul 2 showid a:b
+      [PyDV]: legend on ul 2 showid c d
+      [PyDV]: legend on ul 2 showid all
+      [PyDV]: legend on ul 2 hideid a
+      [PyDV]: legend on ul 2 hideid a:b
+      [PyDV]: legend on ul 2 hideid c d
+      [PyDV]: legend on ul 2 hideid all
 
 lnstyle
 -------
@@ -269,6 +382,11 @@ Set the line style of the specified curves.
 
    [PyDV]: lnstyle <curve-list> <style: solid | dash | dot | dotdash>
 
+   Ex:
+      [PyDV]: lnstyle a solid
+      [PyDV]: lnstyle a:b dash
+      [PyDV]: lnstyle c d dot
+
 lnwidth
 -------
 
@@ -277,6 +395,11 @@ Set the line widths of the specified curves. A line width of 0 will give the thi
 .. code::
 
    [PyDV]: lnwidth <curve-list> <width>
+
+   Ex:
+      [PyDV]: lnwidth a 2
+      [PyDV]: lnwidth a:b 2
+      [PyDV]: lnwidth c d 2
 
 marker
 ------
@@ -287,6 +410,11 @@ Set the marker symbol and scale (optionally) for scatter plots. You can also use
 
    [PyDV]: marker <curve-list> <marker-style: + | . | circle | square | diamond> [marker-size]
 
+   Ex:
+      [PyDV]: marker a +
+      [PyDV]: marker a:b .
+      [PyDV]: marker c d circle
+
 minorticks
 ----------
 
@@ -296,6 +424,10 @@ Minor ticks are not visible by default. On will make the minor ticks visible and
 
    [PyDV]: minorticks <on | off>
 
+   Ex:
+      [PyDV]: minorticks on
+      [PyDV]: minorticks off
+
 movefront
 ---------
 
@@ -304,6 +436,11 @@ Move the given curves so they are plotted on top.
 .. code::
 
    [PyDV]: movefront <curve-list>
+
+   Ex:
+      [PyDV]: movefront a
+      [PyDV]: movefront a:b
+      [PyDV]: movefront c d
 
 plotlayout
 ----------
@@ -320,6 +457,13 @@ If no arguments are given, the plot's current layout settings will be displayed.
 
    [PyDV]: plotlayout [<left> <right> <top> <bottom> || de] 
 
+   Ex:
+      [PyDV]: plotlayout left
+      [PyDV]: plotlayout right
+      [PyDV]: plotlayout top
+      [PyDV]: plotlayout bottom
+      [PyDV]: plotlayout de
+
 range
 ------
 
@@ -329,15 +473,23 @@ Set the range for plotting. Using de (for default) will let the curves determine
 
    [PyDV]: range <low-lim> <high-lim> | de
 
+   Ex:
+      [PyDV]: range 3 7
+      [PyDV]: range de
+
 style
 -----
 
 Use matplotlib style settings from a style specification. The style name of **default** (if
-available) is reserved for reverting back to the default style settings.
+available) is reserved for reverting back to the default style settings. You can type the command `showstyles` and 
+see `Matplotlib's' Style sheets reference <https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html>`_.
 
 .. code::
 
    [PyDV]: style <style-name>
+
+   Ex:
+      [PyDV]: style classic
 
 ticks
 -----
@@ -348,6 +500,10 @@ Set the maximum number of major ticks on the axes.
 
    [PyDV]: ticks <quantity> | de
 
+   Ex:
+      [PyDV]: ticks 3
+      [PyDV]: ticks de
+
 title
 -----
 
@@ -356,6 +512,9 @@ Set a title for the plot
 .. code::
 
    [PyDV]: title <title-name>
+
+   Ex:
+      [PyDV]: title my_title
 
 update
 ------
@@ -366,6 +525,10 @@ Update the plot after each command if True.
 
    [PyDV]: update on | off
 
+   Ex:
+      [PyDV]: update on
+      [PyDV]: update off
+
 xlabel
 ------
 
@@ -374,6 +537,9 @@ Set a label for the x axis
 .. code::
 
    [PyDV]: xlabel <label-name>
+
+   Ex:
+      [PyDV]: xlabel my_x_label
 
 xlogscale
 ---------
@@ -384,6 +550,10 @@ Set log scale on or off for the x-axis. **Alternative Form: x-log-scale**, **Sho
 
    [PyDV]: xlogscale <on | off>
 
+   Ex:
+      [PyDV]: xlogscale on
+      [PyDV]: xlogscale off
+
 xtickcolor
 ----------
 
@@ -391,7 +561,13 @@ Set the color of the ticks on the x-axis. Default is to apply to major ticks onl
 
 .. code::
 
-   [PyDV]: xticks <de | color> [which: major | minor | both]
+   [PyDV]: xtickcolor <de | color> [which: major | minor | both]
+
+   Ex:
+      [PyDV]: xtickcolor blue major
+      [PyDV]: xtickcolor blue minor
+      [PyDV]: xtickcolor blue both
+      [PyDV]: xtickcolor de both
 
 xticks
 ------
@@ -402,6 +578,12 @@ Set the locations of major ticks on the x-axis
 
    [PyDV]: xticks de | <number> | <list of locations> | <list of locations, list of labels>
 
+   Ex:
+      [PyDV]: xticks 3
+      [PyDV]: xticks (1, 2, 3)
+      [PyDV]: xticks (1, 2, 3), ('first label', 'second label', 'third label')
+      [PyDV]: xticks de
+
 xtickformat
 -----------
 
@@ -410,6 +592,12 @@ Set the format of major ticks on the x axis. Default is plain.
 .. code::
 
    [PyDV]: xtickformat <plain | sci | exp | 10**>
+
+   Ex:
+      [PyDV]: xtickformat plain
+      [PyDV]: xtickformat sci
+      [PyDV]: xtickformat exp
+      [PyDV]: xtickformat 10**
 
 xticklength
 -----------
@@ -420,6 +608,11 @@ Set the length (in points) of x ticks on the axis. Default is apply to major tic
 
    [PyDV]: xticklength <number> [which: major | minor | both]
 
+   Ex:
+      [PyDV]: xticklength 2 major
+      [PyDV]: xticklength 2 minor
+      [PyDV]: xticklength 2 both
+
 xtickwidth
 ----------
 
@@ -428,6 +621,11 @@ Set the width (in points) of x ticks on the x axis. Default is to apply to major
 .. code::
 
    [PyDV]: xtickwidth <number> [which: major | minor | both]
+
+   Ex:
+      [PyDV]: xtickwidth 2 major
+      [PyDV]: xtickwidth 2 minor
+      [PyDV]: xtickwidth 2 both
 
 ylabel
 ------
@@ -438,6 +636,9 @@ Set a label for the y axis
 
    [PyDV]: ylabel <label-name>
 
+   Ex:
+      [PyDV]: ylabel my_y_label
+
 ylogscale
 ---------
 
@@ -446,6 +647,10 @@ Set log scale on or off for the y-axis. **Alternative Form: y-log-scale**, **Sho
 .. code::
 
    [PyDV]: ylogscale <on | off>
+
+   Ex:
+      [PyDV]: ylogscale on
+      [PyDV]: ylogscale off
 
 ytickcolor
 ----------
@@ -456,6 +661,12 @@ Set the color of the ticks on the y-axis. Default is to apply to major ticks onl
 
    [PyDV]: ytickcolor <de | color> [which: major | minor | both]
 
+   Ex:
+      [PyDV]: ytickcolor blue major
+      [PyDV]: ytickcolor blue minor
+      [PyDV]: ytickcolor blue both
+      [PyDV]: ytickcolor de both
+
 ytickformat
 -----------
 
@@ -464,6 +675,12 @@ Set the format of major ticks on the y axis. Default is plain.
 .. code::
 
    [PyDV]: ytickformat <plain | sci | exp | 10**>
+
+   Ex:
+      [PyDV]: ytickformat plain
+      [PyDV]: ytickformat sci
+      [PyDV]: ytickformat exp
+      [PyDV]: ytickformat 10**
 
 yticklength
 -----------
@@ -474,6 +691,11 @@ Set the length (in points) of y ticks on the y axis. Default is to apply to majo
 
    [PyDV]: yticklength <number> [which: major | minor | both]
 
+   Ex:
+      [PyDV]: yticklength 2 major
+      [PyDV]: yticklength 2 minor
+      [PyDV]: yticklength 2 both
+
 ytickwidth
 ----------
 
@@ -483,6 +705,11 @@ Set the width (in points) of y ticks on the y axis. Default is to apply to major
 
    [PyDV]: ytickwidth <number> [which: major | minor | both]
 
+   Ex:
+      [PyDV]: ytickwidth 2 major
+      [PyDV]: ytickwidth 2 minor
+      [PyDV]: ytickwidth 2 both
+
 yticks
 ------
 
@@ -491,3 +718,9 @@ Set the locations of major ticks on the y axis.
 .. code::
 
    [PyDV]: yticks de | <number> | <list of locations> | <list of locations, list of labels>
+
+   Ex:
+      [PyDV]: yticks 3
+      [PyDV]: yticks (1, 2, 3)
+      [PyDV]: yticks (1, 2, 3), ('first label', 'second label', 'third label')
+      [PyDV]: yticks de

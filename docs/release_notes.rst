@@ -8,6 +8,7 @@ Release Notes
 * Re-added underscores to curve names
 * Menu now has menulength option
 * Bugfix when files don't end in valid data
+* Updated docs with examples
 
 3.3.0
 ------
