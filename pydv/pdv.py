@@ -88,6 +88,7 @@ else:
     # from PyQt5.QtGui import *
     from PyQt5.QtWidgets import QApplication
 
+import scipy
 import traceback
 import readline
 import code
@@ -1435,6 +1436,14 @@ class Command(cmd.Cmd, object):
         Return a curves mean and standard deviation
         """
 
+        def find_mode(array):
+
+            mode = scipy.stats.mode(array, keepdims=True)
+            if mode.count[0] == 1 and len(array) != 1:
+                return numpy.nan, numpy.nan
+            else:
+                return mode.mode[0], mode.count[0]
+
         if not line:
             return 0
 
@@ -1448,11 +1457,26 @@ class Command(cmd.Cmd, object):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        yval = numpy.array(cur.y)
-                        mean = (sum(yval) / len(yval))
-                        ystd = numpy.std(yval, ddof=1)
+                        numx, countx = find_mode(cur.x)
+                        numy, county = find_mode(cur.y)
+
                         print('\nCurve ' + cur.plotname)
-                        print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                        print('\n\t         X:\t              Y:')
+                        print(f'\n\tlength:    {len(cur.x):<15.10g}\t{len(cur.y):<15.10g}')
+                        print(f'\tmean:      {numpy.mean(cur.x):<15.10g}\t{numpy.mean(cur.y):<15.10g}')
+                        print(f'\tmedian:    {numpy.median(cur.x):<15.10g}\t{numpy.median(cur.y):<15.10g}')
+                        print(f'\tmode:      {numx:<15.10g}\t{numy:<15.10g}')
+                        print(f'\t    count: {countx:<15.10g}\t{county:<15.10g}')
+                        print(f'\tstd:       {numpy.std(cur.x):<15.10g}\t{numpy.std(cur.y):<15.10g}')
+                        print(f'\tskew:      {scipy.stats.skew(cur.x):<15.10g}\t{scipy.stats.skew(cur.y):<15.10g}')
+                        print(f'\tkurtosis:  {scipy.stats.kurtosis(cur.x):<15.10g}\t{scipy.stats.kurtosis(cur.y):<15.10g}')  # noqae501
+                        print(f'\tmin:       {numpy.min(cur.x):<15.10g}\t{numpy.min(cur.y):<15.10g}')
+                        print(f'\t25%:       {numpy.quantile(cur.x,.25):<15.10g}\t{numpy.quantile(cur.y,.25):<15.10g}')
+                        print(f'\t50%:       {numpy.quantile(cur.x,.50):<15.10g}\t{numpy.quantile(cur.y,.50):<15.10g}')
+                        print(f'\t75%:       {numpy.quantile(cur.x,.75):<15.10g}\t{numpy.quantile(cur.y,.75):<15.10g}')
+                        print(f'\tmax:       {numpy.max(cur.x):<15.10g}\t{numpy.max(cur.y):<15.10g}')
+                        print(f'\tsum:       {numpy.sum(cur.x):<15.10g}\t{numpy.sum(cur.y):<15.10g}')
+
                     except pdvutil.CurveIndexError:
                         pass
 
@@ -2161,6 +2185,39 @@ class Command(cmd.Cmd, object):
     def help_getdomain(self):
         print('\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n')
 
+    def do_sum(self, line):
+        """
+        Return sum of the x and y values of each curve
+        """
+
+        try:
+            if len(line.split(':')) > 1:
+                self.do_sum(pdvutil.getletterargs(line))
+                return 0
+            else:
+                print('\n   Sum')
+                line = line.split()
+
+                for i in range(len(line)):
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, sumx, sumy = pydvif.sum(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print(f'    sumx: {sumx:.6e}, sumy: {sumy:.6e}')
+                    except pdvutil.CurveIndexError:
+                        pass
+                print('')
+        except:
+            print('error - usage: sum <curve-list>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+
+    def help_sum(self):
+        print('\n   Procedure: Return sum of the x and y values of each curve\n   Usage: sum <curve-list>\n')
+
     def do_getymax(self, line):
         """
         Return the maximum y-value for the curve within the specified domain
@@ -2258,6 +2315,36 @@ class Command(cmd.Cmd, object):
     def help_getymin(self):
         print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.'
               '\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
+
+    def do_cumsum(self, line):
+        """
+        Return the cumulative sum of the curve(s)
+        """
+
+        if not line:
+            return 0
+        try:
+            if len(line.split(':')) > 1:
+                self.do_cumsum(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    nc = pydvif.cumsum(cur)
+                    self.addtoplot(nc)
+
+                    self.plotedit = True
+        except:
+            print('error - usage: cumsum <curve>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_cumsum(self):
+        print('\n   Procedure: Return the cumulative sum of the curve(s).'
+              '\n   Usage: cumsum <curve>\n')
 
     def do_getlabel(self, line):
         """
@@ -7594,9 +7681,6 @@ class Command(cmd.Cmd, object):
         """
         Operate on given curves by a function
         """
-
-        import scipy.special
-        # scipy.special.errprint(1)
 
         if not line:
             return 0

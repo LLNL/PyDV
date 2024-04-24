@@ -154,7 +154,7 @@ Return the y values for a given x
 stats
 -----
 
-Calculate the mean and standard deviation for the curves and display the results on the terminal.
+Show various statistics about the curve.
 
 .. code::
 
@@ -164,6 +164,20 @@ Calculate the mean and standard deviation for the curves and display the results
       [PyDV]: stats a
       [PyDV]: stats a:b
       [PyDV]: stats c d
+
+sum
+-----
+
+Calculate the sum of the x and y values of the curves.
+
+.. code::
+
+   [PyDV]: sum <curve-list>
+
+   Ex:
+      [PyDV]: sum a
+      [PyDV]: sum a:b
+      [PyDV]: sum c d
 
 getymin
 -------

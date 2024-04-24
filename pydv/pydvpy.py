@@ -2723,7 +2723,7 @@ def gaussian(amp, wid, center, num=100, nsd=3):
     cc.y = np.exp(cc.y / (wid * wid))
     cc.y = cc.y * amp
 
-    cc.name = "Gaussian"
+    cc.name = f"Gaussian (a: {amp}, w: {wid}, c: {center})"
     return cc
 
 
@@ -2810,6 +2810,23 @@ def getymin(c, xmin=None, xmax=None):
     xy_pairs_at_min = getx(c, ymin, xmin, xmax)
 
     return __toCurveString(c), xy_pairs_at_min
+
+
+def cumsum(c1):
+    """
+    Creates a new curve which is the cumulative sum of the original curve
+
+    :param c1: The original curve
+    :type c1: Curve
+
+    :return: Curve -- the cumulative sum of the original curve
+    """
+    nc = curve.Curve('', 'cumsum(' + __toCurveString(c1) + ')')
+
+    nc.x = c1.x
+    nc.y = np.cumsum(c1.y)
+
+    return nc
 
 
 def correlate(c1, c2, mode='valid'):
@@ -3483,6 +3500,34 @@ def getdomain(curvelist):
         domains.append((__toCurveString(c), min(c.x), max(c.x)))
 
     return domains
+
+
+def sum(curvelist):
+    """
+    Return sum of the x and y values of each curve.
+
+    >>> curves = pydvif.read('testData.txt')
+
+    >>> sums = pydvif.sum(curves)
+
+    >>> plotname, sumx, sumy = sums[0]
+
+    :param curvelist: The given curve or list of curves
+    :type curvelist: Curve or list
+    :return: list -- A list of tuples where each tuple contains the curve name, sum of x-values, and sum of y-values
+    """
+    sums = list()
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for c in curves:
+        sums.append((__toCurveString(c), np.sum(c.x), np.sum(c.y)))
+
+    return sums
 
 
 def disp(c, domain=True):

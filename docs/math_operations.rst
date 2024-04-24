@@ -387,6 +387,20 @@ Take hyperbolic cosine of x values of curves.
       [PyDV]: coshx a:b
       [PyDV]: coshx c d
 
+cumsum
+-----
+
+Create new curve which is the cumulative sum of the original curve.
+
+.. code::
+
+   [PyDV]: cumsum <curve-list>
+
+   Ex:
+      [PyDV]: cumsum a
+      [PyDV]: cumsum a:b
+      [PyDV]: cumsum c d
+
 dx
 --
 
