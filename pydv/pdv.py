@@ -94,6 +94,8 @@ import readline
 import code
 from numbers import Number
 import types  # noqaf401 used for do_custom()
+import csv
+from itertools import zip_longest
 
 # Package Import
 try:
@@ -1061,9 +1063,11 @@ class Command(cmd.Cmd, object):
             line = line.split()
 
             if len(line) == 2:
-                self.xCol = int(line.pop(-1))
+                col = line.pop(-1)
+            else:
+                col = 0
 
-            self.load_csv(line[0])
+            self.load_csv(line[0], col)
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -5001,45 +5005,27 @@ class Command(cmd.Cmd, object):
                 self.do_savecsv(filename + ' ' + pdvutil.getletterargs(line))
                 return 0
             else:
-                # make list of curve indices
-                indices = []
-                # used to ensure number of points in each curve appended is equal
-                assertlength = None
-                line = line.split()
-                for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        pname = self.plotlist[j].plotname
-                        if (pname == line[i].upper()):
-                            if assertlength is not None and len(self.plotlist[j].x) != assertlength:
-                                print('error - All curves must have the same number of points.')
-                                return 0
-                            elif assertlength is None:
-                                assertlength = len(self.plotlist[j].x)
-                                indices.append(j)
-                                break
-                            else:
-                                indices.append(j)
-                                break
 
-                # write curves out in csv format
-                f = open(filename, 'w')
-                s = 'time, '
-                for j in indices[:-1]:
-                    s += self.plotlist[j].name + ', '
-                s += self.plotlist[indices[-1]].name
-                s += '\n'
-                f.write(s)
-                try:
-                    for i in range(len(self.plotlist[indices[0]].x)):
-                        s = str(self.plotlist[indices[0]].x[i]) + ', '
-                        for j in indices[:-1]:
-                            s += str(self.plotlist[j].y[i]) + ', '
-                        s += str(self.plotlist[indices[-1]].y[i])
-                        s += '\n'
-                        f.write(s)
-                    f.close()
-                except IndexError:
-                    print('error - All curves must have the same number of points.')
+                line = line.split()
+                cols = []
+                names = []
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        cols.append(cur.x.tolist())
+                        cols.append(cur.y.tolist())
+                        names.append(cur.name + ' [x]')
+                        names.append(cur.name + ' [y]')
+                    except RuntimeError as rte:
+                        print("I/O error: {}".format(rte))
+
+                with open(filename, "w+") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(names)
+                    for values in zip_longest(*cols):
+                        writer.writerow(values)
+
         except:
             print('error - usage: savecsv <file-name> <curve-list>')
             if self.debug:
@@ -8313,12 +8299,11 @@ class Command(cmd.Cmd, object):
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
 
-    def load_csv(self, fname):
+    def load_csv(self, fname, col):
         """
         Load a csv (commas separated values) text data file, add parsed curves to the curvelist
         """
-
-        curves = pydvif.readcsv(fname, self.xCol, self.debug)
+        curves = pydvif.readcsv(fname, col, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))

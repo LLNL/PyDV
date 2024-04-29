@@ -29,15 +29,18 @@ Read curves from the specified ASCII file and optionally filter by regex. The ne
 readcsv
 -------
 
-Read CSV data file. The next available prefix (see the prefix command) is automatically assigned the menu index of the first curve in each data file read. For column oriented (.gnu) files optionally specify the x-column number before the file name. **Shortcut: rdcsv**
+Read CSV data file. The next available prefix (see the prefix command) is automatically assigned the menu index of the first curve in each data file read. 
+For column oriented (.gnu) files optionally specify the x-column number before the file name. If the columns are in x and y pairs with `savecsv` below, the 
+[x-col] must be specified as `paired`. **Shortcut: rdcsv**
 
 .. code::
  
-   [PyDV]: readcsv [x-col] <filename.csv>
+   [PyDV]: readcsv <filename.csv> [x-col]
 
    Ex:
       [PyDV]: readcsv my_file.csv
-      [PyDV]: readcsv 1 my_file.csv
+      [PyDV]: readcsv my_file.csv 2
+      [PyDV]: readcsv my_file.csv paired
 
 readsina
 --------
@@ -77,6 +80,8 @@ Saves plotted curves to a file in text format. Can also save labels in the file 
    [PyDV]: save <filename> <curve-list> [savelabels]
 
    Ex:
+      [PyDV]: save my_saved_file.ult a
+      [PyDV]: save my_saved_file.ult b d
       [PyDV]: save my_saved_file.ult b:d
       [PyDV]: save my_saved_file.ult b:d savelabels
 
@@ -90,5 +95,7 @@ Saves plotted curves to file in comma separated values (CSV) format. Assumes all
    [PyDV]: savecsv <filename> <curve-list>
 
    Ex:
+      [PyDV]: savecsv my_saved_file.csv b
+      [PyDV]: savecsv my_saved_file.csv b d
       [PyDV]: savecsv my_saved_file.csv b:d
 
