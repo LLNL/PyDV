@@ -131,7 +131,7 @@ def span(xmin, xmax, numpts=100):
         fxmin += spacing
     x = np.array(x)
     y = np.array(x)
-    c = makecurve(x, y, 'Straight Line')
+    c = makecurve(x, y, f'Straight Line (m: 1.0 b: 0.0 xmin: {xmin} xmax: {xmax})')
 
     return c
 
@@ -676,6 +676,14 @@ def readcsv(fname, xcol=0, verbose=False):
         # We assume some column is the x-data, every other column
         # is y-data
         iLine += 1  # go to next line after header labels
+        # CSV Data is in x and y pairs
+        if xcol == 'paired':
+            xcol = 0
+            paired = True
+        # CSV Data has a single shared x column
+        else:
+            xcol = int(xcol)
+            paired = False
         numcurves = len(lines[iLine].split(',')) - 1
 
         # Make the curves, append them to self.curvelist.
@@ -686,7 +694,7 @@ def readcsv(fname, xcol=0, verbose=False):
             localCurves.append([])  # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
         # turn the strings into numbers
         for line in lines[iLine:]:
-            nums = [float(n) for n in line.split(',')]
+            nums = [np.nan if not n or n == '\n' else float(n) for n in line.split(',')]
             # print 'nums = ', nums, 'numcurves = ', numcurves
             assert len(nums) == numcurves + 1
             if xcol >= numcurves:
@@ -698,16 +706,27 @@ def readcsv(fname, xcol=0, verbose=False):
         for colID in range(numcurves):
             localCurves[colID] = np.array(localCurves[colID])
         # Make Curve objects, add to self.curvelist
-        for colID in range(numcurves + 1):
-            if colID != xcol:
-                c = makecurve(localCurves[xcol], localCurves[colID], colLabels[colID], fname)
+        if paired:
+            for colID in range(0, numcurves + 1, 2):
+                colLabels[colID] = colLabels[colID][:-4]  # ' [x]'
+                x = np.array(localCurves[colID])
+                x = x[~np.isnan(x)]
+                y = np.array(localCurves[colID + 1])
+                y = y[~np.isnan(y)]
+                c = makecurve(x, y, colLabels[colID], fname)
                 print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
                 curvelist.append(c)
+        else:
+            for colID in range(numcurves + 1):
+                if colID != xcol:
+                    c = makecurve(localCurves[xcol], localCurves[colID], colLabels[colID], fname)
+                    print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
+                    curvelist.append(c)
         # tidy up
         f.close()
     # anticipate failure!
     except ValueError as e:
-        print(e.message)
+        print(e)
         print('readcsv: invalid pydv file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
@@ -2723,7 +2742,7 @@ def gaussian(amp, wid, center, num=100, nsd=3):
     cc.y = np.exp(cc.y / (wid * wid))
     cc.y = cc.y * amp
 
-    cc.name = f"Gaussian (a: {amp}, w: {wid}, c: {center})"
+    cc.name = f"Gaussian (a: {amp} w: {wid} c: {center})"
     return cc
 
 
@@ -3733,7 +3752,7 @@ def line(m, b, xmin, xmax, numpts=100):
 
     x = np.array(x)
     y = np.array(y)
-    c = curve.Curve('', 'Straight Line')
+    c = curve.Curve('', f'Straight Line (m: {m} b: {b} xmin: {xmin} xmax: {xmax})')
     c.x = x
     c.y = y
 

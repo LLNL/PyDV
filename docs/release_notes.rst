@@ -11,6 +11,7 @@ Release Notes
 * Updated docs with examples
 * Added `sum`` and `cumsum` functions
 * Updated `stats` function
+* Updated `savecsv` and `readcsv` to allow curves with different lengths
 
 3.3.0
 ------
