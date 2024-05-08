@@ -1,0 +1,54 @@
+gaussian 5 5 0
+
+gaussian 5 5 50 1000
+
+add a b
+
+line .125 -2.5 20 40 2
+
+newcurve a.y+numpy.random.normal(size=100)
+rev e
+sort e
+
+add e b
+
+gaussian 10 5 70 500
+
+newcurve g.y+numpy.random.normal(size=500)+70
+rev h
+sort h
+
+add f h
+
+gaussian 20 5 20 50
+
+newcurve j.y+numpy.random.normal(size=50)+20
+rev k
+sort k
+
+add i k
+
+
+gaussian 20 1 50 500
+
+newcurve m.y+numpy.random.normal(size=500)+50
+rev n
+sort n
+
+add l n
+
+gaussian 50 0.25 10 200
+
+newcurve p.x+numpy.random.normal(size=200)
+rev q
+sort q
+add p q
+add o r
+
+subsample a 10
+
+
+add a d
+
+save tests/convolution_created_curves_to_convol.ult a:z
+

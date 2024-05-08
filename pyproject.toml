@@ -9,7 +9,7 @@ classifiers = [
     'License :: OSI Approved :: BSD License',
     'Intended Audience :: End Users/Desktop',
     'Intended Audience :: Developers',
-    'Intended Audience :: Science/Research', 
+    'Intended Audience :: Science/Research',
     'Topic :: Scientific/Engineering',
     'Topic :: Scientific/Engineering :: Mathematics',
     'Operating System :: OS Independent',
@@ -49,6 +49,7 @@ sphinx-autoapi = "*"
 six = "*"
 flake8 = "*"
 scikit-image = "*"
+gnuplotlib = "*"
 
 [tool.poetry.plugins."console_scripts"]
 'pdv' = 'pydv.pdv:main'

@@ -298,11 +298,12 @@ Computes the convolution of the two given curves and normalizes by the area unde
 
 .. code::
 
-   [PyDV]: convolveb <curve1> <curve2> [points]
+   [PyDV]: convolveb <curve1> <curve2> [points] [points_interp]
 
    Ex:
       [PyDV]: convolveb g h
       [PyDV]: convolveb g h 200
+      [PyDV]: convolveb g h 200 200
 
 convolvec
 ---------
@@ -313,11 +314,12 @@ Computes the convolution of the two given curves with no normalization. This com
 
 .. code::
 
-   [PyDV]: convolvec <curve1> <curve2> [points]
+   [PyDV]: convolvec <curve1> <curve2> [points] [points_interp]
 
    Ex:
       [PyDV]: convolvec g h
       [PyDV]: convolvec g h 200
+      [PyDV]: convolvec g h 200 200
 
 **correl - 2.4.2**
 ------------------

@@ -5863,48 +5863,13 @@ class Command(cmd.Cmd, object):
               '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
 
     def do_convolve(self, line):
-        """
-        Make a new curve - the convolution of two given curves
-        """
-
-        if not line:
-            return 0
-        try:
-            line = line.split()
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[0].upper():
-                    c1 = self.plotlist[i]
-                    break
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[1].upper():
-                    c2 = self.plotlist[i]
-                    break
-
-            if len(line) == 2:
-                nc = pydvif.convolve(c1, c2)
-            elif len(line) == 3:
-                npts = int(line[2])
-                nc = pydvif.convolve(c1, c2, npts)
-            else:
-                raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
-
-            self.addtoplot(nc)
-            self.plotedit = True
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-        except:
-            self.help_convolve()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        print(f"convol {line}")
+        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
 
     def help_convolve(self):
-        print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
-              '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect'
-              '\n              results due to improper padding - use with caution.'
-              '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol')
+        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
 
     def do_convolveb(self, line):
         """
@@ -5925,10 +5890,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolveb(c1, c2)
+                nc = pydvif.convolveb(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolveb(c1, c2, npts)
+                nc = pydvif.convolveb(c1, c2, npts, debug=self.debug)
+            elif len(line) == 4:
+                npts = int(line[2])
+                npts_interp = int(line[3])
+                nc = pydvif.convolveb(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -5948,8 +5917,7 @@ class Command(cmd.Cmd, object):
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
               '\n                         Int(-inf, inf, dt*h(t))'
               '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   curve2 is normalized to unit area before doing the convolution.'
-              '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb')
+              '\n   Usage: convolveb <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolb')
 
     def do_convolvec(self, line):
         """
@@ -5970,10 +5938,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolvec(c1, c2)
+                nc = pydvif.convolvec(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolvec(c1, c2, npts)
+                nc = pydvif.convolvec(c1, c2, npts, debug=self.debug)
+            elif len(line) == 4:
+                npts = int(line[2])
+                npts_interp = int(line[3])
+                nc = pydvif.convolvec(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -5990,10 +5962,9 @@ class Command(cmd.Cmd, object):
 
     def help_convolvec(self):
         print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
-              '\n                         Int(-inf, inf, dt*h(t))'
+              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
               '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc')
+              '\n   Usage: convolvec <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolc')
 
     def do_diffMeasure(self, line):
         """

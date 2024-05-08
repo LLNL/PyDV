@@ -74,7 +74,7 @@ commands = [
     """,
     # 11
     """
-    convolve a b
+    convolc a b
     """,
     # 12
     """

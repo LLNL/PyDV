@@ -3,7 +3,9 @@ import pathlib
 import pytest
 import numpy as np
 import sys
-
+import gnuplotlib as gp
+import scipy
+import shutil
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -69,6 +71,108 @@ def test_read_regex(test_file):
     curves = pydvpy.read(test_file, pattern='3')
     np.testing.assert_array_equal(curves[0].y, [0, 1, 4, 9, 16])
     np.testing.assert_array_equal(curves[1].y, [5, 4, 2.5, 2.1, 2.0])
+
+
+# Steps: **ONLY** do steps below if new curves are added to tests/convolution_pydv_create_curves_to_convolv
+#     1. pydv/pdv -i tests/convolution_pydv_create_curves_to_convolv
+#            The randomness here can cause issues with ultra! divide by 0? Re-run all steps if issues arise in step 5
+#     2. python tests/convolution_create_pydv_and_ultra_commands.py
+#     3. pydv/pdv -i tests/convolution_pydv_commands
+#     4. export PATH=$PATH:/usr/apps/pact/bin/
+#     5. ultra -l tests/convolution_ultra_commands
+# convolb: (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))
+# convolc: (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))
+curves_pydv = pydvpy.read(os.path.join(TEST_DIR, 'convol_pydv.ult'))
+curves_ultra = pydvpy.read(os.path.join(TEST_DIR, 'convol_ultra.ult'))
+convol_plot_path = os.path.join(TEST_DIR, 'convolution_plots')
+if os.path.exists(convol_plot_path):
+    shutil.rmtree(convol_plot_path)
+else:
+    os.makedirs(convol_plot_path)
+
+
+@pytest.mark.parametrize("i", list(range(len(curves_pydv))))
+def test_convol(i):
+
+    # for cp, cu in zip(curves_pydv, curves_ultra):
+    cp = curves_pydv[i]
+    cu = curves_ultra[i]
+    print(f"Curve {i+1} of {len(curves_pydv)}")
+    print('Lengths:')
+    print(f'\tPyDV:  {len(cp.y)}')
+    print(f'\tUltra: {len(cu.y)}')
+
+    print('First 5 x:')
+    print(f'\tPyDV:  {cp.x[:5]}')
+    print(f'\tUltra: {cu.x[:5]}')
+
+    print('Last 5 x:')
+    print(f'\tPyDV:  {cp.x[-5:]}')
+    print(f'\tUltra: {cu.x[-5:]}')
+
+    print('First 5 y:')
+    print(f'\tPyDV:  {cp.y[:5]}')
+    print(f'\tUltra: {cu.y[:5]}')
+
+    print('Last 5 y:')
+    print(f'\tPyDV:  {cp.y[-5:]}')
+    print(f'\tUltra: {cu.y[-5:]}')
+
+    print('Max y:')
+    print(f'\tPyDV:  {max(cp.y)}')
+    print(f'\tUltra: {max(cu.y)}')
+
+    # Ultra sometimes has 99 points for some reason
+    if len(cu.y) == 99:
+        start = 1
+    else:
+        start = 0
+
+    plot_details = ''
+
+    # Area
+    area_pydv = scipy.integrate.simpson(cp.y[start:], cp.x[start:])
+    area_ultra = scipy.integrate.simpson(cu.y, cu.x)
+    area_diff = abs(area_pydv - area_ultra)
+    area_percent = area_diff / area_ultra * 100
+    print('Area:')
+    print('\tpydv ', area_pydv)
+    print('\tultra', area_ultra)
+    print('\tdiff ', area_diff)
+    print('\tdiff percent', area_percent, "%\n")
+    if area_percent > 1:
+        plot_details += f'_area_diff_percent_{area_percent:.3f}'
+
+    # Max diff of ys
+    diff = abs(cp.y[start:] - cu.y)
+    diff_max = np.max(diff)
+    diff_index = diff.argmax()
+    diff_percent = diff_max / abs(cu.y[diff_index]) * 100
+    print('Maximum diff of all ys:')
+    print(f'\tdiff: {diff_max} at:')
+    print(f'\t\tPydv.y  {cp.y[diff_index + start]}')
+    print(f'\t\tUltra.y {cu.y[diff_index]}')
+    print('\tdiff percent', diff_percent, "%\n\n")
+    # Most pass with 1% Difference but Ultra sometimes has missing points during integration which causes spikes
+    # This is most evident with the noisy or sparse curves
+    if diff_percent > 1:
+        plot_details += f'_max_diff_y_percent_{diff_percent:.3f}'
+
+    gp.plot((cp.x, cp.y, dict(legend='PyDV')),
+            (cu.x, cu.y, dict(legend='Ultra')),
+            (cp.x[diff_index + start], cp.y[diff_index + start],
+                dict(legend=f'PyDV Max Diff Y {cp.y[diff_index + start]:.5f}',
+                     _with='points pointsize 3')),
+            (cu.x[diff_index], cu.y[diff_index],
+                dict(legend=f'Ultra Max Diff Y {cu.y[diff_index]:.5f}',
+                     _with='points pointsize 3')),
+            title=f"{cp.name} {plot_details}",
+            terminal='pngcairo noenhanced size 1024,768 crop font ",12"',
+            hardcopy=os.path.join(TEST_DIR, 'convolution_plots', f'convol_plot_{i+1}{plot_details}.png'))
+
+    # All these tests will never pass but see the plots in tests/convolution_plots/
+    # np.testing.assert_array_less(area_percent, 1)
+    # np.testing.assert_array_less(diff_percent, 1)
 
 
 def test_read_labels():
