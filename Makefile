@@ -24,52 +24,48 @@ SPACK_WEAVE_VIEW = /usr/workspace/$(WEAVE_DEPLOY_GROUP)/weave/repos/spack/spack_
 ADD_PATH = $(SPACK_WEAVE_VIEW)/bin:$(WEAVE_DEVELOP_VENV)/bin
 ADD_PYTHONPATH = $(SPACK_WEAVE_VIEW)/lib/python3.9/site-packages:$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages
 
-define create_env
-	source $(WEAVE_DEVELOP_VENV)/bin/activate
-	$(PYTHON_CMD) -m venv --system-site-packages $1
+define do_create_env
+	source $(WEAVE_DEVELOP_VENV)/bin/activate && \
+	$(PYTHON_CMD) -m venv --system-site-packages $1 && \
 	deactivate
 	echo export PATH=$(PATH):$(ADD_PATH) >> $1/bin/activate
 	echo export PYTHONPATH=$(PYTHONPATH):$(ADD_PYTHONPATH) >> $1/bin/activate
-	source $1/bin/activate
-	which pytest
+	source $1/bin/activate && \
+	which pytest && \
 	pip list
 endef
 
 define run_pydv_tests
 	# call from the top repository directory
 	# arg1: full path to venv
-	source $1/bin/activate && which pip && which pytest && 
-	if [ -z $(DISPLAY) ]; then 
-	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/; 
-	else 
-	  pytest --capture=tee-sys -v tests/;
+	source $1/bin/activate && which pip && which pytest && \
+	if [ -z $(DISPLAY) ]; then \
+	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/; \
+	else \
+	  pytest --capture=tee-sys -v tests/; \
 	fi
 endef
 
 define do_run_rz_tests
-	cd $(RZ_TESTS_WORKDIR) && rm -rf pydv &&
-	/usr/tce/bin/git clone -b $(CI_COMMIT_BRANCH) $(RZ_GITLAB)/$(PROJECT) &&
-	chgrp -R weavedev pydv && cd pydv && 
-	$(call create_env,$(PYDV_ENV)) &&
-	cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd .. &&
-	$(call run_pydv_tests,$(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)) &&
-	source $(RZ_TESTS_WORKDIR)/pydv/$(PYDV_ENV)/bin/activate &&
-	if [ -z $(DISPLAY) ]; then
-		xvfb-run --auto-servernum python3 -m pytest tests/wsc_tests/test_*py
-	else
-		python3 -m pytest -v tests/wsc_tests/test_*py
+	# arg1: full path to venv
+	source $1/bin/activate && pip list && pwd
+	cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd ..
+	if [ -z $(DISPLAY) ]; then \
+		xvfb-run --auto-servernum python3 -m pytest tests/wsc_tests/test_*py; \
+	else \
+		python3 -m pytest -v tests/wsc_tests/test_*py; \
 	fi
 endef
 
 .PHONY: create_env
 create_env:
 	@echo "Create venv for running pydv...$(WORKSPACE)";
-	@[ -d $(WORKSPACE) ] || mkdir -p $(WORKSPACE);
+	mkdir -p $(WORKSPACE);
 	cd $(WORKSPACE);
 	if [ -d $(PYDV_ENV) ]; then \
 	  rm -rf $(PYDV_ENV); \
 	fi;
-	$(call create_env,$(PYDV_ENV))
+	$(call do_create_env,$(WORKSPACE)/$(PYDV_ENV))
 
 
 .PHONY: run_tests
@@ -81,8 +77,8 @@ run_tests:
 .PHONY: run_rz_tests
 .ONESHELL:
 run_rz_tests:
-	@echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)";
-	xsu weaveci -c "umask 007 && sg weavedev -c '$(call do_run_rz_tests)'"
+	echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)"
+	$(call do_run_rz_tests,$(WORKSPACE)/$(PYDV_ENV))
 
 
 .PHONY: release

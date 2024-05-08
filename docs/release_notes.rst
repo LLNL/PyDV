@@ -2,9 +2,13 @@
 
 Release Notes
 =============
-
 3.4.0
 ------
+* Bug fix for convolution function
+* Bug fix for normalize function
+* WEAVE environment Python for Makefile
+* Move scripts/ directory for installation
+* Bug fix for blank labels
 * Re-added underscores to curve names
 * Menu now has `menulength` option
 * Bugfix when files don't end in valid data

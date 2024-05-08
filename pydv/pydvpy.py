@@ -74,6 +74,7 @@ import os
 import traceback
 import sys
 import re
+import copy
 import random as sysrand
 
 from distutils.version import LooseVersion
@@ -106,6 +107,12 @@ try:
     pdbLoaded = True
 except:
     pdbLoaded = False
+
+try:
+    import gnuplotlib as gp
+    import time
+except:
+    pass
 
 
 def span(xmin, xmax, numpts=100):
@@ -2931,8 +2938,9 @@ def normalize(c):
     :return: The normalized curve
     :rtype: curve.Curve
     """
-
-    return c.normalize()
+    norm_c = c.normalize()
+    c = makecurve(norm_c.x, norm_c.y, f'Normalized {norm_c.plotname}')
+    return c
 
 
 def hypot(c1, c2):
@@ -2956,125 +2964,162 @@ def hypot(c1, c2):
     return c
 
 
-def convolve(c1, c2, npts=100):
-    """
-    Compute and return the convolution of two real curves:
-    -
-    -   ``(g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))``
-    -
-    The Fourier Transform is used to perform the convolution.
-
-    >>> curves = pydvif.read('testData.txt')
-
-    >>> newcurve = pydvif.convolve(curves[0], curves[1])
-
-    :param c1: (N,) The first curve
-    :type c1: Curve
-    :param c2: (M,) The second curve
-    :type c2: Curve
-    :param npts: the number of points used to create a uniform temporal spacing
-    :type npts: int
-    :return: Curve -- the convolution of the two curves c1 and c2
-    """
-
-    # Create uniform temporal spacing
-    ic1, step = curve.interp1d(c1, npts, True)
-
-    c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = curve.interp1d(c2, c2npts)
-
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='fft'))
-    delx = (max(c1.x) - min(c1.x)) / npts
-    y *= delx
-
-    xstart = min(min(c1.x), min(c2.x))
-    xstop = xstart + (len(y) * delx)
-    x = np.linspace(xstart, xstop, num=len(y))
-
-    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (FFT) ' + str(npts)
-    nc = makecurve(x, y, namestr)
-
-    return nc
+def convolve(c1, c2, npts=100, norm=True, debug=False):
+    print("Use convolvec for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+    print("Use convolveb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
+    return
 
 
-def convolveb(c1, c2, npts=100):
+def convolvec(c1, c2, npts=100, npts_interp=100, debug=False):
     """
     Computes the convolution of the two given curves:
     -
-    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))``
     -
     This computes the integrals directly which avoid padding and aliasing
     problems associated with FFT methods (it is however slower).
 
-    :param c1: (N,) The first curve
+    :param c1: (N,) The first curve g(t)
     :type c1: Curve
-    :param c2: (M,) The second curve
+    :param c2: (M,) The second curve h(t)
     :type c2: Curve
-    :param npts: the number of points
+    :param npts: the number of points to divide the combined domain of the curves to give delx
     :type npts: int
-    :return: Curve -- the convolution of the two curves c1 and c2 using integration and normalizing c2
-    """
-
-    return convolve_int(c1, c2, True, npts)
-
-
-def convolvec(c1, c2, npts=100):
-    """
-    Computes the convolution of the two given curves:
-    -
-    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
-    -
-    This computes the integrals directly which avoid padding and aliasing
-    problems associated with FFT methods (it is however slower).
-
-    :param c1: (N,) The first curve
-    :type c1: Curve
-    :param c2: (M,) The second curve
-    :type c2: Curve
-    :param npts: the number of points
-    :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
     :return: Curve -- the convolution of the two curves c1 and c2 using integration and no normalization
     """
 
-    return convolve_int(c1, c2, False, npts)
+    return convolve_int(c1, c2, False, npts, npts_interp, debug)
 
 
-def convolve_int(c1, c2, norm=True, npts=100):
+def convolveb(c1, c2, npts=100, npts_interp=100, debug=False):
     """
-    Computes the convolution of the two curves (c1, c2). The integrals are computed directly which avoid padding
-    and aliasing problems associated with FFT methods (it is however slower).
+    Computes the convolution of the two given curves:
+    -
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
+    This computes the integrals directly which avoid padding and aliasing
+    problems associated with FFT methods (it is however slower).
 
-    :param c1: (N,) The first curve
+    :param c1: (N,) The first curve g(t)
     :type c1: Curve
-    :param c2: (M,) The second curve
+    :param c2: (M,) The second curve h(t)
     :type c2: Curve
-    :param norm: if true then the result is normalized to unit area.
-    :type norm: bool
-    :param npts: the number of points
+    :param npts: the number of points to divide the combined domain of the curves to give delx
     :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
+    :return: Curve -- the convolution of the two curves c1 and c2 using integration and normalizing by c2
+    """
+
+    return convolve_int(c1, c2, True, npts, npts_interp, debug)
+
+
+def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
+    """
+    Computes the convolution of the two given curves:
+    -
+    -   norm=False: ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))``
+    -   norm=True : ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
+    This computes the integrals directly which avoid padding and aliasing
+    problems associated with FFT methods (it is however slower).
+
+    :param c1: (N,) The first curve g(t)
+    :type c1: Curve
+    :param c2: (M,) The second curve h(t)
+    :type c2: Curve
+    :param norm: if true then normalize c2 h(t) before integration. Used in convolc
+    :type norm: bool
+    :param npts: the number of points to divide the combined domain of the curves to give delx
+    :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
     :return: nc: Curve -- the convolution of the two curves c1 and c2
     """
 
-    # Create uniform temporal spacing
-    ic1, step = curve.interp1d(c1, npts, True)
-    c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = curve.interp1d(c2, c2npts)
+    c1_copy = copy.deepcopy(c1)  # g(t)
+    c2_copy = copy.deepcopy(c2)  # h(t)
 
-    # normalize c2 to unit area in its domain
+    c2_original = copy.deepcopy(c2)
+
+    c2_copy.x = np.flip(c2_copy.x) * float(-1)
+    c2_copy.y = np.flip(c2_copy.y)
+
+    dom_c1 = getdomain(c1_copy)
+    dom_c2 = getdomain(c2_copy)
+
+    # Start of g(t)
+    xmn = dom_c1[0][1]
+    # End of g(t) + domain of h(t)
+    xmx = dom_c1[0][2] + (dom_c2[0][2] - dom_c2[0][1])
+
+    # Moving end of h(t) to start of g(t)
+    c2_copy.x += float(xmn) - dom_c2[0][2]
+
+    # Delta x is domain of combined domains
+    delx = (xmx - xmn) / (npts)
+
+    def _integ(cr1, cr2, xcur, xval, yval, iter):
+
+        if iter < npts:
+
+            # Current overlap of g(t) and h(t)
+            overlap = list(cr1.x[np.where(np.logical_and(cr1.x >= cr2.x[0], cr1.x <= cr2.x[-1]))])
+            overlap.extend(list(cr2.x[np.where(np.logical_and(cr2.x >= xmn, cr2.x <= cr1.x[-1]))]))
+            overlap = list(set(overlap))
+            overlap.sort()
+
+            # np.linespace() between first and last overlap
+            overlap_interp = np.linspace(overlap[0], overlap[-1], npts_interp) if overlap else overlap
+
+            # Adding np.linespace() points to original overlap points
+            overlap.extend(overlap_interp)
+            overlap = list(set(overlap))
+            overlap.sort()
+
+            new_y1 = np.interp(overlap, cr1.x, cr1.y)
+            new_y2 = np.interp(overlap, cr2.x, cr2.y)
+            new_y = new_y1 * new_y2
+
+            crb = makecurve(overlap, new_y)
+
+            if debug:
+                time.sleep(.5)
+                gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
+                        (c2_original.x, c2_original.y, dict(legend='h(x)')),
+                        (cr2.x, cr2.y, dict(legend='h(x-t)')),
+                        (crb.x, crb.y, dict(legend='g(t)*h(x-t)')),
+                        xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
+                        xmax=xmx * 1.5)
+
+            area = scipy.integrate.trapezoid(crb.y, crb.x)
+
+            cr2.x += delx
+            xval.append(xcur)
+            yval.append(area)
+            iter += 1
+
+            return _integ(cr1, cr2, xcur + delx, xval, yval, iter)
+
+        else:
+            return xval, yval
+
+    x, y = _integ(c1_copy, c2_copy, float(xmn) - dom_c2[0][2], [], [], 0)
+
+    namestr = f'Conv {c1.plotname} * {c2.plotname}'
     if norm:
-        area = np.trapz(ic2.y, ic2.x)
-        if area == 0:
-            area = 0.0000009
-        ic2.y = ic2.y / area
+        namestr = f'(Conv {c1.plotname} * {c2.plotname})/Area({c2.plotname})'
+        area0 = scipy.integrate.trapezoid(c2_original.y, c2_original.x)
+        y /= area0
 
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='direct'))
-    delx = (max(c1.x) - min(c1.x)) / npts
-    y *= delx
-
-    xstart = min(min(c1.x), min(c2.x))
-    xstop = xstart + (len(y) * delx)
-    x = np.linspace(xstart, xstop, num=len(y))
-    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (Int) ' + str(npts)
     nc = makecurve(x, y, namestr)
 
     return nc
