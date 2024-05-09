@@ -3,9 +3,8 @@ import pathlib
 import pytest
 import numpy as np
 import sys
-import gnuplotlib as gp
+import matplotlib.pyplot as plt
 import scipy
-import shutil
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -85,10 +84,7 @@ def test_read_regex(test_file):
 curves_pydv = pydvpy.read(os.path.join(TEST_DIR, 'convol_pydv.ult'))
 curves_ultra = pydvpy.read(os.path.join(TEST_DIR, 'convol_ultra.ult'))
 convol_plot_path = os.path.join(TEST_DIR, 'convolution_plots')
-if os.path.exists(convol_plot_path):
-    shutil.rmtree(convol_plot_path)
-else:
-    os.makedirs(convol_plot_path)
+os.makedirs(convol_plot_path, exist_ok=True)
 
 
 @pytest.mark.parametrize("i", list(range(len(curves_pydv))))
@@ -158,17 +154,17 @@ def test_convol(i):
     if diff_percent > 1:
         plot_details += f'_max_diff_y_percent_{diff_percent:.3f}'
 
-    gp.plot((cp.x, cp.y, dict(legend='PyDV')),
-            (cu.x, cu.y, dict(legend='Ultra')),
-            (cp.x[diff_index + start], cp.y[diff_index + start],
-                dict(legend=f'PyDV Max Diff Y {cp.y[diff_index + start]:.5f}',
-                     _with='points pointsize 3')),
-            (cu.x[diff_index], cu.y[diff_index],
-                dict(legend=f'Ultra Max Diff Y {cu.y[diff_index]:.5f}',
-                     _with='points pointsize 3')),
-            title=f"{cp.name} {plot_details}",
-            terminal='pngcairo noenhanced size 1024,768 crop font ",12"',
-            hardcopy=os.path.join(TEST_DIR, 'convolution_plots', f'convol_plot_{i+1}{plot_details}.png'))
+    fig, ax = plt.subplots(figsize=(10, 10))
+    ax.plot(cp.x, cp.y, marker='x', linewidth=1, label='PyDV')
+    ax.plot(cu.x, cu.y, marker='+', linewidth=1, label='Ultra')
+    ax.scatter(cp.x[diff_index + start], cp.y[diff_index + start], marker='x', s=200,
+               label=f'PyDV Max Diff Y {cp.y[diff_index + start]:.5f}')
+    ax.scatter(cu.x[diff_index], cu.y[diff_index], marker='+', s=200,
+               label=f'Ultra Max Diff Y {cu.y[diff_index]:.5f}')
+    ax.set_title(f"{cp.name} {plot_details}")
+    ax.legend()
+    fig.savefig(os.path.join(TEST_DIR, 'convolution_plots', f'convol_plot_{i+1}{plot_details}.png'))
+    plt.close(fig)
 
     # All these tests will never pass but see the plots in tests/convolution_plots/
     # np.testing.assert_array_less(area_percent, 1)

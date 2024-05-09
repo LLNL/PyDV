@@ -109,8 +109,8 @@ except:
     pdbLoaded = False
 
 try:
-    import gnuplotlib as gp
-    import time
+    import gnuplotlib as gp  # noqaf401
+    import time  # noqaf401
 except:
     pass
 
@@ -3091,14 +3091,14 @@ def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
 
             crb = makecurve(overlap, new_y)
 
-            if debug:
-                time.sleep(.5)
-                gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
-                        (c2_original.x, c2_original.y, dict(legend='h(x)')),
-                        (cr2.x, cr2.y, dict(legend='h(x-t)')),
-                        (crb.x, crb.y, dict(legend='g(t)*h(x-t)')),
-                        xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
-                        xmax=xmx * 1.5)
+            # if debug:
+            #     time.sleep(.5)
+            #     gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
+            #             (c2_original.x, c2_original.y, dict(legend='h(x)')),
+            #             (cr2.x, cr2.y, dict(legend='h(x-t)')),
+            #             (crb.x, crb.y, dict(legend='g(t)*h(x-t)')),
+            #             xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
+            #             xmax=xmx * 1.5)
 
             area = scipy.integrate.trapezoid(crb.y, crb.x)
 

@@ -49,7 +49,6 @@ sphinx-autoapi = "*"
 six = "*"
 flake8 = "*"
 scikit-image = "*"
-gnuplotlib = "*"
 
 [tool.poetry.plugins."console_scripts"]
 'pdv' = 'pydv.pdv:main'
