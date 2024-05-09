@@ -84,7 +84,7 @@ run_rz_tests:
 .PHONY: release
 release:
 	@echo "...create a release....TAG: $(CI_COMMIT_TAG), PKG_REGISTRY_URL: $(PKG_REGISTRY_URL)"; \
-	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
+	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//")) \
 	env; \
 	$(CI_UTILS)/bin/release-cli create --name "PyDV $(CI_COMMIT_TAG)" --tag-name $(CI_COMMIT_TAG); \
 	tar -cvf $(TAG).tar pydv docs; \
@@ -96,45 +96,45 @@ release:
 .ONESHELL:
 deploy:
 	@echo "...deploy...only run from CI... "; \
-	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//"))
-	wget --header="JOB-TOKEN:$(CI_JOB_TOKEN)" $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz -O $(TAG).tar.gz
-	give weaveci $(TAG).tar.gz
-	$(eval GIVE_USER=$(shell echo ${USER}))
-	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
-		cd $(DEPLOY_PATH)
-		take $(GIVE_USER) -f
-		chmod 750 $(TAG).tar.gz
-		gunzip $(TAG).tar.gz
-		tar -xvf $(TAG).tar
-		rm $(TAG).tar
-		mv pydv $(TAG)
-		mv docs $(TAG)
-		chmod -R 750 $(TAG)
-		rm -f current
-		ln -s $(TAG) current
-		sed -i 's|python|$(PYTHON_CMD)|' $(TAG)/pdv
+	$(eval TAG=$(shell  echo $(CI_COMMIT_TAG) | sed -e "s/^pydv-//")) \
+	wget --header="JOB-TOKEN:$(CI_JOB_TOKEN)" $(PKG_REGISTRY_URL)/$(CI_COMMIT_TAG)/$(TAG).tar.gz -O $(TAG).tar.gz \
+	give weaveci $(TAG).tar.gz \
+	$(eval GIVE_USER=$(shell echo ${USER})) \
+	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER \
+		cd $(DEPLOY_PATH) \
+		take $(GIVE_USER) -f \
+		chmod 750 $(TAG).tar.gz \
+		gunzip $(TAG).tar.gz \
+		tar -xvf $(TAG).tar \
+		rm $(TAG).tar \
+		mv pydv $(TAG) \
+		mv docs $(TAG) \
+		chmod -R 750 $(TAG) \
+		rm -f current \
+		ln -s $(TAG) current \
+		sed -i 's|python|$(PYTHON_CMD)|' $(TAG)/pdv \
 	AS_WEAVECI_USER
 
 
 .PHONY: deploy_to_develop
 .ONESHELL:
 deploy_to_develop:
-	$(eval VERSION=`cat $(CI_PROJECT_DIR)/pydv/scripts/version.txt`)
-	echo "...deploy_to_develop...VERSION: $(VERSION)"
-	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi
-	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi 
-	tar -cvf $(VERSION).tar * ../docs && gzip $(VERSION).tar
-	give --force weaveci $(VERSION).tar.gz
-	$(eval GIVE_USER=$(shell echo ${USER}))
-	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
-		umask 027
-		cd $(DEPLOY_PATH)
-		if [ ! -d $(DEPLOY_PATH)/develop ]; then mkdir -p $(DEPLOY_PATH)/develop; fi
-		cd $(DEPLOY_PATH)/develop
-		take $(GIVE_USER) -f
-		gunzip $(VERSION).tar.gz
-		tar -xvf $(VERSION).tar && rm $(VERSION).tar
-		cd .. && chmod -R 750 develop
-		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv
+	$(eval VERSION=`cat $(CI_PROJECT_DIR)/pydv/scripts/version.txt`) \
+	echo "...deploy_to_develop...VERSION: $(VERSION)" \
+	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi \
+	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi \
+	tar -cvf $(VERSION).tar * ../docs && gzip $(VERSION).tar \
+	give --force weaveci $(VERSION).tar.gz \
+	$(eval GIVE_USER=$(shell echo ${USER})) \
+	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER \
+		umask 027 \
+		cd $(DEPLOY_PATH) \
+		if [ ! -d $(DEPLOY_PATH)/develop ]; then mkdir -p $(DEPLOY_PATH)/develop; fi \
+		cd $(DEPLOY_PATH)/develop \
+		take $(GIVE_USER) -f \
+		gunzip $(VERSION).tar.gz \
+		tar -xvf $(VERSION).tar && rm $(VERSION).tar \
+		cd .. && chmod -R 750 develop \
+		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv \
 	AS_WEAVECI_USER
 
