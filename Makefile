@@ -129,7 +129,7 @@ deploy_to_develop:
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER \
 		umask 027 \
 		cd $(DEPLOY_PATH) \
-		if [ ! -d $(DEPLOY_PATH)/develop ]; then mkdir -p $(DEPLOY_PATH)/develop; fi \
+		mkdir -p $(DEPLOY_PATH)/develop \
 		cd $(DEPLOY_PATH)/develop \
 		take $(GIVE_USER) -f \
 		gunzip $(VERSION).tar.gz \
