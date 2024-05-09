@@ -121,8 +121,8 @@ deploy:
 deploy_to_develop:
 	$(eval VERSION=`cat $(CI_PROJECT_DIR)/pydv/scripts/version.txt`) \
 	echo "...deploy_to_develop...VERSION: $(VERSION)" \
-	cd pydv && if [ -d __pycache__ ]; then rm -rf __pycache__; fi \
-	if [ -f $(VERSION).tar.gz ]; then rm -f $(VERSION).tar.gz; fi \
+	cd pydv && rm -rf __pycache__ \
+	rm -f $(VERSION).tar.gz \
 	tar -cvf $(VERSION).tar * ../docs && gzip $(VERSION).tar \
 	give --force weaveci $(VERSION).tar.gz \
 	$(eval GIVE_USER=$(shell echo ${USER})) \
