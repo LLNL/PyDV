@@ -8412,7 +8412,8 @@ class Command(cmd.Cmd, object):
     def console_run(self):
         while True:
             self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  '
-                         f'{pydv_date}\n\tType "help" for more information.\n\n')
+                         f'{pydv_date}\n\tType "help" for more information.\n'
+                         f'\tRunning from {os.path.abspath(__file__)}\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

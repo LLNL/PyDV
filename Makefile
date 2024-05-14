@@ -1,8 +1,6 @@
 SHELL := /bin/bash
 
-USER_WORKSPACE := $(if $(USER_WORKSPACE), $(USER_WORKSPACE),/usr/workspace/$(USER))
-WORKSPACE = $(USER_WORKSPACE)/gitlab/weave/pydv
-PYDV_ENV := $(if $(PYDV_ENV), $(PYDV_ENV),pydv_env)
+PYDV_ENV := $(if $(PYDV_ENV),$(PYDV_ENV),$(HOME)/pydv_env)
 
 PKG_REGISTRY_URL = $(CI_API_V4_URL)/projects/$(CI_PROJECT_ID)/packages/generic/archive
 DEPLOY_PATH = /usr/gapps/pydv
@@ -59,26 +57,23 @@ endef
 
 .PHONY: create_env
 create_env:
-	@echo "Create venv for running pydv...$(WORKSPACE)";
-	mkdir -p $(WORKSPACE);
-	cd $(WORKSPACE);
 	if [ -d $(PYDV_ENV) ]; then \
 	  rm -rf $(PYDV_ENV); \
 	fi;
-	$(call do_create_env,$(WORKSPACE)/$(PYDV_ENV))
+	$(call do_create_env,$(PYDV_ENV))
 
 
 .PHONY: run_tests
 run_tests:
 	@echo "Run tests...";
-	$(call run_pydv_tests,$(WORKSPACE)/$(PYDV_ENV))
+	$(call run_pydv_tests,$(PYDV_ENV))
 
 
 .PHONY: run_rz_tests
 .ONESHELL:
 run_rz_tests:
 	echo "Run RZ tests...RZ_TESTS_WORKDIR: $(RZ_TESTS_WORKDIR)"
-	$(call do_run_rz_tests,$(WORKSPACE)/$(PYDV_ENV))
+	$(call do_run_rz_tests,$(PYDV_ENV))
 
 
 .PHONY: release
