@@ -107,7 +107,6 @@ deploy:
 		chmod -R 750 $(TAG)
 		rm -f current
 		ln -s $(TAG) current
-		sed -i 's|python|$(PYTHON_CMD)|' $(TAG)/pdv
 	AS_WEAVECI_USER
 
 
@@ -130,6 +129,5 @@ deploy_to_develop:
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
 		cd .. && chmod -R 750 develop
-		sed -i 's|python|$(PYTHON_CMD)|' develop/pdv
 	AS_WEAVECI_USER
 

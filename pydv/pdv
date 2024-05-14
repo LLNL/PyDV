@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env /usr/tce/bin/python3
 
 # Package Import
 try:
