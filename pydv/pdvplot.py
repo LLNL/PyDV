@@ -67,15 +67,15 @@ except:
 
 from os import path
 
-# Package Import
-try:
-    from pydv.pdvnavbar import PyDVToolbar
-    from pydv import pdvutil
-
 # HPC Import
-except ImportError:
+try:
     from pdvnavbar import PyDVToolbar
     import pdvutil
+
+# Package Import
+except ImportError:
+    from pydv.pdvnavbar import PyDVToolbar
+    from pydv import pdvutil
 
 try:
     from matplotlib import style
