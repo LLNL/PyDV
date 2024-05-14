@@ -97,19 +97,19 @@ import types  # noqaf401 used for do_custom()
 import csv
 from itertools import zip_longest
 
-# Package Import
-try:
-    from pydv import pydvpy as pydvif
-    from pydv import curve
-    from pydv import pdvplot
-    from pydv import pdvutil
-
 # HPC Import
-except ImportError:
+try:
     import pydvpy as pydvif
     import curve
     import pdvplot
     import pdvutil
+
+# Package Import
+except ImportError:
+    from pydv import pydvpy as pydvif
+    from pydv import curve
+    from pydv import pdvplot
+    from pydv import pdvutil
 
 try:
     from matplotlib import style

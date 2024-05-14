@@ -94,13 +94,13 @@ try:
 except:
     stylesLoaded = False
 
-# Package Import
-try:
-    from pydv import curve
-
 # HPC Import
-except ImportError:
+try:
     import curve
+
+# Package Import
+except ImportError:
+    from pydv import curve
 
 try:
     import pact.pdb as pdb
