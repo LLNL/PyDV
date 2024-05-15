@@ -57,9 +57,6 @@ endef
 
 .PHONY: create_env
 create_env:
-	if [ -d $(PYDV_ENV) ]; then \
-	  rm -rf $(PYDV_ENV); \
-	fi;
 	$(call do_create_env,$(PYDV_ENV))
 
 
