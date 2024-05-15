@@ -16,6 +16,7 @@ Release Notes
 * Added `sum`` and `cumsum` functions
 * Updated `stats` function
 * Updated `savecsv` and `readcsv` to allow curves with different lengths
+* Updated `read` to allow x-columns to be x-tick labels
 
 3.3.0
 ------
