@@ -604,10 +604,15 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                                 elif len(split_line) == 2:
                                     build_list_x.append(split_line[0])
                                     build_list_y.append(split_line[-1])
-                                # Label Data
+                                # Label Data and Paired Data
                                 else:
-                                    build_list_x.append(" ".join(split_line[:-1]))
-                                    build_list_y.append(split_line[-1])
+                                    try:  # Paired Data
+                                        float(split_line[0])
+                                        build_list_x += split_line[::2]
+                                        build_list_y += split_line[1::2]
+                                    except:  # Label Data
+                                        build_list_x.append(" ".join(split_line[:-1]))
+                                        build_list_y.append(split_line[-1])
                             else:
                                 current = None
                         else:
@@ -622,10 +627,15 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             elif len(split_line) == 2:
                                 build_list_x.append(split_line[0])
                                 build_list_y.append(split_line[-1])
-                            # Label Data
+                            # Label Data and Paired Data
                             else:
-                                build_list_x.append(" ".join(split_line[:-1]))
-                                build_list_y.append(split_line[-1])
+                                try:  # Paired Data
+                                    float(split_line[0])
+                                    build_list_x += split_line[::2]
+                                    build_list_y += split_line[1::2]
+                                except:  # Label Data
+                                    build_list_x.append(" ".join(split_line[:-1]))
+                                    build_list_y.append(split_line[-1])
 
                     elif current and not new_curve:  # add data to current curve
 
@@ -636,10 +646,15 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                         elif len(split_line) == 2:
                             build_list_x.append(split_line[0])
                             build_list_y.append(split_line[-1])
-                        # Label Data
+                        # Label Data and Paired Data
                         else:
-                            build_list_x.append(" ".join(split_line[:-1]))
-                            build_list_y.append(split_line[-1])
+                            try:  # Paired Data
+                                float(split_line[0])
+                                build_list_x += split_line[::2]
+                                build_list_y += split_line[1::2]
+                            except:  # Label Data
+                                build_list_x.append(" ".join(split_line[:-1]))
+                                build_list_y.append(split_line[-1])
 
         if current and build_list_x and build_list_y:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
