@@ -436,7 +436,46 @@ commands = [
     # 82
     """
     legend hideid a:b
+    """,
+    # 83
+    f"""
+    erase
+    kill all
+    read {os.path.join(TEST_DIR, 'curve.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data2.ult')}
+    cur 1:7
+    marker b:g circle 10
+    legend on ul
+    """,
+    # 84
     """
+    hide a
+    """,
+    # 85
+    """
+    hide c d
+    """,
+    # 86
+    """
+    show c d
+    """,
+    # 87
+    """
+    del c d
+    """,
+    # 88
+    """
+    show a
+    """,
+    # 89
+    """
+    hide b e
+    """,
+    # 90
+    """
+    del f g
+    """,
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')

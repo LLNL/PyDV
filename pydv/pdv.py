@@ -249,6 +249,9 @@ class Command(cmd.Cmd, object):
     recordidwidth = 10
     updatestyle = False
     linewidth = None
+    xtick_labels = {}
+    xtickrotation = 0
+    ytickrotation = 0
 
     # Users wanted support for automatically loading some plot attributes. The
     # following commands handle the situations where there are multiple plots or
@@ -1338,6 +1341,10 @@ class Command(cmd.Cmd, object):
                             current.step = self.curvelist[curvedex].step
                         except:
                             current.step = False
+                        try:
+                            current.xticks_labels = self.curvelist[curvedex].xticks_labels
+                        except:
+                            current.xticks_labels = None
                         self.addtoplot(current)
                         if (len(current.x) == 1 and len(current.y) == 1):
                             current.markerstyle = 'o'
@@ -1385,6 +1392,9 @@ class Command(cmd.Cmd, object):
                         self.plotlist.pop(idx)
                     except pdvutil.CurveIndexError:
                         pass
+
+                self.reset_xticks_labels()
+
                 self.plotedit = True
 
         except:
@@ -1514,6 +1524,10 @@ class Command(cmd.Cmd, object):
                         cur.step = self.curvelist[idx].step
                     except:
                         cur.step = False
+                    try:
+                        cur.xticks_labels = self.curvelist[idx].xticks_labels
+                    except:
+                        cur.xticks_labels = None
                     print('\n')
                     print('    Plot name = {}'.format(cur.plotname))
                     print('    Color = {}'.format(cur.color))
@@ -1541,6 +1555,7 @@ class Command(cmd.Cmd, object):
                     print('    Erange = {}'.format(cur.erange))
                     print('    Plotprecedence = {}'.format(cur.plotprecedence))
                     print('    Step Function = {}'.format(cur.step))
+                    print('    X-ticks Labels = {}'.format(cur.xticks_labels))
                     print('\n')
             except:
                 print('\n   usage: getattributes <curves>')
@@ -4407,6 +4422,7 @@ class Command(cmd.Cmd, object):
         try:
             line = line + ' ' + 'ON'
             self.__mod_curve(line, 'hide')
+            self.reset_xticks_labels()
         except:
             print('error - usage: hide <curve-list>')
             if self.debug:
@@ -4423,6 +4439,7 @@ class Command(cmd.Cmd, object):
         try:
             line = line + ' ' + 'OFF'
             self.__mod_curve(line, 'hide')
+            self.reset_xticks_labels()
         except:
             print('error - usage: show <curve-list>')
             if self.debug:
@@ -7242,6 +7259,38 @@ class Command(cmd.Cmd, object):
               '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style '
               'formating only applies when xlogscale is set to off.')
 
+    def do_xtickrotation(self, line):
+        """
+        Set the xtickrotation explicitly
+        """
+
+        try:
+            self.xtickrotation = float(line.strip())
+        except:
+            print('error - usage: xtickrotation <degree>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_xtickrotation(self):
+        print('\n   Variable: Set the rotation of tick labels on the x axis'
+              '\n   Usage: xtickrotation <degree>')
+
+    def do_ytickrotation(self, line):
+        """
+        Set the ytickrotation explicitly
+        """
+
+        try:
+            self.ytickrotation = float(line.strip())
+        except:
+            print('error - usage: ytickrotation <degree>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_ytickrotation(self):
+        print('\n   Variable: Set the rotation of tick labels on the y axis'
+              '\n   Usage: ytickrotation <degree>')
+
     def do_fontstyle(self, line):
         """
         Set the font family
@@ -7391,11 +7440,83 @@ class Command(cmd.Cmd, object):
         else:
             self.plotlist.insert(int(cur.plotname[1:]) - 1, cur)
 
+        self.reset_xticks_labels()
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
         self.set_title(cur.title, from_curve=True)
         self.set_filename(cur.filename, from_curve=True)
         self.set_record_id(cur.record_id, from_curve=True)
+
+    def reset_xticks_labels(self):
+        """
+        Reset xtick labels whenever there is a new curve added/hidden/deleted
+        """
+
+        # Create an overall dictionary for all the xtick labels
+        reset = True
+        for i, labeled_curve in enumerate(self.plotlist):
+            if labeled_curve.xticks_labels and not labeled_curve.hidden:
+                # Clear if previous dict exists
+                if self.xtick_labels and reset:
+                    self.xtick_labels = {}
+                    reset = False
+                for key, val in labeled_curve.xticks_labels.items():
+                    self.xtick_labels[key] = val
+
+        # Update overall dictionary with increasing integers
+        if self.xtick_labels:
+            for i, (key, val) in enumerate(self.xtick_labels.items()):
+                self.xtick_labels[key] = i
+
+        # Update each individual curve x tick label dictionary with overall dictionary values
+        x_labels = []
+        for i, labeled_curve in enumerate(self.plotlist):
+
+            if labeled_curve.xticks_labels and not labeled_curve.hidden:
+                x_labels = []
+
+                for xval in labeled_curve.x:
+                    for key, val in labeled_curve.xticks_labels.items():
+                        if xval == val:
+                            x_labels.append(key)
+                            break
+
+                # Convert x values to new values from overall dictionary
+                x_new = [self.xtick_labels[label] for label in x_labels]
+                y_new = labeled_curve.y
+                x_labels, x_new, y_new, = zip(*sorted(zip(x_labels, x_new, y_new)))
+
+                labeled_curve.x = numpy.array(x_new)
+                labeled_curve.y = numpy.array(y_new)
+                labeled_curve.xticks_labels = {label: self.xtick_labels[label] for label in list(x_labels)}
+                labeled_curve.scatter = True
+
+        # X tick label string for labeled data
+        if x_labels:
+            str1 = "("
+            str2 = "("
+            for key, val in self.xtick_labels.items():
+                str1 += f"{val}, "
+                str2 += f"'{key}', "
+            str1 = str1[:-2]
+            str1 += ")"
+            str2 = str2[:-2]
+            str2 += ")"
+            xticks_str = str1 + ", " + str2
+
+            self.do_xticks(xticks_str)
+
+            if self.xtickrotation == 0:
+                self.xtickrotation = 90
+
+        # Leave custom xticks if there is no labeled data
+        elif not self.xtick_labels:
+            self.do_xticks(str(self.xticks))
+
+        # Reset x tick labels if there is no labeled data
+        else:
+            self.xticks = 'de'
+            self.xtick_labels = {}
 
     def derivative(self, cur):
         """
@@ -8081,8 +8202,10 @@ class Command(cmd.Cmd, object):
                                      width=self.yminortickwidth, color=self.yminortickcolor)
 
             # set x,y tick sizes and tick label format
-            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor)
-            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth, color=self.ymajortickcolor)
+            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor,
+                                 labelrotation=self.xtickrotation)
+            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth, color=self.ymajortickcolor,
+                                 labelrotation=self.ytickrotation)
             yaxis = cur_axes.yaxis
             xaxis = cur_axes.xaxis
             self.tickFormat(yaxis, self.ylogscale, self.yticks, self.ytickformat)
