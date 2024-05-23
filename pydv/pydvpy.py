@@ -94,13 +94,13 @@ try:
 except:
     stylesLoaded = False
 
-# Package Import
-try:
-    from pydv import curve
-
 # HPC Import
-except ImportError:
+try:
     import curve
+
+# Package Import
+except ImportError:
+    from pydv import curve
 
 try:
     import pact.pdb as pdb
@@ -143,7 +143,8 @@ def span(xmin, xmax, numpts=100):
     return c
 
 
-def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id=''):
+def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id='',
+              step=False, xticks_labels=None):
     """
     Generate a curve from two lists of numbers.
 
@@ -164,7 +165,7 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     if len(x) != len(y):
         print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
         name += " !!!ERROR:len(x)!=len(y)!!!"
-    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
+    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title, step, xticks_labels)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
 
@@ -460,12 +461,35 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
     """
     def bundle_curve(_curve, build_x, build_y):
+
+        _curve.xticks_labels = {}
+
+        # Numerical data
+        try:
+            float(build_x[0])
+
+        # X tick label data
+        except:
+
+            xticks = list(set(build_x))
+            xticks.sort()
+            xticks_dict = {}
+
+            for i, xtick in enumerate(xticks):
+                xticks_dict[xtick] = i
+
+            build_x = [xticks_dict[xtick] for xtick in build_x]
+
+            _curve.xticks_labels = xticks_dict
+
+        # Step Data
         if len(build_x) != len(build_y):
             build_y.append(build_y[-1])
 
             _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
             _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
             _curve.step = True
+        # Numerical Data
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
@@ -519,7 +543,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 # Check for labels
                 split_line_3 = re.split(r'#', str.strip(line))
                 for split in split_line_3:
-                    # print(split)
+
                     if re.search('[a-zA-Z]', split):
                         if 'xlabel' in split:
                             xlabel = split.replace('xlabel', '').strip()
@@ -572,32 +596,67 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                                 current = curve.Curve(fname, curve_name,
                                                       xlabel=xlabels.get(curve_name, ''),
                                                       ylabel=ylabels.get(curve_name, ''))
-                                build_list_x += split_line[::2]
-                                build_list_y += split_line[1::2]
+
+                                # Step Data
+                                if len(split_line) == 1:
+                                    build_list_x.append(split_line[0])
+                                # Numerical Data
+                                elif len(split_line) == 2:
+                                    build_list_x.append(split_line[0])
+                                    build_list_y.append(split_line[-1])
+                                # Label Data and Paired Data
+                                else:
+                                    try:  # Paired Data
+                                        float(split_line[0])
+                                        build_list_x += split_line[::2]
+                                        build_list_y += split_line[1::2]
+                                    except:  # Label Data
+                                        build_list_x.append(" ".join(split_line[:-1]))
+                                        build_list_y.append(split_line[-1])
                             else:
                                 current = None
                         else:
                             current = curve.Curve(fname, curve_name,
                                                   xlabel=xlabels.get(curve_name, ''),
                                                   ylabel=ylabels.get(curve_name, ''))
-                            build_list_x += split_line[::2]
-                            build_list_y += split_line[1::2]
+
+                            # Step Data
+                            if len(split_line) == 1:
+                                build_list_x.append(split_line[0])
+                            # Numerical Data
+                            elif len(split_line) == 2:
+                                build_list_x.append(split_line[0])
+                                build_list_y.append(split_line[-1])
+                            # Label Data and Paired Data
+                            else:
+                                try:  # Paired Data
+                                    float(split_line[0])
+                                    build_list_x += split_line[::2]
+                                    build_list_y += split_line[1::2]
+                                except:  # Label Data
+                                    build_list_x.append(" ".join(split_line[:-1]))
+                                    build_list_y.append(split_line[-1])
 
                     elif current and not new_curve:  # add data to current curve
-                        build_list_x += split_line[::2]
-                        build_list_y += split_line[1::2]
 
-        # Append the last curve that we built
-        # Can cause issues if last curve doesn't have proper data and if file doesn't end with data
-        try:
-            x_any_str = any(isinstance(float(item), str) for item in build_list_x)
-            y_any_str = any(isinstance(float(item), str) for item in build_list_y)
-        except:
-            x_any_str = True
-            y_any_str = True
-            print(f'Last curve is invalid and will be ignored: {current.name}.')
+                        # Step Data
+                        if len(split_line) == 1:
+                            build_list_x.append(split_line[0])
+                        # Numerical Data
+                        elif len(split_line) == 2:
+                            build_list_x.append(split_line[0])
+                            build_list_y.append(split_line[-1])
+                        # Label Data and Paired Data
+                        else:
+                            try:  # Paired Data
+                                float(split_line[0])
+                                build_list_x += split_line[::2]
+                                build_list_y += split_line[1::2]
+                            except:  # Label Data
+                                build_list_x.append(" ".join(split_line[:-1]))
+                                build_list_y.append(split_line[-1])
 
-        if current and build_list_x and build_list_y and not x_any_str and not y_any_str:
+        if current and build_list_x and build_list_y:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:
@@ -788,6 +847,7 @@ def readsina(fname, verbose=False):
                                           name=curve_name, fname=fname, xlabel=independent_name,
                                           ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
                             c.step = False
+                            c.xticks_labels = {}
                             print("Appended curve: {}, len x,y: {},{}"
                                   .format(dependent_variable_name, len(c.x), len(c.y)))
                             curves[full_name] = c

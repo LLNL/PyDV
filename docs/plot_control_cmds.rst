@@ -627,6 +627,18 @@ Set the width (in points) of x ticks on the x axis. Default is to apply to major
       [PyDV]: xtickwidth 2 minor
       [PyDV]: xtickwidth 2 both
 
+xtickrotation
+----------
+
+Set the rotation (in degrees) of the tick labels on the x axis.
+
+.. code::
+
+   [PyDV]: xtickrotation <degree>
+
+   Ex:
+      [PyDV]: xtickrotation 45
+
 ylabel
 ------
 
@@ -724,3 +736,15 @@ Set the locations of major ticks on the y axis.
       [PyDV]: yticks (1, 2, 3)
       [PyDV]: yticks (1, 2, 3), ('first label', 'second label', 'third label')
       [PyDV]: yticks de
+
+ytickrotation
+----------
+
+Set the rotation (in degrees) of the tick labels on the y axis.
+
+.. code::
+
+   [PyDV]: ytickrotation <degree>
+
+   Ex:
+      [PyDV]: ytickrotation 45
