@@ -2,6 +2,21 @@
 
 Release Notes
 =============
+3.4.0
+------
+* Bug fix for convolution function
+* Bug fix for normalize function
+* WEAVE environment Python for Makefile
+* Move scripts/ directory for installation
+* Bug fix for blank labels
+* Re-added underscores to curve names
+* Menu now has `menulength` option
+* Bugfix when files don't end in valid data
+* Updated docs with examples
+* Added `sum`` and `cumsum` functions
+* Updated `stats` function
+* Updated `savecsv` and `readcsv` to allow curves with different lengths
+* Updated `read` to allow x-columns to be x-tick labels
 
 3.3.0
 ------

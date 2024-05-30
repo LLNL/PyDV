@@ -94,8 +94,8 @@ def test_read():
 
     curve_7 = main.curvelist[6]
     curve_8 = main.curvelist[7]
-    assert curve_7.name == 'Gaussian'
-    assert curve_8.name == 'Gaussian'
+    assert curve_7.name == 'Gaussian (a: 1.0 w: 1.0 c: 5.0)'
+    assert curve_8.name == 'Gaussian (a: 1.0 w: 1.0 c: 1.0)'
 
 
 def test_getx_getymax_getymin():
