@@ -88,25 +88,28 @@ else:
     # from PyQt5.QtGui import *
     from PyQt5.QtWidgets import QApplication
 
+import scipy
 import traceback
 import readline
 import code
 from numbers import Number
 import types  # noqaf401 used for do_custom()
-
-# Package Import
-try:
-    from pydv import pydvpy as pydvif
-    from pydv import curve
-    from pydv import pdvplot
-    from pydv import pdvutil
+import csv
+from itertools import zip_longest
 
 # HPC Import
-except ImportError:
+try:
     import pydvpy as pydvif
     import curve
     import pdvplot
     import pdvutil
+
+# Package Import
+except ImportError:
+    from pydv import pydvpy as pydvif
+    from pydv import curve
+    from pydv import pdvplot
+    from pydv import pdvutil
 
 try:
     from matplotlib import style
@@ -238,6 +241,7 @@ class Command(cmd.Cmd, object):
     xminortickwidth = 0.5
     ytickwidth = 1
     yminortickwidth = 0.5
+    menulength = 50
     namewidth = 40
     xlabelwidth = 10
     ylabelwidth = 10
@@ -245,6 +249,9 @@ class Command(cmd.Cmd, object):
     recordidwidth = 10
     updatestyle = False
     linewidth = None
+    xtick_labels = {}
+    xtickrotation = 0
+    ytickrotation = 0
 
     # Users wanted support for automatically loading some plot attributes. The
     # following commands handle the situations where there are multiple plots or
@@ -1059,9 +1066,11 @@ class Command(cmd.Cmd, object):
             line = line.split()
 
             if len(line) == 2:
-                self.xCol = int(line.pop(-1))
+                col = line.pop(-1)
+            else:
+                col = 0
 
-            self.load_csv(line[0])
+            self.load_csv(line[0], col)
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -1332,6 +1341,10 @@ class Command(cmd.Cmd, object):
                             current.step = self.curvelist[curvedex].step
                         except:
                             current.step = False
+                        try:
+                            current.xticks_labels = self.curvelist[curvedex].xticks_labels
+                        except:
+                            current.xticks_labels = None
                         self.addtoplot(current)
                         if (len(current.x) == 1 and len(current.y) == 1):
                             current.markerstyle = 'o'
@@ -1379,6 +1392,9 @@ class Command(cmd.Cmd, object):
                         self.plotlist.pop(idx)
                     except pdvutil.CurveIndexError:
                         pass
+
+                self.reset_xticks_labels()
+
                 self.plotedit = True
 
         except:
@@ -1434,6 +1450,14 @@ class Command(cmd.Cmd, object):
         Return a curves mean and standard deviation
         """
 
+        def find_mode(array):
+
+            mode = scipy.stats.mode(array, keepdims=True)
+            if mode.count[0] == 1 and len(array) != 1:
+                return numpy.nan, numpy.nan
+            else:
+                return mode.mode[0], mode.count[0]
+
         if not line:
             return 0
 
@@ -1447,11 +1471,26 @@ class Command(cmd.Cmd, object):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        yval = numpy.array(cur.y)
-                        mean = (sum(yval) / len(yval))
-                        ystd = numpy.std(yval, ddof=1)
+                        numx, countx = find_mode(cur.x)
+                        numy, county = find_mode(cur.y)
+
                         print('\nCurve ' + cur.plotname)
-                        print('   Mean: {}    Standard Deviation: {}'.format(mean, ystd))
+                        print('\n\t         X:\t              Y:')
+                        print(f'\n\tlength:    {len(cur.x):<15.10g}\t{len(cur.y):<15.10g}')
+                        print(f'\tmean:      {numpy.mean(cur.x):<15.10g}\t{numpy.mean(cur.y):<15.10g}')
+                        print(f'\tmedian:    {numpy.median(cur.x):<15.10g}\t{numpy.median(cur.y):<15.10g}')
+                        print(f'\tmode:      {numx:<15.10g}\t{numy:<15.10g}')
+                        print(f'\t    count: {countx:<15.10g}\t{county:<15.10g}')
+                        print(f'\tstd:       {numpy.std(cur.x):<15.10g}\t{numpy.std(cur.y):<15.10g}')
+                        print(f'\tskew:      {scipy.stats.skew(cur.x):<15.10g}\t{scipy.stats.skew(cur.y):<15.10g}')
+                        print(f'\tkurtosis:  {scipy.stats.kurtosis(cur.x):<15.10g}\t{scipy.stats.kurtosis(cur.y):<15.10g}')  # noqae501
+                        print(f'\tmin:       {numpy.min(cur.x):<15.10g}\t{numpy.min(cur.y):<15.10g}')
+                        print(f'\t25%:       {numpy.quantile(cur.x,.25):<15.10g}\t{numpy.quantile(cur.y,.25):<15.10g}')
+                        print(f'\t50%:       {numpy.quantile(cur.x,.50):<15.10g}\t{numpy.quantile(cur.y,.50):<15.10g}')
+                        print(f'\t75%:       {numpy.quantile(cur.x,.75):<15.10g}\t{numpy.quantile(cur.y,.75):<15.10g}')
+                        print(f'\tmax:       {numpy.max(cur.x):<15.10g}\t{numpy.max(cur.y):<15.10g}')
+                        print(f'\tsum:       {numpy.sum(cur.x):<15.10g}\t{numpy.sum(cur.y):<15.10g}')
+
                     except pdvutil.CurveIndexError:
                         pass
 
@@ -1485,6 +1524,10 @@ class Command(cmd.Cmd, object):
                         cur.step = self.curvelist[idx].step
                     except:
                         cur.step = False
+                    try:
+                        cur.xticks_labels = self.curvelist[idx].xticks_labels
+                    except:
+                        cur.xticks_labels = None
                     print('\n')
                     print('    Plot name = {}'.format(cur.plotname))
                     print('    Color = {}'.format(cur.color))
@@ -1512,6 +1555,7 @@ class Command(cmd.Cmd, object):
                     print('    Erange = {}'.format(cur.erange))
                     print('    Plotprecedence = {}'.format(cur.plotprecedence))
                     print('    Step Function = {}'.format(cur.step))
+                    print('    X-ticks Labels = {}'.format(cur.xticks_labels))
                     print('\n')
             except:
                 print('\n   usage: getattributes <curves>')
@@ -2160,6 +2204,39 @@ class Command(cmd.Cmd, object):
     def help_getdomain(self):
         print('\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n')
 
+    def do_sum(self, line):
+        """
+        Return sum of the x and y values of each curve
+        """
+
+        try:
+            if len(line.split(':')) > 1:
+                self.do_sum(pdvutil.getletterargs(line))
+                return 0
+            else:
+                print('\n   Sum')
+                line = line.split()
+
+                for i in range(len(line)):
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, sumx, sumy = pydvif.sum(cur)[0]
+                        print('\nCurve ' + plotname)
+                        print(f'    sumx: {sumx:.6e}, sumy: {sumy:.6e}')
+                    except pdvutil.CurveIndexError:
+                        pass
+                print('')
+        except:
+            print('error - usage: sum <curve-list>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+
+    def help_sum(self):
+        print('\n   Procedure: Return sum of the x and y values of each curve\n   Usage: sum <curve-list>\n')
+
     def do_getymax(self, line):
         """
         Return the maximum y-value for the curve within the specified domain
@@ -2257,6 +2334,36 @@ class Command(cmd.Cmd, object):
     def help_getymin(self):
         print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.'
               '\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
+
+    def do_cumsum(self, line):
+        """
+        Return the cumulative sum of the curve(s)
+        """
+
+        if not line:
+            return 0
+        try:
+            if len(line.split(':')) > 1:
+                self.do_cumsum(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+
+                for i in line:
+                    idx = pdvutil.getCurveIndex(i, self.plotlist)
+                    cur = self.plotlist[idx]
+                    nc = pydvif.cumsum(cur)
+                    self.addtoplot(nc)
+
+                    self.plotedit = True
+        except:
+            print('error - usage: cumsum <curve>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_cumsum(self):
+        print('\n   Procedure: Return the cumulative sum of the curve(s).'
+              '\n   Usage: cumsum <curve>\n')
 
     def do_getlabel(self, line):
         """
@@ -3532,6 +3639,31 @@ class Command(cmd.Cmd, object):
               '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]'  # noqae501
               '\n   Shortcuts: leg, key\n')
 
+    def do_menulength(self, line):
+        """
+        Adjust the number of items shown in the 'menu' command
+        """
+
+        try:
+            if len(line) == 0:
+                print('menu length is currently', self.menulength)
+            else:
+                line = line.split()
+                length = int(line[0])
+                if length <= 0:
+                    length = 1
+                self.menulength = length
+                print('changing menu length to ', self.menulength)
+        except:
+            print('error - usage: menulength [length]')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_menulength(self):
+        print('\n   Command: Adjust the number of items shown in the menu command '
+              'If no length is given, the current menu length will be displayed.'
+              '\n   Usage:  menulength [length]')
+
     def do_namewidth(self, line):
         """
         Adjust the width of the label column in 'menu' and 'lst' commands
@@ -4290,6 +4422,7 @@ class Command(cmd.Cmd, object):
         try:
             line = line + ' ' + 'ON'
             self.__mod_curve(line, 'hide')
+            self.reset_xticks_labels()
         except:
             print('error - usage: hide <curve-list>')
             if self.debug:
@@ -4306,6 +4439,7 @@ class Command(cmd.Cmd, object):
         try:
             line = line + ' ' + 'OFF'
             self.__mod_curve(line, 'hide')
+            self.reset_xticks_labels()
         except:
             print('error - usage: show <curve-list>')
             if self.debug:
@@ -4654,6 +4788,8 @@ class Command(cmd.Cmd, object):
         Print out curves loaded from files
         """
 
+        menu_j = 1
+        j = 0
         try:
             reg = re.compile(r"")
             if line:
@@ -4697,6 +4833,13 @@ class Command(cmd.Cmd, object):
                     ymax = "%.2e" % max(self.curvelist[i].y)
                     print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin,
                                                                             xmax, ymin, ymax, fname, record_id))
+                    j += 1
+                if j == self.menulength * menu_j:
+                    menu_j += 1
+                    stop = input(f"Press Enter to see the next {self.menulength} curves OR n and then enter for no. "
+                                 "Change menu length with `menulength #` after exiting the menu display screen.\n")
+                    if stop in ['n', 'no', 'N', 'NO']:
+                        break
         except:
             print("error - usage: menu [<regex>]")
             if self.debug:
@@ -4879,45 +5022,27 @@ class Command(cmd.Cmd, object):
                 self.do_savecsv(filename + ' ' + pdvutil.getletterargs(line))
                 return 0
             else:
-                # make list of curve indices
-                indices = []
-                # used to ensure number of points in each curve appended is equal
-                assertlength = None
-                line = line.split()
-                for i in range(len(line)):
-                    for j in range(len(self.plotlist)):
-                        pname = self.plotlist[j].plotname
-                        if (pname == line[i].upper()):
-                            if assertlength is not None and len(self.plotlist[j].x) != assertlength:
-                                print('error - All curves must have the same number of points.')
-                                return 0
-                            elif assertlength is None:
-                                assertlength = len(self.plotlist[j].x)
-                                indices.append(j)
-                                break
-                            else:
-                                indices.append(j)
-                                break
 
-                # write curves out in csv format
-                f = open(filename, 'w')
-                s = 'time, '
-                for j in indices[:-1]:
-                    s += self.plotlist[j].name + ', '
-                s += self.plotlist[indices[-1]].name
-                s += '\n'
-                f.write(s)
-                try:
-                    for i in range(len(self.plotlist[indices[0]].x)):
-                        s = str(self.plotlist[indices[0]].x[i]) + ', '
-                        for j in indices[:-1]:
-                            s += str(self.plotlist[j].y[i]) + ', '
-                        s += str(self.plotlist[indices[-1]].y[i])
-                        s += '\n'
-                        f.write(s)
-                    f.close()
-                except IndexError:
-                    print('error - All curves must have the same number of points.')
+                line = line.split()
+                cols = []
+                names = []
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+                        cols.append(cur.x.tolist())
+                        cols.append(cur.y.tolist())
+                        names.append(cur.name + ' [x]')
+                        names.append(cur.name + ' [y]')
+                    except RuntimeError as rte:
+                        print("I/O error: {}".format(rte))
+
+                with open(filename, "w+") as f:
+                    writer = csv.writer(f)
+                    writer.writerow(names)
+                    for values in zip_longest(*cols):
+                        writer.writerow(values)
+
         except:
             print('error - usage: savecsv <file-name> <curve-list>')
             if self.debug:
@@ -5755,48 +5880,13 @@ class Command(cmd.Cmd, object):
               '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
 
     def do_convolve(self, line):
-        """
-        Make a new curve - the convolution of two given curves
-        """
-
-        if not line:
-            return 0
-        try:
-            line = line.split()
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[0].upper():
-                    c1 = self.plotlist[i]
-                    break
-            for i in range(len(self.plotlist)):
-                if self.plotlist[i].plotname == line[1].upper():
-                    c2 = self.plotlist[i]
-                    break
-
-            if len(line) == 2:
-                nc = pydvif.convolve(c1, c2)
-            elif len(line) == 3:
-                npts = int(line[2])
-                nc = pydvif.convolve(c1, c2, npts)
-            else:
-                raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
-
-            self.addtoplot(nc)
-            self.plotedit = True
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-        except:
-            self.help_convolve()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+        print(f"convol {line}")
+        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
 
     def help_convolve(self):
-        print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
-              '\n              This fast method uses FFT\'s and the interpolations involved may give incorrect'
-              '\n              results due to improper padding - use with caution.'
-              '\n   Usage: convolve <curve1> <curve2> [# points]\n   Shortcuts: convol')
+        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
 
     def do_convolveb(self, line):
         """
@@ -5817,10 +5907,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolveb(c1, c2)
+                nc = pydvif.convolveb(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolveb(c1, c2, npts)
+                nc = pydvif.convolveb(c1, c2, npts, debug=self.debug)
+            elif len(line) == 4:
+                npts = int(line[2])
+                npts_interp = int(line[3])
+                nc = pydvif.convolveb(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -5840,8 +5934,7 @@ class Command(cmd.Cmd, object):
               '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
               '\n                         Int(-inf, inf, dt*h(t))'
               '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   curve2 is normalized to unit area before doing the convolution.'
-              '\n   Usage: convolveb <curve1> <curve2> [# points]\n   Shortcuts: convolb')
+              '\n   Usage: convolveb <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolb')
 
     def do_convolvec(self, line):
         """
@@ -5862,10 +5955,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolvec(c1, c2)
+                nc = pydvif.convolvec(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolvec(c1, c2, npts)
+                nc = pydvif.convolvec(c1, c2, npts, debug=self.debug)
+            elif len(line) == 4:
+                npts = int(line[2])
+                npts_interp = int(line[3])
+                nc = pydvif.convolvec(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -5882,10 +5979,9 @@ class Command(cmd.Cmd, object):
 
     def help_convolvec(self):
         print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
-              '\n                         Int(-inf, inf, dt*h(t))'
+              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
               '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   Usage: convolvec <curve1> <curve2> [# points]\n   Shortcuts: convolc')
+              '\n   Usage: convolvec <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolc')
 
     def do_diffMeasure(self, line):
         """
@@ -7163,6 +7259,38 @@ class Command(cmd.Cmd, object):
               '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style '
               'formating only applies when xlogscale is set to off.')
 
+    def do_xtickrotation(self, line):
+        """
+        Set the xtickrotation explicitly
+        """
+
+        try:
+            self.xtickrotation = float(line.strip())
+        except:
+            print('error - usage: xtickrotation <degree>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_xtickrotation(self):
+        print('\n   Variable: Set the rotation of tick labels on the x axis'
+              '\n   Usage: xtickrotation <degree>')
+
+    def do_ytickrotation(self, line):
+        """
+        Set the ytickrotation explicitly
+        """
+
+        try:
+            self.ytickrotation = float(line.strip())
+        except:
+            print('error - usage: ytickrotation <degree>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_ytickrotation(self):
+        print('\n   Variable: Set the rotation of tick labels on the y axis'
+              '\n   Usage: ytickrotation <degree>')
+
     def do_fontstyle(self, line):
         """
         Set the font family
@@ -7312,11 +7440,83 @@ class Command(cmd.Cmd, object):
         else:
             self.plotlist.insert(int(cur.plotname[1:]) - 1, cur)
 
+        self.reset_xticks_labels()
         self.set_xlabel(cur.xlabel, from_curve=True)
         self.set_ylabel(cur.ylabel, from_curve=True)
         self.set_title(cur.title, from_curve=True)
         self.set_filename(cur.filename, from_curve=True)
         self.set_record_id(cur.record_id, from_curve=True)
+
+    def reset_xticks_labels(self):
+        """
+        Reset xtick labels whenever there is a new curve added/hidden/deleted
+        """
+
+        # Create an overall dictionary for all the xtick labels
+        reset = True
+        for i, labeled_curve in enumerate(self.plotlist):
+            if labeled_curve.xticks_labels and not labeled_curve.hidden:
+                # Clear if previous dict exists
+                if self.xtick_labels and reset:
+                    self.xtick_labels = {}
+                    reset = False
+                for key, val in labeled_curve.xticks_labels.items():
+                    self.xtick_labels[key] = val
+
+        # Update overall dictionary with increasing integers
+        if self.xtick_labels:
+            for i, (key, val) in enumerate(self.xtick_labels.items()):
+                self.xtick_labels[key] = i
+
+        # Update each individual curve x tick label dictionary with overall dictionary values
+        x_labels = []
+        for i, labeled_curve in enumerate(self.plotlist):
+
+            if labeled_curve.xticks_labels and not labeled_curve.hidden:
+                x_labels = []
+
+                for xval in labeled_curve.x:
+                    for key, val in labeled_curve.xticks_labels.items():
+                        if xval == val:
+                            x_labels.append(key)
+                            break
+
+                # Convert x values to new values from overall dictionary
+                x_new = [self.xtick_labels[label] for label in x_labels]
+                y_new = labeled_curve.y
+                x_labels, x_new, y_new, = zip(*sorted(zip(x_labels, x_new, y_new)))
+
+                labeled_curve.x = numpy.array(x_new)
+                labeled_curve.y = numpy.array(y_new)
+                labeled_curve.xticks_labels = {label: self.xtick_labels[label] for label in list(x_labels)}
+                labeled_curve.scatter = True
+
+        # X tick label string for labeled data
+        if x_labels:
+            str1 = "("
+            str2 = "("
+            for key, val in self.xtick_labels.items():
+                str1 += f"{val}, "
+                str2 += f"'{key}', "
+            str1 = str1[:-2]
+            str1 += ")"
+            str2 = str2[:-2]
+            str2 += ")"
+            xticks_str = str1 + ", " + str2
+
+            self.do_xticks(xticks_str)
+
+            if self.xtickrotation == 0:
+                self.xtickrotation = 90
+
+        # Leave custom xticks if there is no labeled data
+        elif not self.xtick_labels:
+            self.do_xticks(str(self.xticks))
+
+        # Reset x tick labels if there is no labeled data
+        else:
+            self.xticks = 'de'
+            self.xtick_labels = {}
 
     def derivative(self, cur):
         """
@@ -7559,9 +7759,6 @@ class Command(cmd.Cmd, object):
         """
         Operate on given curves by a function
         """
-
-        import scipy.special
-        # scipy.special.errprint(1)
 
         if not line:
             return 0
@@ -8005,8 +8202,10 @@ class Command(cmd.Cmd, object):
                                      width=self.yminortickwidth, color=self.yminortickcolor)
 
             # set x,y tick sizes and tick label format
-            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor)
-            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth, color=self.ymajortickcolor)
+            cur_axes.tick_params(axis='x', length=self.xticklength, width=self.xtickwidth, color=self.xmajortickcolor,
+                                 labelrotation=self.xtickrotation)
+            cur_axes.tick_params(axis='y', length=self.yticklength, width=self.ytickwidth, color=self.ymajortickcolor,
+                                 labelrotation=self.ytickrotation)
             yaxis = cur_axes.yaxis
             xaxis = cur_axes.xaxis
             self.tickFormat(yaxis, self.ylogscale, self.yticks, self.ytickformat)
@@ -8194,12 +8393,11 @@ class Command(cmd.Cmd, object):
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
 
-    def load_csv(self, fname):
+    def load_csv(self, fname, col):
         """
         Load a csv (commas separated values) text data file, add parsed curves to the curvelist
         """
-
-        curves = pydvif.readcsv(fname, self.xCol, self.debug)
+        curves = pydvif.readcsv(fname, col, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -8233,6 +8431,8 @@ class Command(cmd.Cmd, object):
                         self.ylabel = val
                     elif (var == 'title'):
                         self.title = val
+                    elif (var == 'menulength'):
+                        self.menulength = int(val)
                     elif (var == 'namewidth'):
                         self.namewidth = int(val)
                     elif (var == 'xlabelwidth'):
@@ -8335,7 +8535,8 @@ class Command(cmd.Cmd, object):
     def console_run(self):
         while True:
             self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  '
-                         f'{pydv_date}\n\tType "help" for more information.\n\n')
+                         f'{pydv_date}\n\tType "help" for more information.\n'
+                         f'\tRunning from {os.path.abspath(__file__)}\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
             console.interact()

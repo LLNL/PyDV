@@ -5,7 +5,7 @@ import pytest
 
 from skimage.metrics import structural_similarity
 from skimage import color
-from skimage import io
+import imageio
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -74,7 +74,7 @@ commands = [
     """,
     # 11
     """
-    convolve a b
+    convolc a b
     """,
     # 12
     """
@@ -436,7 +436,46 @@ commands = [
     # 82
     """
     legend hideid a:b
+    """,
+    # 83
+    f"""
+    erase
+    kill all
+    read {os.path.join(TEST_DIR, 'curve.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data2.ult')}
+    cur 1:7
+    marker b:g circle 10
+    legend on ul
+    """,
+    # 84
     """
+    hide a
+    """,
+    # 85
+    """
+    hide c d
+    """,
+    # 86
+    """
+    show c d
+    """,
+    # 87
+    """
+    del c d
+    """,
+    # 88
+    """
+    show a
+    """,
+    # 89
+    """
+    hide b e
+    """,
+    # 90
+    """
+    del f g
+    """,
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
@@ -461,14 +500,18 @@ baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
 def test_image(i):
     test_image = f"test_image_{i:02d}.png"
     # Load images and convert to grayscale
-    baseline = color.rgb2gray(io.imread(os.path.join(BASELINE_DIR, test_image))[:, :, :3])
-    output = color.rgb2gray(io.imread(os.path.join(output_dir, test_image))[:, :, :3])
+    baseline = color.rgb2gray(imageio.v2.imread(os.path.join(BASELINE_DIR, test_image))[:, :, :3])
+    output = color.rgb2gray(imageio.v2.imread(os.path.join(output_dir, test_image))[:, :, :3])
 
-    # Image 64 contains file paths, used .jacamar-ci output/ image and moved it to baseline/ for smaller diff
+    # Image 64 contains file paths
+    if i == 64:
+        score_to_beat = 0.85
+    else:
+        score_to_beat = 0.9
     (score, diff) = structural_similarity(baseline, output, full=True, data_range=1.0)
     print("Image Similarity {}: {:.4f}%".format(i, score * 100))
 
     # Uncomment to save the diff image
     # io.imsave(os.path.join(diff_dir, test_image), (diff * 255).astype("uint8"))
 
-    assert score > .9
+    assert score > score_to_beat

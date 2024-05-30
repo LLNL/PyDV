@@ -74,6 +74,7 @@ import os
 import traceback
 import sys
 import re
+import copy
 import random as sysrand
 
 from distutils.version import LooseVersion
@@ -93,19 +94,25 @@ try:
 except:
     stylesLoaded = False
 
-# Package Import
-try:
-    from pydv import curve
-
 # HPC Import
-except ImportError:
+try:
     import curve
+
+# Package Import
+except ImportError:
+    from pydv import curve
 
 try:
     import pact.pdb as pdb
     pdbLoaded = True
 except:
     pdbLoaded = False
+
+try:
+    import gnuplotlib as gp  # noqaf401
+    import time  # noqaf401
+except:
+    pass
 
 
 def span(xmin, xmax, numpts=100):
@@ -131,12 +138,13 @@ def span(xmin, xmax, numpts=100):
         fxmin += spacing
     x = np.array(x)
     y = np.array(x)
-    c = makecurve(x, y, 'Straight Line')
+    c = makecurve(x, y, f'Straight Line (m: 1.0 b: 0.0 xmin: {xmin} xmax: {xmax})')
 
     return c
 
 
-def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id=''):
+def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', record_id='',
+              step=False, xticks_labels=None):
     """
     Generate a curve from two lists of numbers.
 
@@ -157,7 +165,7 @@ def makecurve(x, y, name='Curve', fname='', xlabel='', ylabel='', title='', reco
     if len(x) != len(y):
         print(f"Curve {name} doesn't have the same length: len(x)={len(x)} and len(y)={len(y)} ")
         name += " !!!ERROR:len(x)!=len(y)!!!"
-    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title)
+    c = curve.Curve(fname, name, record_id, xlabel, ylabel, title, step, xticks_labels)
     c.x = np.array(x, dtype=float)
     c.y = np.array(y, dtype=float)
 
@@ -453,12 +461,35 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
 
     """
     def bundle_curve(_curve, build_x, build_y):
+
+        _curve.xticks_labels = {}
+
+        # Numerical data
+        try:
+            float(build_x[0])
+
+        # X tick label data
+        except:
+
+            xticks = list(set(build_x))
+            xticks.sort()
+            xticks_dict = {}
+
+            for i, xtick in enumerate(xticks):
+                xticks_dict[xtick] = i
+
+            build_x = [xticks_dict[xtick] for xtick in build_x]
+
+            _curve.xticks_labels = xticks_dict
+
+        # Step Data
         if len(build_x) != len(build_y):
             build_y.append(build_y[-1])
 
             _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
             _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
             _curve.step = True
+        # Numerical Data
         else:
             _curve.x = np.array(build_x, dtype=float)
             _curve.y = np.array(build_y, dtype=float)
@@ -497,7 +528,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         with open(fname, 'r') as f:
             for line in f:
                 labels = False
-                split_line = re.split(r'[ _\t]+', str.strip(line))
+                split_line = re.split(r'[ \t]+', str.strip(line))
 
                 # No space between curvename and hashtag #mycurve
                 try:  # Exponential numbers and single text will cause issues
@@ -507,12 +538,12 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                         split_line[0] = '#'
                         split_line[1] = split_line_2[1]
                 except:
-                    split_line = re.split(r'[ _\t]+', str.strip(line))
+                    split_line = re.split(r'[ \t]+', str.strip(line))
 
                 # Check for labels
                 split_line_3 = re.split(r'#', str.strip(line))
                 for split in split_line_3:
-                    # print(split)
+
                     if re.search('[a-zA-Z]', split):
                         if 'xlabel' in split:
                             xlabel = split.replace('xlabel', '').strip()
@@ -565,23 +596,67 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                                 current = curve.Curve(fname, curve_name,
                                                       xlabel=xlabels.get(curve_name, ''),
                                                       ylabel=ylabels.get(curve_name, ''))
-                                build_list_x += split_line[::2]
-                                build_list_y += split_line[1::2]
+
+                                # Step Data
+                                if len(split_line) == 1:
+                                    build_list_x.append(split_line[0])
+                                # Numerical Data
+                                elif len(split_line) == 2:
+                                    build_list_x.append(split_line[0])
+                                    build_list_y.append(split_line[-1])
+                                # Label Data and Paired Data
+                                else:
+                                    try:  # Paired Data
+                                        float(split_line[0])
+                                        build_list_x += split_line[::2]
+                                        build_list_y += split_line[1::2]
+                                    except:  # Label Data
+                                        build_list_x.append(" ".join(split_line[:-1]))
+                                        build_list_y.append(split_line[-1])
                             else:
                                 current = None
                         else:
                             current = curve.Curve(fname, curve_name,
                                                   xlabel=xlabels.get(curve_name, ''),
                                                   ylabel=ylabels.get(curve_name, ''))
-                            build_list_x += split_line[::2]
-                            build_list_y += split_line[1::2]
+
+                            # Step Data
+                            if len(split_line) == 1:
+                                build_list_x.append(split_line[0])
+                            # Numerical Data
+                            elif len(split_line) == 2:
+                                build_list_x.append(split_line[0])
+                                build_list_y.append(split_line[-1])
+                            # Label Data and Paired Data
+                            else:
+                                try:  # Paired Data
+                                    float(split_line[0])
+                                    build_list_x += split_line[::2]
+                                    build_list_y += split_line[1::2]
+                                except:  # Label Data
+                                    build_list_x.append(" ".join(split_line[:-1]))
+                                    build_list_y.append(split_line[-1])
 
                     elif current and not new_curve:  # add data to current curve
-                        build_list_x += split_line[::2]
-                        build_list_y += split_line[1::2]
 
-        # Append the last curve that we built
-        if current:
+                        # Step Data
+                        if len(split_line) == 1:
+                            build_list_x.append(split_line[0])
+                        # Numerical Data
+                        elif len(split_line) == 2:
+                            build_list_x.append(split_line[0])
+                            build_list_y.append(split_line[-1])
+                        # Label Data and Paired Data
+                        else:
+                            try:  # Paired Data
+                                float(split_line[0])
+                                build_list_x += split_line[::2]
+                                build_list_y += split_line[1::2]
+                            except:  # Label Data
+                                build_list_x.append(" ".join(split_line[:-1]))
+                                build_list_y.append(split_line[-1])
+
+        if current and build_list_x and build_list_y:
             curve_list.append(bundle_curve(current, build_list_x, build_list_y))
 
     except IOError:
@@ -667,6 +742,14 @@ def readcsv(fname, xcol=0, verbose=False):
         # We assume some column is the x-data, every other column
         # is y-data
         iLine += 1  # go to next line after header labels
+        # CSV Data is in x and y pairs
+        if xcol == 'paired':
+            xcol = 0
+            paired = True
+        # CSV Data has a single shared x column
+        else:
+            xcol = int(xcol)
+            paired = False
         numcurves = len(lines[iLine].split(',')) - 1
 
         # Make the curves, append them to self.curvelist.
@@ -677,7 +760,7 @@ def readcsv(fname, xcol=0, verbose=False):
             localCurves.append([])  # FIGURE OUT COOL WAY TO DO THIS LATER: localCurves = (numcurves+1)*[[]]
         # turn the strings into numbers
         for line in lines[iLine:]:
-            nums = [float(n) for n in line.split(',')]
+            nums = [np.nan if not n or n == '\n' else float(n) for n in line.split(',')]
             # print 'nums = ', nums, 'numcurves = ', numcurves
             assert len(nums) == numcurves + 1
             if xcol >= numcurves:
@@ -689,16 +772,27 @@ def readcsv(fname, xcol=0, verbose=False):
         for colID in range(numcurves):
             localCurves[colID] = np.array(localCurves[colID])
         # Make Curve objects, add to self.curvelist
-        for colID in range(numcurves + 1):
-            if colID != xcol:
-                c = makecurve(localCurves[xcol], localCurves[colID], colLabels[colID], fname)
+        if paired:
+            for colID in range(0, numcurves + 1, 2):
+                colLabels[colID] = colLabels[colID][:-4]  # ' [x]'
+                x = np.array(localCurves[colID])
+                x = x[~np.isnan(x)]
+                y = np.array(localCurves[colID + 1])
+                y = y[~np.isnan(y)]
+                c = makecurve(x, y, colLabels[colID], fname)
                 print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
                 curvelist.append(c)
+        else:
+            for colID in range(numcurves + 1):
+                if colID != xcol:
+                    c = makecurve(localCurves[xcol], localCurves[colID], colLabels[colID], fname)
+                    print("Appended curve: ", colLabels[colID], len(c.x), len(c.y))
+                    curvelist.append(c)
         # tidy up
         f.close()
     # anticipate failure!
     except ValueError as e:
-        print(e.message)
+        print(e)
         print('readcsv: invalid pydv file: ' + fname)
         if verbose:
             traceback.print_exc(file=sys.stdout)
@@ -753,6 +847,7 @@ def readsina(fname, verbose=False):
                                           name=curve_name, fname=fname, xlabel=independent_name,
                                           ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
                             c.step = False
+                            c.xticks_labels = {}
                             print("Appended curve: {}, len x,y: {},{}"
                                   .format(dependent_variable_name, len(c.x), len(c.y)))
                             curves[full_name] = c
@@ -2714,7 +2809,7 @@ def gaussian(amp, wid, center, num=100, nsd=3):
     cc.y = np.exp(cc.y / (wid * wid))
     cc.y = cc.y * amp
 
-    cc.name = "Gaussian"
+    cc.name = f"Gaussian (a: {amp} w: {wid} c: {center})"
     return cc
 
 
@@ -2803,6 +2898,23 @@ def getymin(c, xmin=None, xmax=None):
     return __toCurveString(c), xy_pairs_at_min
 
 
+def cumsum(c1):
+    """
+    Creates a new curve which is the cumulative sum of the original curve
+
+    :param c1: The original curve
+    :type c1: Curve
+
+    :return: Curve -- the cumulative sum of the original curve
+    """
+    nc = curve.Curve('', 'cumsum(' + __toCurveString(c1) + ')')
+
+    nc.x = c1.x
+    nc.y = np.cumsum(c1.y)
+
+    return nc
+
+
 def correlate(c1, c2, mode='valid'):
     """
     Computes the cross-correlation of two 1D sequences (c1.y and c2.y) as defined by numpy.correlate.
@@ -2886,8 +2998,9 @@ def normalize(c):
     :return: The normalized curve
     :rtype: curve.Curve
     """
-
-    return c.normalize()
+    norm_c = c.normalize()
+    c = makecurve(norm_c.x, norm_c.y, f'Normalized {norm_c.plotname}')
+    return c
 
 
 def hypot(c1, c2):
@@ -2911,125 +3024,162 @@ def hypot(c1, c2):
     return c
 
 
-def convolve(c1, c2, npts=100):
-    """
-    Compute and return the convolution of two real curves:
-    -
-    -   ``(g*h)(x) = Int(-inf, inf, dt, g(t)*h(x-t))``
-    -
-    The Fourier Transform is used to perform the convolution.
-
-    >>> curves = pydvif.read('testData.txt')
-
-    >>> newcurve = pydvif.convolve(curves[0], curves[1])
-
-    :param c1: (N,) The first curve
-    :type c1: Curve
-    :param c2: (M,) The second curve
-    :type c2: Curve
-    :param npts: the number of points used to create a uniform temporal spacing
-    :type npts: int
-    :return: Curve -- the convolution of the two curves c1 and c2
-    """
-
-    # Create uniform temporal spacing
-    ic1, step = curve.interp1d(c1, npts, True)
-
-    c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = curve.interp1d(c2, c2npts)
-
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='fft'))
-    delx = (max(c1.x) - min(c1.x)) / npts
-    y *= delx
-
-    xstart = min(min(c1.x), min(c2.x))
-    xstop = xstart + (len(y) * delx)
-    x = np.linspace(xstart, xstop, num=len(y))
-
-    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (FFT) ' + str(npts)
-    nc = makecurve(x, y, namestr)
-
-    return nc
+def convolve(c1, c2, npts=100, norm=True, debug=False):
+    print("Use convolvec for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+    print("Use convolveb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
+    return
 
 
-def convolveb(c1, c2, npts=100):
+def convolvec(c1, c2, npts=100, npts_interp=100, debug=False):
     """
     Computes the convolution of the two given curves:
     -
-    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))``
     -
     This computes the integrals directly which avoid padding and aliasing
     problems associated with FFT methods (it is however slower).
 
-    :param c1: (N,) The first curve
+    :param c1: (N,) The first curve g(t)
     :type c1: Curve
-    :param c2: (M,) The second curve
+    :param c2: (M,) The second curve h(t)
     :type c2: Curve
-    :param npts: the number of points
+    :param npts: the number of points to divide the combined domain of the curves to give delx
     :type npts: int
-    :return: Curve -- the convolution of the two curves c1 and c2 using integration and normalizing c2
-    """
-
-    return convolve_int(c1, c2, True, npts)
-
-
-def convolvec(c1, c2, npts=100):
-    """
-    Computes the convolution of the two given curves:
-    -
-    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
-    -
-    This computes the integrals directly which avoid padding and aliasing
-    problems associated with FFT methods (it is however slower).
-
-    :param c1: (N,) The first curve
-    :type c1: Curve
-    :param c2: (M,) The second curve
-    :type c2: Curve
-    :param npts: the number of points
-    :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
     :return: Curve -- the convolution of the two curves c1 and c2 using integration and no normalization
     """
 
-    return convolve_int(c1, c2, False, npts)
+    return convolve_int(c1, c2, False, npts, npts_interp, debug)
 
 
-def convolve_int(c1, c2, norm=True, npts=100):
+def convolveb(c1, c2, npts=100, npts_interp=100, debug=False):
     """
-    Computes the convolution of the two curves (c1, c2). The integrals are computed directly which avoid padding
-    and aliasing problems associated with FFT methods (it is however slower).
+    Computes the convolution of the two given curves:
+    -
+    -   ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
+    This computes the integrals directly which avoid padding and aliasing
+    problems associated with FFT methods (it is however slower).
 
-    :param c1: (N,) The first curve
+    :param c1: (N,) The first curve g(t)
     :type c1: Curve
-    :param c2: (M,) The second curve
+    :param c2: (M,) The second curve h(t)
     :type c2: Curve
-    :param norm: if true then the result is normalized to unit area.
-    :type norm: bool
-    :param npts: the number of points
+    :param npts: the number of points to divide the combined domain of the curves to give delx
     :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
+    :return: Curve -- the convolution of the two curves c1 and c2 using integration and normalizing by c2
+    """
+
+    return convolve_int(c1, c2, True, npts, npts_interp, debug)
+
+
+def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
+    """
+    Computes the convolution of the two given curves:
+    -
+    -   norm=False: ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))``
+    -   norm=True : ``(g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))``
+    -
+    This computes the integrals directly which avoid padding and aliasing
+    problems associated with FFT methods (it is however slower).
+
+    :param c1: (N,) The first curve g(t)
+    :type c1: Curve
+    :param c2: (M,) The second curve h(t)
+    :type c2: Curve
+    :param norm: if true then normalize c2 h(t) before integration. Used in convolc
+    :type norm: bool
+    :param npts: the number of points to divide the combined domain of the curves to give delx
+    :type npts: int
+    :param npts_interp: the number of points to interpolate at each delx step
+    :type npts_interp: int
+    :param debug: Used only in CLI, plots curves and c2 h(x-t) as it moves
+    :type debug: bool
     :return: nc: Curve -- the convolution of the two curves c1 and c2
     """
 
-    # Create uniform temporal spacing
-    ic1, step = curve.interp1d(c1, npts, True)
-    c2npts = (max(c2.x) - min(c2.x)) / step
-    ic2 = curve.interp1d(c2, c2npts)
+    c1_copy = copy.deepcopy(c1)  # g(t)
+    c2_copy = copy.deepcopy(c2)  # h(t)
 
-    # normalize c2 to unit area in its domain
+    c2_original = copy.deepcopy(c2)
+
+    c2_copy.x = np.flip(c2_copy.x) * float(-1)
+    c2_copy.y = np.flip(c2_copy.y)
+
+    dom_c1 = getdomain(c1_copy)
+    dom_c2 = getdomain(c2_copy)
+
+    # Start of g(t)
+    xmn = dom_c1[0][1]
+    # End of g(t) + domain of h(t)
+    xmx = dom_c1[0][2] + (dom_c2[0][2] - dom_c2[0][1])
+
+    # Moving end of h(t) to start of g(t)
+    c2_copy.x += float(xmn) - dom_c2[0][2]
+
+    # Delta x is domain of combined domains
+    delx = (xmx - xmn) / (npts)
+
+    def _integ(cr1, cr2, xcur, xval, yval, iter):
+
+        if iter < npts:
+
+            # Current overlap of g(t) and h(t)
+            overlap = list(cr1.x[np.where(np.logical_and(cr1.x >= cr2.x[0], cr1.x <= cr2.x[-1]))])
+            overlap.extend(list(cr2.x[np.where(np.logical_and(cr2.x >= xmn, cr2.x <= cr1.x[-1]))]))
+            overlap = list(set(overlap))
+            overlap.sort()
+
+            # np.linespace() between first and last overlap
+            overlap_interp = np.linspace(overlap[0], overlap[-1], npts_interp) if overlap else overlap
+
+            # Adding np.linespace() points to original overlap points
+            overlap.extend(overlap_interp)
+            overlap = list(set(overlap))
+            overlap.sort()
+
+            new_y1 = np.interp(overlap, cr1.x, cr1.y)
+            new_y2 = np.interp(overlap, cr2.x, cr2.y)
+            new_y = new_y1 * new_y2
+
+            crb = makecurve(overlap, new_y)
+
+            # if debug:
+            #     time.sleep(.5)
+            #     gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
+            #             (c2_original.x, c2_original.y, dict(legend='h(x)')),
+            #             (cr2.x, cr2.y, dict(legend='h(x-t)')),
+            #             (crb.x, crb.y, dict(legend='g(t)*h(x-t)')),
+            #             xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
+            #             xmax=xmx * 1.5)
+
+            area = scipy.integrate.trapezoid(crb.y, crb.x)
+
+            cr2.x += delx
+            xval.append(xcur)
+            yval.append(area)
+            iter += 1
+
+            return _integ(cr1, cr2, xcur + delx, xval, yval, iter)
+
+        else:
+            return xval, yval
+
+    x, y = _integ(c1_copy, c2_copy, float(xmn) - dom_c2[0][2], [], [], 0)
+
+    namestr = f'Conv {c1.plotname} * {c2.plotname}'
     if norm:
-        area = np.trapz(ic2.y, ic2.x)
-        if area == 0:
-            area = 0.0000009
-        ic2.y = ic2.y / area
+        namestr = f'(Conv {c1.plotname} * {c2.plotname})/Area({c2.plotname})'
+        area0 = scipy.integrate.trapezoid(c2_original.y, c2_original.x)
+        y /= area0
 
-    y = np.array(scipy.signal.convolve(ic1.y, ic2.y, mode='full', method='direct'))
-    delx = (max(c1.x) - min(c1.x)) / npts
-    y *= delx
-
-    xstart = min(min(c1.x), min(c2.x))
-    xstop = xstart + (len(y) * delx)
-    x = np.linspace(xstart, xstop, num=len(y))
-    namestr = 'Conv ' + __toCurveString(c1) + '*' + __toCurveString(c2) + ' (Int) ' + str(npts)
     nc = makecurve(x, y, namestr)
 
     return nc
@@ -3476,6 +3626,34 @@ def getdomain(curvelist):
     return domains
 
 
+def sum(curvelist):
+    """
+    Return sum of the x and y values of each curve.
+
+    >>> curves = pydvif.read('testData.txt')
+
+    >>> sums = pydvif.sum(curves)
+
+    >>> plotname, sumx, sumy = sums[0]
+
+    :param curvelist: The given curve or list of curves
+    :type curvelist: Curve or list
+    :return: list -- A list of tuples where each tuple contains the curve name, sum of x-values, and sum of y-values
+    """
+    sums = list()
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for c in curves:
+        sums.append((__toCurveString(c), np.sum(c.x), np.sum(c.y)))
+
+    return sums
+
+
 def disp(c, domain=True):
     """
     Create a string formatted list of the curve's x-values if domain is True, otherwise y-values.
@@ -3679,7 +3857,7 @@ def line(m, b, xmin, xmax, numpts=100):
 
     x = np.array(x)
     y = np.array(y)
-    c = curve.Curve('', 'Straight Line')
+    c = curve.Curve('', f'Straight Line (m: {m} b: {b} xmin: {xmin} xmax: {xmax})')
     c.x = x
     c.y = y
 

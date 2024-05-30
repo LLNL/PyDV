@@ -94,13 +94,16 @@ class Curve(object):
     plotprecedence = 0
     legend_show = True
 
-    def __init__(self, filename='', name='', record_id='', xlabel='', ylabel='', title=''):
+    def __init__(self, filename='', name='', record_id='', xlabel='', ylabel='', title='',
+                 step=False, xticks_labels=None):
         self.filename = filename
         self.name = name
         self.record_id = record_id
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.title = title
+        self.step = step
+        self.xticks_labels = xticks_labels
 
     def __add__(a, b):
         c = Curve('', '')
