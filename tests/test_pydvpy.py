@@ -87,6 +87,20 @@ convol_plot_path = os.path.join(TEST_DIR, 'convolution_plots')
 os.makedirs(convol_plot_path, exist_ok=True)
 
 
+def test_convol_curves():
+    curves = pydvpy.read(os.path.join(TEST_DIR, 'convolution_created_curves_to_convol.ult'))
+    start = ord('A')
+
+    for i, cur in enumerate(curves):
+        curve_letter = chr(start + i)
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.plot(cur.x, cur.y, marker='x', linewidth=1)
+        ax.set_title(f"Curve {curve_letter}: {cur.name}")
+        ax.legend()
+        fig.savefig(os.path.join(TEST_DIR, 'convolution_plots', f'convol_curve_{curve_letter}.png'))
+        plt.close(fig)
+
+
 @pytest.mark.parametrize("i", list(range(len(curves_pydv))))
 def test_convol(i):
 
