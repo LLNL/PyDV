@@ -3129,7 +3129,7 @@ def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
 
     def _integ(cr1, cr2, xcur, xval, yval, iter):
 
-        if iter < npts:
+        while iter < npts:
 
             # Current overlap of g(t) and h(t)
             overlap = list(cr1.x[np.where(np.logical_and(cr1.x >= cr2.x[0], cr1.x <= cr2.x[-1]))])
@@ -3166,11 +3166,10 @@ def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
             xval.append(xcur)
             yval.append(area)
             iter += 1
+            xcur += delx
+            # return _integ(cr1, cr2, xcur + delx, xval, yval, iter)
 
-            return _integ(cr1, cr2, xcur + delx, xval, yval, iter)
-
-        else:
-            return xval, yval
+        return xval, yval
 
     x, y = _integ(c1_copy, c2_copy, float(xmn) - dom_c2[0][2], [], [], 0)
 
