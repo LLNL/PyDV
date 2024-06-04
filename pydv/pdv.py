@@ -2214,7 +2214,7 @@ class Command(cmd.Cmd, object):
                 self.do_sum(pdvutil.getletterargs(line))
                 return 0
             else:
-                print('\n   Sum')
+                print('\nSum:')
                 line = line.split()
 
                 for i in range(len(line)):
@@ -2222,8 +2222,8 @@ class Command(cmd.Cmd, object):
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
                         plotname, sumx, sumy = pydvif.sum(cur)[0]
-                        print('\nCurve ' + plotname)
-                        print(f'    sumx: {sumx:.6e}, sumy: {sumy:.6e}')
+                        print(f'\nCurve {cur.plotname}: {plotname}')
+                        print(f'\tsumx: {sumx:.6e}, sumy: {sumy:.6e}')
                     except pdvutil.CurveIndexError:
                         pass
                 print('')
@@ -2236,6 +2236,39 @@ class Command(cmd.Cmd, object):
 
     def help_sum(self):
         print('\n   Procedure: Return sum of the x and y values of each curve\n   Usage: sum <curve-list>\n')
+
+    def do_area(self, line):
+        """
+        Return area of each curve
+        """
+
+        try:
+            if len(line.split(':')) > 1:
+                self.do_area(pdvutil.getletterargs(line))
+                return 0
+            else:
+                print('\nArea:')
+                line = line.split()
+
+                for i in range(len(line)):
+                    try:
+                        idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[idx]
+                        plotname, area = pydvif.area(cur)[0]
+                        print(f'\nCurve {cur.plotname}: {plotname}')
+                        print(f'\tarea: {area:.6e}')
+                    except pdvutil.CurveIndexError:
+                        pass
+                print('')
+        except:
+            print('error - usage: area <curve-list>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = False
+
+    def help_area(self):
+        print('\n   Procedure: Return area of each curve\n   Usage: area <curve-list>\n')
 
     def do_getymax(self, line):
         """
