@@ -13,6 +13,20 @@ which can be seen with the command `list`.
 
    **[PyDV]:** = Python Data Visualizer command-line prompt.
 
+area
+-----
+
+Calculate the area of the curves.
+
+.. code::
+
+   [PyDV]: area <curve-list>
+
+   Ex:
+      [PyDV]: area a
+      [PyDV]: area a:b
+      [PyDV]: area c d
+
 disp
 ----
 

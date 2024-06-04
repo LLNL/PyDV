@@ -14,6 +14,7 @@ Release Notes
 * Bugfix when files don't end in valid data
 * Updated docs with examples
 * Added `sum`` and `cumsum` functions
+* Added `area` function
 * Updated `stats` function
 * Updated `savecsv` and `readcsv` to allow curves with different lengths
 * Updated `read` to allow x-columns to be x-tick labels

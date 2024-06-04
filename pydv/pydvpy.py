@@ -3149,18 +3149,16 @@ def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
             new_y2 = np.interp(overlap, cr2.x, cr2.y)
             new_y = new_y1 * new_y2
 
-            crb = makecurve(overlap, new_y)
-
             # if debug:
             #     time.sleep(.5)
             #     gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
             #             (c2_original.x, c2_original.y, dict(legend='h(x)')),
             #             (cr2.x, cr2.y, dict(legend='h(x-t)')),
-            #             (crb.x, crb.y, dict(legend='g(t)*h(x-t)')),
+            #             (overlap, new_y, dict(legend='g(t)*h(x-t)')),
             #             xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
             #             xmax=xmx * 1.5)
 
-            area = scipy.integrate.trapezoid(crb.y, crb.x)
+            area = scipy.integrate.trapezoid(new_y, overlap)
 
             cr2.x += delx
             xval.append(xcur)
@@ -3651,6 +3649,34 @@ def sum(curvelist):
         sums.append((__toCurveString(c), np.sum(c.x), np.sum(c.y)))
 
     return sums
+
+
+def area(curvelist):
+    """
+    Return area of each curve.
+
+    >>> curves = pydvif.read('testData.txt')
+
+    >>> areas = pydvif.area(curves)
+
+    >>> plotname, area = areas[0]
+
+    :param curvelist: The given curve or list of curves
+    :type curvelist: Curve or list
+    :return: list -- A list of tuples where each tuple contains the curve name and area
+    """
+    areas = list()
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for c in curves:
+        areas.append((__toCurveString(c), scipy.integrate.simpson(c.y, c.x)))
+
+    return areas
 
 
 def disp(c, domain=True):
