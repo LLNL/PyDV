@@ -1,4 +1,4 @@
-#!/usr/bin/env /usr/tce/bin/python3
+#!/usr/bin/env /usr/apps/weave/weave-develop-cpu/bin/python3
 
 import sys
 import os
