@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.4.1
+------
+* Bug fix for maths when curves are deleted
+
 3.4.0
 ------
 * Bug fix for convolution function

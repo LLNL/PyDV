@@ -95,19 +95,9 @@ def parsemath(line, plotlist, commander, xdomain):
     shared_x = []
     for val in line:
         dex = None
-        if (val[0] == '@'):  # are we a curve labeled @N, i.e., beyond a-z?
-            dex = int(val[1:]) - 1
-            sendline += ' plotlist[' + str(dex) + '] '
-
-            try:
-                step_i = eval('plotlist[' + str(dex) + '].step')
-                if step_i and step:
-                    shared_x.extend(eval('plotlist[' + str(dex) + '].x'))
-            except:
-                step_i = False
-
-        elif (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')):  # or a curve a-z?
-            dex = ord(val.upper()) - ord('A')
+        # Curve a-z or curve labeled @N (e.g. @27), i.e., beyond a-z?
+        if (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')) or (val[0] == '@'):
+            dex = getCurveIndex(val, plotlist)
             sendline += ' plotlist[' + str(dex) + '] '
 
             try:
@@ -136,38 +126,9 @@ def parsemath(line, plotlist, commander, xdomain):
 
         for i, val in enumerate(line):
             dex = None
-            if (val[0] == '@'):  # are we a curve labeled @N, i.e., beyond a-z?
-                dex = int(val[1:]) - 1
-                x = list(eval('plotlist[' + str(dex) + '].x'))
-                y = list(eval('plotlist[' + str(dex) + '].y'))
-
-                for xs in shared_x:
-                    if xs not in x:
-
-                        idxs = [i for i, v in enumerate(x) if v < xs]
-
-                        if not idxs:  # missing data at the beginning of the list
-                            y.insert(0, 0.0)
-                            y.insert(1, 0.0)
-                            x.insert(0, xs)
-                            x.insert(1, x[1])
-                        elif idxs[-1] + 2 > len(x):  # missing data at the end of the list
-                            y[-1] = 0.0
-                            y.insert(idxs[-1] + 1, 0.0)
-                            y.insert(idxs[-1] + 2, 0.0)
-                            x.insert(idxs[-1] + 1, xs)
-                            x.insert(idxs[-1] + 2, xs)
-                        else:  # missing data in between
-                            y.insert(idxs[-1] + 1, y[idxs[-1]])
-                            y.insert(idxs[-1] + 2, y[idxs[-1]])
-                            x.insert(idxs[-1] + 1, xs)
-                            x.insert(idxs[-1] + 2, xs)
-
-                maths[i] = np.array(y)
-                sendliney += ' maths[' + str(i) + '] '
-
-            elif (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')):  # or a curve a-z?
-                dex = ord(val.upper()) - ord('A')
+            # Curve a-z or curve labeled @N (e.g. @27), i.e., beyond a-z?
+            if (len(val) == 1 and ord(val.upper()) <= ord('Z') and ord(val.upper()) >= ord('A')) or (val[0] == '@'):
+                dex = getCurveIndex(val, plotlist)
                 x = list(eval('plotlist[' + str(dex) + '].x'))
                 y = list(eval('plotlist[' + str(dex) + '].y'))
 

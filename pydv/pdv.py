@@ -884,7 +884,7 @@ class Command(cmd.Cmd, object):
 
         try:
             # If adding a number then send to dy
-            if any(char.isdigit() for char in line):
+            if any(char.isdigit() for char in line) and not any(char == '@' for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_dy(line)
             else:
@@ -955,7 +955,7 @@ class Command(cmd.Cmd, object):
 
         try:
             # If multiplying by a number then send to my
-            if any(char.isdigit() for char in line):
+            if any(char.isdigit() for char in line) and not any(char == '@' for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_my(line)
             else:
@@ -986,7 +986,7 @@ class Command(cmd.Cmd, object):
         """
         try:
             # If dividing by a number then send to divy
-            if any(char.isdigit() for char in line):
+            if any(char.isdigit() for char in line) and not any(char == '@' for char in line):
                 # value = float(line.split().pop(-1))
                 self.do_divy(line)
             else:
