@@ -27,49 +27,141 @@ Define a synonym for  an existing command.
 custom
 ------
 
-Load a file of custom functions to extend PyDV. Functions must be of the form **'def do_commandname(self, line): ...'**.
+Load a Python file of custom functions to extend PyDV. Functions must be of the form **'def do_commandname(self, line): ...'**.
 
 This custom Python script is imported at the `pdv.py` level and thus you can use the methods within `class Command():` by calling `self.do_METHOD_NAME():`.
 These are the methods used in the [PyDV] command line prompt that are detailed in this documentation.
 
 The `pydvpy.py` module is imported as `pydvif` which means you can also use the PyDV Python API functions by calling `pydvif.FUNCTION_NAME():`.
 
+Below are some template functions that are used throughout PyDV. The parameter `line` is the text that is passed into the function after the function name in the PyDV Command Line Interface.
+These functions should have `try` statements so that PyDV doesn't crash if there is an error. Be sure to pass in the command `debug on` to PyDV to get more information about any errors.
+
 .. code::
- 
-   [PyDV]: custom <file-name> 
+
+   [PyDV]: custom <file-name>
 
    Ex:
-      my_custom_functions.py:
-         import os
+      Python file outside of PyDV containing custom functions:
+
+         my_custom_functions.py:
+
+            import os
 
 
-         def do_mycustomfunction(self, line):
+            def do_mycustomfunction(self, line):
+               """
+               Create new curve and add it to the `self.curvelist()`.
+               These are the curves shown with the `menu` command.
+               """
 
-            for i in range(4):
-               x = [i, i + 1, i + 2]
-               y = x
-               name = f'TestCurve_{i}'
-               fname = f'TestFilename_{i}'
-               xlabel = f'TestXlabel_{i}'
-               ylabel = f'TestYlabel_{i}'
-               title = f'TestTitle_{i}'
-               record_id = f'TestRecordID_{i}'
-               c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
-                                    record_id=record_id)
-               self.curvelist.append(c)
+               try:
+                  num_curves = int(line)
+                  for i in range(num_curves):
+                     x = [i, i + 1, i + 2]
+                     y = x
+                     name = f'TestCurve_{i}'
+                     fname = f'TestFilename_{i}'
+                     xlabel = f'TestXlabel_{i}'
+                     ylabel = f'TestYlabel_{i}'
+                     title = f'TestTitle_{i}'
+                     record_id = f'TestRecordID_{i}'
+                     c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
+                                          record_id=record_id)
+                     self.curvelist.append(c)
+               except:
+                     print('error - usage: mycustomfunction <int>')
+                     if self.debug:
+                        traceback.print_exc(file=sys.stdout)
 
 
-         def do_myothercustomfunction(self, line):
+            def do_myothercustomfunction(self, line):
+               """
+               Calling other functions within PyDV.
+               """
 
-            TEST_DIR = os.path.dirname(os.path.abspath(__file__))
-            self.do_read(os.path.join(TEST_DIR, '../tests', 'step.ult'))
-            self.do_readsina(os.path.join(TEST_DIR, '../tests', 'testSinaData2.json'))
+               try:
+                  files = line.split()
 
-      [PyDV]: custom my_custom_functions.py
+                  TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+                  self.do_read(os.path.join(TEST_DIR, '../tests', files[0]))
+                  self.do_readsina(os.path.join(TEST_DIR, '../tests', files[1]))
+               except:
+                     print('error - usage: myothercustomfunction <filenames>')
+                     if self.debug:
+                        traceback.print_exc(file=sys.stdout)
 
-   Afterwards:
-      [PyDV]: mycustomfunction
-      [PyDV]: myothercustomfunction
+
+            def do_createcustomcurve(self, line):
+               """
+               Create new curve and add it to the `self.plotlist()`.
+               These are the curves shown with the `list` command.
+               """
+
+               if not line:
+                     return 0
+               try:
+                     if len(line.split(':')) > 1:
+                        self.do_createcustomcurve(pdvutil.getletterargs(line))
+                        return 0
+                     else:
+                        line = line.split()
+
+                        for i in line:
+                           idx = pdvutil.getCurveIndex(i, self.plotlist)
+                           cur = self.plotlist[idx]
+                           x = cur.x + 10
+                           y = cur.y - 10
+                           nc = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
+                                       record_id=record_id)
+                           self.addtoplot(nc)
+
+                           self.plotedit = True
+               except:
+                     print('error - usage: createcustomcurve <curve-list>')
+                     if self.debug:
+                        traceback.print_exc(file=sys.stdout)
+
+
+            def do_customcurveinfo(self, line):
+               """
+               Acquire information from the the curves in `self.plotlist()`.
+               """
+
+               try:
+                     if len(line.split(':')) > 1:
+                        self.do_customcurveinfo(pdvutil.getletterargs(line))
+                        return 0
+                     else:
+                        print('\nCustom Curve Info:')
+                        line = line.split()
+
+                        for i in range(len(line)):
+                           try:
+                                 idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                                 cur = self.plotlist[idx]
+                                 info = numpy.sum(cur.x) + 10
+                                 print(f'\nCurve {cur.plotname}: {cur.name}')
+                                 print(f'\tInfo: {info:.6e}')
+                           except pdvutil.CurveIndexError:
+                                 pass
+                        print('')
+               except:
+                     print('error - usage: customcurveinfo <curve-list>')
+                     if self.debug:
+                        traceback.print_exc(file=sys.stdout)
+               finally:
+                     self.redraw = False
+
+
+      Within PyDV CLI:
+
+         [PyDV]: debug on
+         [PyDV]: custom my_custom_functions.py
+         [PyDV]: mycustomfunction
+         [PyDV]: myothercustomfunction
+         [PyDV]: createcustomcurve a:b
+         [PyDV]: customcurveinfo a:b
 
 debug
 -----
