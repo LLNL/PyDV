@@ -103,6 +103,9 @@ Take the sum of curves. If the optional *value* is specified it will add the y-v
 the curves by *value* (equivalent to using the **dy** command). **Shortcut:** +
 
 .. note::
+   Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+.. note::
    Adding curves by a number modifies the curve. If you want to create a new 
    curve then copy the original curve first using the copy command.
 
@@ -437,6 +440,9 @@ divide
 Take quotient of curves. If the optional *value* is specified it will divide the 
 y-values of the curves by *value* (equivalent to using the **divy** command). 
 **Shortcuts:** /, div
+
+.. note::
+   Be sure that the x points are in increasing order as PyDV uses numpy.interp().
 
 .. note::
    Dividing curves by a number modifies the curve. If you want to create a new 
@@ -840,6 +846,9 @@ y-values of the curves by *value* (equivalent to using the **my** command).
 **Shortcuts:** \*, mult
 
 .. note::
+   Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+.. note::
    Multiplying curves by a number modifies the curve. If you want to create a new 
    curve then copy the original curve first using the copy command.
 
@@ -1102,6 +1111,9 @@ Take the difference of curves. A single curve can be specified, resulting in the
 negating of its y-values. If the optional *value* is specified it will subtract the 
 y-values of the curves by *value* (similar to using the **dy** command).
 **Shortcuts:** --, sub
+
+.. note::
+   Be sure that the x points are in increasing order as PyDV uses numpy.interp().
 
 .. note::
    Subtracting curves by a number modifies the curve. If you want to create a new 
