@@ -2,6 +2,12 @@
 
 Release Notes
 =============
+3.4.2
+------
+* Added documentation links at startup
+* Bug fix for `diffMeasure()` when both curves are all zeros
+* `create_plot()` now returns plot, figure, and axis
+
 3.4.1
 ------
 * Bug fix for maths when curves are deleted
