@@ -66,7 +66,7 @@ A python interface for PyDV functionality.
 .. module: pydvpy
 .. moduleauthor:: Edward Rusu <rusu1@llnl.gov>
 
->>> import pydvpy as pydvif
+>>> import pydv.pydvpy as pydvif
 """
 
 import json
@@ -201,18 +201,18 @@ def create_plot(curvelist, **kwargs):
 
     >>> curves = pydvif.read('testData.txt')
 
-    >>> plot1 = pydvif.create_plot(curves, fname='myPlot1')
+    >>> plot1, fig1, ax1 = pydvif.create_plot(curves, fname='myPlot1')
 
-    >>> plot2 = pydvif.create_plot(curves, fname='myPlot2', ftype='pdf',
-                                   fwidth=10.1, fheight=11.3, title='My Plot',
-                                   xlabel='X', ylabel='Y', legend=True,
-                                   stylename='ggplot')
+    >>> plot2, fig2, ax2 = pydvif.create_plot(curves, fname='myPlot2', ftype='pdf',
+                                              fwidth=10.1, fheight=11.3, title='My Plot',
+                                              xlabel='X', ylabel='Y', legend=True,
+                                              stylename='ggplot')
 
     :param curvelist: The curve or list of curves to plot
     :type curvelist: list
     :param kwargs: The keyword arguments to modify the plot.
     :type kwargs: dict
-    :return: matplotlib.pyplot -- the plot of the curves
+    :return: matplotlib.pyplot, matplotlib.pyplot.figure, and matplotlib.pyplot.axes
     """
     fname = None
     ftype = 'png'
@@ -342,7 +342,7 @@ def create_plot(curvelist, **kwargs):
         except:
             print('Error: Could not save image to ' + fname + ' of type ' + ftype)
 
-    return plt
+    return plt, figure, axis
 
 
 def save(fname, curvelist, verbose=False, save_labels=False):
@@ -3303,6 +3303,7 @@ def diffMeasure(c1, c2, tol=1e-8):
     dx = np.max(ic1.x) - np.min(ic1.x)
     cdiff.x = np.array(ic1.x)
     cdiff.y = np.array(ydiff / yden)
+    cdiff.y[np.isnan(cdiff.y)] = 0  # corner case where both curves are all zeros since f1 and f2 will also be 0
 
     cint = curve.Curve('', 'Integral(FD)/dX')
     yint = scipy.integrate.cumtrapz(cdiff.y, cdiff.x, initial=0.0)

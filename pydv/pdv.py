@@ -8567,8 +8567,11 @@ class Command(cmd.Cmd, object):
 
     def console_run(self):
         while True:
-            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  '
-                         f'{pydv_date}\n\tType "help" for more information.\n'
+            self.cmdloop(f'\n\tPython Data Visualizer {pydv_version}  -  {pydv_date}\n'
+                         f'\tType "help" for more information.\n'
+                         f'\tDocumentation can be found here:\n'
+                         f'\t\tLLNL (more current):   https://lc.llnl.gov/weave/pydv/html/index.html\n'
+                         f'\t\tGitHub:                https://pydv.readthedocs.io/en/latest/\n'
                          f'\tRunning from {os.path.abspath(__file__)}\n\n')
             print('\n   Starting Python Console...\n   Ctrl-D to return to PyDV\n')
             console = code.InteractiveConsole(locals())
