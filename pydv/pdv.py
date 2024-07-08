@@ -96,6 +96,7 @@ from numbers import Number
 import types  # noqaf401 used for do_custom()
 import csv
 from itertools import zip_longest
+import copy
 
 # HPC Import
 try:
@@ -1335,8 +1336,8 @@ class Command(cmd.Cmd, object):
                         print('error: curve index out of bounds: ' + line[i])
                         skip = True
                     if not skip:
-                        # this is not a deep copy so it is omitting some of the attributes
-                        current = self.curvelist[curvedex].copy()
+                        # Deep copy
+                        current = copy.deepcopy(self.curvelist[curvedex])
                         try:
                             current.step = self.curvelist[curvedex].step
                         except:
