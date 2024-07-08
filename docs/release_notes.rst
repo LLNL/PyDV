@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.4.3
+------
+* Added original data to step data as curve.step_original_x and curve.step_original_y
+
 3.4.2
 ------
 * Added documentation links at startup
