@@ -20,7 +20,7 @@ documentation = "https://pydv.readthedocs.io/en/latest/"
 authors = [
     "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
     "Jorge Moreno <moreno45@llnl.gov", "Jorge Moreno",
-    "Edward Rusu <rusu1@llnl.gov>", "Edward Rusu",
+    "Ephraim Rusu <rusu1@llnl.gov>", "Ephraim Rusu",
 ]
 maintainers = [
     "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
