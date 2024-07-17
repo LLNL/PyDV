@@ -7,5 +7,11 @@
 .DS_Store
 mypdv
 dist
-pydv/docs/_build*
+docs/_build*
 build
+tests/output
+tests/diff
+tests/testSave.txt
+out.txt
+tests/labels2.txt
+tests/convolution_plots

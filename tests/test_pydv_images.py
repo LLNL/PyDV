@@ -3,9 +3,9 @@ import shutil
 import subprocess
 import pytest
 
-from matplotlib import image
-import numpy as np
-
+from skimage.metrics import structural_similarity
+from skimage import color
+import imageio
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -21,143 +21,461 @@ if os.path.exists(output_dir):
     shutil.rmtree(output_dir)
 os.makedirs(output_dir)
 
+diff_dir = os.path.join(TEST_DIR, 'diff')
+if os.path.exists(diff_dir):
+    shutil.rmtree(diff_dir)
+os.makedirs(diff_dir)
+
 # Generate a list of commands for PyDV to process. Between each command, we will
 # place an "image" statement, which will cause PyDV to save the current state of
 # the plot.
 commands = [
-f"""rd {os.path.join(TEST_DIR, 'testData.txt')}
-cur 1 2""",
-"legend off",
-"erase",
-"""cur 1 2
-L1 a b""",
-"L2 a b  3.0 5.5",
-"del c d",
-"color a blue",
-"color a red",
-"add a b",
-"annot FOO 3 7",
-"convolve a b",
-"""del d
-copy a""",
-"cos a",
-"""del d
-dashstyle b [2, 2, 4, 2]""",
-"dataid off",
-"""dataid on
-delannot 1""",
-"derivative a",
-"""del d
-dy b 2.5
-dx b 3""",
-"""dx b -3
-divide c a""",
-"""del d
-divx c 2
-divy c 2""",
-"dom 0 10",
-"dom de",
-"exp a",
-"log a",
-"grid off",
-"""grid on
-integrate a""",
-"""del d
-linespoints a on
-marker a . 20""",
-"lnwidth b 10",
-"""lnwidth b 3
-makecurve (1 2 3) (5 2 3)""",
-"""del d
-mx c 2""",
-"my a 3",
-"recip a",
-"scatter b on",
-"""scatter b off
-cos b""",
-"acos b",
-"cosh b",
-"acosh b",
-"sin c",
-"asin c",
-"sinh c",
-"asinh c",
-"sqr b",
-"sqrt b",
-"sqrx b",
-"sqrtx b",
-"tan a",
-"atan a",
-"tanh a",
-"atanh a",
-"a - b",
-"""del d
-b ** 2""",
-"c / b",
-"smooth d",
-"""dy d -3
-abs d""",
-"""erase
-legend on
-gaussian 1 1 5""",
-"exp A",
-"log A",
-"expx A",
-"logx A",
-"""exp A
-sin A
-log A""",
-f"""readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
-readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
-cur 3 4 5 6
-labelcurve on""",
-"""labelcurve off
-labelrecordids on""",
-f"""labelrecordids off
-read {os.path.join(TEST_DIR, 'testData.ult')}
-cur 7 8
-group""",
-"""labelfilenames on""",
-"""labelfilenames off""",
-f"""erase
-read {os.path.join(TEST_DIR, 'testDataLog.ult')}
-cur 8 9 10""",
-"""yls on
-xls on""",
-f"""erase
-kill all
-read {os.path.join(TEST_DIR, 'step.ult')}
-cur 1 2
-+ a a
-- a a 
-* a a
-/ a a 
+    # 1
+    f"""
+    rd {os.path.join(TEST_DIR, 'testData.txt')}
+    cur 1 2
+    """,
+    # 2
+    """
+    legend off
+    """,
+    # 3
+    """
+    erase
+    """,
+    # 4
+    """
+    cur 1 2
+    L1 a b
+    """,
+    # 5
+    """
+    L2 a b  3.0 5.5
+    """,
+    # 6
+    """
+    del c d
+    """,
+    # 7
+    """
+    color a blue
+    """,
+    # 8
+    """
+    color a red
+    """,
+    # 9
+    """
+    add a b
+    """,
+    # 10
+    """
+    annot FOO 3 7
+    """,
+    # 11
+    """
+    convolc a b
+    """,
+    # 12
+    """
+    del d
+    copy a
+    """,
+    # 13
+    """
+    cos a
+    """,
+    # 14
+    """
+    del d
+    dashstyle b [2, 2, 4, 2]
+    """,
+    # 15
+    """
+    dataid off
+    """,
+    # 16
+    """
+    dataid on
+    delannot 1
+    """,
+    # 17
+    """
+    derivative a
+    """,
+    # 18
+    """
+    del d
+    dy b 2.5
+    dx b 3
+    """,
+    # 19
+    """
+    dx b -3
+    divide c a
+    """,
+    # 20
+    """
+    del d
+    divx c 2
+    divy c 2
+    """,
+    # 21
+    """
+    dom 0 10
+    """,
+    # 22
+    """
+    dom de
+    """,
+    # 23
+    """
+    exp a
+    """,
+    # 24
+    """
+    log a
+    """,
+    # 25
+    """
+    grid off
+    """,
+    # 26
+    """
+    grid on
+    integrate a
+    """,
+    # 27
+    """
+    del d
+    linespoints a on
+    marker a . 20
+    """,
+    # 28
+    """
+    lnwidth b 10
+    """,
+    # 29
+    """
+    lnwidth b 3
+    makecurve (1 2 3) (5 2 3)
+    """,
+    # 30
+    """
+    del d
+    mx c 2
+    """,
+    # 31
+    """
+    my a 3
+    """,
+    # 32
+    """
+    recip a
+    """,
+    # 33
+    """
+    scatter b on
+    """,
+    # 34
+    """
+    scatter b off
+    cos b
+    """,
+    # 35
+    """
+    acos b
+    """,
+    # 36
+    """
+    cosh b
+    """,
+    # 37
+    """
+    acosh b
+    """,
+    # 38
+    """
+    sin c
+    """,
+    # 39
+    """
+    asin c
+    """,
+    # 40
+    """
+    sinh c
+    """,
+    # 41
+    """
+    asinh c
+    """,
+    # 42
+    """
+    sqr b
+    """,
+    # 43
+    """
+    sqrt b
+    """,
+    # 44
+    """
+    sqrx b
+    """,
+    # 45
+    """
+    sqrtx b
+    """,
+    # 46
+    """
+    tan a
+    """,
+    # 47
+    """
+    atan a
+    """,
+    # 48
+    """
+    tanh a
+    """,
+    # 49
+    """
+    atanh a
+    """,
+    # 50
+    """
+    a - b
+    """,
+    # 51
+    """
+    del d
+    b ** 2
+    """,
+    # 52
+    """
+    c / b
+    """,
+    # 53
+    """
+    smooth d
+    """,
+    # 54
+    """
+    dy d -3
+    abs d
+    """,
+    # 55
+    """
+    erase
+    legend on
+    gaussian 1 1 5
+    """,
+    # 56
+    """
+    exp A
+    """,
+    # 57
+    """
+    log A
+    """,
+    # 58
+    """
+    expx A
+    """,
+    # 59
+    """
+    logx A
+    """,
+    # 60
+    """
+    exp A
+    sin A
+    log A
+    """,
+    # 61
+    f"""
+    readsina {os.path.join(TEST_DIR, 'testSinaData.json')}
+    readsina {os.path.join(TEST_DIR, 'testSinaData2.json')}
+    cur 3 4 5 6
+    labelcurve on
+    """,
+    # 62
+    """
+    labelcurve off
+    labelrecordids on
+    """,
+    # 63
+    f"""
+    labelrecordids off
+    read {os.path.join(TEST_DIR, 'testData.ult')}
+    cur 7 8
+    group
+    """,
+    # 64
+    """
+    labelfilenames on
+    """,
+    # 65
+    """
+    labelfilenames off
+    """,
+    # 66
+    f"""
+    erase
+    read {os.path.join(TEST_DIR, 'testDataLog.ult')}
+    cur 8 9 10
+    """,
+    # 67
+    """
+    yls on
+    xls on
+    """,
+    # 68
+    f"""
+    erase
+    kill all
+    xls off
+    yls off
+    read {os.path.join(TEST_DIR, 'step.ult')}
+    cur 1 2
+    + a a
+    - a a
+    * a a
+    / a a
 
-+ a b
-+ b a
-- a b
-- b a
-* a b
-* b a
-/ a b
-/ b a
-""",
-f"""erase
-kill all
-readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
-cur 1 2 3
-""",
-f"""erase
-kill all
-custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
-mycustomfunction
-myothercustomfunction
-cur 1 2 3 4 5 6 7 8
-+ a a
-+ a b
-+ a e
-+ a g
-"""
+    + a b
+    + b a
+    - a b
+    - b a
+    * a b
+    * b a
+    / a b
+    / b a
+    """,
+    # 69
+    f"""
+    erase
+    kill all
+    readsina {os.path.join(TEST_DIR, 'sina_with_library_data.json')}
+    cur 1 2 3
+    """,
+    # 70
+    f"""
+    erase
+    kill all
+    custom {os.path.join(TEST_DIR, 'my_custom_functions.py')}
+    mycustomfunction
+    myothercustomfunction
+    cur 1 2 3 4 5 6 7 8
+    + a a
+    + a b
+    + a e
+    + a g
+    """,
+    # 71
+    f"""
+    erase
+    kill all
+    read {os.path.join(TEST_DIR, 'single_point.ult')}
+    read {os.path.join(TEST_DIR, 'step.ult')}
+    cur 1 2 3
+    """,
+    # 72
+    """
+    xlabel testingx
+    xlabel bold
+    ylabel testingy italic
+    """,
+    # 73
+    """
+    xlabel testingxnew bold italic
+    ylabel italic bold
+    """,
+    # 74
+    """
+    theta -3 4 6
+    """,
+    # 75
+    """
+    axis off
+    """,
+    # 76
+    """
+    axis on
+    """,
+    # 77
+    """
+    erase
+    kill all
+    span 1 20
+    cos a
+    normalize a
+    """,
+    # 78
+    """
+    erase
+    kill all
+    span 1 20
+    span 1 20
+    sin a
+    cos b
+    hypot a b
+    """,
+    # 79
+    """
+    legend hide a:c
+    """,
+    # 80
+    """
+    legend show a:c
+    """,
+    # 81
+    """
+    legend showid a:c
+    """,
+    # 82
+    """
+    legend hideid a:b
+    """,
+    # 83
+    f"""
+    erase
+    kill all
+    read {os.path.join(TEST_DIR, 'curve.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data.ult')}
+    read {os.path.join(TEST_DIR, 'curve_x_tick_data2.ult')}
+    cur 1:7
+    marker b:g circle 10
+    legend on ul
+    """,
+    # 84
+    """
+    hide a
+    """,
+    # 85
+    """
+    hide c d
+    """,
+    # 86
+    """
+    show c d
+    """,
+    # 87
+    """
+    del c d
+    """,
+    # 88
+    """
+    show a
+    """,
+    # 89
+    """
+    hide b e
+    """,
+    # 90
+    """
+    del f g
+    """,
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')
@@ -183,19 +501,22 @@ def test_image(baseline_image, test_image):
     output = image.imread(os.path.join(output_dir, test_image))
     np.array_equal(baseline, output)
 
-# ----------------- #
-# --- Run tests --- #
-# ----------------- #
+@pytest.mark.parametrize("i", list(range(1, len(commands) + 1)))
+def test_image(i):
+    test_image = f"test_image_{i:02d}.png"
+    # Load images and convert to grayscale
+    baseline = color.rgb2gray(imageio.v2.imread(os.path.join(BASELINE_DIR, test_image))[:, :, :3])
+    output = color.rgb2gray(imageio.v2.imread(os.path.join(output_dir, test_image))[:, :, :3])
 
-# # Helper text to generate the below tests for pytest
-# with open('delete_me.txt', 'w') as fp:
-#     for i in range(60):
-#         filename = f"test_image_{i+1:02d}.png"
-#         statement=f"""
-# def test_image_{i+1:02d}():
-#     baseline = image.imread(os.path.join(BASELINE_DIR, '{filename}'))
-#     output = image.imread(os.path.join(output_dir, '{filename}'))
-#     np.assert_equal(baseline, output)
-# """
-#         fp.write(statement)
-#         statement = ''
+    # Image 64 contains file paths
+    if i == 64:
+        score_to_beat = 0.85
+    else:
+        score_to_beat = 0.9
+    (score, diff) = structural_similarity(baseline, output, full=True, data_range=1.0)
+    print("Image Similarity {}: {:.4f}%".format(i, score * 100))
+
+    # Uncomment to save the diff image
+    # io.imsave(os.path.join(diff_dir, test_image), (diff * 255).astype("uint8"))
+
+    assert score > score_to_beat

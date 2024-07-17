@@ -21,6 +21,10 @@ Merge a list of curves over the union of their domains. Where the domains overla
  
    [PyDV]: appendcurves <curve-list>
 
+   Ex:
+      [PyDV]: appendcurves a:b
+      [PyDV]: appendcurves c d
+
 color
 -----
 
@@ -30,6 +34,11 @@ Set the color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a
  
    [PyDV]: color <curve-list> <color>
 
+   Ex:
+      [PyDV]: color a blue
+      [PyDV]: color a:b blue
+      [PyDV]: color c d blue
+
 curve
 -----
 
@@ -37,7 +46,13 @@ Select curves from the menu for plotting. **Shortcut: cur**
 
 .. code::
  
-   [PyDV]: curve [menu <regex>] <list-of-menu-numbers> 
+   [PyDV]: curve [menu (<regex>)] <list-of-menu-numbers> 
+
+   Ex:
+      [PyDV]: cur 1
+      [PyDV]: cur 2:3
+      [PyDV]: cur 4 5
+      [PyDV]: cur (.*my_curves.*)
 
 **dupx - 2.4**
 --------------
@@ -48,6 +63,11 @@ Duplicate x-values so that y=x for each of the specified curves.
     
    [PyDV]: dupx <curve-list> 
 
+   Ex:
+      [PyDV]: dupx a
+      [PyDV]: dupx a:b
+      [PyDV]: dupx c d
+
 linemarker
 ----------
 
@@ -56,6 +76,12 @@ Set the marker symbol for the curves.
 .. code::
  
    [PyDV]: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]   
+
+   Ex:
+      [PyDV]: linemarker a +
+      [PyDV]: linemarker a:b .
+      [PyDV]: linemarker c d circle
+      [PyDV]: linemarker c d square 5
 
 .. note::
    When setting this value through the interface or the curve object directly, 
@@ -72,6 +98,11 @@ Set the markerface color of curves. Color names can be "blue", "red", etc, or "#
  
    [PyDV]: markerfacecolor <curve-list> <color-name>   
 
+   Ex:
+      [PyDV]: markerfacecolor a blue
+      [PyDV]: markerfacecolor a:b blue
+      [PyDV]: markerfacecolor c d blue
+
 markeredgecolor
 ---------------
 
@@ -80,6 +111,11 @@ Set the markeredge color of curves. Color names can be "blue", "red", etc, or "#
 .. code::
  
    [PyDV]: markeredgecolor <curve-list> <color-name>   
+
+   Ex:
+      [PyDV]: markeredgecolor a blue
+      [PyDV]: markeredgecolor a:b blue
+      [PyDV]: markeredgecolor c d blue
 
 showcolormap
 ------------
@@ -108,6 +144,11 @@ Copy and plot the given curves
     
    [PyDV]: copy <curve-list> 
 
+   Ex:
+      [PyDV]: copy a
+      [PyDV]: copy a:b
+      [PyDV]: copy c d
+
 del
 ---
 
@@ -117,14 +158,10 @@ Delete the specified curves. **Shortcut: del**
     
    [PyDV]: delete <curve-list>
 
-**dupx - 2.4**
---------------
-
-Duplicate the x-values such that y=x for each of the given curves
-
-.. code::
-    
-   [PyDV]: dupx <curve-list>
+   Ex:
+      [PyDV]: delete a
+      [PyDV]: delete a:b
+      [PyDV]: delete c d
 
 hide
 ----
@@ -135,6 +172,11 @@ Hide the specified curves from view.
     
    [PyDV]: hide <curve-list>
 
+   Ex:
+      [PyDV]: hide a
+      [PyDV]: hide a:b
+      [PyDV]: hide c d
+
 line
 ----
 
@@ -143,6 +185,10 @@ Generate a line with y = mx + b and an optional number of points.
 .. code::
     
    [PyDV]: line <m> <b> <xmin> <xmax> [# pts]
+
+   Ex:
+      [PyDV]: line 3 7 -1 20
+      [PyDV]: line 3 7 -1 20 200
 
 linespoints
 -----------
@@ -153,6 +199,11 @@ Plot curves as linespoints plots.
     
    [PyDV]: linespoints <curve-list> on | off 
 
+   Ex:
+      [PyDV]: linespoints a on
+      [PyDV]: linespoints a:b on
+      [PyDV]: linespoints c d off
+
 makecurve
 ----------
 
@@ -160,7 +211,10 @@ Generate a curve from two lists of numbers. Each list must be delimited by paren
 
 .. code::
     
-   [PyDV]: makecurve (<list of x-values) (<list of y-values>)
+   [PyDV]: makecurve (<list of x-values>) (<list of y-values>)
+
+   Ex:
+      [PyDV]: makecurve (1 2 3) (20 30 40)
 
 newcurve
 --------
@@ -173,11 +227,11 @@ Creates a new curve from an expression.
 
 .. note::
 
-   For convenience, both math and numpy modules have been imported into the namespace.
+   For convenience, the numpy module has been imported into the namespace.
    Just FYI, this feature is way outside the ULTRA syntax that PyDV is mostly based on.
    EXAMPLE:
    
-   [PyDV]: newcurve sin(a.x*2*pi)/(h.y**2)
+   [PyDV]: newcurve numpy.sin(a.x*2*numpy.pi)/(b.y**2)
 
    This creates a new curve according to the above expression. **Shortcut: nc**
 
@@ -199,6 +253,11 @@ Generate random y values between -1 and 1 for the specified curves.
 .. code::
     
    [PyDV]: random <curve-list>
+
+   Ex:
+      [PyDV]: random a
+      [PyDV]: random a:b
+      [PyDV]: random c d
 
 redo
 ----
@@ -227,6 +286,11 @@ Swap x and y values for the specified curves. You may want to sort after this on
     
    [PyDV]: rev <curve-list>
 
+   Ex:
+      [PyDV]: rev a
+      [PyDV]: rev a:b
+      [PyDV]: rev c d
+
 scatter
 -------
 
@@ -235,6 +299,11 @@ Plot curves as scatter diagrams or connected lines.
 .. code::
     
    [PyDV]: scatter <curve-list> <on | off>
+
+   Ex:
+      [PyDV]: scatter a on
+      [PyDV]: scatter a:b on
+      [PyDV]: scatter c d off
 
 show
 ----
@@ -245,6 +314,11 @@ Reveal the specified curves hidden by the hide command
     
    [PyDV]: show <curve-list>
 
+   Ex:
+      [PyDV]: show a
+      [PyDV]: show a:b
+      [PyDV]: show c d
+
 sort
 ----
 
@@ -254,6 +328,11 @@ Sort the specified curves so that their points are plotted in order of ascending
     
    [PyDV]: sort <curve-list>
 
+   Ex:
+      [PyDV]: sort a
+      [PyDV]: sort a:b
+      [PyDV]: sort c d
+
 subsample
 ---------
 
@@ -262,6 +341,11 @@ Subsample the curves by the optional stride. Default value for stride is 2.
 .. code::
     
    [PyDV]: subsample <curve-list> [stride]
+
+   Ex:
+      [PyDV]: subsample a 3
+      [PyDV]: subsample a:b 3
+      [PyDV]: subsample c d 3
 
 undo
 ----
@@ -281,6 +365,11 @@ Create curves with y-values vs. integer index values.
     
    [PyDV]: xindex <curve-list> 
 
+   Ex:
+      [PyDV]: xindex a
+      [PyDV]: xindex a:b
+      [PyDV]: xindex c d
+
 xminmax
 -------
 
@@ -290,4 +379,7 @@ Trim the specified curves. **Shortcut: xmm**
     
    [PyDV]: xminmax <curve-list> <low-lim> <high-lim>
 
-
+   Ex:
+      [PyDV]: xminmax a 1 3
+      [PyDV]: xminmax a:b 1 3
+      [PyDV]: xminmax c d 1 3

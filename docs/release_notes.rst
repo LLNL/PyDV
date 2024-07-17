@@ -2,6 +2,142 @@
 
 Release Notes
 =============
+3.4.3
+------
+* Added original data to step data as curve.step_original_x and curve.step_original_y
+
+3.4.2
+------
+* Added documentation links at startup
+* Bug fix for `diffMeasure()` when both curves are all zeros
+* `create_plot()` now returns plot, figure, and axis
+
+3.4.1
+------
+* Bug fix for maths when curves are deleted
+
+3.4.0
+------
+* Bug fix for convolution function
+* Bug fix for normalize function
+* WEAVE environment Python for Makefile
+* Move scripts/ directory for installation
+* Bug fix for blank labels
+* Re-added underscores to curve names
+* Menu now has `menulength` option
+* Bugfix when files don't end in valid data
+* Updated docs with examples
+* Added `sum`` and `cumsum` functions
+* Added `area` function
+* Updated `stats` function
+* Updated `savecsv` and `readcsv` to allow curves with different lengths
+* Updated `read` to allow x-columns to be x-tick labels
+
+3.3.0
+------
+* Curvelist support for multiple commands
+* Ability to add Curve ID to plot
+* Ability to read and save ultra files with x and y labels
+* Ultra file curve name issues
+* Consolidate linemarker and marker commands
+* Filter command
+* Dirac Delta command
+
+3.2.0
+------
+* Bug fix for normalize
+* Added bold and italic option for xlabel and ylabel
+* Added theta command
+* Added hypot command
+* Added merge ultra files command
+* Added axis on off command
+* Added plot on off command
+* Added recolor command
+* Allow multiple labels to be deleted at once
+* Added single point curves
+* Bug fix for module imports
+
+3.1.16
+------
+* Restore docs theme back to sphinx-rtd-theme
+* Apply flake8
+* Bug fix for getx, getymin, getymax
+* Bug fix for addition, subtraction, multiplication, division
+* Bug fix for saving images in command line
+
+3.1.15
+------
+* Bug fix for save command
+
+3.1.14
+------
+* Bug fix for custom functions
+* Bug fix for step functions
+
+3.1.13
+------
+* Sina curve sets in library data can now be read
+
+3.1.12
+------
+* Fixed `parsemath()` not working with step functions for addition, subraction, multiplication, and division
+
+3.1.11
+------
+* Axes log scale bug fixed
+
+3.1.10
+------
+* Updated matplotlib from 3.2 to 3.7
+* Fixed install bug and duplicate axes bug 
+
+3.1.9
+-----
+* Updated setup.py to pyproject.toml
+* Changed docs sphinx theme to furo 
+
+3.1.8
+-----
+* Updated Python path for HPC Upgrades
+
+3.1.7
+-----
+* Fixed file reading regex bug not reading data points correctly
+* Updated `labelfilenames` command to append filename to curve legend 
+  with toggle on/off functionality
+
+
+3.1.6
+-----
+* Updated `read` command to accommodate tab-delimited ultra files
+* Added `labelrecordids` and `group` commands
+  compatible with curves from Sina files
+* Updated test baselines to cover new commands
+* Added tests for pdv and pydypy to cover read functions for
+  different curve file types and commands to set `menu` column widths:
+  `xlabelwidth`, `ylabelwidth`, `filenamewidth`, and `recordidwidth`
+* Updated CI to run without --system-site-packages; matplotlib version fixed to 3.2.0
+  and numpy updated to 1.24.2
+
+
+3.1.5
+-----
+* Updated CI to run on closed side.
+
+
+
+3.1.4
+-----
+* Makefile change to do 'sed' on pdv to update the python path
+  and chmod -R 750 develop
+  
+
+3.1.3
+-----
+* Added CI running in CZ and RZ
+* Run RZ specific tests in CI (when running in RZ)
+* Updated test baselines - due to python.3.8.2
+
 
 3.1.15
 ------

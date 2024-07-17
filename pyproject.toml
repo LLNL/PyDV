@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "PyDV"
-version = "3.1.15"
+version = "3.4.3"
 description = "PyDV: Python Data Visualizer"
 license = "BSD"
 classifiers = [
@@ -9,7 +9,7 @@ classifiers = [
     'License :: OSI Approved :: BSD License',
     'Intended Audience :: End Users/Desktop',
     'Intended Audience :: Developers',
-    'Intended Audience :: Science/Research', 
+    'Intended Audience :: Science/Research',
     'Topic :: Scientific/Engineering',
     'Topic :: Scientific/Engineering :: Mathematics',
     'Operating System :: OS Independent',
@@ -20,7 +20,7 @@ documentation = "https://pydv.readthedocs.io/en/latest/"
 authors = [
     "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
     "Jorge Moreno <moreno45@llnl.gov", "Jorge Moreno",
-    "Edward Rusu <rusu1@llnl.gov>", "Edward Rusu",
+    "Ephraim Rusu <rusu1@llnl.gov>", "Ephraim Rusu",
 ]
 maintainers = [
     "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
@@ -39,13 +39,16 @@ numpy = "*"
 scikit-learn = "*"
 scipy = "*"
 PySide2 = "*"
+PyQt5 = "*"
 
 [tool.poetry.dev-dependencies]
-furo = "*"
+sphinx_rtd_theme = "*"
 sphinx = "*"
 pytest = "*"
 sphinx-autoapi = "*"
 six = "*"
+flake8 = "*"
+scikit-image = "*"
 
 [tool.poetry.plugins."console_scripts"]
 'pdv' = 'pydv.pdv:main'
@@ -62,7 +65,7 @@ build-backend = "poetry.core.masonry.api"
 line-length = 79
 
 [tool.bumpver]
-current_version = "3.1.11"
+current_version = "3.4.3"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 commit = true

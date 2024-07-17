@@ -5,7 +5,7 @@ import argparse
 import fileinput
 
 SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
-SOURCE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SOURCE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'pydv')
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Get the version number from the version file
@@ -17,7 +17,7 @@ with open(version_file, 'r') as fp:
 
 # Determine the new version from the specified type of change
 parser = argparse.ArgumentParser()
-parser.add_argument('type', choices=['major', 'minor', 'patch'])
+parser.add_argument('type', choices=['major', 'minor', 'patch', 'date'])
 args = parser.parse_args().type
 if args == 'major':
     major += 1
@@ -36,7 +36,7 @@ files = [
     os.path.join(ROOT_DIR, '.github', 'workflows', 'release.yml'),
     os.path.join(SOURCE_DIR, 'pdvplot.py'),
     os.path.join(SOURCE_DIR, 'pdv.py'),
-    os.path.join(SOURCE_DIR, 'docs', 'conf.py'),
+    os.path.join(ROOT_DIR, 'docs', 'conf.py'),
     os.path.join(SCRIPTS_DIR, 'version.txt'),
 ]
 for afile in files:
@@ -45,7 +45,7 @@ for afile in files:
             print(line.replace(version, new_version), end='')
 
 # Special case: the conf.py file also wants a representation of just major.minor
-with fileinput.FileInput(os.path.join(SOURCE_DIR, 'docs', 'conf.py'), inplace=True) as fp:
+with fileinput.FileInput(os.path.join(ROOT_DIR, 'docs', 'conf.py'), inplace=True) as fp:
     for line in fp:
         print(line.replace(f'{version_list[0]}.{version_list[1]}', f'{major}.{minor}'), end='')
 

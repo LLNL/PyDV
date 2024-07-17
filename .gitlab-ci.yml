@@ -1,6 +1,9 @@
+include: [component: $CI_SERVER_FQDN/lc-components/id_tokens/id_tokens-component@main]
+
 stages:
   - create_env
   - run_tests
+  - run_rz_tests
   - release
   - deploy
   - deploy_to_develop
@@ -33,7 +36,7 @@ stages:
 .on_rz:
   tags:
     - shell
-    - rztopaz
+    - rzgenie
 
 .on_scf:
   tags:
@@ -110,7 +113,8 @@ run_tests_on_rz:
   extends: [ .on_rz, .run_on_rz, .run_tests ]
 
 run_rz_tests_on_rz:
-  stage: run_tests
+  stage: run_rz_tests
+  needs: [ run_tests_on_rz ]
   extends: [ .on_rz, .run_on_rz, .run_rz_tests ]
 
 release_on_rz:

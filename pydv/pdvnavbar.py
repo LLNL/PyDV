@@ -1,6 +1,6 @@
-# Copyright (c) 2011-2022, Lawrence Livermore National Security, LLC.
+# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Ephraim Rusu
 # e-mail: rusu1@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
@@ -74,4 +74,3 @@ class PyDVToolbar(NavigationToolbar2QT):
     def zoom(self, *args):
         self.parent.plotChanged = True
         NavigationToolbar2QT.zoom(self, *args)
-
