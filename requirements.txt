@@ -4,8 +4,6 @@
 #
 #    pip-compile pyproject.toml
 #
---index-url https://wci-repo.llnl.gov/repository/pypi-group/simple
---trusted-host wci-repo.llnl.gov
 
 contourpy==1.1.0
     # via matplotlib
