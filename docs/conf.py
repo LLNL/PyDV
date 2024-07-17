@@ -27,13 +27,6 @@ with open(version_file, 'r') as fp:
     pydv_version = fp.read()
 
 
-DOCS_DIR = os.path.dirname(os.path.abspath(__file__))
-PYDV_DIR = os.path.dirname(DOCS_DIR)
-version_file = os.path.join(PYDV_DIR, 'scripts/version.txt')
-with open(version_file, 'r') as fp:
-    pydv_version = fp.read()
-
-
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.

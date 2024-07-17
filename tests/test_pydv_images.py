@@ -495,11 +495,6 @@ output, error = process.communicate()
 test_images = [_ for _ in os.listdir(output_dir) if _.endswith(".png")]
 baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
 
-@pytest.mark.parametrize("baseline_image, test_image",  list(zip(baseline_images, test_images)))
-def test_image(baseline_image, test_image):
-    baseline = image.imread(os.path.join(BASELINE_DIR, baseline_image))
-    output = image.imread(os.path.join(output_dir, test_image))
-    np.array_equal(baseline, output)
 
 @pytest.mark.parametrize("i", list(range(1, len(commands) + 1)))
 def test_image(i):
