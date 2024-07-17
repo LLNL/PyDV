@@ -1,6 +1,6 @@
 # Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
 # Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Edward Rusu, Sarah El-Jurf, Jorge Moreno
+# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Ephraim Rusu, Sarah El-Jurf, Jorge Moreno
 # e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
 # LLNL-CODE-507071
 # All rights reserved.
@@ -491,7 +491,7 @@ class Plotter(QMainWindow):
                       Copyright &copy; 2011-2024, Lawrence Livermore National Security, LLC. \
                       Produced at the Lawrence Livermore National Laboratory</p> \
                       <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, \
-                      Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
+                      Ephraim Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
                       <p style="font-family:verdana;">e-mail: eljurf1@llnl.gov, moreno45@llnl.gov</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
@@ -595,7 +595,7 @@ class Plotter(QMainWindow):
                                   Lawrence Livermore National Security, LLC.</p>'
                                   '<p style="font-family:veranda; font-size:80%;">Written by: \
                                   Jorge Moreno, Sarah El-Jurf, \
-                                  Edward Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
+                                  Ephraim Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
                                   '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, \
                                   moreno45@llnl.gov</p>'
                                   '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, \

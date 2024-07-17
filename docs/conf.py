@@ -55,9 +55,9 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PyDV'
-copyright = u'2015-2023, ' +\
-    'Sarah El-Jurf, Jorge Moreno, Edward Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
-author = u'Sarah El-Jurf, Jorge Moreno, Edward Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
+copyright = u'2015-2024, ' +\
+    'Sarah El-Jurf, Jorge Moreno, Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
+author = u'Sarah El-Jurf, Jorge Moreno, Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -234,7 +234,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'PyDV.tex', u'PyDV Documentation',
-     u'Edward Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks', 'manual'),
+     u'Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
