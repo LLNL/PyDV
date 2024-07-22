@@ -239,7 +239,7 @@ def create_plot(curvelist, **kwargs):
         elif key == 'ylabel':
             ylabel = val
         elif key == 'legend':
-            legend = val
+            legend = val 
         elif key == 'stylename':
             stylename = val
         elif key == 'xls':
