@@ -10,25 +10,18 @@ RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
 PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
-WEAVE_DEVELOP_VENV = /usr/apps/weave/weave-develop-cpu
-PYTHON_CMD = $(WEAVE_DEVELOP_VENV)/bin/python3
 
 ifeq ($(SOURCE_ZONE),SCF)
 	WEAVE_DEPLOY_GROUP = sduser
 else
 	WEAVE_DEPLOY_GROUP = llnl_emp
 endif
-SPACK_WEAVE_VIEW = /usr/workspace/$(WEAVE_DEPLOY_GROUP)/weave/repos/spack/spack_core_environment/0.20/$(LCSCHEDCLUSTER)/local/
-ADD_PATH = $(SPACK_WEAVE_VIEW)/bin:$(WEAVE_DEVELOP_VENV)/bin
-ADD_PYTHONPATH = $(SPACK_WEAVE_VIEW)/lib/python3.9/site-packages:$(WEAVE_DEVELOP_VENV)/lib/python3.9/site-packages
 
 define do_create_env
-	source $(WEAVE_DEVELOP_VENV)/bin/activate && \
-	$(PYTHON_CMD) -m venv --system-site-packages $1 && \
-	deactivate
-	echo export PATH=$(PATH):$(ADD_PATH) >> $1/bin/activate
-	echo export PYTHONPATH=$(PYTHONPATH):$(ADD_PYTHONPATH) >> $1/bin/activate
-	source $1/bin/activate && \
+    echo "Creating venv p3"
+	/usr/apps/weave/tools/create_venv.sh -p cpu -e $(PYDV_ENV) -v latest-develop
+	source $(PYDV_ENV)/bin/activate && \
+	pip install . && \
 	which pytest && \
 	pip list
 endef
@@ -36,7 +29,7 @@ endef
 define run_pydv_tests
 	# call from the top repository directory
 	# arg1: full path to venv
-	source $1/bin/activate && which pip && which pytest && \
+	source $(PYDV_ENV)/bin/activate && which pip && which pytest && \
 	if [ -z $(DISPLAY) ]; then \
 	  xvfb-run --auto-servernum pytest --capture=tee-sys -v tests/; \
 	else \
@@ -46,7 +39,7 @@ endef
 
 define do_run_rz_tests
 	# arg1: full path to venv
-	source $1/bin/activate && pip list && pwd
+	source $(PYDV_ENV)/bin/activate && pip list && pwd
 	cd tests && ln -s /usr/gapps/pydv/dev/tests/wsc_tests . && cd ..
 	if [ -z $(DISPLAY) ]; then \
 		xvfb-run --auto-servernum python3 -m pytest tests/wsc_tests/test_*py; \
