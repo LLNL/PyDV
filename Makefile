@@ -18,7 +18,8 @@ else
 endif
 
 define do_create_env
-    echo "Creating venv p3"
+    echo "Creating venv $(PYDV_ENV)"
+	if [ -d $(PYDV_ENV) ]; then rm -Rf $(PYDV_ENV); fi
 	/usr/apps/weave/tools/create_venv.sh -p cpu -e $(PYDV_ENV) -v latest-develop
 	source $(PYDV_ENV)/bin/activate && \
 	pip install . && \
