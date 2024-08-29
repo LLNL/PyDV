@@ -832,28 +832,28 @@ def readsina(fname, verbose=False):
 
                 def add_curve_set(curve_sets, curves, listed_order, library=''):
                     for curve_set_name, curve_set in curve_sets.items():
-                        independent_dict = next(iter(curve_set['independent'].items()))
-                        independent_name = independent_dict[0]
-                        independent_value = independent_dict[1]['value']
-                        for name, v in curve_set['dependent'].items():
-                            # TODO: Save the name x and y names with the curves
-                            dependent_variable_name = name
-                            full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
-                            dependent_variable_value = v['value']
-                            curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
-                                curve_set_name + ")"
-                            if library != '':
-                                curve_name += ' ' + library
-                                full_name += '__LIBRARY__' + library
-                            c = makecurve(x=independent_value, y=dependent_variable_value,
-                                          name=curve_name, fname=fname, xlabel=independent_name,
-                                          ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
-                            c.step = False
-                            c.xticks_labels = {}
-                            print("Appended curve: {}, len x,y: {},{}"
-                                  .format(dependent_variable_name, len(c.x), len(c.y)))
-                            curves[full_name] = c
-                            listed_order.append(full_name)
+                        for name_ind, v_ind in curve_set['independent'].items():
+                            independent_name = name_ind
+                            independent_value = v_ind['value']
+                            for name, v in curve_set['dependent'].items():
+                                # TODO: Save the name x and y names with the curves
+                                dependent_variable_name = name
+                                full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
+                                dependent_variable_value = v['value']
+                                curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
+                                    curve_set_name + ")"
+                                if library != '':
+                                    curve_name += ' ' + library
+                                    full_name += '__LIBRARY__' + library
+                                c = makecurve(x=independent_value, y=dependent_variable_value,
+                                              name=curve_name, fname=fname, xlabel=independent_name,
+                                              ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
+                                c.step = False
+                                c.xticks_labels = {}
+                                print("Appended curve: {}, len x,y: {},{}"
+                                      .format(curve_name, len(c.x), len(c.y)))
+                                curves[full_name] = c
+                                listed_order.append(full_name)
                     return curves, listed_order
 
                 curves, listed_order = add_curve_set(curve_sets, curves, listed_order)
