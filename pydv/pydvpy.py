@@ -827,7 +827,7 @@ def readsina(fname, verbose=False):
             try:
                 order_options = json.load(fp)['records'][0]['data']['SINA_timeplot_order']['value']
             except:
-                order_options = listed_order
+                order_options = []
 
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
