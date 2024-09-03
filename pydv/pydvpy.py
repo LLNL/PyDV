@@ -838,7 +838,8 @@ def readsina(fname, verbose=False):
                             for name, v in curve_set['dependent'].items():
                                 # TODO: Save the name x and y names with the curves
                                 dependent_variable_name = name
-                                full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
+                                full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name + \
+                                    '__SINA_INDEP__' + independent_name
                                 dependent_variable_value = v['value']
                                 curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
                                     curve_set_name + ")"

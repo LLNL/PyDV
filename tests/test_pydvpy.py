@@ -46,7 +46,7 @@ def test_sinaread():
 def test_sinaread_mult_ind():
     curves = pydvpy.readsina(os.path.join(TEST_DIR, 'testSinaData_mult_ind.json'))
 
-    assert len(curves) == 4
+    assert len(curves) == 6
 
 
 test_files = list(pathlib.Path(TEST_DIR).glob('testDataregex.*'))
