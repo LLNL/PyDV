@@ -822,6 +822,13 @@ def readsina(fname, verbose=False):
     curves = {}
     listed_order = []
     try:
+        # Try to load the order in which the user wants to load the curves into PyDV
+        with open(fname, 'r') as fp:
+            try:
+                order_options = json.load(fp)['records'][0]['data']['SINA_timeplot_order']['value']
+            except:
+                order_options = listed_order
+
         # Load the curve data from the curve_sets
         with open(fname, 'r') as fp:
             try:
@@ -838,8 +845,11 @@ def readsina(fname, verbose=False):
                             for name, v in curve_set['dependent'].items():
                                 # TODO: Save the name x and y names with the curves
                                 dependent_variable_name = name
-                                full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name + \
-                                    '__SINA_INDEP__' + independent_name
+                                if order_options:
+                                    full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name
+                                else:
+                                    full_name = curve_set_name + '__SINA_DEP__' + dependent_variable_name + \
+                                        '__SINA_INDEP__' + independent_name
                                 dependent_variable_value = v['value']
                                 curve_name = dependent_variable_name + ' vs ' + independent_name + " (" + \
                                     curve_set_name + ")"
@@ -870,11 +880,8 @@ def readsina(fname, verbose=False):
                 return []
 
         # Try to load the order in which the user wants to load the curves into PyDV
-        with open(fname, 'r') as fp:
-            try:
-                order_options = json.load(fp)['records'][0]['data']['SINA_timeplot_order']['value']
-            except:
-                order_options = listed_order
+        if not order_options:
+            order_options = listed_order
 
     except IOError:
         print('readsina: could not load file: {}'.format(fname))
