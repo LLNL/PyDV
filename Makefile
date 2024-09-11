@@ -4,6 +4,7 @@ PYDV_ENV := $(if $(PYDV_ENV),$(PYDV_ENV),$(HOME)/pydv_env)
 
 PKG_REGISTRY_URL = $(CI_API_V4_URL)/projects/$(CI_PROJECT_ID)/packages/generic/archive
 DEPLOY_PATH = /usr/gapps/pydv
+PYTHON_PATH = /usr/apps/weave/weave-develop-cpu/bin/python3
 CI_UTILS = /usr/workspace/weave/ci_utils
 
 RZ_GITLAB = "ssh://git@rzgitlab.llnl.gov:7999"
@@ -87,6 +88,7 @@ deploy:
 	give weaveci $(TAG).tar.gz
 	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
+		mkdir -p $(DEPLOY_PATH)/$(TAG)
 		cd $(DEPLOY_PATH)
 		take $(GIVE_USER) -f
 		chmod 750 $(TAG).tar.gz
@@ -98,6 +100,8 @@ deploy:
 		chmod -R 750 $(TAG)
 		rm -f current
 		ln -s $(TAG) current
+		cd $(TAG)
+		sed -i "s,/usr/apps/weave/weave-develop-cpu/bin/python3,$(PYTHON_PATH)," pdv
 	AS_WEAVECI_USER
 
 
@@ -113,12 +117,11 @@ deploy_to_develop:
 	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
 		umask 027
-		cd $(DEPLOY_PATH)
 		mkdir -p $(DEPLOY_PATH)/develop
 		cd $(DEPLOY_PATH)/develop
 		take $(GIVE_USER) -f
 		gunzip $(VERSION).tar.gz
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
+		sed -i "s,/usr/apps/weave/weave-develop-cpu/bin/python3,$(PYTHON_PATH)," pdv
 		cd .. && chmod -R 750 develop
 	AS_WEAVECI_USER
-
