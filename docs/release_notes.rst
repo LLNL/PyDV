@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.4.4
+------
+* Can now have multiple independent curves in a curve set in sina.json files
+
 3.4.3
 ------
 * Added original data to step data as curve.step_original_x and curve.step_original_y

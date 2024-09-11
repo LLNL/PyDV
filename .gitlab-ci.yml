@@ -149,10 +149,14 @@ deploy_on_scf:
   stage: deploy
   variables:
     DEPLOY_TO: "prod"
-  extends: [ .on_scf, .tag_on_scf, .deploy ]    
+  extends: [ .on_scf, .tag_on_scf, .deploy ]
+  script:
+    - make deploy
+    - make deploy DEPLOY_PATH=/usr/gapps/pydv-sa PYTHON_PATH=/usr/tce/bin/python3
 
 deploy_to_develop_on_scf:
   stage: deploy_to_develop
   extends: [ .on_scf, .deploy_to_develop_on_scf ]
   script:
     - make deploy_to_develop
+    - make deploy_to_develop DEPLOY_PATH=/usr/gapps/pydv-sa PYTHON_PATH=/usr/tce/bin/python3
