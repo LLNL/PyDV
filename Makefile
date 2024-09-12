@@ -88,7 +88,7 @@ deploy:
 	give weaveci $(TAG).tar.gz
 	$(eval GIVE_USER=$(shell echo ${USER}))
 	xsu weaveci -c "sg us_cit" <<AS_WEAVECI_USER
-		mkdir -p $(DEPLOY_PATH)/$(TAG)
+		mkdir -p $(DEPLOY_PATH)
 		cd $(DEPLOY_PATH)
 		take $(GIVE_USER) -f
 		chmod 750 $(TAG).tar.gz
