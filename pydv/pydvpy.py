@@ -861,8 +861,9 @@ def readsina(fname, verbose=False):
                                               ylabel=dependent_variable_name, title=curve_name, record_id=record_id)
                                 c.step = False
                                 c.xticks_labels = {}
-                                print("Appended curve: {}, len x,y: {},{}"
-                                      .format(curve_name, len(c.x), len(c.y)))
+                                if verbose:
+                                    print("Appended curve: {}, len x,y: {},{}"
+                                          .format(curve_name, len(c.x), len(c.y)))
                                 curves[full_name] = c
                                 listed_order.append(full_name)
                     return curves, listed_order
@@ -3690,7 +3691,7 @@ def area(curvelist):
     return areas
 
 
-def disp(c, domain=True):
+def disp(c, domain=True, format="g"):
     """
     Create a string formatted list of the curve's x-values if domain is True, otherwise y-values.
 
@@ -3702,15 +3703,17 @@ def disp(c, domain=True):
     :type curvelist: Curve
     :param domain: if True, display the x-values of the curve. Otherwise, display the y-values of the curve
     :type domain: bool, optional
+    :param format: String format for the data
+    :type format: str, optional
     :return: list -- The list of x- or y-values as strings
     """
     ss = list()
 
     for i in range(len(c.x)):
         if domain:
-            ss.append('x[%d]: %.4f' % (i, c.x[i]))
+            ss.append(f'x[{i:d}]: {c.x[i]:{format}}')
         else:
-            ss.append('y[%d]: %.4f' % (i, c.y[i]))
+            ss.append(f'y[{i:d}]: {c.y[i]:{format}}')
 
     return ss
 

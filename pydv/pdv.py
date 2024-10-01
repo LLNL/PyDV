@@ -2519,7 +2519,7 @@ class Command(cmd.Cmd, object):
         """
         Display the y-values in the specified curves
         """
-
+        format = "g"
         try:
             if len(line.split(':')) > 1:
                 self.do_disp(pdvutil.getletterargs(line))
@@ -2527,29 +2527,33 @@ class Command(cmd.Cmd, object):
             else:
                 print('\n')
                 line = line.split()
+                if 'format' in line:
+                    format = line[-1]
+                    line = line[:-2]  # remove ['format', 'FORMAT']
                 for i in range(len(line)):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        ss = pydvif.disp(cur, False)
+                        ss = pydvif.disp(cur, False, format=format)
                         self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
                     except pdvutil.CurveIndexError:
                         pass
         except:
-            print('error - usage: disp <curve-list>')
+            print('error - usage: disp <curve-list> [format <format>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
 
     def help_disp(self):
-        print('\n   Procedure: Display the y-values in the specified curve(s). \n   Usage: disp <curve-list>\n')
+        print('\n   Procedure: Display the y-values in the specified curve(s). '
+              '\n   Usage: disp <curve-list> [format <format>]n')
 
     def do_dispx(self, line):
         """
         Display the x-values in the specified curves
         """
-
+        format = "g"
         try:
             if len(line.split(':')) > 1:
                 self.do_dispx(pdvutil.getletterargs(line))
@@ -2557,23 +2561,27 @@ class Command(cmd.Cmd, object):
             else:
                 print('\n')
                 line = line.split()
+                if 'format' in line:
+                    format = line[-1]
+                    line = line[:-2]  # remove ['format', 'FORMAT']
                 for i in range(len(line)):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        ss = pydvif.disp(cur)
+                        ss = pydvif.disp(cur, format=format)
                         self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
                     except pdvutil.CurveIndexError:
                         pass
         except:
-            print('error - usage: dispx <curve-list>')
+            print('error - usage: dispx <curve-list> [format <format>]')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
             self.redraw = False
 
     def help_dispx(self):
-        print('\n   Procedure: Display the x-values in the specified curve(s). \n   Usage: dispx <curve-list>\n')
+        print('\n   Procedure: Display the x-values in the specified curve(s). '
+              '\n   Usage: dispx <curve-list> [format <format>]\n')
 
     def do_getnumpoints(self, line):
         """

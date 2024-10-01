@@ -34,12 +34,14 @@ Display the y-values in the specified curve(s).
 
 .. code::
 
-   [PyDV]: disp <curve-list>
+   [PyDV]: disp <curve-list> [format <format>]
 
    Ex:
       [PyDV]: disp a
       [PyDV]: disp a:b
       [PyDV]: disp c d
+      [PyDV]: disp c d format e
+      [PyDV]: disp c d format .4e
 
 dispx
 -----
@@ -48,12 +50,14 @@ Display the x-values in the specified curve(s).
 
 .. code::
 
-   [PyDV]: dispx <curve-list>
+   [PyDV]: dispx <curve-list> [format <format>]
 
    Ex:
       [PyDV]: dispx a
       [PyDV]: dispx a:b
       [PyDV]: dispx c d
+      [PyDV]: dispx c d format e
+      [PyDV]: dispx c d format .4e
 
 eval
 ----
