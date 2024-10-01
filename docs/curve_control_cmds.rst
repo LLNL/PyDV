@@ -28,7 +28,7 @@ Merge a list of curves over the union of their domains. Where the domains overla
 color
 -----
 
-Set the color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a 6 digit set of hexadecimal red-green-blue values (RRGGBB). The entire set of HTML-standard color names is available. Type *showcolormap* to see the available named colors.
+Set the color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a 6 digit set of hexadecimal red-green-blue values #RRGGBB. The entire set of HTML-standard color names is available. Type *showcolormap* to see the available named colors which will show up in the PyDV plotting area (hit return to go back to your plots).
 
 .. code::
  
@@ -38,6 +38,10 @@ Set the color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a
       [PyDV]: color a blue
       [PyDV]: color a:b blue
       [PyDV]: color c d blue
+      [PyDV]: color a #aabb33
+      [PyDV]: showcolormap
+      hit return to go back to your plots
+      [PyDV]: color a lime
 
 curve
 -----
