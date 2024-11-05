@@ -4976,6 +4976,7 @@ class Command(cmd.Cmd, object):
             filetype = 'pdf'
             transparent = False
             dpi = 'figure'
+            current_width, current_height = plt.gcf().get_size_inches()
 
             if optcnt >= 1:
                 filename = line[0]
@@ -4987,14 +4988,22 @@ class Command(cmd.Cmd, object):
                 if line[2].lower() == "true":
                     transparent = True
 
-            if optcnt == 4:
+            if optcnt >= 4:
                 dpi = float(line[3])
 
-            plt.gcf().set_size_inches(6, 4.41)
+            if optcnt >= 5:
+                width = int(line[4]) * 1 / dpi
+                height = int(line[5]) * 1 / dpi
+                plt.gcf().set_size_inches(width, height)
+            else:
+                plt.gcf().set_size_inches(6, 4.41)
+
             plt.savefig(fname=filename + '.' + filetype, dpi=dpi, format=filetype, transparent=transparent)
+
+            plt.gcf().set_size_inches(current_width, current_height)  # reset
         except:
             print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] "
-                  "\n                   [transparent=False: True | False] [dpi]")
+                  "\n                   [transparent=False: True | False] [dpi] [width] [height]")
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
@@ -5002,9 +5011,9 @@ class Command(cmd.Cmd, object):
         print("\n   Macro: Save the current figure to an image file. All parameters are optional. The default value"
               "\n          for filename is 'plot', the default value for filetype is 'pdf' and the default value for "
               "\n          transparent is 'False'. dpi is the resolution in dots per inch and the default value is "
-              "\n          the figure's dpi value."
+              "\n          the figure's dpi value. Width and height are in pixels."
               "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]"
-              "\n                [transparent=False: True | False] [dpi]")
+              "\n                [transparent=False: True | False] [dpi] [width] [height]")
 
     def do_save(self, line):
         """
