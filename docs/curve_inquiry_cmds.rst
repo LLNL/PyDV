@@ -41,7 +41,7 @@ Display the y-values in the specified curve(s).
       [PyDV]: disp a:b
       [PyDV]: disp c d
       [PyDV]: disp c d format e
-      [PyDV]: disp c d format .4e
+      [PyDV]: disp c d format .4f
 
 dispx
 -----
@@ -57,7 +57,7 @@ Display the x-values in the specified curve(s).
       [PyDV]: dispx a:b
       [PyDV]: dispx c d
       [PyDV]: dispx c d format e
-      [PyDV]: dispx c d format .4e
+      [PyDV]: dispx c d format .4f
 
 eval
 ----

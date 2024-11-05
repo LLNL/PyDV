@@ -268,17 +268,18 @@ image
 
 Save the current figure to an image file. All parameters are optional. The default value
 for **filename** is *plot*, the default value for **filetype** is *pdf* and the default value for
-**transparent** is *False*. **dpi** is the resolution in dots per inch and the default value is 
-the figure's dpi value.
+**transparent** is *False*. **dpi** is the resolution in dots per inch and the default value is
+the figure's dpi value. Width and height are in pixels.
 
 .. code::
 
-   [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi]
+   [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi] [width] [height]
 
    Ex:
       [PyDV]: image my_plot png
       [PyDV]: image my_plot png True
-      [PyDV]: image my_plot png True 500
+      [PyDV]: image my_plot png True 100
+      [PyDV]: image my_plot png True 100 1920 1080
 
 label
 -----
