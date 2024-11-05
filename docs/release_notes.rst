@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.4.5
+------
+* `image` now has width and height options
+* `disp` now has format options
+
 3.4.4
 ------
 * Can now have multiple independent curves in a curve set in sina.json files
