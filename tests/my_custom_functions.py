@@ -12,7 +12,13 @@ def do_mycustomfunction(self, line):
         ylabel = f'TestYlabel_{i}'
         title = f'TestTitle_{i}'
         record_id = f'TestRecordID_{i}'
-        c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
+        c = pydvpy.makecurve(x=x,  # noqaf821
+                             y=y,
+                             name=name,
+                             filename=fname,
+                             xlabel=xlabel,
+                             ylabel=ylabel,
+                             title=title,
                              record_id=record_id)
         self.curvelist.append(c)
 
