@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.5
+-----
+* Consolidated `pydvpy.makecurve()` and `curve.Curve()`. Now uses `pydvpy.makecurve()` throughout PyDV.
+* Changed `from pydv import pydvpy as pydvif` to `from pydv import pydvpy`. Now uses `pydvpy` throughout PyDV.
+
 3.4.5
 ------
 * `image` now has width and height options

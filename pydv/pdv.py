@@ -100,15 +100,13 @@ import copy
 
 # HPC Import
 try:
-    import pydvpy as pydvif
-    import curve
+    import pydvpy
     import pdvplot
     import pdvutil
 
 # Package Import
 except ImportError:
-    from pydv import pydvpy as pydvif
-    from pydv import curve
+    from pydv import pydvpy
     from pydv import pdvplot
     from pydv import pdvutil
 
@@ -750,11 +748,10 @@ class Command(cmd.Cmd, object):
                 newYArray = eval(newline)  # line returns a new numpy.array
 
                 # make newYArray into a legitimate curve
-                c = curve.Curve(filename='', name=line)  # we name the curve with the input 'line'
-                c.plotname = self.getcurvename()  # get the next available data ID label
-                c.y = newYArray
-                # get the x-values from one of the curves used in the expression
-                c.x = self.plotlist[cID].x
+                c = pydvpy.makecurve(x=self.plotlist[cID].x,  # x-values from one of the curves used in the expression
+                                     y=newYArray,
+                                     name=line,  # we name the curve with the input 'line'
+                                     plotname=self.getcurvename())  # get the next available data ID label
                 self.addtoplot(c)
 
             self.plotedit = True
@@ -765,24 +762,27 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
 
     def help_newcurve(self):
-        print('\n   newcurve creats a new curve from an expression\n   Usage: newcurve <numpy expression>\n')
-        print('For convenience, both math and numpy modules have been imported into the namespace.')
-        print('Just FYI, this feature is way outside the ULTRA syntax PDV is mostly based on.')
+        print('\n   newcurve creates a new curve from an expression containing curves that have the same domain.\n')
+        print('Usage: newcurve <numpy expression>\n')
+        print('For convenience, the numpy and scipy modules have been imported into the namespace.')
+        print('\tThe x-values will be the x-values of the last curve used in the expression.')
+        print('\tThe y-values will be the evaluated expression after `newcurve`.')
         print('EXAMPLE:')
         print()
-        print('[PDV]: newcurve sin(a.x*2*pi)/(h.y**2)')
+        print('\t[PDV]: newcurve scipy.ndimage.gaussian_filter(numpy.sin(a.x*2*numpy.pi)/(b.x**2), sigma=5)')
         print()
         print('This creates a new curve according to the complicated expression.')
         print('You can abbreviate newcurve as nc.')
         print()
         print('WARNINGS:')
-        print('* Currently, newcurve is hard-wired to only handle single-letter labels.')
-        print('  Curve names used in the expression cannot be the @N type we use after')
-        print('  we run out of letters. Sorry (April 2015).')
-        print('* A common error is to forget the .x or .y on the curve label name.')
-        print('* All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve')
-        print('  will generate a curve from different domains (with no error message), and that curve')
-        print('  will almost certainly not be what you intended.')
+        print('\t* Currently, newcurve is hard-wired to only handle single-letter labels.')
+        print('\t  Curve names used in the expression cannot be the @N type we use after')
+        print('\t  we run out of letters. Sorry (April 2015).')
+        print('\t* A common error is to forget the .x or .y on the curve label name.')
+        print('\t* All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve')
+        print('\t  will generate a curve from different domains (but with the same number of points) with no error')
+        print('\t  message, and that curve will almost certainly not be what you intended.')
+        print('\n If you want a more advanced expression or more control over what happens, see the command `custom`')
         print()
 
     def do_eval(self, line):
@@ -1158,13 +1158,13 @@ class Command(cmd.Cmd, object):
 
         if len(curvelist) > 1:
             if operation == "add":
-                return pydvif.add(curvelist)
+                return pydvpy.add(curvelist)
             elif operation == "subtract":
-                return pydvif.subtract(curvelist)
+                return pydvpy.subtract(curvelist)
             elif operation == "multiply":
-                return pydvif.multiply(curvelist)
+                return pydvpy.multiply(curvelist)
             elif operation == "divide":
-                return pydvif.divide(curvelist)
+                return pydvpy.divide(curvelist)
             else:
                 raise ValueError("error: Unknown operation: {}".format(operation))
         else:
@@ -1358,7 +1358,7 @@ class Command(cmd.Cmd, object):
 
     def help_curve(self):
         print('\n   Procedure: Select curves from the menu for plotting'
-              '\n   Usage: curve <(<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
+              '\n   Usage: curve (<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
 
     def do_erase(self, line):
         """
@@ -1662,7 +1662,7 @@ class Command(cmd.Cmd, object):
 
         try:
             if stylesLoaded:
-                ss = pydvif.get_styles()
+                ss = pydvpy.get_styles()
                 print('\n')
                 self.print_topics('Style Names (type style <style-name>):', ss, 15, 80)
             else:
@@ -1918,7 +1918,7 @@ class Command(cmd.Cmd, object):
                 d.y = numpy.array([Linf] * c.y.shape[0])
                 d.name = "Linf of " + a.plotname + " and " + b.plotname
             else:
-                d = pydvif.integrate(c, xmin, xmax)[0]  # d = integral( c**N )
+                d = pydvpy.integrate(c, xmin, xmax)[0]  # d = integral( c**N )
                 d = d**(1.0 / N)
                 print("L{:d} norm = {:.4f}".format(N, max(d.y)))
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
@@ -1960,7 +1960,7 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
 
-                nc = pydvif.max_curve(curves)
+                nc = pydvpy.max_curve(curves)
 
                 if nc is not None:
                     self.addtoplot(nc)
@@ -1998,7 +1998,7 @@ class Command(cmd.Cmd, object):
                     curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     curves.append(self.plotlist[curvidx])
 
-                nc = pydvif.min_curve(curves)
+                nc = pydvpy.min_curve(curves)
 
                 if nc is not None:
                     self.addtoplot(nc)
@@ -2041,7 +2041,7 @@ class Command(cmd.Cmd, object):
                             curves.append(self.plotlist[i])
                             break
 
-                nc = pydvif.average_curve(curves)
+                nc = pydvpy.average_curve(curves)
 
                 if nc is not None:
                     self.addtoplot(nc)
@@ -2088,7 +2088,7 @@ class Command(cmd.Cmd, object):
             else:
                 n = 1
 
-            nc = pydvif.fit(c, n, logx, logy)
+            nc = pydvpy.fit(c, n, logx, logy)
             nc.plotname = self.getcurvename()
             self.addtoplot(nc)
         except:
@@ -2156,7 +2156,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        plotname, miny, maxy = pydvif.getrange(cur)[0]
+                        plotname, miny, maxy = pydvpy.getrange(cur)[0]
                         print('\nCurve ' + plotname)
                         print('    ymin: %.6e    ymax: %.6e' % (miny, maxy))
                     except pdvutil.CurveIndexError:
@@ -2189,7 +2189,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        plotname, minx, maxx = pydvif.getdomain(cur)[0]
+                        plotname, minx, maxx = pydvpy.getdomain(cur)[0]
                         print('\nCurve ' + plotname)
                         print('    xmin: %.6e    xmax: %.6e' % (minx, maxx))
                     except pdvutil.CurveIndexError:
@@ -2222,7 +2222,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        plotname, sumx, sumy = pydvif.sum(cur)[0]
+                        plotname, sumx, sumy = pydvpy.sum(cur)[0]
                         print(f'\nCurve {cur.plotname}: {plotname}')
                         print(f'\tsumx: {sumx:.6e}, sumy: {sumy:.6e}')
                     except pdvutil.CurveIndexError:
@@ -2255,7 +2255,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        plotname, area = pydvif.area(cur)[0]
+                        plotname, area = pydvpy.area(cur)[0]
                         print(f'\nCurve {cur.plotname}: {plotname}')
                         print(f'\tarea: {area:.6e}')
                     except pdvutil.CurveIndexError:
@@ -2305,7 +2305,7 @@ class Command(cmd.Cmd, object):
                 for i in line:
                     idx = pdvutil.getCurveIndex(i, self.plotlist)
                     cur = self.plotlist[idx]
-                    plotname, xy_values = pydvif.getymax(cur, xlow, xhi)
+                    plotname, xy_values = pydvpy.getymax(cur, xlow, xhi)
                     print(f' \n{i.upper()} Curve {plotname}')
                     for x, y in xy_values:
                         print('    x: %.6e    y: %.6e\n' % (x, y))
@@ -2354,7 +2354,7 @@ class Command(cmd.Cmd, object):
                 for i in line:
                     idx = pdvutil.getCurveIndex(i, self.plotlist)
                     cur = self.plotlist[idx]
-                    plotname, xy_values = pydvif.getymin(cur, xlow, xhi)
+                    plotname, xy_values = pydvpy.getymin(cur, xlow, xhi)
                     print(f' \n{i.upper()} Curve {plotname}')
                     for x, y in xy_values:
                         print('    x: %.6e    y: %.6e\n' % (x, y))
@@ -2386,7 +2386,7 @@ class Command(cmd.Cmd, object):
                 for i in line:
                     idx = pdvutil.getCurveIndex(i, self.plotlist)
                     cur = self.plotlist[idx]
-                    nc = pydvif.cumsum(cur)
+                    nc = pydvpy.cumsum(cur)
                     self.addtoplot(nc)
 
                     self.plotedit = True
@@ -2441,7 +2441,7 @@ class Command(cmd.Cmd, object):
                     try:
                         j = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[j]
-                        pydvif.sort(cur)
+                        pydvpy.sort(cur)
                     except pdvutil.CurveIndexError:
                         pass
 
@@ -2472,7 +2472,7 @@ class Command(cmd.Cmd, object):
                     try:
                         j = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[j]
-                        pydvif.rev(cur)
+                        pydvpy.rev(cur)
                     except pdvutil.CurveIndexError:
                         pass
             self.plotedit = True
@@ -2501,7 +2501,7 @@ class Command(cmd.Cmd, object):
                     try:
                         j = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[j]
-                        pydvif.random(cur)
+                        pydvpy.random(cur)
                     except pdvutil.CurveIndexError:
                         pass
             self.plotedit = True
@@ -2534,7 +2534,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        ss = pydvif.disp(cur, False, format=format)
+                        ss = pydvpy.disp(cur, False, format=format)
                         self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
                     except pdvutil.CurveIndexError:
                         pass
@@ -2568,7 +2568,7 @@ class Command(cmd.Cmd, object):
                     try:
                         idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[idx]
-                        ss = pydvif.disp(cur, format=format)
+                        ss = pydvpy.disp(cur, format=format)
                         self.print_topics('Curve %s: %s' % (cur.plotname, cur.name), ss, 15, 100)
                     except pdvutil.CurveIndexError:
                         pass
@@ -2599,7 +2599,7 @@ class Command(cmd.Cmd, object):
                 for i in range(len(line)):
                     idx = pdvutil.getCurveIndex(line[i], self.plotlist)
                     cur = self.plotlist[idx]
-                    print(f'\n    {line[i].upper()} Number of points = {pydvif.getnumpoints(cur)}')
+                    print(f'\n    {line[i].upper()} Number of points = {pydvpy.getnumpoints(cur)}')
         except:
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
@@ -2975,7 +2975,7 @@ class Command(cmd.Cmd, object):
                 elif p.plotname == letterargs[1]:
                     b = p
             assert a and b
-            c = pydvif.atan2(a, b, tuple(letterargs))
+            c = pydvpy.atan2(a, b, tuple(letterargs))
             self.addtoplot(c)
             self.plotedit = True
         except:
@@ -5197,7 +5197,7 @@ class Command(cmd.Cmd, object):
                 numpts = int(line.pop(-1))
             xmin = float(line[0])
             xmax = float(line[1])
-            c = pydvif.span(xmin, xmax, numpts)
+            c = pydvpy.span(xmin, xmax, numpts)
             self.addtoplot(c)
             self.plotedit = True
         except:
@@ -5227,7 +5227,7 @@ class Command(cmd.Cmd, object):
             xmin = float(line[2])
             xmax = float(line[3])
 
-            c = pydvif.line(slope, yint, xmin, xmax, numpts)
+            c = pydvpy.line(slope, yint, xmin, xmax, numpts)
             self.addtoplot(c)
             self.plotedit = True
         except:
@@ -5254,9 +5254,9 @@ class Command(cmd.Cmd, object):
             if len(x) != len(y):
                 raise RuntimeError('Must have same number of x and y values')
 
-            c = curve.Curve('', 'Curve')
-            c.x = x
-            c.y = y
+            c = pydvpy.makecurve(x=x,
+                                 y=y,
+                                 name='Curve')
             self.addtoplot(c)
             self.plotedit = True
         except:
@@ -5528,7 +5528,7 @@ class Command(cmd.Cmd, object):
                     for j in range(len(self.plotlist)):
                         cur = self.plotlist[j]
                         if cur.plotname == line[i].upper():
-                            nc = pydvif.integrate(cur, xlow, xhi)[0]
+                            nc = pydvpy.integrate(cur, xlow, xhi)[0]
                             self.addtoplot(nc)
                             break
 
@@ -5568,7 +5568,7 @@ class Command(cmd.Cmd, object):
             idx = pdvutil.getCurveIndex(line[1], self.plotlist)
             c2 = self.plotlist[idx]
 
-            nc = pydvif.vs(c1, c2)
+            nc = pydvpy.vs(c1, c2)
 
             self.addtoplot(nc)
             self.plotedit = True
@@ -5614,10 +5614,13 @@ class Command(cmd.Cmd, object):
             newfilename = self.curvelist[icur2].filename
             if self.curvelist[icur2].record_id == self.curvelist[icur1].record_id:
                 newrecord_id = self.curvelist[icur2].record_id
-        nc = curve.Curve(newfilename, '%s vs %s' % (arg0, arg1), newrecord_id, self.curvelist[icur2].ylabel,
-                         self.curvelist[icur1].ylabel)
-        nc.x = yc2
-        nc.y = numpy.interp(xc2, xc1, yc1)
+        nc = pydvpy.makecurve(x=yc2,
+                              y=numpy.interp(xc2, xc1, yc1),
+                              name='%s vs %s' % (arg0, arg1),
+                              filename=newfilename,
+                              record_id=newrecord_id,
+                              xlabel=self.curvelist[icur2].ylabel,
+                              ylabel=self.curvelist[icur1].ylabel)
         self.addtoplot(nc)
         self.plotedit = True
         return
@@ -5659,7 +5662,7 @@ class Command(cmd.Cmd, object):
             elif len(line) == 4:
                 mod = line[3]
 
-            pydvif.errorbar(scur, cury1, cury2, curx1, curx2, mod)
+            pydvpy.errorbar(scur, cury1, cury2, curx1, curx2, mod)
             self.plotedit = True
         except:
             # scur.ebar = None
@@ -5794,7 +5797,7 @@ class Command(cmd.Cmd, object):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        pydvif.smooth(cur, factor)
+                        pydvpy.smooth(cur, factor)
                         cur.edited = True
                     except pdvutil.CurveIndexError:
                         pass
@@ -5827,7 +5830,7 @@ class Command(cmd.Cmd, object):
                 for item in line:
                     idx = pdvutil.getCurveIndex(item, self.plotlist)
                     c1 = self.plotlist[idx]
-                    nc1, nc2 = pydvif.fft(c1, norm="ortho")
+                    nc1, nc2 = pydvpy.fft(c1, norm="ortho")
                     self.addtoplot(nc1)
                     self.addtoplot(nc2)
 
@@ -5867,7 +5870,7 @@ class Command(cmd.Cmd, object):
                             curves.append(self.plotlist[i])
                             break
 
-                nc = pydvif.appendcurves(curves)
+                nc = pydvpy.appendcurves(curves)
 
                 if nc is not None:
                     self.addtoplot(nc)
@@ -5909,9 +5912,9 @@ class Command(cmd.Cmd, object):
 
                 if linelen == 4:
                     npts = int(line[3])
-                    nc = pydvif.alpha(c1, c2, c3, npts)
+                    nc = pydvpy.alpha(c1, c2, c3, npts)
                 else:
-                    nc = pydvif.alpha(c1, c2, c3)
+                    nc = pydvpy.alpha(c1, c2, c3)
 
                 self.addtoplot(nc)
                 self.plotedit = True
@@ -5958,14 +5961,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolveb(c1, c2, debug=self.debug)
+                nc = pydvpy.convolveb(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolveb(c1, c2, npts, debug=self.debug)
+                nc = pydvpy.convolveb(c1, c2, npts, debug=self.debug)
             elif len(line) == 4:
                 npts = int(line[2])
                 npts_interp = int(line[3])
-                nc = pydvif.convolveb(c1, c2, npts, npts_interp, debug=self.debug)
+                nc = pydvpy.convolveb(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -6006,14 +6009,14 @@ class Command(cmd.Cmd, object):
                     break
 
             if len(line) == 2:
-                nc = pydvif.convolvec(c1, c2, debug=self.debug)
+                nc = pydvpy.convolvec(c1, c2, debug=self.debug)
             elif len(line) == 3:
                 npts = int(line[2])
-                nc = pydvif.convolvec(c1, c2, npts, debug=self.debug)
+                nc = pydvpy.convolvec(c1, c2, npts, debug=self.debug)
             elif len(line) == 4:
                 npts = int(line[2])
                 npts_interp = int(line[3])
-                nc = pydvif.convolvec(c1, c2, npts, npts_interp, debug=self.debug)
+                nc = pydvpy.convolvec(c1, c2, npts, npts_interp, debug=self.debug)
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 2 or 3 but received %d." % len(line))
 
@@ -6057,7 +6060,7 @@ class Command(cmd.Cmd, object):
             idx = pdvutil.getCurveIndex(line[1], self.plotlist)
             c2 = self.plotlist[idx]
 
-            cdiff, cint = pydvif.diffMeasure(c1, c2, tolerance)
+            cdiff, cint = pydvpy.diffMeasure(c1, c2, tolerance)
             self.addtoplot(cdiff)
             self.addtoplot(cint)
             self.plotedit = True
@@ -6091,7 +6094,7 @@ class Command(cmd.Cmd, object):
             idx = pdvutil.getCurveIndex(line[1], self.plotlist)
             c2 = self.plotlist[idx]
 
-            nc = pydvif.correlate(c1, c2, 'same')
+            nc = pydvpy.correlate(c1, c2, 'same')
             self.addtoplot(nc)
             self.plotedit = True
         except RuntimeError as rte:
@@ -6123,7 +6126,7 @@ class Command(cmd.Cmd, object):
             else:
                 numpts = 100
 
-            c = pydvif.theta(xmin, x0, xmax, numpts)
+            c = pydvpy.theta(xmin, x0, xmax, numpts)
             self.addtoplot(c)
             self.plotedit = True
 
@@ -6145,7 +6148,7 @@ class Command(cmd.Cmd, object):
 
             idx = pdvutil.getCurveIndex(line, self.plotlist)
             c1 = self.plotlist[idx]
-            c = pydvif.normalize(c1)
+            c = pydvpy.normalize(c1)
             self.addtoplot(c)
             self.plotedit = True
 
@@ -6169,7 +6172,7 @@ class Command(cmd.Cmd, object):
             c1 = self.plotlist[idx]
             idx = pdvutil.getCurveIndex(line[1], self.plotlist)
             c2 = self.plotlist[idx]
-            c = pydvif.hypot(c1, c2)
+            c = pydvpy.hypot(c1, c2)
             self.addtoplot(c)
             self.plotedit = True
 
@@ -6197,7 +6200,7 @@ class Command(cmd.Cmd, object):
                 npts = float(line[3])
             else:
                 npts = 100
-            c = pydvif.delta(xmn, x0, xmx, npts)
+            c = pydvpy.delta(xmn, x0, xmx, npts)
             self.addtoplot(c)
             self.plotedit = True
 
@@ -6409,7 +6412,7 @@ class Command(cmd.Cmd, object):
             wid = float(line[1])
             center = float(line[2])
 
-            c = pydvif.gaussian(amp, wid, center, num, nsd)
+            c = pydvpy.gaussian(amp, wid, center, num, nsd)
             self.addtoplot(c)
             self.plotedit = True
         except:
@@ -6799,7 +6802,7 @@ class Command(cmd.Cmd, object):
                         pass
 
                 if len(curves) > 0:
-                    pydvif.makeextensive(curves)
+                    pydvpy.makeextensive(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
 
@@ -6832,7 +6835,7 @@ class Command(cmd.Cmd, object):
                         pass
 
                 if len(curves) > 0:
-                    pydvif.makeintensive(curves)
+                    pydvpy.makeintensive(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
 
@@ -6866,7 +6869,7 @@ class Command(cmd.Cmd, object):
                         pass
 
                 if len(curves) > 0:
-                    pydvif.dupx(curves)
+                    pydvpy.dupx(curves)
 
         except:
             print('error - usage: dupx <curve-list>')
@@ -6898,7 +6901,7 @@ class Command(cmd.Cmd, object):
                         pass
 
                 if len(curves) > 0:
-                    pydvif.xindex(curves)
+                    pydvpy.xindex(curves)
                 else:
                     raise RuntimeError('Need to specify a valid curve or curves')
 
@@ -7387,7 +7390,7 @@ class Command(cmd.Cmd, object):
 
                 if len(curvelist) > 0:
                     print("\nSubsampling the data by stride %i...\n" % stride)
-                    pydvif.subsample(curvelist, stride, True)
+                    pydvpy.subsample(curvelist, stride, True)
 
                 self.plotedit = True
 
@@ -7574,7 +7577,7 @@ class Command(cmd.Cmd, object):
         Return derivative of curve
         """
 
-        nc = pydvif.derivative(cur)
+        nc = pydvpy.derivative(cur)
         nc.plotname = self.getcurvename()
         return nc
 
@@ -7707,7 +7710,7 @@ class Command(cmd.Cmd, object):
                             cur.hidden = True
                     elif (flag == 'getx'):
                         try:
-                            getxvalues = pydvif.getx(cur, float(modvalue))
+                            getxvalues = pydvpy.getx(cur, float(modvalue))
 
                             if getxvalues:
                                 print('\nCurve ' + cur.plotname)
@@ -7720,7 +7723,7 @@ class Command(cmd.Cmd, object):
 
                     elif (flag == 'gety'):
                         try:
-                            getyvalues = pydvif.gety(cur, float(modvalue))
+                            getyvalues = pydvpy.gety(cur, float(modvalue))
 
                             if getyvalues:
                                 print('\nCurve ' + cur.plotname)
@@ -8119,7 +8122,7 @@ class Command(cmd.Cmd, object):
         try:
             if stylesLoaded:
                 if self.updatestyle:
-                    styles = pydvif.get_styles()
+                    styles = pydvpy.get_styles()
 
                     try:
                         idx = styles.index(self.plotter.style)
@@ -8439,7 +8442,7 @@ class Command(cmd.Cmd, object):
         Load an ultra file and add parsed curves to the curvelist
         """
 
-        curves = pydvif.read(fname, gnu, self.xCol, self.debug, pattern, matches)
+        curves = pydvpy.read(fname, gnu, self.xCol, self.debug, pattern, matches)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -8448,7 +8451,7 @@ class Command(cmd.Cmd, object):
         """
         Load a csv (commas separated values) text data file, add parsed curves to the curvelist
         """
-        curves = pydvif.readcsv(fname, col, self.debug)
+        curves = pydvpy.readcsv(fname, col, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -8458,7 +8461,7 @@ class Command(cmd.Cmd, object):
         Load a Sina JSON data file, add parsed curves to the curvelist
         """
 
-        curves = pydvif.readsina(fname, self.debug)
+        curves = pydvpy.readsina(fname, self.debug)
         if len(curves) > 0:
             self.curvelist += curves
             self.filelist.append((fname, len(curves)))
@@ -8630,13 +8633,13 @@ class Command(cmd.Cmd, object):
                         traceback.print_exc(file=sys.stdout)
 
             if log_type == LogEnum.LOG:
-                pydvif.log(curves, keepnegs)
+                pydvpy.log(curves, keepnegs)
             elif log_type == LogEnum.LOGX:
-                pydvif.logx(curves, keepnegs)
+                pydvpy.logx(curves, keepnegs)
             elif log_type == LogEnum.LOG10:
-                pydvif.log10(curves, keepnegs)
+                pydvpy.log10(curves, keepnegs)
             elif log_type == LogEnum.LOG10X:
-                pydvif.log10x(curves, keepnegs)
+                pydvpy.log10x(curves, keepnegs)
             else:
                 raise RuntimeError("Unknown log type: {}".format(log_type))
 

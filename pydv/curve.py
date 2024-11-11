@@ -66,47 +66,68 @@ from scipy import interpolate, integrate
 
 class Curve(object):
 
-    name = ''
-    filename = ''
-    record_id = ''
-    xlabel = ''
-    ylabel = ''
-    title = ''
-    plotname = ''
-    color = ''
-    edited = False
-    scatter = False
-    linespoints = False
-    linewidth = None
-    linestyle = '-'
-    drawstyle = 'default'
-    dashes = None
-    hidden = False
-    x = np.empty(0)
-    y = np.empty(0)
-    ebar = None  # errorbar
-    erange = None  # errorrange
-    marker = '.'  # Use matplotlib markers when setting directly
-    markerstyle = None
-    markersize = 3
-    markerfacecolor = None
-    markeredgecolor = None
-    plotprecedence = 0
-    legend_show = True
-
-    def __init__(self, filename='', name='', record_id='', xlabel='', ylabel='', title='',
-                 step=False, xticks_labels=None):
-        self.filename = filename
+    def __init__(self,
+                 x=np.empty(0),
+                 y=np.empty(0),
+                 name='',
+                 filename='',
+                 xlabel='',
+                 ylabel='',
+                 title='',
+                 record_id='',
+                 step=False,
+                 xticks_labels=None,
+                 plotname='',
+                 color='',
+                 edited=False,
+                 scatter=False,
+                 linespoints=False,
+                 linewidth=None,
+                 linestyle='-',
+                 drawstyle='default',
+                 dashes=None,
+                 hidden=False,
+                 ebar=None,  # errorbar
+                 erange=None,  # errorrange
+                 marker='.',  # Use matplotlib markers when setting directly
+                 markerstyle=None,
+                 markersize=3,
+                 markerfacecolor=None,
+                 markeredgecolor=None,
+                 plotprecedence=0,
+                 legend_show=True):
+        self.x = np.array(x, dtype=float)
+        self.y = np.array(y, dtype=float)
         self.name = name
-        self.record_id = record_id
+        self.filename = filename
         self.xlabel = xlabel
         self.ylabel = ylabel
         self.title = title
+        self.record_id = record_id
         self.step = step
         self.xticks_labels = xticks_labels
+        self.plotname = plotname
+        self.color = color
+        self.edited = edited
+        self.scatter = scatter
+        self.linespoints = linespoints
+        self.linewidth = linewidth
+        self.linestyle = linestyle
+        self.drawstyle = drawstyle
+        self.dashes = dashes
+        self.hidden = hidden
+        self.ebar = ebar
+        self.erange = erange
+        self.marker = marker
+        self.markerstyle = markerstyle
+        self.markersize = markersize
+        self.markerfacecolor = markerfacecolor
+        self.markeredgecolor = markeredgecolor
+        self.plotprecedence = plotprecedence
+        self.legend_show = legend_show
 
     def __add__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' + ' + b.plotname + ' ').strip('  ')
         ia, ib = getinterp(a, b)
@@ -116,7 +137,7 @@ class Curve(object):
         return c
 
     def __sub__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' - ' + b.plotname + ' ').strip('  ')
         ia, ib = getinterp(a, b)
@@ -126,7 +147,7 @@ class Curve(object):
         return c
 
     def __mul__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' * ' + b.plotname + ' ').strip('  ')
         ia, ib = getinterp(a, b)
@@ -136,7 +157,7 @@ class Curve(object):
         return c
 
     def __div__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' / ' + b.plotname + ' ').strip('  ')
         ia, ib = getinterp(a, b)
@@ -154,7 +175,7 @@ class Curve(object):
         return c
 
     def __truediv__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' / ' + b.plotname + ' ').strip('  ')
         ia, ib = getinterp(a, b)
@@ -172,7 +193,7 @@ class Curve(object):
         return c
 
     def __pow__(a, b):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + '^' + str(b)).strip('  ')
         c.x = np.array(a.x)
@@ -183,7 +204,7 @@ class Curve(object):
         return c
 
     def __neg__(a):
-        c = Curve('', '')
+        c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str('-' + a.plotname)
         c.x = np.array(a.x)
@@ -195,27 +216,35 @@ class Curve(object):
         Return a new copy of the curve object
         """
 
-        c = Curve(self.filename, self.name, self.record_id, self.xlabel, self.ylabel, self.title)
-        c.plotname = self.plotname
-        c.x = np.array(self.x)
-        c.y = np.array(self.y)
-        c.color = self.color
-        c.edited = self.edited
-        c.scatter = self.scatter
-        c.linespoints = self.linespoints
-        c.linewidth = self.linewidth
-        c.linestyle = self.linestyle
-        c.drawstyle = self.drawstyle
-        c.dashes = self.dashes
-        c.hidden = self.hidden
-        c.marker = self.marker
-        c.markerstyle = self.markerstyle
-        c.markersize = self.markersize
-        c.markeredgecolor = self.markeredgecolor
-        c.markerfacecolor = self.markerfacecolor
-        c.ebar = self.ebar
-        c.erange = self.erange
-        c.plotprecedence = self.plotprecedence
+        c = Curve(x=np.array(self.x, dtype=float),
+                  y=np.array(self.y, dtype=float),
+                  name=self.name,
+                  filename=self.filename,
+                  xlabel=self.xlabel,
+                  ylabel=self.ylabel,
+                  title=self.title,
+                  record_id=self.record_id,
+                  step=self.step,
+                  xticks_labels=self.xticks_labels,
+                  plotname=self.plotname,
+                  color=self.color,
+                  edited=self.edited,
+                  scatter=self.scatter,
+                  linespoints=self.linespoints,
+                  linewidth=self.linewidth,
+                  linestyle=self.linestyle,
+                  drawstyle=self.drawstyle,
+                  dashes=self.dashes,
+                  hidden=self.hidden,
+                  ebar=self.ebar,
+                  erange=self.erange,
+                  marker=self.marker,
+                  markerstyle=self.markerstyle,
+                  markersize=self.markersize,
+                  markerfacecolor=self.markerfacecolor,
+                  markeredgecolor=self.markeredgecolor,
+                  plotprecedence=self.plotprecedence,
+                  legend_show=self.legend_show)
 
         return c
 
@@ -256,7 +285,7 @@ def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
         ia.x = np.array(ux)
         ia.y = np.interp(ux, a.x, a.y, left, right)  # interpolate y vals
 
-        ib = Curve('', '')
+        ib = Curve()
         ib.x = np.array(ux)
         ib.y = np.interp(ux, b.x, b.y, left, right)  # interpolate y vals
 
@@ -274,7 +303,7 @@ def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
         ia.x = ax
         ia.y = np.interp(ax, a.x, a.y, left, right)  # interpolate y vals
 
-        ib = Curve('', '')
+        ib = Curve()
         ib.x = bx
         ib.y = np.interp(bx, b.x, b.y, left, right)  # interpolate y vals
 
@@ -325,7 +354,7 @@ def append(a, b):
     ux = list(set(a.x).union(set(b.x)))  # get union of xvals
     ux.sort()
 
-    aub = Curve('', '')
+    aub = Curve()
     aub.x = np.array(ux)
     aub.y = np.zeros(len(aub.x))
 
