@@ -6,6 +6,7 @@ Release Notes
 ------
 * `image` now has width and height options
 * `disp` now has format options
+* Cleaning up docs
 
 3.4.4
 ------
@@ -98,12 +99,12 @@ Release Notes
 3.1.10
 ------
 * Updated matplotlib from 3.2 to 3.7
-* Fixed install bug and duplicate axes bug 
+* Fixed install bug and duplicate axes bug
 
 3.1.9
 -----
 * Updated setup.py to pyproject.toml
-* Changed docs sphinx theme to furo 
+* Changed docs sphinx theme to furo
 
 3.1.8
 -----
@@ -112,7 +113,7 @@ Release Notes
 3.1.7
 -----
 * Fixed file reading regex bug not reading data points correctly
-* Updated `labelfilenames` command to append filename to curve legend 
+* Updated `labelfilenames` command to append filename to curve legend
   with toggle on/off functionality
 
 
@@ -139,7 +140,7 @@ Release Notes
 -----
 * Makefile change to do 'sed' on pdv to update the python path
   and chmod -R 750 develop
-  
+
 
 3.1.3
 -----
@@ -179,7 +180,7 @@ domain.
 * Fixed functions that did not work with curve lists, which were: dupx, del,
   markerfacecolor, markeredgecolor, random, rev, sort, subsample, xindex, xminmax,
   yminmax, log{,x,10,10x}, makeintensive, makeextensive, max, smooth, disp{,x},
-  getdomain, getrange, stats, movefront 
+  getdomain, getrange, stats, movefront
 * All curve list functions support gaps in the list of curves. For example,
   if there are curves A, B, and E, then ``function A:E`` will still work on
   A, B, and E.
@@ -270,18 +271,18 @@ Python 3 port with bug fixes and a lot of minor code refactoring.
 Bug Fixes
 ~~~~~~~~~
 
-* Fixed the piece-wise constant integration bug  
+* Fixed the piece-wise constant integration bug
 * Fit command bug fixed
 * Added Doug Miller's fix for retrieving a curve by label
 
 Enhancements
 ~~~~~~~~~~~~
 
-* Added the minorticks command. Minor ticks can now be made visible. 
+* Added the minorticks command. Minor ticks can now be made visible.
 * Added the xtickcolor command to change the color of major and minor ticks on the x~axis
 * Added the ytickcolor command to change the color of major and minor ticks on the y~axis
 * Updated the xticklength command to support minor ticks
-* Updated the xtickwidth command to support minor ticks 
+* Updated the xtickwidth command to support minor ticks
 * Updated the yticklength command to support minor ticks
 * Updated the ytickwidth command to support minor ticks
 * Added the gridcolor command
@@ -301,7 +302,7 @@ Enhancements
 Bug Fixes
 ~~~~~~~~~
 
-* Fixed the FFT command to produce two curves for the complex and imaginary part like Ultra 
+* Fixed the FFT command to produce two curves for the complex and imaginary part like Ultra
 * Corrected the 'off by one' index error for curves named with the '@' symbol
 * The xtick commands now display the correct help information
 * errorbar command works now
@@ -309,7 +310,7 @@ Bug Fixes
 Enhancements
 ~~~~~~~~~~~~
 
-* Implemented the convol, convolb, and convolc commands like their Ultra equivalent 
+* Implemented the convol, convolb, and convolc commands like their Ultra equivalent
 * Added the intensize and extensive commands
 * Added the correl command
 * Added the system command to allow passing commands to the operating system
@@ -362,7 +363,7 @@ Enhancements
 Bug Fixes
 ~~~~~~~~~
 
-* Fixed the **getx** and **gety** commands to work with horizontal/vertical lines. 
+* Fixed the **getx** and **gety** commands to work with horizontal/vertical lines.
 * Fixed the sign issue with subtracting curves.
 
 Enhancements
@@ -370,7 +371,7 @@ Enhancements
 
 * Added window to display the contents of the **list** command. You can also delete curves from this window.
 * Allow figure size specification in **create_plot**.
-* Enhanced the **list** command to use a regex for filtering the list. 
+* Enhanced the **list** command to use a regex for filtering the list.
 * Display the **menu** command contents in a popup window. Can also plot and delete curves from the popup window.
 * Enhanced the read command to filter the curves as they are read in. Also, the user can specify the number of matched curves to read in.
 * Added the **getlabel** command that prints the given curve's label.

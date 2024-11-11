@@ -1,11 +1,11 @@
-PyDV API Specification 
+PyDV API Specification
 ============================
 
 
 pydvpy module
 -------------------
 
-.. automodule:: pydvpy 
+.. automodule:: pydvpy
     :members:
     :undoc-members:
     :show-inheritance:

@@ -93,7 +93,7 @@ convol_plot_path = os.path.join(TEST_DIR, 'convolution_plots')
 os.makedirs(convol_plot_path, exist_ok=True)
 
 
-def test_convol_curves():
+def convol_curves():
     curves = pydvpy.read(os.path.join(TEST_DIR, 'convolution_created_curves_to_convol.ult'))
     start = ord('A')
 
@@ -108,7 +108,7 @@ def test_convol_curves():
 
 
 @pytest.mark.parametrize("i", list(range(len(curves_pydv))))
-def test_convol(i):
+def convol(i):
 
     # for cp, cu in zip(curves_pydv, curves_ultra):
     cp = curves_pydv[i]

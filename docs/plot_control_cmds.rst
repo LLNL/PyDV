@@ -446,17 +446,17 @@ Move the given curves so they are plotted on top.
 plotlayout
 ----------
 
-Adjust the plot layout parameters. Where **left** is the position of the left edge of the 
-plot as a fraction of the figure width, **right** is the position of the right edge of the 
-plot, as a fraction of the figure width, **top** is the position of the top edge of the plot, 
-as a fraction of the figure height and **bottom** is the position of the bottom edge of the plot, 
+Adjust the plot layout parameters. Where **left** is the position of the left edge of the
+plot as a fraction of the figure width, **right** is the position of the right edge of the
+plot, as a fraction of the figure width, **top** is the position of the top edge of the plot,
+as a fraction of the figure height and **bottom** is the position of the bottom edge of the plot,
 as a fraction of the figure height. Alternatively, *de* will revert to the default plot layout values.
 
 If no arguments are given, the plot's current layout settings will be displayed.
 
 .. code::
 
-   [PyDV]: plotlayout [<left> <right> <top> <bottom> || de] 
+   [PyDV]: plotlayout [<left> <right> <top> <bottom> || de]
 
    Ex:
       [PyDV]: plotlayout left
@@ -482,7 +482,7 @@ style
 -----
 
 Use matplotlib style settings from a style specification. The style name of **default** (if
-available) is reserved for reverting back to the default style settings. You can type the command `showstyles` and 
+available) is reserved for reverting back to the default style settings. You can type the command `showstyles` and
 see `Matplotlib's' Style sheets reference <https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html>`_.
 
 .. code::

@@ -8,7 +8,7 @@ These functions allow you to manipulate the environment of PyDV on a global leve
 .. note::
    **< >** = Required user input.
 
-   **[ ]** = Optional user input. 
+   **[ ]** = Optional user input.
 
    **[PyDV]:** = Python Data Visualizer command-line prompt.
 
@@ -18,7 +18,7 @@ alias
 Define a synonym for  an existing command.
 
 .. code::
- 
+
    [PyDV]: alias <command> <alias>
 
    Ex:
@@ -32,7 +32,7 @@ Load a Python file of custom functions to extend PyDV. Functions must be of the 
 This custom Python script is imported at the `pdv.py` level and thus you can use the methods within `class Command():` by calling `self.do_METHOD_NAME():`.
 These are the methods used in the [PyDV] command line prompt that are detailed in this documentation.
 
-The `pydvpy.py` module is imported as `pydvif` which means you can also use the PyDV Python API functions by calling `pydvif.FUNCTION_NAME():`.
+The `pydvpy.py` module is imported as `pydvpy` which means you can also use the PyDV Python API functions by calling `pydvpy.FUNCTION_NAME():`.
 
 Below are some template functions that are used throughout PyDV. The parameter `line` is the text that is passed into the function after the function name in the PyDV Command Line Interface.
 These functions should have `try` statements so that PyDV doesn't crash if there is an error. Be sure to pass in the command `debug on` to PyDV to get more information about any errors.
@@ -66,7 +66,13 @@ These functions should have `try` statements so that PyDV doesn't crash if there
                      ylabel = f'TestYlabel_{i}'
                      title = f'TestTitle_{i}'
                      record_id = f'TestRecordID_{i}'
-                     c = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
+                     c = pydvpy.makecurve(x=x,
+                                          y=y,
+                                          name=name,
+                                          filename=fname,
+                                          xlabel=xlabel,
+                                          ylabel=ylabel,
+                                          title=title,
                                           record_id=record_id)
                      self.curvelist.append(c)
                except:
@@ -112,8 +118,14 @@ These functions should have `try` statements so that PyDV doesn't crash if there
                            cur = self.plotlist[idx]
                            x = cur.x + 10
                            y = cur.y - 10
-                           nc = pydvif.makecurve(x, y, name=name, fname=fname, xlabel=xlabel, ylabel=ylabel, title=title,  # noqa F821
-                                       record_id=record_id)
+                           nc = pydvpy.makecurve(x=x,
+                                                 y=y,
+                                                 name=name,
+                                                 filename=fname,
+                                                 xlabel=xlabel,
+                                                 ylabel=ylabel,
+                                                 title=title,
+                                                 record_id=record_id)
                            self.addtoplot(nc)
 
                            self.plotedit = True
@@ -169,8 +181,8 @@ debug
 Show debug tracebacks if True
 
 .. code::
- 
-   [PyDV]: debug on | off 
+
+   [PyDV]: debug on | off
 
    Ex:
       [PyDV]: debug on
@@ -182,11 +194,11 @@ drop
 Start the Python Interactive Console
 
 .. code::
- 
-   [PyDV]: drop 
+
+   [PyDV]: drop
 
    Ex:
-      [PyDV]: drop 
+      [PyDV]: drop
 
    Afterwards:
       >>> import matplotlib.pyplot as plt
@@ -203,18 +215,18 @@ erase
 Erase all curves on the screen but leave the limits untouched. **Shortcut: era**
 
 .. code::
- 
-   [PyDV]: erase 
+
+   [PyDV]: erase
 
 filenamewidth
 -------------
 
-Change the width of the fname column of the menu and lst output. If no width is given, the 
+Change the width of the fname column of the menu and lst output. If no width is given, the
 current column width will be displayed.
 
 .. code::
- 
-   [PyDV]: filenamewidth <integer> 
+
+   [PyDV]: filenamewidth <integer>
 
    Ex:
       [PyDV]: filenamewidth
@@ -223,11 +235,11 @@ current column width will be displayed.
 kill
 ----
 
-Delete the specified entries from the menu. 
+Delete the specified entries from the menu.
 
 .. code::
- 
-   [PyDV]: kill [all | number-list] 
+
+   [PyDV]: kill [all | number-list]
 
    Ex:
       [PyDV]: kill all
@@ -239,8 +251,8 @@ namewidth
 Change the width of the first column of the **menu** and **lst** output.
 
 .. code::
- 
-   [PyDV]: namewidth <integer> 
+
+   [PyDV]: namewidth <integer>
 
    Ex:
       [PyDV]: namewidth
@@ -249,12 +261,12 @@ Change the width of the first column of the **menu** and **lst** output.
 recordidwidth
 -------------
 
-Change the width of the record_id column of the menu and lst output. If no width is given, the 
+Change the width of the record_id column of the menu and lst output. If no width is given, the
 current column width will be displayed.
 
 .. code::
- 
-   [PyDV]: recordidwidth <integer> 
+
+   [PyDV]: recordidwidth <integer>
 
    Ex:
       [PyDV]: recordidwidth
@@ -266,18 +278,18 @@ quit
 Exit PyDV. **Shortcut: q**
 
 .. code::
- 
-   [PyDV]: quit 
+
+   [PyDV]: quit
 
 xlabelwidth
 -----------
 
-Change the width of the xlabel column of the menu and lst output. If no width is given, the 
+Change the width of the xlabel column of the menu and lst output. If no width is given, the
 current column width will be displayed.
 
 .. code::
- 
-   [PyDV]: xlabelwidth <integer> 
+
+   [PyDV]: xlabelwidth <integer>
 
    Ex:
       [PyDV]: xlabelwidth
@@ -286,12 +298,12 @@ current column width will be displayed.
 ylabelwidth
 -----------
 
-Change the width of the ylabel column of the menu and lst output. If no width is given, the 
+Change the width of the ylabel column of the menu and lst output. If no width is given, the
 current column width will be displayed.
 
 .. code::
- 
-   [PyDV]: ylabelwidth <integer> 
+
+   [PyDV]: ylabelwidth <integer>
 
    Ex:
       [PyDV]: ylabelwidth

@@ -6,7 +6,7 @@ UI Features
 The PyDV User Interface (UI) has many different windows and toolbar items that provide information and alternative ways of executing PyDV commands (see :numref:`Figure %s<pydv>`). Below is a description of the different UI components that are available.
 
 .. _pydv:
-   
+
 .. figure:: images/pydv.png
    :scale: 40%
 
@@ -44,7 +44,7 @@ The **Help** menu contains three items for displaying information to the user. T
    About PyDV Window
 
 .. _about_2:
-   
+
 .. figure:: images/about2.png
    :scale: 50%
 
@@ -119,13 +119,13 @@ The border that outlines the plot can be shown or hidden. You can also change th
    Plot with yellow border and yellow grid
 
 .. code::
-  
-    [PyDV]: span 1 20
-    [PyDV]: span 1 20
-    [PyDV]: cos a
-    [PyDV]: sin b
-    [PyDV]: gridcolor yellow
-    [PyDV]: border on yellow
+
+   [PyDV]: span 1 20
+   [PyDV]: span 1 20
+   [PyDV]: cos a
+   [PyDV]: sin b
+   [PyDV]: gridcolor yellow
+   [PyDV]: border on yellow
 
 .. _borderoff:
 
@@ -134,6 +134,6 @@ The border that outlines the plot can be shown or hidden. You can also change th
 
    Plot with yellow border hidden
 
-.. code:: 
+.. code::
 
    [PyDV]: border off

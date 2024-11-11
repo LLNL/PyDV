@@ -50,7 +50,7 @@ Change the width of teh first column of the menu and lst output.
 fontsize=size
 -------------
 
-Change the font size 
+Change the font size
 
 lnwidth=width
 -------------

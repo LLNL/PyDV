@@ -6,8 +6,8 @@ Getting started
 This section gives a tutorial introduction to PyDV. A sample session is run which highlights the basic PyDV commands.
 
 .. note::
-   In PyDV commands, spaces are used to delimit items on the input line. More precisely items on a command line are 
-   either space delimited, are preceded by a left parenthesis if the first item in a list, or terminated by a right 
+   In PyDV commands, spaces are used to delimit items on the input line. More precisely items on a command line are
+   either space delimited, are preceded by a left parenthesis if the first item in a list, or terminated by a right
    parenthesis if the last item in a list. In interactive mode, ranges of curve numbers or data-id’s may be indicated using colon notation. 
    For example, a:f or 5:9
 
@@ -15,31 +15,31 @@ Run PyDV (LLNL)
 ---------------
 
 .. code::
- 
-    /usr/gapps/pydv/pdv     # Current version
-    
-    /usr/gapps/pydv/3.0/pdv # Version specific
 
-Run PyDV With a Command File 
+   /usr/gapps/pydv/pdv     # Current version
+
+   /usr/gapps/pydv/3.0/pdv # Version specific
+
+Run PyDV With a Command File
 ----------------------------
 
 .. code::
- 
-    /usr/gapps/pydv/pdv -i <command-file>
 
-Run PyDV In Column Format Mode 
+   /usr/gapps/pydv/pdv -i <command-file>
+
+Run PyDV In Column Format Mode
 ------------------------------
 
 .. code::
- 
-    /usr/gapps/pydv/pdv -gnu <file.gnu>
+
+   /usr/gapps/pydv/pdv -gnu <file.gnu>
 
 
 Create a curve consisting of a straight line y=x over the interval (0,6.28).
 ----------------------------------------------------------------------------
 
 .. code::
- 
+
    [PyDV]: span 0 6.28
 
 Print a list of curves on the display.
@@ -54,7 +54,7 @@ Take the sine of curve A
 
 .. code::
 
-   [PyDV]: sin a 
+   [PyDV]: sin a
 
 Take the product of curves A and B
 ----------------------------------
