@@ -8,7 +8,7 @@ These commands access disk files either for reading or writing.
 .. note::
    **< >** = Required user input.
 
-   **[< >]** = Optional user input. 
+   **[< >]** = Optional user input.
 
    **[PyDV]** = Python Data Visualizer command-line prompt.
 
@@ -18,7 +18,7 @@ read
 Read curves from the specified ASCII file and optionally filter by regex. The next available prefix (see the prefix command) is automatically assigned the menu index of the first curve in each data file read. For column oriented (.gnu) files optionally specify the x-column number before the file name. **Shortcut: rd**
 
 .. code::
- 
+
    [PyDV]: read [(regex) matches] [x-col] <filename>
 
    Ex:
@@ -34,7 +34,7 @@ For column oriented (.gnu) files optionally specify the x-column number before t
 [x-col] must be specified as `paired`. **Shortcut: rdcsv**
 
 .. code::
- 
+
    [PyDV]: readcsv <filename.csv> [x-col]
 
    Ex:
@@ -52,7 +52,7 @@ The next available prefix (see the prefix command) is automatically assigned the
 **Shortcut: rdsina**
 
 .. code::
- 
+
    [PyDV]: readsina <filename.json>
 
    Ex:
@@ -64,7 +64,7 @@ run
 Execute a list of commands from a file.
 
 .. code::
- 
+
    [PyDV]: run <filename>
 
    Ex:

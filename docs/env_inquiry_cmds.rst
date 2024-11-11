@@ -8,7 +8,7 @@ These functions are provided to gain access to information about the state of th
 .. note::
    **< >** = Required user input.
 
-   **[ ]** = Optional user input. 
+   **[ ]** = Optional user input.
 
    **[PyDV]:** = Python Data Visualizer command-line prompt.
 
@@ -18,7 +18,7 @@ help
 Return infroamtion about the specified command, variable, or command category. If no argument is supplied, return a list of available commands.
 
 .. code::
- 
+
    [PyDV]: help [command]
 
    Ex:
@@ -30,7 +30,7 @@ list
 Return a list of the plotted curves currently displayed. A regular expression may be supplied for matching against the curve label to be listed. **Shortcut: lst**
 
 .. code::
-    
+
    [PyDV]: list <label-pattern>
 
    Ex:
@@ -44,7 +44,7 @@ Return a list of the plotted curves currently displayed in range from **start** 
 specified, it will be set to the end of the plot list. **Shortcut: lstr**
 
 .. code::
-    
+
    [PyDV]: listr <start> [stop]
 
    Ex:
@@ -57,7 +57,7 @@ listannot
 List current annotations.
 
 .. code::
-    
+
    [PyDV]: listannot
 
 menu
@@ -66,7 +66,7 @@ menu
 Return a selection of the curves available for plotting. A regular expression may be supplied for matching against the curve label to be listed.
 
 .. code::
-    
+
    [PyDV]: menu <label-pattern>
 
    Ex:
@@ -76,11 +76,11 @@ Return a selection of the curves available for plotting. A regular expression ma
 menur
 -----
 
-Return a selection of the curves available for plotting in the range from **start** to **stop**. If 
+Return a selection of the curves available for plotting in the range from **start** to **stop**. If
 **stop** is not specified, it will be set to the end of the curve list.
 
 .. code::
-    
+
    [PyDV]: menur <start> [stop]
 
    Ex:
@@ -93,7 +93,7 @@ system
 Allows passing commands to the operating system. **Shortcut: ! or shell**
 
 .. code::
-    
+
    [PyDV]: system <command>
 
    Ex:

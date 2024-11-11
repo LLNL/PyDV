@@ -99,14 +99,14 @@ Take arccosine of x values of curves
 add
 ---
 
-Take the sum of curves. If the optional *value* is specified it will add the y-values of 
+Take the sum of curves. If the optional *value* is specified it will add the y-values of
 the curves by *value* (equivalent to using the **dy** command). **Shortcut:** +
 
 .. note::
    Be sure that the x points are in increasing order as PyDV uses numpy.interp().
 
 .. note::
-   Adding curves by a number modifies the curve. If you want to create a new 
+   Adding curves by a number modifies the curve. If you want to create a new
    curve then copy the original curve first using the copy command.
 
 .. code::
@@ -324,8 +324,8 @@ Computes the convolution of the two given curves with no normalization. This com
       [PyDV]: convolvec g h 200
       [PyDV]: convolvec g h 200 200
 
-**correl - 2.4.2**
-------------------
+correl
+------
 
 Computes the cross-correlation of two curves.
 
@@ -437,15 +437,15 @@ Shift y values of curves by a constant.
 divide
 ------
 
-Take quotient of curves. If the optional *value* is specified it will divide the 
-y-values of the curves by *value* (equivalent to using the **divy** command). 
+Take quotient of curves. If the optional *value* is specified it will divide the
+y-values of the curves by *value* (equivalent to using the **divy** command).
 **Shortcuts:** /, div
 
 .. note::
    Be sure that the x points are in increasing order as PyDV uses numpy.interp().
 
 .. note::
-   Dividing curves by a number modifies the curve. If you want to create a new 
+   Dividing curves by a number modifies the curve. If you want to create a new
    curve then copy the original curve first using the copy command.
 
 .. code::
@@ -768,28 +768,28 @@ Take the base 10 logarithm of the x values of the curves. If the optional argume
       [PyDV]: log10x c d
       [PyDV]: log10x c d True
 
-**makeintensive - 2.4.2**
--------------------------
+makeintensive
+-------------
 
 Set the y-values such that y[i] = y[i] / (x[i+1] - x[i]). **Shortcut: mkint**
 
 .. code::
 
-  [PyDV]: makeintensive <curve-list>
+   [PyDV]: makeintensive <curve-list>
 
    Ex:
       [PyDV]: makeintensive a
       [PyDV]: makeintensive a:b
       [PyDV]: makeintensive c d
 
-**makeextensive - 2.4.2**
--------------------------
+makeextensive
+-------------
 
 Set the y-values such that y[i] = y[i] * (x[i+1] - x[i]). **Shortcut: mkext**
 
 .. code::
 
-  [PyDV]: makeextensive <curve-list>
+   [PyDV]: makeextensive <curve-list>
 
    Ex:
       [PyDV]: makeextensive a
@@ -803,7 +803,7 @@ Makes a new curve with max y values of curves passed in curvelist.
 
 .. code::
 
-  [PyDV]: max <curve-list>
+   [PyDV]: max <curve-list>
 
    Ex:
       [PyDV]: max a
@@ -817,7 +817,7 @@ Makes a new curve with min y values of curves passed in curvelist.
 
 .. code::
 
-  [PyDV]: min <curve-list>
+   [PyDV]: min <curve-list>
 
    Ex:
       [PyDV]: min a
@@ -1107,8 +1107,8 @@ Take the squre root of the x values of the curves.
 subtract
 --------
 
-Take the difference of curves. A single curve can be specified, resulting in the 
-negating of its y-values. If the optional *value* is specified it will subtract the 
+Take the difference of curves. A single curve can be specified, resulting in the
+negating of its y-values. If the optional *value* is specified it will subtract the
 y-values of the curves by *value* (similar to using the **dy** command).
 **Shortcuts:** --, sub
 
@@ -1116,7 +1116,7 @@ y-values of the curves by *value* (similar to using the **dy** command).
    Be sure that the x points are in increasing order as PyDV uses numpy.interp().
 
 .. note::
-   Subtracting curves by a number modifies the curve. If you want to create a new 
+   Subtracting curves by a number modifies the curve. If you want to create a new
    curve then copy the original curve first using the copy command.
 
 .. code::
