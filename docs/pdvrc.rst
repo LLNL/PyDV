@@ -21,11 +21,45 @@ title=str
 
 Set the title for the plot to str.
 
+menulength=length
+---------
+
+Change the length of the menu before it prompts the user to press enter.
+
+namewidth=width
+---------------
+
+Change the width of the `curve_name` column of the menu and lst output.
+
+xlabelwidth=width
+---------------
+
+Change the width of the `xlabel` column of the menu and lst output.
+
+ylabelwidth=width
+---------------
+
+Change the width of the `ylabel` column of the menu and lst output.
+
+filenamewidth=width
+---------------
+
+Change the width of the `fname` column of the menu and lst output.
+
+recordidwidth=width
+---------------
+
+Change the width of the `record_id` column of the menu and lst output.
 
 key=ON | OFF
 ------------
 
 Show the legend if key=ON, otherwise hide it if key=OFF.
+
+grid=ON | OFF
+------------
+
+Show the plot grid if key=ON, otherwise hide it if key=OFF.
 
 letters=ON | OFF
 ----------------
@@ -42,11 +76,6 @@ initcommands=filename
 
 Specify a file to run the initial commands.
 
-namewidth=width
----------------
-
-Change the width of teh first column of the menu and lst output.
-
 fontsize=size
 -------------
 
@@ -56,4 +85,3 @@ lnwidth=width
 -------------
 
 Change the default line width of the curves.
-

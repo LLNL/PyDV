@@ -72,6 +72,21 @@ Duplicate x-values so that y=x for each of the specified curves.
       [PyDV]: dupx a:b
       [PyDV]: dupx c d
 
+mathinterpparams
+----------------
+
+Set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math methods for Curve such as `+ a b c`, `- a b c`, etc....
+Defaults are `None` which align with `numpy.interp()` defaults. To reset pass in none to <left> <right> <period>.
+
+.. code::
+
+   [PyDV]: mathinterpparams <curve-list> <left> <right> <period>
+
+   Ex:
+      [PyDV]: mathinterpparams a 0 0 none
+      [PyDV]: mathinterpparams a:b 0 0 none
+      [PyDV]: mathinterpparams c d none none none
+
 linemarker
 ----------
 

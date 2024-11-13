@@ -95,7 +95,10 @@ class Curve(object):
                  markerfacecolor=None,
                  markeredgecolor=None,
                  plotprecedence=0,
-                 legend_show=True):
+                 legend_show=True,
+                 math_interp_left=None,
+                 math_interp_right=None,
+                 math_interp_period=None):
         self.x = np.array(x, dtype=float)
         self.y = np.array(y, dtype=float)
         self.name = name
@@ -125,42 +128,59 @@ class Curve(object):
         self.markeredgecolor = markeredgecolor
         self.plotprecedence = plotprecedence
         self.legend_show = legend_show
+        self.math_interp_left = math_interp_left
+        self.math_interp_right = math_interp_right
+        self.math_interp_period = math_interp_period
 
     def __add__(a, b):
         c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' + ' + b.plotname + ' ').strip('  ')
-        ia, ib = getinterp(a, b)
+        ia, ib = getinterp(a, b,
+                           a.math_interp_left, a.math_interp_right, a.math_interp_period,
+                           b.math_interp_left, b.math_interp_right, b.math_interp_period)
         if ia.x is not None and ib.x is not None:
             c.x = ia.x
             c.y = ia.y + ib.y
+            c.math_interp_left = 0
+            c.math_interp_right = 0
         return c
 
     def __sub__(a, b):
         c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' - ' + b.plotname + ' ').strip('  ')
-        ia, ib = getinterp(a, b)
+        ia, ib = getinterp(a, b,
+                           a.math_interp_left, a.math_interp_right, a.math_interp_period,
+                           b.math_interp_left, b.math_interp_right, b.math_interp_period)
         if ia.x is not None and ib.x is not None:
             c.x = ia.x
             c.y = ia.y - ib.y
+            c.math_interp_left = 0
+            c.math_interp_right = 0
         return c
 
     def __mul__(a, b):
         c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' * ' + b.plotname + ' ').strip('  ')
-        ia, ib = getinterp(a, b)
+        ia, ib = getinterp(a, b,
+                           a.math_interp_left, a.math_interp_right, a.math_interp_period,
+                           b.math_interp_left, b.math_interp_right, b.math_interp_period)
         if ia.x is not None and ib.x is not None:
             c.x = ia.x
             c.y = ia.y * ib.y
+            c.math_interp_left = 0
+            c.math_interp_right = 0
         return c
 
     def __div__(a, b):
         c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' / ' + b.plotname + ' ').strip('  ')
-        ia, ib = getinterp(a, b)
+        ia, ib = getinterp(a, b,
+                           a.math_interp_left, a.math_interp_right, a.math_interp_period,
+                           b.math_interp_left, b.math_interp_right, b.math_interp_period)
         if ia.x is not None and ib.x is not None:
             c.x = ia.x
 
@@ -171,6 +191,8 @@ class Curve(object):
             c.y = ia.y / ib.y
             for idx in zero_indices:
                 c.y[idx] = float(sys.maxsize)
+            c.math_interp_left = 0
+            c.math_interp_right = 0
 
         return c
 
@@ -178,7 +200,9 @@ class Curve(object):
         c = Curve()
         c.drawstyle = a.drawstyle
         c.plotname = str(a.plotname + ' / ' + b.plotname + ' ').strip('  ')
-        ia, ib = getinterp(a, b)
+        ia, ib = getinterp(a, b,
+                           a.math_interp_left, a.math_interp_right, a.math_interp_period,
+                           b.math_interp_left, b.math_interp_right, b.math_interp_period)
         if ia.x is not None and ib.x is not None:
             c.x = ia.x
 
@@ -189,6 +213,8 @@ class Curve(object):
             c.y = ia.y / ib.y
             for idx in zero_indices:
                 c.y[idx] = float(sys.maxsize)
+            c.math_interp_left = 0
+            c.math_interp_right = 0
 
         return c
 
@@ -244,7 +270,10 @@ class Curve(object):
                   markerfacecolor=self.markerfacecolor,
                   markeredgecolor=self.markeredgecolor,
                   plotprecedence=self.plotprecedence,
-                  legend_show=self.legend_show)
+                  legend_show=self.legend_show,
+                  math_interp_left=self.math_interp_left,
+                  math_interp_right=self.math_interp_right,
+                  math_interp_period=self.math_interp_period)
 
         return c
 
@@ -261,7 +290,10 @@ class Curve(object):
         return c
 
 
-def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
+def getinterp(a, b,
+              a_left=None, a_right=None, a_period=None,
+              b_left=None, b_right=None, b_period=None,
+              samples=100, match='domain'):
     """
     Gets the interpolated and domain matched versions of the two curves.
 
@@ -269,10 +301,18 @@ def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
     :type a: curve
     :param b: Curve B
     :type b: curve
-    :param left: Value to return for `x < a.x[0]`, default is `a.y[0]`.
-    :type left: float, optional
-    :param right: Value to return for `x > a.x[-1]`, default is `a.y[-1]`.
-    :type: right: float, optional
+    :param a_left: `numpy.interp()` `left` parameter for internal curve math methods for Curve A
+    :type a_left: float, optional
+    :param a_right: `numpy.interp()` `right` parameter for internal curve math methods for Curve A
+    :type: a_right: float, optional
+    :param a_period: `numpy.interp()` `period` parameter for internal curve math methods for Curve A
+    :type: a_period: float, optional
+    :param b_left: `numpy.interp()` `left` parameter for internal curve math methods for Curve B
+    :type b_left: float, optional
+    :param b_right: `numpy.interp()` `right` parameter for internal curve math methods for Curve B
+    :type: b_right: float, optional
+    :param b_period: `numpy.interp()` `period` parameter for internal curve math methods for Curve B
+    :type: b_period: float, optional
     :param match {'domain','step'},optional: A string indicating how to interpolate the two curves
     :type match: str
     :returns: curve pair -- the interpolated and domain matched versions of a and b
@@ -283,11 +323,11 @@ def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
 
         ia = a.copy()
         ia.x = np.array(ux)
-        ia.y = np.interp(ux, a.x, a.y, left, right)  # interpolate y vals
+        ia.y = np.interp(ux, a.x, a.y, a_left, a_right, a_period)  # interpolate y vals
 
         ib = Curve()
         ib.x = np.array(ux)
-        ib.y = np.interp(ux, b.x, b.y, left, right)  # interpolate y vals
+        ib.y = np.interp(ux, b.x, b.y, b_left, b_right, b_period)  # interpolate y vals
 
         return ia, ib
     elif match == 'step':
@@ -301,11 +341,11 @@ def getinterp(a, b, left=None, right=None, samples=100, match='domain'):
 
         ia = a.copy()
         ia.x = ax
-        ia.y = np.interp(ax, a.x, a.y, left, right)  # interpolate y vals
+        ia.y = np.interp(ax, a.x, a.y, a_left, a_right, a_period)  # interpolate y vals
 
         ib = Curve()
         ib.x = bx
-        ib.y = np.interp(bx, b.x, b.y, left, right)  # interpolate y vals
+        ib.y = np.interp(bx, b.x, b.y, b_left, b_right, b_period)  # interpolate y vals
 
         return ia, ib
     else:

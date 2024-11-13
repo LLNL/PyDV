@@ -143,7 +143,10 @@ def makecurve(x=np.empty(0),
               markerfacecolor=None,
               markeredgecolor=None,
               plotprecedence=0,
-              legend_show=True):
+              legend_show=True,
+              math_interp_left=None,
+              math_interp_right=None,
+              math_interp_period=None):
     """
     Generate a curve from two lists of numbers.
 
@@ -209,6 +212,12 @@ def makecurve(x=np.empty(0),
     :type plotprecedence: int
     :param legend_show: Show the curve in the legend.
     :type legend_show: bool
+    :param math_interp_left: `numpy.interp()` `left` parameter for internal curve math methods
+    :type math_interp_left: float
+    :param math_interp_right: `numpy.interp()` `right` parameter for internal curve math methods
+    :type math_interp_right: float
+    :param math_interp_period: `numpy.interp()` `period` parameter for internal curve math methods
+    :type math_interp_period: float
     :return: curve -- the curve generated from the x and y list of values.
     :rtype: curve.Curve
     """
@@ -243,7 +252,10 @@ def makecurve(x=np.empty(0),
                     markerfacecolor=markerfacecolor,
                     markeredgecolor=markeredgecolor,
                     plotprecedence=plotprecedence,
-                    legend_show=legend_show)
+                    legend_show=legend_show,
+                    math_interp_left=math_interp_left,
+                    math_interp_right=math_interp_right,
+                    math_interp_period=math_interp_period)
 
     return c
 
@@ -3427,7 +3439,9 @@ def diffMeasure(c1, c2, tol=1e-8):
     :type tol: float
     :return: tuple -- Two curves representing the fractional difference measure and its average
     """
-    ic1, ic2 = curve.getinterp(c1, c2)
+    ic1, ic2 = curve.getinterp(c1, c2,
+                               c1.math_interp_left, c1.math_interp_right, c1.math_interp_period,
+                               c2.math_interp_left, c2.math_interp_right, c2.math_interp_period)
     f1 = tol * (np.max(ic1.y) - np.min(ic1.y))
     f2 = tol * (np.max(ic2.y) - np.min(ic2.y))
     ydiff = np.abs(ic1.y - ic2.y)
@@ -3480,7 +3494,9 @@ def vs(c1, c2):
         newfilename = c1.filename
         if c1.record_id == c2.record_id:
             newrecord_id = c1.record_id
-    ic1, ic2 = curve.getinterp(c1, c2)
+    ic1, ic2 = curve.getinterp(c1, c2,
+                               c1.math_interp_left, c1.math_interp_right, c1.math_interp_period,
+                               c2.math_interp_left, c2.math_interp_right, c2.math_interp_period)
 
     nc = makecurve(x=np.array(ic2.y),
                    y=np.array(ic1.y),
