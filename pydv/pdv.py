@@ -5770,6 +5770,64 @@ class Command(cmd.Cmd, object):
               'See matplotlib documentation on markers for further information.'
               )
 
+    def do_mathinterpparams(self, line):
+        """
+        Set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math methods for Curve such
+        as `+ a b c`, `- a b c`, etc.... Defaults are `None` which align with `numpy.interp()` defaults. To reset pass
+        in none to <left> <right> <period>.
+        """
+
+        if not line:
+            return 0
+        try:
+            left = None
+            right = None
+            period = None
+
+            if len(line.split(':')) > 1:
+                self.do_mathinterpparams(pdvutil.getletterargs(line))
+                return 0
+            else:
+                line = line.split()
+                left = line[-3]
+                right = line[-2]
+                period = line[-1]
+                if left.lower() == 'none':
+                    left = None
+                else:
+                    left = float(left)
+                if right.lower() == 'none':
+                    right = None
+                else:
+                    right = float(right)
+                if period.lower() == 'none':
+                    period = None
+                else:
+                    period = float(period)
+
+                for i in range(len(line)):
+                    for j in range(len(self.plotlist)):
+                        cur = self.plotlist[j]
+                        if cur.plotname == line[i].upper():
+                            cur.math_interp_left = left
+                            cur.math_interp_right = right
+                            cur.math_interp_period = period
+                            break
+            self.plotedit = True
+        except:
+            self.help_linemarker()
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_mathinterpparams(self):
+        print('\n   Procedure: Set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math '
+              'methods for Curve such as `+ a b c`, `- a b c`, etc....'
+              '\n   Defaults are `None` which align with `numpy.interp()` defaults.'
+              '\n   To reset pass in none to <left> <right> <period>.'
+              '\n   Usage: mathinterpparams <curve-list> <left> <right> <period>'
+              '\n   See `numpy.interp()` documentation further information.'
+              )
+
     def do_smooth(self, line):
         """
         Smooth the curve to given degree

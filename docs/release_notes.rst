@@ -2,8 +2,12 @@
 
 Release Notes
 =============
-3.5
------
+3.5.1
+------
+* `mathinterpparams`: Users can now set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math methods for Curve such as `+ a b c`, `- a b c`, etc....
+
+3.5.0
+------
 * Consolidated `pydvpy.makecurve()` and `curve.Curve()`. Now uses `pydvpy.makecurve()` throughout PyDV.
 * Changed `from pydv import pydvpy as pydvif` to `from pydv import pydvpy`. Now uses `pydvpy` throughout PyDV.
 
