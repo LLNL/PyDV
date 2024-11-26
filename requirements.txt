@@ -48,5 +48,5 @@ six==1.16.0
     # via python-dateutil
 threadpoolctl==3.2.0
     # via scikit-learn
-zipp==3.16.2
+zipp==3.19.1
     # via importlib-resources
