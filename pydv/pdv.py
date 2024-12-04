@@ -8294,10 +8294,8 @@ class Command(cmd.Cmd, object):
 
             if (xls):
                 cur_axes.set_xscale('log')
-                # cur_axes.set_xscale('log', nonposx='clip')
             if (yls):
                 cur_axes.set_yscale('log')
-                # cur_axes.set_yscale('log', nonposy='clip')
 
 # thinking about what we want here
 #              xticks de
