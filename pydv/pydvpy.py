@@ -382,9 +382,9 @@ def create_plot(curvelist, **kwargs):
     axis = plt.gca()
 
     if (xls):
-        axis.set_xscale('log', nonposx='clip')
+        axis.set_xscale('log')
     if (yls):
-        axis.set_yscale('log', nonposy='clip')
+        axis.set_yscale('log')
 
     curves = list()
 
