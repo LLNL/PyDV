@@ -300,73 +300,68 @@ def get_styles():
     return list()
 
 
-def create_plot(curvelist, **kwargs):
-    """
-    Create a plot from of the curves in curvelist. The available keyword arguments are:
-    * Filename: fname='myFile'
-    * Save Format: ftype='pdf'
-    * Plot Title: title='My Title'
-    * X-Axis Label: xlabel='X'
-    * Y-Axis Label: ylabel='Y'
-    * Show/Hide Plot Legend: legend=True
-    * Plot Style: stylename='ggplot'
-    * Show X-Axis in log scale: xls=True
-    * Show Y-Axis in log scale: yls=True
-    * Set the width of the figure in inches: fwidth=1.2
-    * Set the height of the figure in inches: fheight=2.1
+def create_plot(curvelist,
+                fname=None,
+                ftype='png',
+                title='',
+                xlabel='',
+                ylabel='',
+                legend=False,
+                stylename='ggplot',
+                xls=False,
+                yls=False,
+                fwidth=None,
+                fheight=None):
+    """Create a plot of the curves in the curvelist using the curve attributes.
 
     >>> curves = pydvpy.read('testData.txt')
 
     >>> plot1, fig1, ax1 = pydvpy.create_plot(curves, fname='myPlot1')
 
-    >>> plot2, fig2, ax2 = pydvpy.create_plot(curves, fname='myPlot2', ftype='pdf',
-                                              fwidth=10.1, fheight=11.3, title='My Plot',
+    >>> plot2, fig2, ax2 = pydvpy.create_plot(curves, fname='myPlot2', ftype='pdf', title='My Plot',
                                               xlabel='X', ylabel='Y', legend=True,
-                                              stylename='ggplot')
+                                              stylename='ggplot', fwidth=10.1, fheight=11.3)
 
-    :param curvelist: The curve or list of curves to plot
+    See `makecurve()` for available curve attributes. Some of these are not applicable to plotting but the ones that
+    are, have the same/similar name to their plotting counterparts. To see the curve attributes, one can execute:
+
+    >>> print(curvelist[0].__dict__)  # this will also contain the x and y data so it will be a long print statement
+
+    >>> print(curvelist[0].color)  # specific attribute
+
+    To set a curve attribute:
+
+    >>> curvelist[0].color = "blue"
+
+    :param curvelist: The list of curves to plot
     :type curvelist: list
-    :param kwargs: The keyword arguments to modify the plot.
-    :type kwargs: dict
-    :return: matplotlib.pyplot, matplotlib.pyplot.figure, and matplotlib.pyplot.axes
+    :param fname: The filename of the plot not including the file type, defaults to None which doesn't save anything
+    :type fname: str, optional
+    :param ftype: The save format of the plot, defaults to 'png'
+    :type ftype: str, optional
+    :param title: The title of the plot, defaults to ''
+    :type title: str, optional
+    :param xlabel: The x label of the plot, defaults to ''
+    :type xlabel: str, optional
+    :param ylabel: The y label of the plot, defaults to ''
+    :type ylabel: str, optional
+    :param legend: Include a legend in the plot, defaults to False
+    :type legend: bool, optional
+    :param stylename: The style of the plot, defaults to 'ggplot'
+    :type stylename: str, optional
+    :param xls: Show x-axis in log scale, defaults to False
+    :type xls: bool, optional
+    :param yls: Show y-axis in log scale, defaults to False
+    :type yls: bool, optional
+    :param fwidth: The width of the figure in inches, defaults to None which is the default width of 6.4 inches
+    :type fwidth: float, optional
+    :param fheight: the height of the figure in inches, defaults to None which is the default height of 4.8 inches
+    :type fheight: float, optional
+    :returns:
+        - plt (:py:class:`matplotlib.pyplot`) - The plot object
+        - figure (:py:class:`matplotlib.pyplot.figure`) - The figure object
+        - axis (:py:class:`matplotlib.pyplot.axes`) - The axis object
     """
-    fname = None
-    ftype = 'png'
-    title = ''
-    xlabel = ''
-    ylabel = ''
-    legend = False
-    stylename = 'ggplot'
-    xls = False
-    yls = False
-    fwidth = None
-    fheight = None
-
-    # Process kwargs
-    for key, val in list(kwargs.items()):
-        if key == 'fname':
-            fname = val
-        elif key == 'ftype':
-            ftype = val
-        elif key == 'title':
-            title = val
-        elif key == 'xlabel':
-            xlabel = val
-        elif key == 'ylabel':
-            ylabel = val
-        elif key == 'legend':
-            legend = val
-        elif key == 'stylename':
-            stylename = val
-        elif key == 'xls':
-            xls = val
-        elif key == 'yls':
-            yls = val
-        elif key == 'fwidth':
-            fwidth = val
-        elif key == 'fheight':
-            fheight = val
-
     if stylesLoaded:
         styles = get_styles()
 
