@@ -233,10 +233,17 @@ group
 -----
 
 Group curves based on name and file if curve names are the same. Max number of same name curves is 14.
+Can also update title to curve name and change labels to filenames if all curves share the same name.
+If `title` is passed, one can adjust the filename label with number of `slashes` as well.
+Note: `title` also looks at hidden curves thus need to delete curves (e.g. `del a`).
 
 .. code::
 
-   [PyDV]: group
+   [PyDV]: group <title <slashes #> >
+   Ex:
+      [PyDV]: group
+      [PyDV]: group title
+      [PyDV]: group title slashes 2
 
 guilims
 -------
@@ -640,6 +647,30 @@ Set the rotation (in degrees) of the tick labels on the x axis.
    Ex:
       [PyDV]: xtickrotation 45
 
+xtickha
+----------
+
+Set the horizontal alignment of tick labels on the x axis. Default is center.
+
+.. code::
+
+   [PyDV]: xtickha <center | right | left>
+
+   Ex:
+      [PyDV]: xtickha right
+
+xtickva
+----------
+
+Set the vertical alignment of tick labels on the x axis. Default is top.
+
+.. code::
+
+   [PyDV]: xtickva <center | top | bottom>
+
+   Ex:
+      [PyDV]: xtickva center
+
 ylabel
 ------
 
@@ -749,3 +780,39 @@ Set the rotation (in degrees) of the tick labels on the y axis.
 
    Ex:
       [PyDV]: ytickrotation 45
+
+ytickha
+----------
+
+Set the horizontal alignment of tick labels on the y axis. Default is right.
+
+.. code::
+
+   [PyDV]: ytickha <center | right | left>
+
+   Ex:
+      [PyDV]: ytickha center
+
+ytickva
+----------
+
+Set the vertical alignment of tick labels on the y axis. Default is center.
+
+.. code::
+
+   [PyDV]: ytickva <center | top | bottom>
+
+   Ex:
+      [PyDV]: ytickva top
+
+tightlayout
+----------
+
+Turn on plot tight layout. Useful if tick labels are long.
+
+.. code::
+
+   [PyDV]: tightlayout <on | off>
+
+   Ex:
+      [PyDV]: tightlayout on
