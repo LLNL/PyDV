@@ -251,6 +251,11 @@ class Command(cmd.Cmd, object):
     xtick_labels = {}
     xtickrotation = 0
     ytickrotation = 0
+    xtickha = "center"
+    xtickva = "top"
+    ytickha = "right"
+    ytickva = "center"
+    tightlayout = 0
 
     # Users wanted support for automatically loading some plot attributes. The
     # following commands handle the situations where there are multiple plots or
@@ -825,6 +830,28 @@ class Command(cmd.Cmd, object):
 
     def help_debug(self):
         print('\n   Variable: Show debug tracebacks if True\n   Usage: debug on | off\n')
+
+    def do_tightlayout(self, line):
+        """
+        Turn on plot tight layout
+        """
+
+        try:
+            line = line.strip()
+            if line == '0' or line.upper() == 'OFF':
+                self.tightlayout = 0
+            elif line == '1' or line.upper() == 'ON':
+                self.tightlayout = 1
+            else:
+                print('invalid input: requires on or off as argument')
+        except:
+            if self.tightlayout:
+                traceback.print_exc(file=sys.stdout)
+        finally:
+            self.redraw = True
+
+    def help_tightlayout(self):
+        print('\n   Variable: Turn on plot tight layout if True\n   Usage: tightlayout on | off\n')
 
     def do_undo(self, line):
         """
@@ -4383,6 +4410,16 @@ class Command(cmd.Cmd, object):
         Group curves based on name and file if curve names are the same
         """
 
+        if "title" in line:
+            title_update = True
+        else:
+            title_update = False
+
+        if "slashes" in line:
+            slashes = int(line[-1])
+        else:
+            slashes = 0
+
         pn, cn, fn = self.do_listr('1')
 
         # Setting Linestyles at the file level
@@ -4451,10 +4488,33 @@ class Command(cmd.Cmd, object):
             else:
                 print('There are only ten colors available. Please reduce the number of same name curves.')
 
+        if len(curve_names) == 1 and title_update:
+
+            self.do_title(f"{curve_names[0].strip()}")
+            original_plot_names = ""
+            original_curve_names = ""
+
+            for cur in self.plotlist:
+
+                if slashes:
+                    path = os.path.normpath(cur.filename)
+                    path_parts = path.split(os.sep)
+                    path_section = os.path.join(*path_parts[-slashes:])
+                else:
+                    path_section = cur.filename
+
+                original_plot_names += f" {cur.plotname}"
+                original_curve_names += f" #{cur.name}"
+                self.do_label(f"{cur.plotname} {path_section}")
+
+            print("Curve names have been updated to file names")
+            print(f"To revert execute command: label{original_plot_names + original_curve_names}")
+
         self.updateplot
 
     def help_group(self):
-        print('\n   Group curves based on name and file if curve names are the same.\n')
+        print('\n   Group curves based on name and file if curve names are the same.'
+              '\n   Usage: group <title <slashes #> >\n')
 
     def do_hide(self, line):
         """
@@ -7387,6 +7447,74 @@ class Command(cmd.Cmd, object):
         print('\n   Variable: Set the rotation of tick labels on the x axis'
               '\n   Usage: xtickrotation <degree>')
 
+    def do_xtickha(self, line):
+        """
+        Set the xtick horizontal alignment explicitly
+        """
+
+        try:
+            self.xtickha = line.strip()
+        except:
+            print('error - usage: xtickha <center | right | left>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_xtickha(self):
+        print('\n   Variable: Set the horizontal alignment of tick labels on the x axis'
+              '\n   Default is center'
+              '\n   Usage: xtickha <center | right | left>')
+
+    def do_xtickva(self, line):
+        """
+        Set the xtick vertical alignment explicitly
+        """
+
+        try:
+            self.xtickva = line.strip()
+        except:
+            print('error - usage: xtickva <center | top | bottom>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_xtickva(self):
+        print('\n   Variable: Set the vertical alignment of tick labels on the x axis'
+              '\n   Default is top'
+              '\n   Usage: xtickva <center | top | bottom>')
+
+    def do_ytickha(self, line):
+        """
+        Set the ytick horizontal alignment explicitly
+        """
+
+        try:
+            self.ytickha = line.strip()
+        except:
+            print('error - usage: ytickha <center | right | left>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_ytickha(self):
+        print('\n   Variable: Set the horizontal alignment of tick labels on the y axis'
+              '\n   Default is right'
+              '\n   Usage: ytickha <center | right | left>')
+
+    def do_ytickva(self, line):
+        """
+        Set the ytick vertical alignment explicitly
+        """
+
+        try:
+            self.ytickva = line.strip()
+        except:
+            print('error - usage: ytickva <center | top | bottom>')
+            if self.debug:
+                traceback.print_exc(file=sys.stdout)
+
+    def help_ytickva(self):
+        print('\n   Variable: Set the vertical alignment of tick labels on the y axis'
+              '\n   Default is center'
+              '\n   Usage: ytickva <center | top | bottom>')
+
     def do_ytickrotation(self, line):
         """
         Set the ytickrotation explicitly
@@ -8320,6 +8448,8 @@ class Command(cmd.Cmd, object):
             xaxis = cur_axes.xaxis
             self.tickFormat(yaxis, self.ylogscale, self.yticks, self.ytickformat)
             self.tickFormat(xaxis, self.xlogscale, self.xticks, self.xtickformat)
+            plt.setp(cur_axes.get_xticklabels(), horizontalalignment=self.xtickha, verticalalignment=self.xtickva)
+            plt.setp(cur_axes.get_yticklabels(), horizontalalignment=self.ytickha, verticalalignment=self.ytickva)
 
             # plot the grid, if grid turned on
             if self.showgrid:
@@ -8472,6 +8602,12 @@ class Command(cmd.Cmd, object):
                 plt.axis('off')
             else:
                 plt.axis('on')
+
+            if self.tightlayout:
+                plt.tight_layout()
+            else:
+                bbox = matplotlib.transforms.Bbox(numpy.array([[0.125, 0.11], [0.9, 0.88]]))
+                cur_axes.set_position(bbox)
 
             plt.draw()
             self.plotter.canvas.update()

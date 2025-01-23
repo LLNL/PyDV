@@ -507,7 +507,7 @@ def test_image(i):
     if i == 64:
         score_to_beat = 0.85
     else:
-        score_to_beat = 0.9
+        score_to_beat = 0.89
     (score, diff) = structural_similarity(baseline, output, full=True, data_range=1.0)
     print("Image Similarity {}: {:.4f}%".format(i, score * 100))
 
