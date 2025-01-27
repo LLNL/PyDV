@@ -7,6 +7,7 @@ Release Notes
 * `tightlayout`: Users can now turn on and off plot tight layout.
 * `xtickha`, `xtickva`, `ytickha`, `ytickva`: Users can now horizontally and vertically align ticks.
 * `group`: Users can now update title to curve name and labels to filenames if all curves have the same name.
+* Bugfix for image test
 
 3.5.1
 ------

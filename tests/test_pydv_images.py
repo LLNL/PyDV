@@ -488,12 +488,9 @@ with open(commands_file, 'w') as fp:
     fp.write("\nquit")
 
 # Execute PyDv
-exec_command = f"{os.path.join(PYDV_DIR, 'pydv', 'pdv')} -i {commands_file}"
+exec_command = f"python {os.path.join(PYDV_DIR, 'pydv', 'pdv')} -i {commands_file}"
 process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
 output, error = process.communicate()
-
-test_images = [_ for _ in os.listdir(output_dir) if _.endswith(".png")]
-baseline_images = [_ for _ in os.listdir(BASELINE_DIR) if _.endswith(".png")]
 
 
 @pytest.mark.parametrize("i", list(range(1, len(commands) + 1)))
