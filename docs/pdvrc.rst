@@ -85,3 +85,8 @@ lnwidth=width
 -------------
 
 Change the default line width of the curves.
+
+group=ON | OFF
+----------------
+
+Group plotted curves.

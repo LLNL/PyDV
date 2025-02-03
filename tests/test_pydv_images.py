@@ -309,10 +309,11 @@ commands = [
     labelrecordids off
     read {os.path.join(TEST_DIR, 'testData.ult')}
     cur 7 8
-    group
+    group slashes 0
     """,
     # 64
     """
+    group off
     labelfilenames on
     """,
     # 65

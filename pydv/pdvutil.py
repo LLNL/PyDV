@@ -203,27 +203,78 @@ def getnumberargs(line, filelist):
                     arglist += nolist + ' '
             start = line[i].split()[-1]
             end = line[i + 1].split()[0]
+            # File notation e.g. a.1:a.10
+            filedex = None
+            filestart = 0
             if (len(start.split('.')) > 1):
                 filedex = ord(start[0].upper()) - ord('A')
                 start = start.split('.')[-1]
                 if (filedex != 0):
                     for f in range(filedex):
+                        filestart += filelist[f][1]
                         start = str(int(start) + filelist[f][1])
+                filestart += 1
+            fileend = 0
             if (len(end.split('.')) > 1):
                 filedex = ord(end[0].upper()) - ord('A')
                 end = end.split('.')[-1]
                 if (filedex != 0):
                     for f in range(filedex):
+                        fileend += filelist[f][1]
                         end = str(int(end) + filelist[f][1])
+                fileend += filelist[filedex][1]
             args = ''
             delta = int(end) - int(start)
+            # Allow backwards lists
+            ignore = False
             if delta >= 0:
                 step = 1
+                if filedex is not None:
+                    if int(start) > fileend and int(end) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {start}, End {end}")
+                        print(f'\tStart {start} and End {end} is greater than file end {fileend}')
+                        print("\tThis range will not be plotted")
+                        ignore = True
+                    elif int(start) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {start}, End {end}")
+                        print(f'\tStart {start} is greater than file end {fileend}')
+                        start = str(fileend)
+                        print(f'\tSetting Start to {start}')
+                    elif int(end) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {start}, End {end}")
+                        print(f'\tEnd {end} is greater than file end {fileend}')
+                        end = str(fileend)
+                        print(f'\tSetting End to {end}')
+                    delta = int(end) - int(start)
             else:
                 step = -1
+                if filedex is not None:
+                    if int(end) > fileend and int(start) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {end}, End {start}")
+                        print(f'\tStart {end} and End {start} is greater than file end {fileend}')
+                        print("\tThis range will not be plotted")
+                        ignore = True
+                    elif int(end) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {end}, End {start}")
+                        print(f'\tStart {end} is greater than file end {fileend}')
+                        end = str(fileend)
+                        print(f'\tSetting Start to {end}')
+                    elif int(start) > fileend:
+                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"\tRequested Start {end}, End {start}")
+                        print(f'\tEnd {start} is greater than file end {fileend}')
+                        start = str(fileend)
+                        print(f'\tSetting End to {start}')
+                    delta = int(end) - int(start)
             for j in range(int(start), int(start) + delta + step, step):
                 args += str(j) + ' '
-            arglist += args + ' '
+            if not ignore:
+                arglist += args + ' '
         if (len(line[-1].split()) > 1):  # check for non list args
             nolist = line[-1].split()
             nolist.pop(0)

@@ -7,7 +7,10 @@ Release Notes
 * `tightlayout`: Users can now turn on and off plot tight layout.
 * `xtickha`, `xtickva`, `ytickha`, `ytickva`: Users can now horizontally and vertically align ticks.
 * `group`: Users can now update title to curve name and labels to filenames if all curves have the same name.
+* `cur`: Asterisks now work for all file curves (*.1 plot curve 1 for all files, *.1:*.3 plot curve 1:3 for all files)
 * Bugfix for image test
+* Bugfix for backslash literal string
+* Bugfix for `cur` asterisk file format plotting past file curves
 
 3.5.1
 ------
