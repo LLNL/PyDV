@@ -132,6 +132,9 @@ class Curve(object):
         self.math_interp_right = math_interp_right
         self.math_interp_period = math_interp_period
 
+        # Other attributes
+        self._original_name = name
+
     def __add__(a, b):
         c = Curve()
         c.drawstyle = a.drawstyle

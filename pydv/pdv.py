@@ -256,6 +256,8 @@ class Command(cmd.Cmd, object):
     ytickha = "right"
     ytickva = "center"
     tightlayout = 0
+    group = 0
+    slashes = 100
 
     # Users wanted support for automatically loading some plot attributes. The
     # following commands handle the situations where there are multiple plots or
@@ -1335,7 +1337,15 @@ class Command(cmd.Cmd, object):
                 self.do_curve(line)  # call curve again but with regexp results
                 self.redraw = True
                 return 0
-            if len(line.split(':')) > 1:  # check for list notation
+            if "*." in line:
+                for fdx in range(len(self.filelist)):
+                    temp_line = line.replace("*", chr(ord('a') + fdx))
+                    if len(line.split(':')) > 1:  # check for list notation
+                        self.do_curve(pdvutil.getnumberargs(temp_line, self.filelist))
+                    else:
+                        self.do_curve(temp_line)
+                return 0
+            elif len(line.split(':')) > 1:  # check for list notation
                 # call curve again with list expanded
                 self.do_curve(pdvutil.getnumberargs(line, self.filelist))
                 return 0
@@ -1348,15 +1358,23 @@ class Command(cmd.Cmd, object):
                         filedex = ord(line[i][0].upper()) - ord('A')  # file index we want
                         prevfile = ''  # set prevfile to impossible value
                         filecounter = 0
+                        fileend = 0
                         while filecounter <= filedex:  # count files up to the one we want
                             if self.curvelist[curvedex].filename != prevfile:  # inc count if name changes
                                 prevfile = self.curvelist[curvedex].filename
+                                fileend += self.filelist[filecounter][1]
                                 filecounter += 1
                             curvedex += 1  # this will end up being one past what we want
                             if curvedex >= len(self.curvelist):
                                 print("error: in curve list did not find matching file for %s" % line[i])
                         curvedex -= 1  # back curvedex up to point to start of file's curves
                         curvedex += int(line[i].split('.')[-1]) - 1
+                        if curvedex + 1 > fileend:
+                            filestart = fileend - self.filelist[filedex][1] + 1
+                            print('error: curve index out of bounds')
+                            print(f"\tFile {self.filelist[filedex]}: Start {filestart}, End {fileend}")
+                            print(f"\tRequested Curve {line[i]}")
+                            skip = True
                     elif 0 < int(line[i]) <= len(self.curvelist):
                         curvedex = int(line[i]) - 1
                     else:
@@ -4409,6 +4427,10 @@ class Command(cmd.Cmd, object):
         """
         Group curves based on name and file if curve names are the same
         """
+        if "off" in line:
+            self.group = 0
+        else:
+            self.group = 1
 
         if "title" in line:
             title_update = True
@@ -4416,11 +4438,15 @@ class Command(cmd.Cmd, object):
             title_update = False
 
         if "slashes" in line:
-            slashes = int(line[-1])
-        else:
-            slashes = 0
+            self.slashes = int(line.split()[-1])
 
-        pn, cn, fn = self.do_listr('1')
+        pn = []
+        cn = []
+        fn = []
+        for cur in self.plotlist:
+            pn.append(cur.plotname)
+            cn.append(cur._original_name)
+            fn.append(cur.filename)
 
         # Setting Linestyles at the file level
         files = []
@@ -4465,16 +4491,14 @@ class Command(cmd.Cmd, object):
         curve_names = []
 
         for curve_name in cn:  # ordered set
-            temp_cn = curve_name.split(' - ')[0]
-            if temp_cn not in curve_names:
-                curve_names.append(temp_cn)
-
+            if curve_name not in curve_names:
+                curve_names.append(curve_name)
         groups = {}
 
         for curve_name in curve_names:
             temp = []
             for i, plotname in enumerate(pn):
-                if cn[i].split(' - ')[0] == curve_name:
+                if cn[i] == curve_name:
                     temp.append(plotname)
 
             groups[curve_name] = temp
@@ -4488,29 +4512,27 @@ class Command(cmd.Cmd, object):
             else:
                 print('There are only ten colors available. Please reduce the number of same name curves.')
 
-        if len(curve_names) == 1 and title_update:
+        for cur in self.plotlist:
+            path = os.path.normpath(cur.filename)
+            path_parts = path.split(os.sep)
+            path_section = os.path.join(*path_parts[-self.slashes:])
 
-            self.do_title(f"{curve_names[0].strip()}")
-            original_plot_names = ""
-            original_curve_names = ""
-
-            for cur in self.plotlist:
-
-                if slashes:
-                    path = os.path.normpath(cur.filename)
-                    path_parts = path.split(os.sep)
-                    path_section = os.path.join(*path_parts[-slashes:])
-                else:
-                    path_section = cur.filename
-
-                original_plot_names += f" {cur.plotname}"
-                original_curve_names += f" #{cur.name}"
+            if len(curve_names) == 1 and (title_update or self.title == curve_names[0]):
                 self.do_label(f"{cur.plotname} {path_section}")
+            else:
+                if self.slashes != 0:
+                    self.do_label(f"{cur.plotname} {cur._original_name} - {path_section}")
 
-            print("Curve names have been updated to file names")
-            print(f"To revert execute command: label{original_plot_names + original_curve_names}")
+        if len(curve_names) == 1 and title_update:
+            self.do_title(f"{curve_names[0].strip()}")
 
-        self.updateplot
+        if not self.group:
+            for i, cur in enumerate(self.plotlist):
+                self.do_label(f"{cur.plotname} {cur._original_name}")
+                temp_color = colors[i].replace("'", "")
+                self.do_color(f"{cur.plotname} {temp_color}")
+                self.do_lnstyle(f"{cur.plotname} solid")
+            self.slashes = 100
 
     def help_group(self):
         print('\n   Group curves based on name and file if curve names are the same.'
@@ -6761,7 +6783,7 @@ class Command(cmd.Cmd, object):
                     if cmd == 'image':
                         self.updateplot
                     args = ' '.join(args)
-                    send = 'self.do_' + cmd + '(\'' + args + '\')'
+                    send = 'self.do_' + cmd + '(\'' + args.replace("\\", "\\\\") + '\')'
                     result = eval(send)  # noqa f841
                 except SystemExit:
                     self.do_quit(line)
@@ -8304,6 +8326,8 @@ class Command(cmd.Cmd, object):
         """
         Iterates through plotlist and displays curves on graph
         """
+        if self.group == 1:
+            self.do_group("")
 
         try:
             if stylesLoaded:
@@ -8402,7 +8426,7 @@ class Command(cmd.Cmd, object):
 
                 # Show curve filename in legend if enabled
                 addfstr = str('- ' + cur.filename)
-                if cur.name.find(addfstr) != -1:
+                if cur.name.find(addfstr) != -1 and not self.group:
                     fstrarr = cur.name.split(addfstr)
                     cur.name = ''.join(fstrarr).strip()
                 if self.showfilenameinlegend:
@@ -8719,6 +8743,12 @@ class Command(cmd.Cmd, object):
                         self.annotationfont = val
                     elif var == 'lnwidth':
                         self.linewidth = val
+                    elif (var == 'group'):
+                        if (val.upper() == 'ON' or val == str(1)):
+                            self.showletters = 1
+                        else:
+                            self.showletters = 0
+
                 except:
                     continue
             f.close()

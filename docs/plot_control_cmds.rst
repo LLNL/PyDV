@@ -235,15 +235,17 @@ group
 Group curves based on name and file if curve names are the same. Max number of same name curves is 14.
 Can also update title to curve name and change labels to filenames if all curves share the same name.
 If `title` is passed, one can adjust the filename label with number of `slashes` as well.
+If `off` is passed, will reset curves back to normal and stop automatic grouping.
 Note: `title` also looks at hidden curves thus need to delete curves (e.g. `del a`).
 
 .. code::
 
-   [PyDV]: group <title <slashes #> >
+   [PyDV]: group <title <slashes #> > <off>
    Ex:
       [PyDV]: group
       [PyDV]: group title
       [PyDV]: group title slashes 2
+      [PyDV]: group off
 
 guilims
 -------
