@@ -8745,9 +8745,9 @@ class Command(cmd.Cmd, object):
                         self.linewidth = val
                     elif (var == 'group'):
                         if (val.upper() == 'ON' or val == str(1)):
-                            self.showletters = 1
+                            self.group = 1
                         else:
-                            self.showletters = 0
+                            self.group = 0
 
                 except:
                     continue
