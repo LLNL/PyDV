@@ -4657,3 +4657,809 @@ def __loadpdb(fname, fpdb):
         print('invalid pydv file: ' + fname)
 
     return curvelist
+
+
+########################################################
+################# Curve Comparisons ####################  # noqa e266
+########################################################
+
+def overlap_interp(cr1, cr2, npts_interp=0):
+    """
+    Get the a set of overlapping interpolated curves.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> cr1_interp, cr2_interp = pydvpy.overlap_interp(curves[0], curves[1], npts_interp=100)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts_interp: The number of points in the interpolation
+    :type npts_interp: int
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+    """
+    # Current overlap of cr1 and cr2
+    overlap = list(cr1.x[np.where(np.logical_and(cr1.x >= cr2.x[0], cr1.x <= cr2.x[-1]))])
+    overlap.extend(list(cr2.x[np.where(np.logical_and(cr2.x >= cr1.x[0], cr2.x <= cr1.x[-1]))]))
+    overlap = list(set(overlap))
+    overlap.sort()
+
+    if npts_interp:
+        # np.linespace() between first and last overlap
+        overlap_interp_points = np.linspace(overlap[0], overlap[-1], npts_interp)
+
+        # Adding np.linespace() points to original overlap points
+        overlap.extend(overlap_interp_points)
+        overlap = list(set(overlap))
+        overlap.sort()
+
+    new_y1 = np.interp(overlap, cr1.x, cr1.y)
+    new_y2 = np.interp(overlap, cr2.x, cr2.y)
+
+    cr1_interp = makecurve(x=np.array(overlap),
+                           y=new_y1,
+                           name=cr1.name + " overlap_interp")
+    cr2_interp = makecurve(x=np.array(overlap),
+                           y=new_y2,
+                           name=cr2.name + " overlap_interp")
+
+    return cr1_interp, cr2_interp
+
+
+def AvgDiff(cr1, cr2, npts=100, tol=1e-6):
+    """
+    Calculate the difference between the overlapping interpolated curves.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.AvgDiff(curves[0],
+            curves[1], npts=100, tol=1e-6)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts: The number of points in the interpolation
+    :type npts: int
+    :param tol: The tolerance for failure
+    :type tol: float
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+        - differences (:py:class:`Curve`) - The differences curve cr1_interp - cr2_interp
+        - avgDiff (:py:class:`float`) - The average difference
+        - maxDiff (:py:class:`float`) - The maximum difference
+        - failed_curve (:py:class:`Curve`) - The failed points curve
+        - failed (:py:class:`bool`) - If the `differences` failed the tolerance or not
+    """
+    cr1_interp, cr2_interp = overlap_interp(cr1, cr2, npts)
+
+    differences = cr1_interp - cr2_interp
+    avgDiff = np.mean(differences.y)
+    maxDiff = np.max(differences.y)
+    differences = makecurve(x=differences.x,
+                            y=differences.y,
+                            name=f"Differences avgDiff={avgDiff:.6e} maxDiff={maxDiff:.6e}")
+
+    failed_points = np.where(differences.y > tol)
+    failed_curve = makecurve(x=differences.x[failed_points],
+                             y=differences.y[failed_points],
+                             name=f"Failed points npts={len(failed_points[0])} with tol={tol}")
+    failed_curve.scatter = True
+
+    if failed_points[0].size:
+        failed = True
+    else:
+        failed = False
+
+    return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
+
+
+def AbsDiff(cr1, cr2, npts=100, tol=1e-6):
+    """
+    Calculate the absolute difference between the overlapping interpolated curves.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.AbsDiff(curves[0],
+            curves[1], npts=100, tol=1e-6)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts: The number of points in the interpolation
+    :type npts: int
+    :param tol: The tolerance for failure
+    :type tol: float
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+        - differences (:py:class:`Curve`) - The differences curve
+        - avgDiff (:py:class:`float`) - The average difference
+        - maxDiff (:py:class:`float`) - The maximum difference
+        - failed_curve (:py:class:`Curve`) - The failed points curve
+        - failed (:py:class:`bool`) - If the `differences` failed the tolerance or not
+    """
+    cr1_interp, cr2_interp = overlap_interp(cr1, cr2, npts)
+
+    differences = cr1_interp - cr2_interp
+    differences.y = np.abs(differences.y)
+    avgDiff = np.mean(differences.y)
+    maxDiff = np.max(differences.y)
+    differences = makecurve(x=differences.x,
+                            y=differences.y,
+                            name=f"Differences avgDiff={avgDiff:.6e} maxDiff={maxDiff:.6e}")
+
+    failed_points = np.where(differences.y > tol)
+    failed_curve = makecurve(x=differences.x[failed_points],
+                             y=differences.y[failed_points],
+                             name=f"Failed points npts={len(failed_points[0])} with tol={tol}")
+    failed_curve.scatter = True
+
+    if failed_points[0].size:
+        failed = True
+    else:
+        failed = False
+
+    return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
+
+
+def RelDiff(cr1, cr2, npts=100, tol=1e-6):
+    """
+    Calculate the relative difference between the overlapping interpolated curves.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.RelDiff(curves[0],
+            curves[1], npts=100, tol=1e-6)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts: The number of points in the interpolation
+    :type npts: int
+    :param tol: The tolerance for failure
+    :type tol: float
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+        - differences (:py:class:`Curve`) - The differences curve
+        - avgDiff (:py:class:`float`) - The average difference
+        - maxDiff (:py:class:`float`) - The maximum difference
+        - failed_curve (:py:class:`Curve`) - The failed points curve
+        - failed (:py:class:`bool`) - If the `differences` failed the tolerance or not
+    """
+    cr1_interp, cr2_interp = overlap_interp(cr1, cr2, npts)
+
+    c1max = np.max(cr1.y)
+    c1min = np.min(cr1.y)
+
+    c2max = np.max(cr2.y)
+    c2min = np.min(cr2.y)
+
+    c1diff = c1max - c1min
+    c2diff = c2max - c2min
+
+    c1Adj = tol * c1diff
+    c2Adj = tol * c2diff
+
+    c1new = np.abs(cr1_interp.y) + c1Adj
+    c2new = np.abs(cr2_interp.y) + c2Adj
+
+    absDiff = np.abs(cr1_interp.y - cr2_interp.y)
+
+    scale = c1new + c2new + 1e-80
+
+    relDiff = absDiff / scale
+
+    avgDiff = np.mean(relDiff)
+    maxDiff = np.max(relDiff)
+    differences = makecurve(x=cr1_interp.x,
+                            y=relDiff,
+                            name=f"Differences avgDiff={avgDiff:.6e} maxDiff={maxDiff:.6e}")
+
+    failed_points = np.where(relDiff > tol)
+    failed_curve = makecurve(x=differences.x[failed_points],
+                             y=differences.y[failed_points],
+                             name=f"Failed points npts={len(failed_points[0])} with tol={tol}")
+    failed_curve.scatter = True
+
+    if failed_points[0].size:
+        failed = True
+    else:
+        failed = False
+
+    return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
+
+
+def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
+    """
+    Calculate the relative and absolute difference between the overlapping interpolated curves.
+    Returns the updated AND statement for `failed` along with curves from AbsDiff and RelDiff
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> (cr1_interp, cr2_interp,
+         differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs
+         differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel
+         failed_AND) = pydvpy.AbsAndRelDiff(curves[0], curves[1], npts=100, tol=1e-6)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts: The number of points in the interpolation
+    :type npts: int
+    :param tol: The tolerance for failure
+    :type tol: float
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+        - differences_Abs (:py:class:`Curve`) - The differences curve for AbsDiff
+        - avgDiff_Abs (:py:class:`float`) - The average difference for AbsDiff
+        - maxDiff_Abs (:py:class:`float`) - The maximum difference for AbsDiff
+        - failed_curve_Abs (:py:class:`Curve`) - The failed points curve for AbsDiff
+        - failed_Abs (:py:class:`bool`) - If the `differences` failed the tolerance or not for AbsDiff
+        - differences_Rel (:py:class:`Curve`) - The differences curve for RelDiff
+        - avgDiff_Rel (:py:class:`float`) - The average difference for RelDiff
+        - maxDiff_Rel (:py:class:`float`) - The maximum difference for RelDiff
+        - failed_curve_Rel (:py:class:`Curve`) - The failed points curve for RelDiff
+        - failed_Rel (:py:class:`bool`) - If the `differences` failed the tolerance or not for RelDiff
+        - failed_AND (:py:class:`bool`) - If the `differences` failed the tolerance or not for AbsDiff AND RelDiff
+    """
+
+    (cr1_interp, cr2_interp,
+     differences_Abs, avgDiff_Abs,
+     maxDiff_Abs, failed_curve_Abs,
+     failed_Abs) = AbsDiff(cr1, cr2, npts, tol)
+
+    (cr1_interp, cr2_interp,
+     differences_Rel, avgDiff_Rel,
+     maxDiff_Rel, failed_curve_Rel,
+     failed_Rel) = RelDiff(cr1, cr2, npts, tol)
+
+    if failed_Abs and failed_Rel:
+        failed_AND = True
+    else:
+        failed_AND = False
+
+    return (cr1_interp, cr2_interp,
+            differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs,
+            differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel,
+            failed_AND)
+
+
+def AbsOrRelDiff(cr1, cr2, npts=100, tol=1e-6):
+    """
+    Calculate the relative and absolute difference between the overlapping interpolated curves.
+    Returns the updated OR statement for `failed` along with curves from AbsDiff and RelDiff
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> (cr1_interp, cr2_interp,
+         differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs
+         differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel
+         failed_OR) = pydvpy.AbsOrRelDiff(curves[0], curves[1], npts=100, tol=1e-6)
+
+    :param cr1: The first curve
+    :type cr1: Curve
+    :param cr2: The second curve
+    :type cr2: Curve
+    :param npts: The number of points in the interpolation
+    :type npts: int
+    :param tol: The tolerance for failure
+    :type tol: float
+    :returns:
+        - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
+        - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
+        - differences_Abs (:py:class:`Curve`) - The differences curve for AbsDiff
+        - avgDiff_Abs (:py:class:`float`) - The average difference for AbsDiff
+        - maxDiff_Abs (:py:class:`float`) - The maximum difference for AbsDiff
+        - failed_curve_Abs (:py:class:`Curve`) - The failed points curve for AbsDiff
+        - failed_Abs (:py:class:`bool`) - If the `differences` failed the tolerance or not for AbsDiff
+        - differences_Rel (:py:class:`Curve`) - The differences curve for RelDiff
+        - avgDiff_Rel (:py:class:`float`) - The average difference for RelDiff
+        - maxDiff_Rel (:py:class:`float`) - The maximum difference for RelDiff
+        - failed_curve_Rel (:py:class:`Curve`) - The failed points curve for RelDiff
+        - failed_Rel (:py:class:`bool`) - If the `differences` failed the tolerance or not for RelDiff
+        - failed_OR (:py:class:`bool`) - If the `differences` failed the tolerance or not for AbsDiff OR RelDiff
+    """
+
+    (cr1_interp, cr2_interp,
+     differences_Abs, avgDiff_Abs,
+     maxDiff_Abs, failed_curve_Abs,
+     failed_Abs) = AbsDiff(cr1, cr2, npts, tol)
+
+    (cr1_interp, cr2_interp,
+     differences_Rel, avgDiff_Rel,
+     maxDiff_Rel, failed_curve_Rel,
+     failed_Rel) = RelDiff(cr1, cr2, npts, tol)
+
+    if failed_Abs or failed_Rel:
+        failed_OR = True
+    else:
+        failed_OR = False
+
+    return (cr1_interp, cr2_interp,
+            differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs,
+            differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel,
+            failed_OR)
+
+
+def addPoint(curvelist, x, y):
+    """
+    Appends both x and y coordinates to the end of each list of values of a Curve.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curves = pydvpy.addPoint(curves, x=10, y=11) OR
+
+     >>> new_curves = pydvpy.addPoint(curves[0], x=10, y=11)
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param x: The point to append to the x array
+    :type x: float
+    :param y: The point to append to the y array
+    :type y: float
+    :return: Curve -- A list of new curves with the appended point
+    """
+    new_curves = list()
+    for cur in curvelist:
+        new_curves.append(makecurve(x=np.append(cur.x, x),
+                                    y=np.append(cur.y, y),
+                                    name=f"{cur.name} appended x={x} and y={y}"))
+    return new_curves
+
+
+def getxi(curvelist, i):
+    """
+    Returns a discrete data point from the xData array
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> xvals = pydvpy.getxi(curves, 42) OR
+
+     >>> xvals = pydvpy.getxi(curves[0], 42)
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param i: The index of the point to return
+    :type i: int
+    :return: list -- A list of x values at the given index
+    """
+    xvals = list()
+
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for cur in curves:
+        xvals.append(cur.x[i])
+
+    return xvals
+
+
+def getyi(curvelist, i):
+    """
+    Returns a discrete data point from the yData array
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> yvals = pydvpy.getyi(curves, 42) OR
+
+     >>> yvals = pydvpy.getyi(curves[0], 42)
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param i: The index of the point to return
+    :type i: int
+    :return: list -- A list of y values at the given index
+    """
+    yvals = list()
+
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for cur in curves:
+        yvals.append(cur.y[i])
+
+    return yvals
+
+
+def crop_and_interp(curvelist, npts=None, idomian=None):
+    """
+    Returns new curves that are cropped and interpolated.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curves = pydvpy.crop_and_interp(curves, 100, [24, 42]) OR
+
+     >>> new_curves = pydvpy.crop_and_interp(curves[0], 100, [24, 42])
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param npts: Number of extra points for interpolation
+    :type npts: int
+    :param idomain: Index domain for cropped curve
+    :type idomain: list
+    :return: Curve -- A list of new curves that are cropped and interpolated
+    """
+    new_curves = list()
+    for cur in curvelist:
+        name = cur.name
+        if idomian is None:
+            id = [0, len(cur.x)]
+        else:
+            name += f" Cropped indices={idomian}"
+            id = idomian
+        if npts is not None:
+            name += f" Interpolated npts={npts}"
+            new_x = np.linspace(cur.x[id[0]], cur.x[id[1]], num=npts)
+        else:
+            new_x = cur.x[id[0]:id[1]]
+        new_y = np.interp(new_x, cur.x, cur.y)
+
+        new_curves.append(makecurve(x=new_x,
+                                    y=new_y,
+                                    name=name))
+    return new_curves
+
+
+def shift(curvelist, x=0, y=0):
+    """
+    Shifts curves by an x and y value.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curves = pydvpy.shift(curves, x=10, y=11) OR
+
+     >>> new_curves = pydvpy.shift(curves[0], x=10, y=11)
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param x: The point to shift the x array
+    :type x: float
+    :param y: The point to shift the y array
+    :type y: float
+    :return: Curve -- A list of new curves with the shifted x and y values
+    """
+    new_curves = list()
+    for cur in curvelist:
+        new_curves.append(makecurve(x=cur.x + x,
+                                    y=cur.y + y,
+                                    name=f"{cur.name} shifted by X={x} and Y={y}"))
+    return new_curves
+
+
+def swapCoords(curvelist):
+    """
+    Swap x and y values for the specified curves.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curves = pydvpy.swapCoords(curves) OR
+
+     >>> new_curves = pydvpy.swapCoords(curves[0])
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :return: Curve -- A list of new curves with the swapped x and y values
+    """
+    new_curves = list()
+    for cur in curvelist:
+        new_curves.append(makecurve(x=cur.y,
+                                    y=cur.x,
+                                    name=f"{cur.name} swapped coordinates"))
+    return new_curves
+
+
+def ClipValues(curvelist, ymin, ymax):
+    """
+    Clip the y values for the specified curves using np.clip().
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curves = pydvpy.ClipValues(curves, ymin=3, ymax=7) OR
+
+     >>> new_curves = pydvpy.ClipValues(curves[0], ymin=3, ymax=7)
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :param ymin: The minimum y value
+    :type ymin: float
+    :param ymax: The maximum y value
+    :type ymax: float
+    :return: Curve -- A list of new curves with the clipped y values
+    """
+    new_curves = list()
+    for cur in curvelist:
+        newy = np.clip(cur.y, ymin, ymax)
+        new_curves.append(makecurve(x=cur.x,
+                                    y=newy,
+                                    name=f"{cur.name} clipped ymin={ymin} and ymax={ymax}"))
+    return new_curves
+
+
+def LinearFit(c, x):
+    """
+    This method takes in a value for x and uses linear interpolation to return
+    the cooresponding y value for the given data
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> vals = pydvpy.LinearFit(curves[0], 2)
+
+    >>> x, y = vals[0]
+
+    :param c: The curve
+    :type c: Curve
+    :param value: x value
+    :type value: float
+    :return: list -- A list of tuples where each tuple contains the y value, and the given x
+    """
+    xypairs = list()
+
+    def findSegment(x):
+        iLeft = 0
+        iRight = len(c.x) - 1
+        while 1:
+            if (iRight - iLeft) <= 1:
+                return iLeft
+            i = (iLeft + iRight) // 2
+            if x < c.x[i]:
+                iRight = i
+            else:
+                iLeft = i
+
+    i = findSegment(x)
+    slope = (c.y[i + 1] - c.y[i]) / (c.x[i + 1] - c.x[i])
+    y = slope * (x - c.x[i]) + c.y[i]
+    xypairs.append((float(x), y))
+    return xypairs
+
+
+def PolyFit(c, value, order):
+    """
+    Using a Polynomial Fit, get the y values of the curve for a given x.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> vals = pydvpy.PolyFit(curves[0], 2)
+
+    >>> x, y = vals[0]
+
+    :param c: The curve
+    :type c: Curve
+    :param value: x value
+    :type value: float
+    :param order: Order of polynomial
+    :type order: int
+    :return: list -- A list of tuples where each tuple contains the y value, and the given x
+    """
+    xypairs = list()
+    poly = np.poly1d(np.polyfit(c.x, c.y, order))
+    y = poly(value)
+    xypairs.append((float(value), y))
+    return xypairs
+
+
+def SplineFit(c, value, order, smooth):
+    """
+    Using a Spline Fit, get the y values of the curve for a given x.
+
+    >>> curves = pydvpy.read('testData.txt')
+
+    >>> vals = pydvpy.SplineFit(curves[0], 2, 3)
+
+    >>> x, y = vals[0]
+
+    :param c: The curve
+    :type c: Curve
+    :param value: x value
+    :type value: float
+    :param order: Order for spline
+    :type order: int
+    :param smooth: Smoothing condition for spline
+    :type smooth: int
+    :return: list -- A list of tuples where each tuple contains the y value, and the given x
+    """
+    xypairs = list()
+    spline = scipy.interpolate.splrep(c.x, c.y, k=order, s=smooth)
+    y = scipy.interpolate.splev(value, spline, der=0)
+    xypairs.append((float(value), y))
+    return xypairs
+
+
+def MovingAvg(c, npts):
+    """
+    This filter returns a smooth a curve using a moving average technique.
+    The function takes N points and reassigns each point in a curve as
+    the average of the N points around it.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curve = pydvpy.MovingAvg(curves[0], 5)
+
+    :param c: The Curve
+    :type c: Curve
+    :param npts: Number of points for the moving average
+    :type npts: int
+    :return: Curve -- A new smoothed curve
+    """
+    xset = c.x
+    yset = c.y
+    newvals = []
+    avgvals = []
+    count = 0
+    avgsum = 0
+    for i in range(npts // 2):
+        avgvals.append(yset[count])
+        avgsum += yset[count]
+        count += 1
+
+    for i in range(len(yset)):
+        if count < len(yset):
+            avgvals.append(yset[count])
+            avgsum += yset[count]
+            count += 1
+        newvals.append(avgsum / len(avgvals))
+        if len(avgvals) == npts or count >= len(yset):
+            avgsum -= avgvals.pop(0)
+
+    return makecurve(x=xset,
+                     y=newvals,
+                     name=f"{c.name} MovingAvg npts={npts}")
+
+
+def GuassianFilter(c, sigma):
+    """
+    This smooths a curve using a Gaussian filter.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curve = pydvpy.GuassianFilter(curves[0], 5)
+
+    :param c: The Curve
+    :type c: Curve
+    :param sigma: Standard deviation for Gaussian kernel
+    :type sigma: float
+    :return: Curve -- A new smoothed curve
+    """
+    return makecurve(x=c.x,
+                     y=scipy.ndimage.gaussian_filter(c.y, sigma),
+                     name=f"{c.name} GuassianFilter sigma={sigma}")
+
+
+def UniformFilter(c, npts):
+    """
+    This smooths a curve using a Uniform filter.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curve = pydvpy.UniformFilter(curves[0], 5)
+
+    :param c: The Curve
+    :type c: Curve
+    :param npts: The sizes of the uniform filter
+    :type npts: int
+    :return: Curve -- A new smoothed curve
+    """
+    return makecurve(x=c.x,
+                     y=scipy.ndimage.uniform_filter(c.y, size=npts),
+                     name=f"{c.name} UniformFilter npts={npts}")
+
+
+def MedianFilter(c, npts):
+    """
+    This smooths a curve using a Median filter.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curve = pydvpy.MedianFilter(curves[0], 5)
+
+    :param c: The Curve
+    :type c: Curve
+    :param npts: The sizes of the median filter
+    :type npts: int
+    :return: Curve -- A new smoothed curve
+    """
+    return makecurve(x=c.x,
+                     y=scipy.ndimage.median_filter(c.y, size=npts),
+                     name=f"{c.name} MedianFilter npts={npts}")
+
+
+def TimeShift(cbase, cset, tol=1e-6, pairID=0, version=0):
+    """
+    This filter will take a curve and return a time shifted curve.
+    It uses the slope of the baseline curve to find the time offset
+    for each point of the new curve such that the new curve would
+    match the baseline. It uses the time offset at the point with
+    the largest slope.
+    This only works well for small offsets.
+    It zeros out the slope when the baseline and new curve have slopes
+    of opposite sign when searching for the max slope.
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> new_curve = pydvpy.TimeShift(curves[0], curves[1], tol=1e-6, pairID=0, version=0)
+
+    :param cbase: The base Curve
+    :type cbase: Curve
+    :param cset: The set Curve
+    :type cset: Curve
+    :param tol: The tolerance for the shift
+    :type tol: float
+    :param pairID: The pair ID for the curve names
+    :type pairID: float
+    :param version: The version for the curve names
+    :type version: float
+    :return: Curve -- A new time shifted curve
+    """
+    def moving_average(a, n=3):
+        y = np.copy(a)
+        for i in range(n // 2):
+            y = np.insert(y, 0, a[0])
+            y = np.append(y, a[-1])
+        ret = np.cumsum(y, dtype=float)
+        ret = np.insert(ret, 0, 0.)
+        ret[n:] = ret[n:] - ret[:-n]
+        return ret[n:] / n
+
+    smthWindow = 5
+
+    xbase = cbase.x
+    ybase = cbase.y
+    xset = cset.x
+    yset = cset.y
+    # find index into xbase of the values in xset
+    indx = np.digitize(xset, xbase) - 1
+    # keep values in bounds so points off the xbase array
+    # will use the index of the first (0) or last (len(xbase)-2) interval in xbase
+    indx = np.clip(indx, 0, len(xbase) - 2)
+
+    slopebase = (ybase[1:] - ybase[:-1]) / (xbase[1:] - xbase[:-1] + 1e-20)  # len of xbase - 1
+    yintrp = np.interp(xset, xbase, ybase)  # len of xset
+    residual = yset - yintrp
+    delta_t = residual / (slopebase[indx] + 1e-20)
+
+    # smooth the slopes before finding the max value.
+    # noe indices of smthslopebase match those of cset arrays
+    smthslopebase = moving_average(slopebase[indx], smthWindow)
+
+    # find the slope of the new curve and smooth it
+    slopeset = (yset[1:] - yset[:-1]) / (xset[1:] - xset[:-1] + 1e-20)  # len of xset - 1
+    smthslopeset = moving_average(slopeset, smthWindow)
+    smthslopeset = np.append(smthslopeset, smthslopeset[-1])  # extend to length of xset
+
+    # set slope to zero when base and set have different signs
+    # The delta_t is likely a poor choice if this is true
+    smthslopebase = np.where(smthslopebase * smthslopeset > 0, smthslopebase, 0.0)
+
+    # Use the delta_t at the point with the largest slope (abs value)
+    maxslopebase = np.argmax(np.abs(smthslopebase))
+    delta_t = residual[maxslopebase] / (slopebase[indx])[maxslopebase]
+    #
+    # this gives least squares delta_t
+    # delta_t = np.sum(residual*slopebase[indx] )/np.sum(np.power(slopebase[indx],2))
+
+    if np.abs(delta_t) > tol:
+        # result.setOutcome(False)
+        delta_t = np.abs(delta_t) * tol / delta_t
+    xshifted = xset + delta_t
+
+    return makecurve(x=xshifted,
+                     y=yset,
+                     name=f"{cset.name} pairID={pairID} version={version}")

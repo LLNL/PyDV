@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.6.0
+------
+* Curve comparison functions for PyDVpy API
+
 3.5.2
 ------
 * `tightlayout`: Users can now turn on and off plot tight layout.
