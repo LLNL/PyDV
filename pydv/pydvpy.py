@@ -571,6 +571,11 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     :returns: list -- the list of curves from the file matching pattern, if specified
 
     """
+    if str(fname).endswith(".csv"):
+        return readcsv(fname=fname, xcol=xcol, verbose=verbose)
+    elif str(fname).endswith(".json"):
+        return readsina(fname=fname, verbose=verbose)
+
     def bundle_curve(_curve, build_x, build_y):
 
         _curve.xticks_labels = {}
