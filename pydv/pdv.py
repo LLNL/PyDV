@@ -1043,12 +1043,18 @@ class Command(cmd.Cmd, object):
 
     def do_read(self, line):
         """
-        Read in an ultra file
+        Read in an ultra, csv, or sina file.
         """
 
         try:
             line = line.split()
             n = len(line)
+            if line[-1].endswith(".csv"):
+                self.do_readcsv(" ".join(line))
+                return
+            elif line[-1].endswith(".json"):
+                self.do_readsina(" ".join(line))
+                return
 
             if n == 1:
                 self.load(line[0])
@@ -1085,7 +1091,15 @@ class Command(cmd.Cmd, object):
               '\n    Usage: read [(regex) matches] [x-col] <file-name>'
               '\n    Shortcuts: rd\n'
               '\n    If using regex, set matches equal to a negative number for unlimited matches.'
-              '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n')
+              '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n'
+              '\n'
+              '\n    Macro: Read csv data file. For column oriented (.gnu) files optionally specify the x-column'
+              '\n          number (e.g., readcsv file.csv 1).'
+              '\n    Usage: read <file-name> [xcol]\n'
+              '\n'
+              '\n    Macro: Read all curves from sina data file.'
+              '\n    Usage: read <file-name>\n'
+              )
 
     def do_readcsv(self, line):
         """

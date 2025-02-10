@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.6.1
+------
+* Consolidate read functions
+
 3.6.0
 ------
 * Curve comparison functions for PyDVpy API
