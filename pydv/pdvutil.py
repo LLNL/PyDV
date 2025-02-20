@@ -203,11 +203,16 @@ def getnumberargs(line, filelist):
                     arglist += nolist + ' '
             start = line[i].split()[-1]
             end = line[i + 1].split()[0]
-            # File notation e.g. a.1:a.10
+            # File notation e.g. a.1:a.10 and @#.
             filedex = None
             filestart = 0
             if (len(start.split('.')) > 1):
-                filedex = ord(start[0].upper()) - ord('A')
+
+                if ord('A') <= ord(start[0].upper()) <= ord('Z'):
+                    filedex = ord(start[0].upper()) - ord('A')
+                else:
+                    filedex = int(start.split(".")[0].replace("@", "")) - 1  # 0 index
+
                 start = start.split('.')[-1]
                 if (filedex != 0):
                     for f in range(filedex):
@@ -216,7 +221,12 @@ def getnumberargs(line, filelist):
                 filestart += 1
             fileend = 0
             if (len(end.split('.')) > 1):
-                filedex = ord(end[0].upper()) - ord('A')
+
+                if ord('A') <= ord(end[0].upper()) <= ord('Z'):
+                    filedex = ord(end[0].upper()) - ord('A')
+                else:
+                    filedex = int(end.split(".")[0].replace("@", "")) - 1  # 0 index
+
                 end = end.split('.')[-1]
                 if (filedex != 0):
                     for f in range(filedex):
@@ -231,45 +241,49 @@ def getnumberargs(line, filelist):
                 step = 1
                 if filedex is not None:
                     if int(start) > fileend and int(end) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {start}, End {end}")
                         print(f'\tStart {start} and End {end} is greater than file end {fileend}')
                         print("\tThis range will not be plotted")
                         ignore = True
                     elif int(start) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {start}, End {end}")
                         print(f'\tStart {start} is greater than file end {fileend}')
                         start = str(fileend)
                         print(f'\tSetting Start to {start}')
+                        print(f'\tNew Start {start} and New End {end}')
                     elif int(end) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {start}, End {end}")
                         print(f'\tEnd {end} is greater than file end {fileend}')
                         end = str(fileend)
                         print(f'\tSetting End to {end}')
+                        print(f'\tNew Start {start} and New End {end}')
                     delta = int(end) - int(start)
             else:
                 step = -1
                 if filedex is not None:
                     if int(end) > fileend and int(start) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {end}, End {start}")
                         print(f'\tStart {end} and End {start} is greater than file end {fileend}')
                         print("\tThis range will not be plotted")
                         ignore = True
                     elif int(end) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {end}, End {start}")
                         print(f'\tStart {end} is greater than file end {fileend}')
                         end = str(fileend)
                         print(f'\tSetting Start to {end}')
+                        print(f'\tNew Start {end} and New End {start}')
                     elif int(start) > fileend:
-                        print(f"File {filelist[filedex]}: Start {filestart}, End {fileend}")
+                        print(f"File {filedex + 1}: {filelist[filedex]}: Start {filestart}, End {fileend}")
                         print(f"\tRequested Start {end}, End {start}")
                         print(f'\tEnd {start} is greater than file end {fileend}')
                         start = str(fileend)
                         print(f'\tSetting End to {start}')
+                        print(f'\tNew Start {end} and New End {start}')
                     delta = int(end) - int(start)
             for j in range(int(start), int(start) + delta + step, step):
                 args += str(j) + ' '

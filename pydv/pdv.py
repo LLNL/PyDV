@@ -1353,7 +1353,12 @@ class Command(cmd.Cmd, object):
                 return 0
             if "*." in line:
                 for fdx in range(len(self.filelist)):
-                    temp_line = line.replace("*", chr(ord('a') + fdx))
+
+                    if fdx < 26:
+                        temp_line = line.replace("*", chr(ord('a') + fdx))
+                    else:
+                        temp_line = line.replace("*", f"@{fdx + 1}")
+
                     if len(line.split(':')) > 1:  # check for list notation
                         self.do_curve(pdvutil.getnumberargs(temp_line, self.filelist))
                     else:
@@ -1368,8 +1373,15 @@ class Command(cmd.Cmd, object):
                 for i in range(len(line)):
                     curvedex = 0
                     skip = False
-                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):  # check for a.% b.% file index notation
-                        filedex = ord(line[i][0].upper()) - ord('A')  # file index we want
+
+                    # check for a.% b.% @#. file index notation
+                    if ord('A') <= ord(line[i][0].upper()) <= ord('Z') or '@' in line[i]:
+
+                        if ord('A') <= ord(line[i][0].upper()) <= ord('Z'):
+                            filedex = ord(line[i][0].upper()) - ord('A')  # file index we want
+                        else:
+                            filedex = int(line[i].split(".")[0].replace("@", "")) - 1  # 0 index
+
                         prevfile = ''  # set prevfile to impossible value
                         filecounter = 0
                         fileend = 0
@@ -1385,9 +1397,9 @@ class Command(cmd.Cmd, object):
                         curvedex += int(line[i].split('.')[-1]) - 1
                         if curvedex + 1 > fileend:
                             filestart = fileend - self.filelist[filedex][1] + 1
-                            print('error: curve index out of bounds')
-                            print(f"\tFile {self.filelist[filedex]}: Start {filestart}, End {fileend}")
-                            print(f"\tRequested Curve {line[i]}")
+                            print(f"File {filedex + 1}: {self.filelist[filedex]}: Start {filestart}, End {fileend}")
+                            print(f"\tRequested Curve {line[i]}: {curvedex + 1}")
+                            print('\tError: curve index out of bounds')
                             skip = True
                     elif 0 < int(line[i]) <= len(self.curvelist):
                         curvedex = int(line[i]) - 1
@@ -4540,7 +4552,7 @@ class Command(cmd.Cmd, object):
         if len(curve_names) == 1 and title_update:
             self.do_title(f"{curve_names[0].strip()}")
 
-        if not self.group:
+        if not self.group or len(files) == 1:
             for i, cur in enumerate(self.plotlist):
                 self.do_label(f"{cur.plotname} {cur._original_name}")
                 temp_color = colors[i].replace("'", "")
