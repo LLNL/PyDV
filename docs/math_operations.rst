@@ -1435,3 +1435,29 @@ Plot the range of the first curve against the range of the second curve
 
    Ex:
       [PyDV]: vs a b
+
+deltax
+------
+
+Create new curve that calculates difference between its own X points. Delta X vs # of points - 1.
+
+.. code::
+
+   [PyDV]: deltax <curve>
+
+   Ex:
+      [PyDV]: deltax a
+      [PyDV]: deltax a:b
+
+deltay
+------
+
+Create new curve that calculates difference between its own Y points. Delta Y vs # of points - 1.
+
+.. code::
+
+   [PyDV]: deltay <curve>
+
+   Ex:
+      [PyDV]: deltay a
+      [PyDV]: deltay a:b

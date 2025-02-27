@@ -60,6 +60,7 @@
 # endorsement purposes.
 
 import numpy as np
+import re
 
 
 class CurveIndexError(ValueError):
@@ -302,7 +303,16 @@ def getletterargs(line):
     Get a full list of arguments from compact list or mixed notation (ex a:d)
     """
 
-    line = line.split(':')  # begin arduous list parsing
+    if "`" in line:  # list of multiple label names from do_label()
+        label_line = line.split("`", 1)
+        temp_line = label_line[0].split(':')
+        temp_line[-1] = temp_line[-1] + "`" + label_line[1]
+        line = temp_line
+    elif len(re.split(r"(\b[a-zA-Z]:[a-zA-Z]\b)|(\b[a-zA-Z]:@\d+\b)|(\b@\d+:@\d+\b)", line)) == 1:  # single label w/ :
+        return line
+    else:
+        line = line.split(':')  # begin arduous list parsing
+
     arglist = ''
     if len(line) > 1:
         for i in range(len(line)):

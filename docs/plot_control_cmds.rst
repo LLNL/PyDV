@@ -293,7 +293,7 @@ the figure's dpi value. Width and height are in pixels.
 label
 -----
 
-Change the key and list label for a curve.
+Change the key and list label for a curve. For multiple curves, each label must start with ` (this is the backtick character ` , not the single quote character ').
 
 .. code::
 
@@ -301,6 +301,7 @@ Change the key and list label for a curve.
 
    Ex:
       [PyDV]: label a my_new_label
+      [PyDV]: label a:b `my_new_label `my other label
 
 labelcurve
 ----------

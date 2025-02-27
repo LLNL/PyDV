@@ -99,7 +99,7 @@
 2	2.5
 3	2.1
 4	2.0
-#nospace8 withspace # ylabel 8aTemperature [K]  # xlabel 8aTime [seconds] 
+#nospace8 withspace # ylabel 8aTemperature [K]  # xlabel 8aTime [seconds]
 0	5
 1	4
 2	2.5
@@ -123,3 +123,147 @@
 2	2.5
 3	2.1
 4	2.0
+# onespace11 withspace ::test # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace12 withspace::test  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace13 withspace:: test  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace14 withspace :: test # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace11b withspace :test # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace12b withspace:test  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# onespace13b withspace: test  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#nospace14b withspace : test # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# #+onespace11c withspace :test # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+##-nospace12c withspace:test  # xlabel 10aTime [seconds]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# #*onespace13c withspace: test  # ylabel 10aTime [seconds] # xlabel Temperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+##/nospace14c withspace : test # xlabel 10aTime [seconds] # ylabel Temperature [K]
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# #+onespace11d withspace :test
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+##-nospace12d withspace:test
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+# #*onespace13d withspace: test
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+##/nospace14d withspace : test
+0	5
+1	4
+2	2.5
+3	2.1
+4	2.0
+#a
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+# b
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+#myzlabel1:test##
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+##my1  :: t#esting
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+# ot#her#1:: te##st
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+# the1::te##/st
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+# label1:########again   ###  ###
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
+##
+0e1	5e1
+1e1	4e1
+2e1	2.5e1
+3e1	2.1e1
+4e1	2.0e1
