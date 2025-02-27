@@ -2,6 +2,14 @@
 
 Release Notes
 =============
+3.6.2
+------
+* Curve file plotting (e.g. cur a.1 \*.1, \*.1:\*.3) now works for files above a-z (@27.1, @28.5, etc...)
+* `group` goes back to default plotting if only one file is present in list command table
+* `deltax` and `deltay` creates new curve that calculates difference between its own X or Y points. Delta X or Y vs # of points - 1.
+* Curve names can now have `:` and `#`
+* `label` curve name separator is now ` to allow for other characters
+
 3.6.1
 ------
 * Consolidate read functions
@@ -15,7 +23,7 @@ Release Notes
 * `tightlayout`: Users can now turn on and off plot tight layout.
 * `xtickha`, `xtickva`, `ytickha`, `ytickva`: Users can now horizontally and vertically align ticks.
 * `group`: Users can now update title to curve name and labels to filenames if all curves have the same name.
-* `cur`: Asterisks now work for all file curves (*.1 plot curve 1 for all files, *.1:*.3 plot curve 1:3 for all files)
+* `cur`: Asterisks now work for all file curves (\*.1 plot curve 1 for all files, \*.1:\*.3 plot curve 1:3 for all files)
 * Bugfix for image test
 * Bugfix for backslash literal string
 * Bugfix for `cur` asterisk file format plotting past file curves

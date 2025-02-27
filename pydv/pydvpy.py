@@ -646,22 +646,10 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         with open(fname, 'r') as f:
             for line in f:
                 labels = False
-                split_line = re.split(r'[ \t]+', str.strip(line))
-
-                # No space between curvename and hashtag #mycurve
-                try:  # Exponential numbers and single text will cause issues
-                    if re.search('[a-zA-Z]', split_line[0]):
-                        split_line_2 = re.split(r'#', str.strip(line))
-                        split_line = [None] * 2
-                        split_line[0] = '#'
-                        split_line[1] = split_line_2[1]
-                except:
-                    split_line = re.split(r'[ \t]+', str.strip(line))
 
                 # Check for labels
-                split_line_3 = re.split(r'#', str.strip(line))
-                for split in split_line_3:
-
+                split_line_label = re.split(r'#', str.strip(line))
+                for split in split_line_label:
                     if re.search('[a-zA-Z]', split):
                         if 'xlabel' in split:
                             xlabel = split.replace('xlabel', '').strip()
@@ -674,11 +662,18 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 if labels:
                     split_line = [None] * 2
                     split_line[0] = '#'
-                    split_line[1] = split_line_3[1].strip()
+                    split_line[1] = line.split("# xlabel")[0].split("# ylabel")[0][1:].strip()
                     xlabels[split_line[1]] = xlabel
                     ylabels[split_line[1]] = ylabel
                     xlabel = ''
                     ylabel = ''
+                else:  # might be numerical or text
+                    if "#" in line:  # text
+                        split_line = [None] * 2
+                        split_line[0] = '#'
+                        split_line[1] = line[1:].strip()
+                    else:  # numerical
+                        split_line = re.split(r'[ \t]+', str.strip(line))
 
                 if not split_line or not split_line[0]:
                     continue

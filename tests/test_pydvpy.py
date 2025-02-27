@@ -195,51 +195,57 @@ def test_read_labels():
 
     test_file = os.path.join(TEST_DIR, 'labels.txt')
     curves = pydvpy.read(test_file)
-    xlabels = ['0Time',
-               '',
-               '1aTime [seconds]',
-               '1bTime [seconds]',
-               '',
-               '',
-               '3aTime [seconds]',
-               '3bTime [seconds]',
-               '4aTime [seconds]',
-               '4bTime [seconds]',
-               '5aTime [seconds]',
-               '5bTime [seconds]',
-               '',
-               '',
-               '7aTime [seconds]',
-               '7bTime [seconds]',
-               '8aTime [seconds]',
-               '8bTime [seconds]',
-               '',
-               '10aTime [seconds]']
-    ylabels = ['',
-               '',
-               '',
-               '',
-               '2aTemperature [K]',
-               '2bTemperature [K]',
-               '3aTemperature [K]',
-               '3bTemperature [K]',
-               '4aTemperature [K]',
-               '4bTemperature [K]',
-               '',
-               '',
-               '6aTemperature [K]',
-               '6bTemperature [K]',
-               '7aTemperature [K]',
-               '7bTemperature [K]',
-               '8aTemperature [K]',
-               '8bTemperature [K]',
-               '',
-               ''
-               ]
+    # curve name, xlabel, ylabel
+    names = [['nospace0', '0Time', ''],
+             ['onespace0', '', ''],
+             ['nospace1', '1aTime [seconds]', ''],
+             ['onespace1', '1bTime [seconds]', ''],
+             ['nospace2', '', '2aTemperature [K]'],
+             ['onespace2', '', '2bTemperature [K]'],
+             ['nospace3', '3aTime [seconds]', '3aTemperature [K]'],
+             ['onespace3', '3bTime [seconds]', '3bTemperature [K]'],
+             ['nospace4', '4aTime [seconds]', '4aTemperature [K]'],
+             ['onespace4', '4bTime [seconds]', '4bTemperature [K]'],
+             ['nospace5 withspace', '5aTime [seconds]', ''],
+             ['onespace5 withspace', '5bTime [seconds]', ''],
+             ['nospace6 withspace', '', '6aTemperature [K]'],
+             ['onespace6 withspace', '', '6bTemperature [K]'],
+             ['nospace7 withspace', '7aTime [seconds]', '7aTemperature [K]'],
+             ['onespace7 withspace', '7bTime [seconds]', '7bTemperature [K]'],
+             ['nospace8 withspace', '8aTime [seconds]', '8aTemperature [K]'],
+             ['onespace8 withspace', '8bTime [seconds]', '8bTemperature [K]'],
+             ['onespace9 withspace', '', ''],
+             ['onespace10 withspace', '10aTime [seconds]', ''],
+             ['onespace11 withspace ::test', '10aTime [seconds]', ''],
+             ['nospace12 withspace::test', '10aTime [seconds]', ''],
+             ['onespace13 withspace:: test', '10aTime [seconds]', ''],
+             ['nospace14 withspace :: test', '10aTime [seconds]', ''],
+             ['onespace11b withspace :test', '10aTime [seconds]', ''],
+             ['nospace12b withspace:test', '10aTime [seconds]', ''],
+             ['onespace13b withspace: test', '10aTime [seconds]', ''],
+             ['nospace14b withspace : test', '10aTime [seconds]', ''],
+             ['#+onespace11c withspace :test', '10aTime [seconds]', ''],
+             ['#-nospace12c withspace:test', '10aTime [seconds]', ''],
+             ['#*onespace13c withspace: test', 'Temperature [K]', '10aTime [seconds]'],
+             ['#/nospace14c withspace : test', '10aTime [seconds]', 'Temperature [K]'],
+             ['#+onespace11d withspace :test', '', ''],
+             ['#-nospace12d withspace:test', '', ''],
+             ['#*onespace13d withspace: test', '', ''],
+             ['#/nospace14d withspace : test', '', ''],
+             ['a', '', ''],
+             ['b', '', ''],
+             ['myzlabel1:test##', '', ''],
+             ['#my1  :: t#esting', '', ''],
+             ['ot#her#1:: te##st', '', ''],
+             ['the1::te##/st', '', ''],
+             ['label1:########again   ###  ###', '', ''],
+             ['#', '', ''],
+             ]
 
     for i, cur in enumerate(curves):
-        assert cur.xlabel == xlabels[i]
-        assert cur.ylabel == ylabels[i]
+        assert cur.name == names[i][0]
+        assert cur.xlabel == names[i][1]
+        assert cur.ylabel == names[i][2]
 
     test_file = os.path.join(TEST_DIR, 'labels2.txt')
 
@@ -248,5 +254,6 @@ def test_read_labels():
     curves = pydvpy.read(test_file)
 
     for i, cur in enumerate(curves):
-        assert cur.xlabel == xlabels[i]
-        assert cur.ylabel == ylabels[i]
+        assert cur.name == names[i][0]
+        assert cur.xlabel == names[i][1]
+        assert cur.ylabel == names[i][2]

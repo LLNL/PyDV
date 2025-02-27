@@ -258,6 +258,7 @@ class Command(cmd.Cmd, object):
     tightlayout = 0
     group = 0
     slashes = 100
+    do_label_done = False
 
     # Users wanted support for automatically loading some plot attributes. The
     # following commands handle the situations where there are multiple plots or
@@ -1576,6 +1577,80 @@ class Command(cmd.Cmd, object):
     def help_stats(self):
         print('\n   Display the mean and standard deviation for the given curves.'
               '\n   usage: stats <curve-list>\n')
+
+    def do_deltax(self, line):
+        """
+        Create new curve that calculates difference between its own X points. Delta X vs # of points - 1.
+        """
+
+        if not line:
+            return 0
+
+        if len(line.split(':')) > 1:
+            self.do_deltax(pdvutil.getletterargs(line))
+            return 0
+        else:
+            try:
+                line = line.split()
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+
+                        c = pydvpy.makecurve(x=range(len(cur.x) - 1),
+                                             y=cur.x[1:] - cur.x[:-1],
+                                             name=f"{cur.name} Delta X",  # we name the curve with the input 'line'
+                                             plotname=self.getcurvename())  # get the next available data ID label
+                        self.addtoplot(c)
+
+                    except pdvutil.CurveIndexError:
+                        pass
+            except:
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+            finally:
+                self.redraw = True
+
+    def help_deltax(self):
+        print('\n   Create new curve that calculates difference between its own X points. Delta X vs # of points - 1.'
+              '\n   usage: deltax <curve-list>\n')
+
+    def do_deltay(self, line):
+        """
+        Create new curve that calculates difference between its own Y points. Delta Y vs # of points - 1.
+        """
+
+        if not line:
+            return 0
+
+        if len(line.split(':')) > 1:
+            self.do_deltay(pdvutil.getletterargs(line))
+            return 0
+        else:
+            try:
+                line = line.split()
+                for i in range(len(line)):
+                    try:
+                        curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                        cur = self.plotlist[curvidx]
+
+                        c = pydvpy.makecurve(x=range(len(cur.y) - 1),
+                                             y=cur.y[1:] - cur.y[:-1],
+                                             name=f"{cur.name} Delta Y",  # we name the curve with the input 'line'
+                                             plotname=self.getcurvename())  # get the next available data ID label
+                        self.addtoplot(c)
+
+                    except pdvutil.CurveIndexError:
+                        pass
+            except:
+                if self.debug:
+                    traceback.print_exc(file=sys.stdout)
+            finally:
+                self.redraw = True
+
+    def help_deltay(self):
+        print('\n   Create new curve that calculates difference between its own Y points. Delta Y vs # of points - 1.'
+              '\n   usage: deltay <curve-list>\n')
 
     def do_getattributes(self, line):
         """
@@ -4555,7 +4630,7 @@ class Command(cmd.Cmd, object):
         if not self.group or len(files) == 1:
             for i, cur in enumerate(self.plotlist):
                 self.do_label(f"{cur.plotname} {cur._original_name}")
-                temp_color = colors[i].replace("'", "")
+                temp_color = colors[i % len(colors)].replace("'", "")
                 self.do_color(f"{cur.plotname} {temp_color}")
                 self.do_lnstyle(f"{cur.plotname} solid")
             self.slashes = 100
@@ -6691,14 +6766,16 @@ class Command(cmd.Cmd, object):
         """
 
         try:
-            if len(line.split(':')) > 1:
+            if len(line.split(':')) > 1 and not self.do_label_done:
+                self.do_label_done = True
                 self.do_label(pdvutil.getletterargs(line))
                 return 0
             else:
-                line_labels = line.split('#')[1:]  # First entry will be curves
+                self.do_label_done = False
+                line_labels = line.split('`')[1:]  # First entry will be curves
 
                 if line_labels:  # Multiple curves and labels
-                    curves = line.split('#')[0].split()
+                    curves = line.split('`')[0].split()
                 else:  # single curve and label
                     curves = line.split()[0]
                     line_labels = [' '.join(line.split()[1:])]
@@ -6710,16 +6787,17 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
         except:
+            self.do_label_done = False
             print('error - usage: label <curve> <new-label>\n')
-            print('For multiple curves, each label must start with #')
-            print('label a:c #mynewlabel #my other label #my thirdlabel')
+            print('For multiple curves, each label must start with `')
+            print('label a:c `mynewlabel `my other label `my thirdlabel')
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
 
     def help_label(self):
         print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
-        print('   For multiple curves, each label must start with #')
-        print('   label a:c #mynewlabel #my other label #my thirdlabel')
+        print('   For multiple curves, each label must start with `')
+        print('   label a:c `mynewlabel `my other label `my thirdlabel')
 
     def do_labelrecordids(self, line):
         """
