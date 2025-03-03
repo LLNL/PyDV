@@ -4582,11 +4582,10 @@ class Command(cmd.Cmd, object):
                   ('densely_dashdotdotted', '(0, (3, 1, 1, 1, 1, 1))')]
 
         for i, filename in enumerate(groups):
-            if i < 14:
-                curves_ = " ".join(groups[filename])
-                self.do_lnstyle(curves_ + ' ' + styles[i][0].replace("'", ""))
-            else:
-                print('There are only fourteen linestyles available. Please reduce the number of files.')
+            curves_ = " ".join(groups[filename])
+            self.do_lnstyle(curves_ + ' ' + styles[i % len(styles)][0].replace("'", ""))
+            if i > 13:
+                print('There are only fourteen linestyles available. Re-using linestyles.')
 
         # Setting Colors at the curve level
         curve_names = []
@@ -4607,11 +4606,10 @@ class Command(cmd.Cmd, object):
         colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
         for i, curve_name in enumerate(groups):
-            if i < 10:
-                curves_ = " ".join(groups[curve_name])
-                self.do_color(curves_ + ' ' + colors[i].replace("'", ""))
-            else:
-                print('There are only ten colors available. Please reduce the number of same name curves.')
+            curves_ = " ".join(groups[curve_name])
+            self.do_color(curves_ + ' ' + colors[i % len(colors)].replace("'", ""))
+            if i > 9:
+                print('There are only ten colors available. Re-using colors.')
 
         for cur in self.plotlist:
             path = os.path.normpath(cur.filename)
