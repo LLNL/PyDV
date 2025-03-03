@@ -662,7 +662,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 if labels:
                     split_line = [None] * 2
                     split_line[0] = '#'
-                    split_line[1] = line.split("# xlabel")[0].split("# ylabel")[0][1:].strip()
+                    split_line[1] = line.split("# xlabel")[0].split("# ylabel")[0].split("#xlabel")[0].split("#ylabel")[0][1:].strip()  # noqae501
                     xlabels[split_line[1]] = xlabel
                     ylabels[split_line[1]] = ylabel
                     xlabel = ''
