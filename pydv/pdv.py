@@ -4584,8 +4584,6 @@ class Command(cmd.Cmd, object):
         for i, filename in enumerate(groups):
             curves_ = " ".join(groups[filename])
             self.do_lnstyle(curves_ + ' ' + styles[i % len(styles)][0].replace("'", ""))
-            if i > 13:
-                print('There are only fourteen linestyles available. Re-using linestyles.')
 
         # Setting Colors at the curve level
         curve_names = []
@@ -4608,8 +4606,6 @@ class Command(cmd.Cmd, object):
         for i, curve_name in enumerate(groups):
             curves_ = " ".join(groups[curve_name])
             self.do_color(curves_ + ' ' + colors[i % len(colors)].replace("'", ""))
-            if i > 9:
-                print('There are only ten colors available. Re-using colors.')
 
         for cur in self.plotlist:
             path = os.path.normpath(cur.filename)
