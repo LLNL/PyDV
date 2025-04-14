@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.6.3
+------
+* Updated default parameter values for curve comparison functions in PyDVpy API
+* Added `getfl()` which returns the first and last value from a curve in PyDVpy API
+
 3.6.2
 ------
 * Curve file plotting (e.g. cur a.1 \*.1, \*.1:\*.3) now works for files above a-z (@27.1, @28.5, etc...)

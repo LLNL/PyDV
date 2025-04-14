@@ -4709,14 +4709,14 @@ def overlap_interp(cr1, cr2, npts_interp=0):
     return cr1_interp, cr2_interp
 
 
-def AvgDiff(cr1, cr2, npts=100, tol=1e-6):
+def AvgDiff(cr1, cr2, npts=0, tol=1e80):
     """
     Calculate the difference between the overlapping interpolated curves.
 
     >>> curves = pydvpy.read('testData.txt')
 
     >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.AvgDiff(curves[0],
-            curves[1], npts=100, tol=1e-6)
+            curves[1], npts=0, tol=1e80)
 
     :param cr1: The first curve
     :type cr1: Curve
@@ -4758,14 +4758,14 @@ def AvgDiff(cr1, cr2, npts=100, tol=1e-6):
     return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
 
 
-def AbsDiff(cr1, cr2, npts=100, tol=1e-6):
+def AbsDiff(cr1, cr2, npts=0, tol=1e80):
     """
     Calculate the absolute difference between the overlapping interpolated curves.
 
     >>> curves = pydvpy.read('testData.txt')
 
     >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.AbsDiff(curves[0],
-            curves[1], npts=100, tol=1e-6)
+            curves[1], npts=0, tol=1e80)
 
     :param cr1: The first curve
     :type cr1: Curve
@@ -4808,14 +4808,14 @@ def AbsDiff(cr1, cr2, npts=100, tol=1e-6):
     return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
 
 
-def RelDiff(cr1, cr2, npts=100, tol=1e-6):
+def RelDiff(cr1, cr2, npts=0, tol=1e80):
     """
     Calculate the relative difference between the overlapping interpolated curves.
 
     >>> curves = pydvpy.read('testData.txt')
 
     >>> cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed = pydvpy.RelDiff(curves[0],
-            curves[1], npts=100, tol=1e-6)
+            curves[1], npts=0, tol=1e80)
 
     :param cr1: The first curve
     :type cr1: Curve
@@ -4877,9 +4877,9 @@ def RelDiff(cr1, cr2, npts=100, tol=1e-6):
     return cr1_interp, cr2_interp, differences, avgDiff, maxDiff, failed_curve, failed
 
 
-def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
+def AbsAndRelDiff(cr1, cr2, npts=0, abs_tol=1e80, rel_tol=1e80):
     """
-    Calculate the relative and absolute difference between the overlapping interpolated curves.
+    Calculate the absolute and relative difference between the overlapping interpolated curves.
     Returns the updated AND statement for `failed` along with curves from AbsDiff and RelDiff
 
     >>> curves = pydvpy.read('testData.txt')
@@ -4887,7 +4887,7 @@ def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
     >>> (cr1_interp, cr2_interp,
          differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs
          differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel
-         failed_AND) = pydvpy.AbsAndRelDiff(curves[0], curves[1], npts=100, tol=1e-6)
+         failed_AND) = pydvpy.AbsAndRelDiff(curves[0], curves[1], npts=0, abs_tol=1e80, rel_tol=1e80)
 
     :param cr1: The first curve
     :type cr1: Curve
@@ -4895,8 +4895,10 @@ def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
     :type cr2: Curve
     :param npts: The number of points in the interpolation
     :type npts: int
-    :param tol: The tolerance for failure
-    :type tol: float
+    :param abs_tol: The tolerance for absolute difference failure
+    :type abs_tol: float
+    :param rel_tol: The tolerance for relative difference failure
+    :type rel_tol: float
     :returns:
         - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
         - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
@@ -4916,12 +4918,12 @@ def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
     (cr1_interp, cr2_interp,
      differences_Abs, avgDiff_Abs,
      maxDiff_Abs, failed_curve_Abs,
-     failed_Abs) = AbsDiff(cr1, cr2, npts, tol)
+     failed_Abs) = AbsDiff(cr1, cr2, npts, abs_tol)
 
     (cr1_interp, cr2_interp,
      differences_Rel, avgDiff_Rel,
      maxDiff_Rel, failed_curve_Rel,
-     failed_Rel) = RelDiff(cr1, cr2, npts, tol)
+     failed_Rel) = RelDiff(cr1, cr2, npts, rel_tol)
 
     if failed_Abs and failed_Rel:
         failed_AND = True
@@ -4934,9 +4936,9 @@ def AbsAndRelDiff(cr1, cr2, npts=100, tol=1e-6):
             failed_AND)
 
 
-def AbsOrRelDiff(cr1, cr2, npts=100, tol=1e-6):
+def AbsOrRelDiff(cr1, cr2, npts=0, abs_tol=1e80, rel_tol=1e80):
     """
-    Calculate the relative and absolute difference between the overlapping interpolated curves.
+    Calculate the absolute and relative difference between the overlapping interpolated curves.
     Returns the updated OR statement for `failed` along with curves from AbsDiff and RelDiff
 
     >>> curves = pydvpy.read('testData.txt')
@@ -4944,7 +4946,7 @@ def AbsOrRelDiff(cr1, cr2, npts=100, tol=1e-6):
     >>> (cr1_interp, cr2_interp,
          differences_Abs, avgDiff_Abs, maxDiff_Abs, failed_curve_Abs, failed_Abs
          differences_Rel, avgDiff_Rel, maxDiff_Rel, failed_curve_Rel, failed_Rel
-         failed_OR) = pydvpy.AbsOrRelDiff(curves[0], curves[1], npts=100, tol=1e-6)
+         failed_OR) = pydvpy.AbsOrRelDiff(curves[0], curves[1], npts=0, abs_tol=1e80, rel_tol=1e80)
 
     :param cr1: The first curve
     :type cr1: Curve
@@ -4952,8 +4954,10 @@ def AbsOrRelDiff(cr1, cr2, npts=100, tol=1e-6):
     :type cr2: Curve
     :param npts: The number of points in the interpolation
     :type npts: int
-    :param tol: The tolerance for failure
-    :type tol: float
+    :param abs_tol: The tolerance for absolute difference failure
+    :type abs_tol: float
+    :param rel_tol: The tolerance for relative difference failure
+    :type rel_tol: float
     :returns:
         - cr1_interp (:py:class:`Curve`) - The first overlapping interpolated curve
         - cr2_interp (:py:class:`Curve`) - The second overlapping interpolated curve
@@ -4973,12 +4977,12 @@ def AbsOrRelDiff(cr1, cr2, npts=100, tol=1e-6):
     (cr1_interp, cr2_interp,
      differences_Abs, avgDiff_Abs,
      maxDiff_Abs, failed_curve_Abs,
-     failed_Abs) = AbsDiff(cr1, cr2, npts, tol)
+     failed_Abs) = AbsDiff(cr1, cr2, npts, abs_tol)
 
     (cr1_interp, cr2_interp,
      differences_Rel, avgDiff_Rel,
      maxDiff_Rel, failed_curve_Rel,
-     failed_Rel) = RelDiff(cr1, cr2, npts, tol)
+     failed_Rel) = RelDiff(cr1, cr2, npts, rel_tol)
 
     if failed_Abs or failed_Rel:
         failed_OR = True
@@ -5381,7 +5385,7 @@ def MedianFilter(c, npts):
                      name=f"{c.name} MedianFilter npts={npts}")
 
 
-def TimeShift(cbase, cset, tol=1e-6, pairID=0, version=0):
+def TimeShift(cbase, cset, tol=1e80, pairID=0, version=0):
     """
     This filter will take a curve and return a time shifted curve.
     It uses the slope of the baseline curve to find the time offset
@@ -5394,7 +5398,7 @@ def TimeShift(cbase, cset, tol=1e-6, pairID=0, version=0):
 
      >>> curves = pydvpy.read('testData.txt')
 
-     >>> new_curve = pydvpy.TimeShift(curves[0], curves[1], tol=1e-6, pairID=0, version=0)
+     >>> new_curve = pydvpy.TimeShift(curves[0], curves[1], tol=1e80, pairID=0, version=0)
 
     :param cbase: The base Curve
     :type cbase: Curve
@@ -5463,3 +5467,32 @@ def TimeShift(cbase, cset, tol=1e-6, pairID=0, version=0):
     return makecurve(x=xshifted,
                      y=yset,
                      name=f"{cset.name} pairID={pairID} version={version}")
+
+
+def getfl(curvelist):
+    """
+    Returns the first and last data point from the yData array
+
+     >>> curves = pydvpy.read('testData.txt')
+
+     >>> first_last = pydvpy.getfl(curves) OR
+
+     >>> first_last = pydvpy.getfl(curves[0])
+
+    :param curvelist: The Curve or list of Curves
+    :type curvelist: Curve or list
+    :return: list -- A list of y values at the first and last index
+    """
+    first_last = list()
+
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    for cur in curves:
+        first_last.append([cur.y[0], cur.y[-1]])
+
+    return first_last
