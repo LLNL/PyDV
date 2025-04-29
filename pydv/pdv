@@ -1,17 +1,22 @@
-#!/usr/bin/env /usr/apps/weave/weave-prod-cpu/bin/python3
+#!/usr/bin/env bash
+pth=$(realpath $0)
 
-import sys
-import os
+if [[ $pth == *"pdv-sa"* ]]; then
 
-sys.path.insert(0, os.path.dirname(__file__))
+    /usr/tce/bin/python3 pdv_launcher.py
 
-# HPC Import
-try:
-    import pdv
-    pdv.Command().main()
+else
 
-# Package Import
-except ImportError:
-    import pydv.pdv
-    pydv.pdv.Command().main()
+    FILE="/usr/apps/weave/weave-prod-cpu/bin/activate"
 
+    if [ -e "$FILE" ]; then
+
+        source $FILE
+
+    fi
+
+    pth=$(dirname $pth)
+    pth=$pth"/pdv_launcher.py"
+    python3 $pth
+
+fi
