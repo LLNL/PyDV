@@ -2,6 +2,14 @@
 
 Release Notes
 =============
+3.6.5
+------
+* Bugfix: Launcher update for HPCs read files from command line
+
+3.6.4
+------
+* Launcher update for HPCs
+
 3.6.3
 ------
 * Updated default parameter values for curve comparison functions in PyDVpy API
