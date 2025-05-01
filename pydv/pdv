@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 pth=$(realpath $0)
+pth=$(dirname $pth)
+pth="$pth/pdv_launcher.py $*"
 
 if [[ $pth == *"pdv-sa"* ]]; then
 
-    /usr/tce/bin/python3 pdv_launcher.py
+    /usr/tce/bin/python3 $pth
 
 else
 
@@ -15,8 +17,6 @@ else
 
     fi
 
-    pth=$(dirname $pth)
-    pth=$pth"/pdv_launcher.py"
     python3 $pth
 
 fi
