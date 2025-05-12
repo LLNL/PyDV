@@ -5896,7 +5896,7 @@ class Command(cmd.Cmd, object):
 
     def do_linemarker(self, line):
         """
-        Set the marker symbol for the curves
+        Set the marker symbol and marker size for the curves
         """
 
         if not line:
