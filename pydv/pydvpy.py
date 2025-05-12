@@ -2967,7 +2967,10 @@ def getymax(c, xmin=None, xmax=None):
     domain.extend(np.linspace(xl, xr, num=1000))
     domain = list(set(domain))
     domain.sort()
-    y_interp = np.interp(domain, c.x, c.y)
+    y_interp = np.interp(domain, c.x, c.y,
+                         left=c.math_interp_left,
+                         right=c.math_interp_right,
+                         period=c.math_interp_period)
 
     indices = np.where(y_interp == np.max(y_interp))[0]
 
@@ -2998,7 +3001,10 @@ def getymin(c, xmin=None, xmax=None):
     domain.extend(np.linspace(xl, xr, num=1000))
     domain = list(set(domain))
     domain.sort()
-    y_interp = np.interp(domain, c.x, c.y)
+    y_interp = np.interp(domain, c.x, c.y,
+                         left=c.math_interp_left,
+                         right=c.math_interp_right,
+                         period=c.math_interp_period)
 
     indices = np.where(y_interp == np.min(y_interp))[0]
 
