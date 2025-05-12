@@ -6771,7 +6771,7 @@ class Command(cmd.Cmd, object):
                 if line_labels:  # Multiple curves and labels
                     curves = line.split('`')[0].split()
                 else:  # single curve and label
-                    curves = line.split()[0]
+                    curves = [line.split()[0]]
                     line_labels = [' '.join(line.split()[1:])]
 
                 for i in range(len(curves)):

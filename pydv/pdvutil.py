@@ -308,7 +308,7 @@ def getletterargs(line):
         temp_line = label_line[0].split(':')
         temp_line[-1] = temp_line[-1] + "`" + label_line[1]
         line = temp_line
-    elif len(re.split(r"(\b[a-zA-Z]:[a-zA-Z]\b)|(\b[a-zA-Z]:@\d+\b)|(\b@\d+:@\d+\b)", line)) == 1:  # single label w/ :
+    elif len(re.split(r"(\b[a-zA-Z]:[a-zA-Z]\b)|(\b[a-zA-Z]:@\d+\b)|(@\d+:@\d+\b)", line)) == 1:  # single label w/ :
         return line
     else:
         line = line.split(':')  # begin arduous list parsing
