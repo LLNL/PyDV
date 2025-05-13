@@ -2964,7 +2964,7 @@ def getymax(c, xmin=None, xmax=None):
     xl = c.x[0] if xmin is None else xmin
     xr = c.x[-1] if xmax is None else xmax
     domain = list(c.x[np.where(np.logical_and(c.x >= xl, c.x <= xr))])
-    domain.extend(np.linspace(xl, xr, num=1000))
+    domain.extend([xl, xr])
     domain = list(set(domain))
     domain.sort()
     y_interp = np.interp(domain, c.x, c.y,
@@ -2998,7 +2998,7 @@ def getymin(c, xmin=None, xmax=None):
     xl = c.x[0] if xmin is None else xmin
     xr = c.x[-1] if xmax is None else xmax
     domain = list(c.x[np.where(np.logical_and(c.x >= xl, c.x <= xr))])
-    domain.extend(np.linspace(xl, xr, num=1000))
+    domain.extend([xl, xr])
     domain = list(set(domain))
     domain.sort()
     y_interp = np.interp(domain, c.x, c.y,
