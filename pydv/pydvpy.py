@@ -75,7 +75,6 @@ import traceback
 import sys
 import re
 import copy
-import random as sysrand
 
 from distutils.version import LooseVersion
 
