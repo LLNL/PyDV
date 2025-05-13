@@ -2371,14 +2371,14 @@ def sqrtx(curvelist):
         curvelist.x = np.sqrt(curvelist.x)
 
 
-def xmax(curvelist, limit):
+def xmax(curvelist, max):
     """
     Filter out points in the curve or list of curves whose x values are greater than limit.
 
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
-    :param limit: The maximum value
-    :type limit: float
+    :param max: The maximum value
+    :type max: float
     """
 
     curves = list()
@@ -2389,16 +2389,8 @@ def xmax(curvelist, limit):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if c.x[i] <= float(limit):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(c.x <= float(max))])
+        c.y = np.array(c.y[np.where(c.x <= float(max))])
 
 
 def xmin(curvelist, min):
@@ -2419,16 +2411,8 @@ def xmin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if c.x[i] >= float(min):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(c.x >= float(min))])
+        c.y = np.array(c.y[np.where(c.x >= float(min))])
 
 
 def xminmax(curvelist, min, max):
@@ -2451,16 +2435,8 @@ def xminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if float(min) <= c.x[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))])
+        c.y = np.array(c.y[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))])
 
 
 def ymax(curvelist, max):
@@ -2481,16 +2457,8 @@ def ymax(curvelist, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if c.y[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(c.y <= float(max))])
+        c.y = np.array(c.y[np.where(c.y <= float(max))])
 
 
 def ymin(curvelist, min):
@@ -2511,16 +2479,8 @@ def ymin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if c.y[i] >= float(min):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(c.y >= float(min))])
+        c.y = np.array(c.y[np.where(c.y >= float(min))])
 
 
 def yminmax(curvelist, min, max):
@@ -2543,16 +2503,8 @@ def yminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if float(min) <= c.y[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = np.array(c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))])
+        c.y = np.array(c.y[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))])
 
 
 def yn(curvelist, n):
