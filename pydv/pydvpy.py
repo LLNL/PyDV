@@ -394,13 +394,9 @@ def create_plot(curvelist,
             ydat = np.array(cur.y)
 
             if (yls):
-                for i in range(len(ydat)):
-                    if (ydat[i] < 0):
-                        ydat[i] = 1e-301  # custom ydata clipping
+                ydat = np.where(ydat < 0, 1e-301, ydat)  # custom ydata clipping
             if (xls):
-                for i in range(len(xdat)):
-                    if (xdat[i] < 0):
-                        xdat[i] = 1e-301  # custom xdata clipping
+                xdat = np.where(xdat < 0, 1e-301, xdat)  # custom ydata clipping
 
             if cur.ebar is not None:
                 c = plt.errorbar(xdat, ydat, yerr=[cur.ebar[0], cur.ebar[1]],
@@ -4103,15 +4099,9 @@ def sort(curve):
     :type curve: Curve
     """
     index_array = np.argsort(curve.x)
-    x = list()
-    y = list()
 
-    for index in index_array:
-        x.append(curve.x[index])
-        y.append(curve.y[index])
-
-    curve.x = np.array(x)
-    curve.y = np.array(y)
+    curve.x = curve.x[index_array]
+    curve.y = curve.y[index_array]
 
 
 def rev(curve):
@@ -4143,8 +4133,7 @@ def random(curve):
     :param curve: The curve to sort
     :type curve: Curve
     """
-    for i in range(len(curve.y)):
-        curve.y[i] = sysrand.uniform(-1, 1)
+    curve.y = np.random.uniform(-1, 1, len(curve.y))
 
 
 def xindex(curvelist):
