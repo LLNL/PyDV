@@ -7728,10 +7728,7 @@ class Command(cmd.Cmd, object):
             xmin = 1e-2
             for cur in orderlist:
                 if not cur.hidden:
-                    xdat = numpy.array(cur.x)
-                    for i in range(len(xdat)):
-                        if xdat[i] < 1e-300:
-                            xdat[i] = 1e301
+                    xdat = numpy.where(cur.x < 1e-300, 1e301, cur.x)
                     localmin = min(xdat)
                     if localmin and localmin < xmin:
                         xmin = localmin
@@ -8595,13 +8592,9 @@ class Command(cmd.Cmd, object):
                     xdat = numpy.array(cur.x)
                     ydat = numpy.array(cur.y)
                     if yls:
-                        for i in range(len(ydat)):
-                            if (ydat[i] < 0):
-                                ydat[i] = 1e-301  # custom ydata clipping
+                        ydat = numpy.where(ydat < 0, 1e-301, ydat)  # custom ydata clipping
                     if xls:
-                        for i in range(len(xdat)):
-                            if xdat[i] < 0:
-                                xdat[i] = 1e-301  # custom ydata clipping
+                        xdat = numpy.where(xdat < 0, 1e-301, xdat)  # custom ydata clipping
 
                     if cur.ebar is not None:
                         plt.errorbar(xdat,

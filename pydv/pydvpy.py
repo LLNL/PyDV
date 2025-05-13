@@ -3561,13 +3561,8 @@ def errorbar(scur, cury1, cury2, curx1=None, curx2=None, mod=1):
     :type mod: int
     """
     ebar = [np.zeros(len(scur.x)), np.zeros(len(scur.x)), np.zeros(len(scur.x)), np.zeros(len(scur.x))]
-    lowy = list()
-    for i in range(len(scur.x)):
-        y = np.interp(scur.x[i], cury1.x, cury1.y)
-        if scur.y[i] - y <= 0:
-            lowy.append(y)
-        else:
-            lowy.append(scur.y[i])
+    y = np.interp(scur.x, cury1.x, cury1.y)
+    lowy = np.where(scur.y - y <= 0, y, scur.y)
 
     ebar[0] = np.array(lowy)
     ebar[1] = np.interp(scur.x, cury2.x, cury2.y)
@@ -4361,10 +4356,7 @@ def __ifft(cr, ci):
     :type c: Curve
     :return: tuple - two curves, one with the real part and the other with the imaginary part for their y-values.
     """
-    carray = np.zeros(len(cr.y), dtype=complex)
-
-    for i in range(len(cr.y)):
-        carray[i] = complex(cr.y[i], ci.y[i])
+    carray = cr.y + 1j * ci.y
 
     numpy1_10 = LooseVersion(np.__version__) >= LooseVersion("1.10.0")
 
