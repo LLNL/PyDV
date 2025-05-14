@@ -75,7 +75,6 @@ import traceback
 import sys
 import re
 import copy
-import random as sysrand
 
 from distutils.version import LooseVersion
 
@@ -394,13 +393,9 @@ def create_plot(curvelist,
             ydat = np.array(cur.y)
 
             if (yls):
-                for i in range(len(ydat)):
-                    if (ydat[i] < 0):
-                        ydat[i] = 1e-301  # custom ydata clipping
+                ydat = np.where(ydat < 0, 1e-301, ydat)  # custom ydata clipping
             if (xls):
-                for i in range(len(xdat)):
-                    if (xdat[i] < 0):
-                        xdat[i] = 1e-301  # custom xdata clipping
+                xdat = np.where(xdat < 0, 1e-301, xdat)  # custom ydata clipping
 
             if cur.ebar is not None:
                 c = plt.errorbar(xdat, ydat, yerr=[cur.ebar[0], cur.ebar[1]],
@@ -2371,14 +2366,14 @@ def sqrtx(curvelist):
         curvelist.x = np.sqrt(curvelist.x)
 
 
-def xmax(curvelist, limit):
+def xmax(curvelist, max):
     """
     Filter out points in the curve or list of curves whose x values are greater than limit.
 
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
-    :param limit: The maximum value
-    :type limit: float
+    :param max: The maximum value
+    :type max: float
     """
 
     curves = list()
@@ -2389,16 +2384,8 @@ def xmax(curvelist, limit):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if c.x[i] <= float(limit):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(c.x <= float(max))]
+        c.y = c.y[np.where(c.x <= float(max))]
 
 
 def xmin(curvelist, min):
@@ -2419,16 +2406,8 @@ def xmin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if c.x[i] >= float(min):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(c.x >= float(min))]
+        c.y = c.y[np.where(c.x >= float(min))]
 
 
 def xminmax(curvelist, min, max):
@@ -2451,16 +2430,8 @@ def xminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.x)):
-            if float(min) <= c.x[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
+        c.y = c.y[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
 
 
 def ymax(curvelist, max):
@@ -2481,16 +2452,8 @@ def ymax(curvelist, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if c.y[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(c.y <= float(max))]
+        c.y = c.y[np.where(c.y <= float(max))]
 
 
 def ymin(curvelist, min):
@@ -2511,16 +2474,8 @@ def ymin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if c.y[i] >= float(min):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(c.y >= float(min))]
+        c.y = c.y[np.where(c.y >= float(min))]
 
 
 def yminmax(curvelist, min, max):
@@ -2543,16 +2498,8 @@ def yminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        nx = []
-        ny = []
-
-        for i in range(len(c.y)):
-            if float(min) <= c.y[i] <= float(max):
-                nx.append(c.x[i])
-                ny.append(c.y[i])
-
-        c.x = np.array(nx)
-        c.y = np.array(ny)
+        c.x = c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
+        c.y = c.y[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
 
 
 def yn(curvelist, n):
@@ -2961,32 +2908,24 @@ def getymax(c, xmin=None, xmax=None):
              list -- a list of tuples where each tuple contains the x-value and
              the max y-value.
     """
-    try:
-        if xmin is not None:
-            r = __get_sub_range(c.x, xmin, xmax)
-            ymax = max(c.y[r[0]:r[1] + 1])
-        else:
-            ymax = max(c.y)
-            r = [0, len(c.x) - 1]
-    except:
-        pass
+    xl = c.x[0] if xmin is None else xmin
+    xr = c.x[-1] if xmax is None else xmax
+    domain = list(c.x[np.where(np.logical_and(c.x >= xl, c.x <= xr))])
+    domain.extend([xl, xr])
+    domain = list(set(domain))
+    domain.sort()
+    y_interp = np.interp(domain, c.x, c.y,
+                         left=c.math_interp_left,
+                         right=c.math_interp_right,
+                         period=c.math_interp_period)
 
-    if r[0] >= r[1]:
-        # User range is in between actual curve points
-        # c.x val1 val2 c.x
-        xl = c.x[0] if xmin is None else xmin
-        xr = c.x[-1] if xmax is None else xmax
-        range_x = np.linspace(xl, xr, num=1000)
-        y_interp = np.interp(range_x, c.x, c.y)
-        ymax = max(y_interp)
+    indices = np.where(y_interp == np.max(y_interp))[0]
 
-        # User range has only one curve point in between
-        # val1 c.x val2
-        if r[0] == r[1] and c.y[r[0]] > ymax:  # Local max
-            ymax = c.y[r[0]]
-    xy_pairs_at_max = getx(c, ymax, xmin, xmax)
+    xypairs = list()
+    for index in indices:
+        xypairs.append((domain[index], y_interp[index]))
 
-    return __toCurveString(c), xy_pairs_at_max
+    return __toCurveString(c), xypairs
 
 
 def getymin(c, xmin=None, xmax=None):
@@ -3003,33 +2942,24 @@ def getymin(c, xmin=None, xmax=None):
              list -- a list of tuples where each tuple contains the x-value and
              the min y-value.
     """
-    try:
-        if xmin is not None:
-            r = __get_sub_range(c.x, xmin, xmax)
-            ymin = min(c.y[r[0]:r[1] + 1])
-        else:
-            ymin = min(c.y)
-            r = [0, len(c.x) - 1]
-    except:
-        pass
+    xl = c.x[0] if xmin is None else xmin
+    xr = c.x[-1] if xmax is None else xmax
+    domain = list(c.x[np.where(np.logical_and(c.x >= xl, c.x <= xr))])
+    domain.extend([xl, xr])
+    domain = list(set(domain))
+    domain.sort()
+    y_interp = np.interp(domain, c.x, c.y,
+                         left=c.math_interp_left,
+                         right=c.math_interp_right,
+                         period=c.math_interp_period)
 
-    if r[0] >= r[1]:
-        # User range is in between actual curve points
-        # c.x val1 val2 c.x
-        xl = c.x[0] if xmin is None else xmin
-        xr = c.x[-1] if xmax is None else xmax
-        range_x = np.linspace(xl, xr, num=1000)
-        y_interp = np.interp(range_x, c.x, c.y)
-        ymin = min(y_interp)
+    indices = np.where(y_interp == np.min(y_interp))[0]
 
-        # User range has only one curve point in between
-        # val1 c.x val2
-        if r[0] == r[1] and c.y[r[0]] < ymin:  # Local min
-            ymin = c.y[r[0]]
+    xypairs = list()
+    for index in indices:
+        xypairs.append((domain[index], y_interp[index]))
 
-    xy_pairs_at_min = getx(c, ymin, xmin, xmax)
-
-    return __toCurveString(c), xy_pairs_at_min
+    return __toCurveString(c), xypairs
 
 
 def cumsum(c1):
@@ -3630,13 +3560,8 @@ def errorbar(scur, cury1, cury2, curx1=None, curx2=None, mod=1):
     :type mod: int
     """
     ebar = [np.zeros(len(scur.x)), np.zeros(len(scur.x)), np.zeros(len(scur.x)), np.zeros(len(scur.x))]
-    lowy = list()
-    for i in range(len(scur.x)):
-        y = np.interp(scur.x[i], cury1.x, cury1.y)
-        if scur.y[i] - y <= 0:
-            lowy.append(y)
-        else:
-            lowy.append(scur.y[i])
+    y = np.interp(scur.x, cury1.x, cury1.y)
+    lowy = np.where(scur.y - y <= 0, y, scur.y)
 
     ebar[0] = np.array(lowy)
     ebar[1] = np.interp(scur.x, cury2.x, cury2.y)
@@ -3942,7 +3867,7 @@ def getx(c, value, xmin=None, xmax=None):
     else:
 
         # User range is in between actual curve points
-        # c.x val1 val2 c.x
+        # c.x xmin xmax c.x
         xl = c.x[0] if xmin is None else xmin
         xr = c.x[-1] if xmax is None else xmax
         range_x = np.linspace(xl, xr, num=1000)
@@ -3952,7 +3877,7 @@ def getx(c, value, xmin=None, xmax=None):
                 xypairs.append((x, y))
 
         # User range has only one curve point in between
-        # val1 c.x val2
+        # xmin c.x xmax
         if r[0] == r[1]:
             if c.y[r[0]] == float(value):  # value exists in curve
                 xypairs.append((c.x[r[0]], float(value)))
@@ -3978,27 +3903,10 @@ def gety(c, value):
     """
     xypairs = list()
 
-    # if float(value) < np.amin(c.x) or float(value) > np.amax(c.x):
-    # raise ValueError, 'x-value out of range'
-
-    for i in range(len(c.x)):
-        if float(value) < np.amin(c.x):
-            xypairs.append((float(value), 0))   # c.y[0]))
-        elif float(value) > np.amax(c.x):
-            xypairs.append((float(value), 0))   # c.y[-1]))
-        elif c.x[i] == float(value):
-            xypairs.append((float(value), c.y[i]))
-        else:
-            xmax = c.x[i]
-            if i + 1 < len(c.x):
-                xmax = c.x[i + 1]
-
-            if c.x[i] < float(value) < xmax:
-                y = np.interp(float(value), [c.x[i], xmax], [c.y[i], c.y[i + 1]])
-                xypairs.append((float(value), y))
-            elif xmax < float(value) < c.x[i]:
-                y = np.interp(float(value), [xmax, c.x[i]], [c.y[i + 1], c.y[i]])
-                xypairs.append((float(value), y))
+    xypairs.append((float(value), np.interp(float(value), c.x, c.y,
+                                            left=c.math_interp_left,
+                                            right=c.math_interp_right,
+                                            period=c.math_interp_period)))
 
     return xypairs
 
@@ -4185,15 +4093,9 @@ def sort(curve):
     :type curve: Curve
     """
     index_array = np.argsort(curve.x)
-    x = list()
-    y = list()
 
-    for index in index_array:
-        x.append(curve.x[index])
-        y.append(curve.y[index])
-
-    curve.x = np.array(x)
-    curve.y = np.array(y)
+    curve.x = curve.x[index_array]
+    curve.y = curve.y[index_array]
 
 
 def rev(curve):
@@ -4225,8 +4127,7 @@ def random(curve):
     :param curve: The curve to sort
     :type curve: Curve
     """
-    for i in range(len(curve.y)):
-        curve.y[i] = sysrand.uniform(-1, 1)
+    curve.y = np.random.uniform(-1, 1, len(curve.y))
 
 
 def xindex(curvelist):
@@ -4313,21 +4214,16 @@ def max_curve(curvelist):
 
     # Calculate max
     x = np.array(ux)
-    y = np.zeros(len(x))
 
-    for i in range(len(x)):
-        y[i] = float(-sys.maxsize - 1)
-        for j in range(len(curvelist)):
-            try:
-                vals = gety(curvelist[j], x[i])
-                for val in vals:
-                    if y[i] < val[1]:
-                        y[i] = val[1]
-            except:
-                pass
+    all_data = []
+    for cur in curvelist:
+        all_data.append(np.interp(x, cur.x, cur.y,
+                                  left=cur.math_interp_left,
+                                  right=cur.math_interp_right,
+                                  period=cur.math_interp_period))
 
     nc = makecurve(x=x,
-                   y=y,
+                   y=np.max(all_data, axis=0),
                    name='Max(' + name_suffix + ')')
 
     return nc
@@ -4359,21 +4255,16 @@ def min_curve(curvelist):
 
     # Calculate min
     x = np.array(ux)
-    y = np.zeros(len(x))
 
-    for i in range(len(x)):
-        y[i] = float(sys.maxsize)
-        for j in range(len(curvelist)):
-            try:
-                vals = gety(curvelist[j], x[i])
-                for val in vals:
-                    if y[i] > val[1]:
-                        y[i] = val[1]
-            except:
-                pass
+    all_data = []
+    for cur in curvelist:
+        all_data.append(np.interp(x, cur.x, cur.y,
+                                  left=cur.math_interp_left,
+                                  right=cur.math_interp_right,
+                                  period=cur.math_interp_period))
 
     nc = makecurve(x=x,
-                   y=y,
+                   y=np.min(all_data, axis=0),
                    name='Min(' + name_suffix + ')')
 
     return nc
@@ -4404,23 +4295,16 @@ def average_curve(curvelist):
 
     # Calculate average
     x = np.array(ux)
-    y = np.zeros(len(x))
 
-    for i in range(len(x)):
-        cnt = 0
-        for j in range(len(curvelist)):
-            try:
-                vals = gety(curvelist[j], x[i])
-                for val in vals:
-                    y[i] += val[1]
-                    cnt += 1
-            except:
-                pass
-
-        y[i] /= cnt
+    all_data = []
+    for cur in curvelist:
+        all_data.append(np.interp(x, cur.x, cur.y,
+                                  left=cur.math_interp_left,
+                                  right=cur.math_interp_right,
+                                  period=cur.math_interp_period))
 
     nc = makecurve(x=x,
-                   y=y,
+                   y=np.mean(all_data, axis=0),
                    name='Average(' + name_suffix + ')')
 
     return nc
@@ -4471,10 +4355,7 @@ def __ifft(cr, ci):
     :type c: Curve
     :return: tuple - two curves, one with the real part and the other with the imaginary part for their y-values.
     """
-    carray = np.zeros(len(cr.y), dtype=complex)
-
-    for i in range(len(cr.y)):
-        carray[i] = complex(cr.y[i], ci.y[i])
+    carray = cr.y + 1j * ci.y
 
     numpy1_10 = LooseVersion(np.__version__) >= LooseVersion("1.10.0")
 

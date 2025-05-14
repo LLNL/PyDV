@@ -5896,7 +5896,7 @@ class Command(cmd.Cmd, object):
 
     def do_linemarker(self, line):
         """
-        Set the marker symbol for the curves
+        Set the marker symbol and marker size for the curves
         """
 
         if not line:
@@ -6771,7 +6771,7 @@ class Command(cmd.Cmd, object):
                 if line_labels:  # Multiple curves and labels
                     curves = line.split('`')[0].split()
                 else:  # single curve and label
-                    curves = line.split()[0]
+                    curves = [line.split()[0]]
                     line_labels = [' '.join(line.split()[1:])]
 
                 for i in range(len(curves)):
@@ -7728,10 +7728,7 @@ class Command(cmd.Cmd, object):
             xmin = 1e-2
             for cur in orderlist:
                 if not cur.hidden:
-                    xdat = numpy.array(cur.x)
-                    for i in range(len(xdat)):
-                        if xdat[i] < 1e-300:
-                            xdat[i] = 1e301
+                    xdat = numpy.where(cur.x < 1e-300, 1e301, cur.x)
                     localmin = min(xdat)
                     if localmin and localmin < xmin:
                         xmin = localmin
@@ -8595,13 +8592,9 @@ class Command(cmd.Cmd, object):
                     xdat = numpy.array(cur.x)
                     ydat = numpy.array(cur.y)
                     if yls:
-                        for i in range(len(ydat)):
-                            if (ydat[i] < 0):
-                                ydat[i] = 1e-301  # custom ydata clipping
+                        ydat = numpy.where(ydat < 0, 1e-301, ydat)  # custom ydata clipping
                     if xls:
-                        for i in range(len(xdat)):
-                            if xdat[i] < 0:
-                                xdat[i] = 1e-301  # custom ydata clipping
+                        xdat = numpy.where(xdat < 0, 1e-301, xdat)  # custom ydata clipping
 
                     if cur.ebar is not None:
                         plt.errorbar(xdat,

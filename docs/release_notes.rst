@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.6.6
+------
+* Bugfix: Label confusion with curve maths for curves greater than 26
+* Refactoring a lot of methods to use `numpy` instead of for loops
+
 3.6.5
 ------
 * Bugfix: Launcher update for HPCs read files from command line
