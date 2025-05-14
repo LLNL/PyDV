@@ -415,7 +415,7 @@ Set the line widths of the specified curves. A line width of 0 will give the thi
 marker
 ------
 
-Set the marker symbol and scale (optionally) for scatter plots. You can also use any of the matplotlib supported marker types as well. See the matplotlib documentation on markers for further information.
+Set the marker symbol and marker size (optionally) for scatter plots. You can also use any of the matplotlib supported marker types as well. See the matplotlib documentation on markers for further information.
 
 .. code::
 
@@ -425,6 +425,7 @@ Set the marker symbol and scale (optionally) for scatter plots. You can also use
       [PyDV]: marker a +
       [PyDV]: marker a:b .
       [PyDV]: marker c d circle
+      [PyDV]: marker c d 10
 
 minorticks
 ----------
