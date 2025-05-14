@@ -5,7 +5,7 @@ Release Notes
 3.6.6
 ------
 * Bugfix: Label confusion with curve maths for curves greater than 26
-* Refactoring `gety`, `getymax`, `getymin`, `max_curve`, `min_curve`, and `average` to use `numpy.interp()`
+* Refactoring a lot of methods to use `numpy` instead of for loops
 
 3.6.5
 ------

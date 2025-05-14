@@ -2384,8 +2384,8 @@ def xmax(curvelist, max):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(c.x <= float(max))])
-        c.y = np.array(c.y[np.where(c.x <= float(max))])
+        c.x = c.x[np.where(c.x <= float(max))]
+        c.y = c.y[np.where(c.x <= float(max))]
 
 
 def xmin(curvelist, min):
@@ -2406,8 +2406,8 @@ def xmin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(c.x >= float(min))])
-        c.y = np.array(c.y[np.where(c.x >= float(min))])
+        c.x = c.x[np.where(c.x >= float(min))]
+        c.y = c.y[np.where(c.x >= float(min))]
 
 
 def xminmax(curvelist, min, max):
@@ -2430,8 +2430,8 @@ def xminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))])
-        c.y = np.array(c.y[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))])
+        c.x = c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
+        c.y = c.y[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
 
 
 def ymax(curvelist, max):
@@ -2452,8 +2452,8 @@ def ymax(curvelist, max):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(c.y <= float(max))])
-        c.y = np.array(c.y[np.where(c.y <= float(max))])
+        c.x = c.x[np.where(c.y <= float(max))]
+        c.y = c.y[np.where(c.y <= float(max))]
 
 
 def ymin(curvelist, min):
@@ -2474,8 +2474,8 @@ def ymin(curvelist, min):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(c.y >= float(min))])
-        c.y = np.array(c.y[np.where(c.y >= float(min))])
+        c.x = c.x[np.where(c.y >= float(min))]
+        c.y = c.y[np.where(c.y >= float(min))]
 
 
 def yminmax(curvelist, min, max):
@@ -2498,8 +2498,8 @@ def yminmax(curvelist, min, max):
         curves.append(curvelist)
 
     for c in curves:
-        c.x = np.array(c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))])
-        c.y = np.array(c.y[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))])
+        c.x = c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
+        c.y = c.y[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
 
 
 def yn(curvelist, n):
