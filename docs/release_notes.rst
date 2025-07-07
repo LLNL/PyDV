@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.7.0
+------
+* Updated read function for faster read times
+
 3.6.6
 ------
 * Bugfix: Label confusion with curve maths for curves greater than 26
