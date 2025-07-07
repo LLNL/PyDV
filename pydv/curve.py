@@ -76,6 +76,8 @@ class Curve(object):
                  title='',
                  record_id='',
                  step=False,
+                 step_original_x=np.empty(0),
+                 step_original_y=np.empty(0),
                  xticks_labels=None,
                  plotname='',
                  color='',
@@ -108,6 +110,8 @@ class Curve(object):
         self.title = title
         self.record_id = record_id
         self.step = step
+        self.step_original_x = step_original_x,
+        self.step_original_y = step_original_y,
         self.xticks_labels = xticks_labels
         self.plotname = plotname
         self.color = color
@@ -254,6 +258,8 @@ class Curve(object):
                   title=self.title,
                   record_id=self.record_id,
                   step=self.step,
+                  step_original_x=self.step_original_x,
+                  step_original_y=self.step_original_y,
                   xticks_labels=self.xticks_labels,
                   plotname=self.plotname,
                   color=self.color,

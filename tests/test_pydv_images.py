@@ -477,6 +477,14 @@ commands = [
     """
     del f g
     """,
+    # 91
+    f"""
+    erase
+    kill all
+    read {os.path.join(TEST_DIR, 'diff_formats.txt')}
+    cur 1:17
+    xmax a:z 1
+    """,
 ]
 
 commands_file = os.path.join(output_dir, 'pydv_commands')

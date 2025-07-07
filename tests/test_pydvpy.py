@@ -5,6 +5,8 @@ import numpy as np
 import sys
 import matplotlib.pyplot as plt
 import scipy
+import time
+import subprocess
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 PYDV_DIR = os.path.dirname(TEST_DIR)
@@ -257,3 +259,19 @@ def test_read_labels():
         assert cur.name == names[i][0]
         assert cur.xlabel == names[i][1]
         assert cur.ylabel == names[i][2]
+
+
+def test_BIG_file():
+
+    subprocess.run(["python", os.path.join(TEST_DIR, "generate_ultra_curves_big.py")])
+
+    start = time.time()
+
+    big_file = os.path.join(TEST_DIR, "BIG_ULTRA_FILE.ult")
+    _ = pydvpy.read(big_file)
+
+    end = start - time.time()
+
+    os.remove(big_file)
+
+    assert end < 10
