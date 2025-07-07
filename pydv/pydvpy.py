@@ -70,11 +70,12 @@ A python interface for PyDV functionality.
 """
 
 import json
-import os
 import traceback
 import sys
 import re
 import copy
+from multiprocessing import Pool, cpu_count
+import subprocess
 
 from distutils.version import LooseVersion
 
@@ -123,6 +124,8 @@ def makecurve(x=np.empty(0),
               title='',
               record_id='',
               step=False,
+              step_original_x=np.empty(0),
+              step_original_y=np.empty(0),
               xticks_labels=None,
               plotname='',
               color='',
@@ -171,6 +174,10 @@ def makecurve(x=np.empty(0),
     :type record_id: str
     :param step: whether this is a step curve.
     :type step: bool
+    :param step_original_x: list of original x values for step function
+    :type step_original_x: list
+    :param step_original_y: list of original y values for step function
+    :type step_original_y: list
     :param xticks_labels: Dictionary of x tick labels if x data are strings.
     :type xticks_labels: dict
     :param plotname: The plot name of the curve.
@@ -232,6 +239,8 @@ def makecurve(x=np.empty(0),
                     title=title,
                     record_id=record_id,
                     step=step,
+                    step_original_x=step_original_x,
+                    step_original_y=step_original_y,
                     xticks_labels=xticks_labels,
                     plotname=plotname,
                     color=color,
@@ -478,15 +487,15 @@ def save(fname, curvelist, verbose=False, save_labels=False):
         curves.append(curvelist)
 
     try:
-        f = open(fname, 'w')
-        for cur in curves:
-            if save_labels:
-                print('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
-                f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
-            else:
-                f.write('# ' + cur.name + '\n')
-            for dex in range(len(cur.x)):
-                f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
+        with open(fname, "w") as f:
+            for cur in curves:
+                if save_labels:
+                    print('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
+                    f.write('# ' + cur.name + ' # xlabel ' + cur.xlabel + ' # ylabel ' + cur.ylabel + '\n')
+                else:
+                    f.write('# ' + cur.name + '\n')
+                for dex in range(len(cur.x)):
+                    f.write(' ' + str(cur.x[dex]) + ' ' + str(cur.y[dex]) + '\n')
     except:
         print('Error: Can not write to: ' + fname)
         if verbose:
@@ -570,203 +579,35 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
         return readcsv(fname=fname, xcol=xcol, verbose=verbose)
     elif str(fname).endswith(".json"):
         return readsina(fname=fname, verbose=verbose)
-
-    def bundle_curve(_curve, build_x, build_y):
-
-        _curve.xticks_labels = {}
-
-        # Numerical data
+    elif gnu or str(fname).endswith(".gnu"):
+        return __loadcolumns(fname, xcol)
+    elif pdbLoaded:
         try:
-            float(build_x[0])
-
-        # X tick label data
+            fpdb = pdb.open(fname, 'r')
+            return __loadpdb(fname, fpdb)
         except:
+            pass
 
-            xticks = list(set(build_x))
-            xticks.sort()
-            xticks_dict = {}
-
-            for i, xtick in enumerate(xticks):
-                xticks_dict[xtick] = i
-
-            build_x = [xticks_dict[xtick] for xtick in build_x]
-
-            _curve.xticks_labels = xticks_dict
-
-        # Step Data
-        if len(build_x) != len(build_y):
-            build_y.append(build_y[-1])
-
-            _curve.x = np.array(build_x, dtype=float).repeat(2)[1:]
-            _curve.y = np.array(build_y, dtype=float).repeat(2)[:-1]
-            _curve.step = True
-            _curve.step_original_x = np.array(build_x, dtype=float)
-            _curve.step_original_y = np.array(build_y[:-1], dtype=float)
-        # Numerical Data
-        else:
-            _curve.x = np.array(build_x, dtype=float)
-            _curve.y = np.array(build_y, dtype=float)
-            _curve.step = False
-
-        return _curve
-
-    curve_list = list()
     regex = None
 
     if pattern:
         regex = re.compile(r"%s" % pattern)
-    fname = os.path.expanduser(fname)
-    _, ext = os.path.splitext(fname)
+
     try:
-        if gnu or ext == '.gnu':
-            return __loadcolumns(fname, xcol)
 
-        if pdbLoaded:
-            try:
-                fpdb = pdb.open(fname, 'r')
-                return __loadpdb(fname, fpdb)
-            except:
-                pass
+        # first get the lines that contain the candidate ULTRA curves
+        try:  # using grep and wc. Much faster
+            locs = _get_linelocs_from_text_ultra_grep(fname)
+        except:  # opening file directly
+            locs = _get_linelocs_from_text_ultra(fname)
 
-        match_count = 0
-        build_list_x = list()
-        build_list_y = list()
-        current = None
-        new_curve = True
-        potential_curve_name = ""
-        xlabels = {}
-        ylabels = {}
-        xlabel = ''
-        ylabel = ''
-        with open(fname, 'r') as f:
-            for line in f:
-                labels = False
+        # Parallel curve read using Pool()
+        with Pool(processes=cpu_count()) as pool:
 
-                # Check for labels
-                split_line_label = re.split(r'#', str.strip(line))
-                for split in split_line_label:
-                    if re.search('[a-zA-Z]', split):
-                        if 'xlabel' in split:
-                            xlabel = split.replace('xlabel', '').strip()
-                            labels = True
-                        if 'ylabel' in split:
-                            ylabel = split.replace('ylabel', '').strip()
-                            labels = True
+            # Create input tuples for each # line from locs above. Use -1 because last loc idx is end of file
+            input_tuples = list(map(lambda idx: (fname, locs, idx, regex), range(len(locs) - 1)))
 
-                # Contains x and/or y labels
-                if labels:
-                    split_line = [None] * 2
-                    split_line[0] = '#'
-                    split_line[1] = line.split("# xlabel")[0].split("# ylabel")[0].split("#xlabel")[0].split("#ylabel")[0][1:].strip()  # noqae501
-                    xlabels[split_line[1]] = xlabel
-                    ylabels[split_line[1]] = ylabel
-                    xlabel = ''
-                    ylabel = ''
-                else:  # might be numerical or text
-                    if "#" in line:  # text
-                        split_line = [None] * 2
-                        split_line[0] = '#'
-                        split_line[1] = line[1:].strip()
-                    else:  # numerical
-                        split_line = re.split(r'[ \t]+', str.strip(line))
-
-                if not split_line or not split_line[0]:
-                    continue
-                elif split_line[0] in {'##', 'end', 'End', 'END'}:
-                    continue
-                elif split_line[0] == '#':
-                    # We may have just finished buiding a curve, so we need to
-                    # add it to the list of curves.
-                    # If this is the first curve, then current will be None, so
-                    # we won't add anything.
-                    # If there is a sequence of lines that start with # before
-                    # getting to the actual data, then the new_curve flag will
-                    # keep us from adding all those comments as curves.
-                    if current and not new_curve:
-                        # Need this since it will add last match below and outside loop
-                        if matches and match_count >= matches:
-                            break
-
-                        curve_list.append(bundle_curve(current, build_list_x, build_list_y))
-                        build_list_x = list()
-                        build_list_y = list()
-
-                    # Begin setup of new curve
-                    new_curve = True
-                    potential_curve_name = ' '.join(split_line[1:])
-                else:
-                    if new_curve:
-                        curve_name = potential_curve_name
-                        new_curve = False
-                        if regex:
-                            if regex.search(curve_name):
-                                match_count += 1
-                                current = makecurve(name=curve_name,
-                                                    filename=fname,
-                                                    xlabel=xlabels.get(curve_name, ''),
-                                                    ylabel=ylabels.get(curve_name, ''))
-                                # Step Data
-                                if len(split_line) == 1:
-                                    build_list_x.append(split_line[0])
-                                # Numerical Data
-                                elif len(split_line) == 2:
-                                    build_list_x.append(split_line[0])
-                                    build_list_y.append(split_line[-1])
-                                # Label Data and Paired Data
-                                else:
-                                    try:  # Paired Data
-                                        float(split_line[0])
-                                        build_list_x += split_line[::2]
-                                        build_list_y += split_line[1::2]
-                                    except:  # Label Data
-                                        build_list_x.append(" ".join(split_line[:-1]))
-                                        build_list_y.append(split_line[-1])
-                            else:
-                                current = None
-                        else:
-                            current = makecurve(name=curve_name,
-                                                filename=fname,
-                                                xlabel=xlabels.get(curve_name, ''),
-                                                ylabel=ylabels.get(curve_name, ''))
-
-                            # Step Data
-                            if len(split_line) == 1:
-                                build_list_x.append(split_line[0])
-                            # Numerical Data
-                            elif len(split_line) == 2:
-                                build_list_x.append(split_line[0])
-                                build_list_y.append(split_line[-1])
-                            # Label Data and Paired Data
-                            else:
-                                try:  # Paired Data
-                                    float(split_line[0])
-                                    build_list_x += split_line[::2]
-                                    build_list_y += split_line[1::2]
-                                except:  # Label Data
-                                    build_list_x.append(" ".join(split_line[:-1]))
-                                    build_list_y.append(split_line[-1])
-
-                    elif current and not new_curve:  # add data to current curve
-
-                        # Step Data
-                        if len(split_line) == 1:
-                            build_list_x.append(split_line[0])
-                        # Numerical Data
-                        elif len(split_line) == 2:
-                            build_list_x.append(split_line[0])
-                            build_list_y.append(split_line[-1])
-                        # Label Data and Paired Data
-                        else:
-                            try:  # Paired Data
-                                float(split_line[0])
-                                build_list_x += split_line[::2]
-                                build_list_y += split_line[1::2]
-                            except:  # Label Data
-                                build_list_x.append(" ".join(split_line[:-1]))
-                                build_list_y.append(split_line[-1])
-
-        if current and build_list_x and build_list_y:
-            curve_list.append(bundle_curve(current, build_list_x, build_list_y))
+            curve_list = list(filter(None, pool.map(_get_curve_from_text_ultra_perproc, input_tuples)))
 
     except IOError:
         print('could not load file: {}'.format(fname))
@@ -4538,6 +4379,172 @@ def __loadpdb(fname, fpdb):
         print('invalid pydv file: ' + fname)
 
     return curvelist
+
+
+def _get_linelocs_from_text_ultra_grep(fname):
+
+    # first find all the character offsets of the # lines in the ULTRA file
+    stdout_val = subprocess.check_output(['/usr/bin/grep',
+                                          '--byte-offset',
+                                          '--only-matching',
+                                          '--text',
+                                          '^#',
+                                          fname],
+                                         stderr=subprocess.STDOUT).decode('utf8')
+    locs = [int(line.strip().split(':')[0]) for line in stdout_val.split('\n')[:-1]]  # last is just empty newline
+
+    # now get the last character offset in the ULTRA file
+    stdout_val = subprocess.check_output(['/usr/bin/wc',
+                                          '-c',
+                                          fname],
+                                         stderr=subprocess.PIPE).decode('utf8')
+    locs.append(int(stdout_val.split()[0]))  # append end of file byte location
+
+    return locs
+
+
+def _get_linelocs_from_text_ultra(fname):
+    # These are byte locations not actual line locations, each standard ASCII character is one byte.
+
+    with open(fname, 'r') as openfile:
+
+        loc = 0  # byte tracker for whole file
+        locs = []  # location list of titles or comments
+
+        for line in openfile:
+
+            if line.strip()[:1] == '#':  # title or comment
+                locs.append(loc)  # append title or comment byte location to location list
+
+            loc += len(line)  # add number of bytes in line to byte tracker
+
+        locs.append(loc)  # append end of file byte location to location list
+
+        return locs
+
+
+def _get_curve_from_text_ultra_perproc(input_tuple):
+    fname, locs, idx, regex = input_tuple
+
+    # Defaults
+    xlabel = ''
+    ylabel = ''
+    step = False
+    step_original_x = np.empty(0)
+    step_original_y = np.empty(0)
+    xticks_labels = {}
+
+    try:
+        with open(fname, 'r') as openfile:
+
+            # Finds byte location
+            openfile.seek(locs[idx])
+
+            # ONLY reads content of single curve based on byte location
+            content = openfile.read(locs[idx + 1] - locs[idx])
+
+            # Creates a list of lines that splits on newline and creates x y pairs
+            lcont = list(filter(lambda line: len(line) > 0, map(lambda line: line.strip(), content.split('\n'))))
+
+            if len(lcont) < 2:  # at least one data point
+                return None
+
+            ##############
+            # Curve name #
+            ##############
+            name = lcont[0].split("# xlabel")[0].split("# ylabel")[0].split("#xlabel")[0].split("#ylabel")[0][1:].strip() # noqae501
+            if regex:
+                if regex.search(name):
+                    print(f'Found match: {name}')
+                else:
+                    return None
+
+            #################
+            # x and y label #
+            #################
+            split_line_label = re.split(r'#', str.strip(lcont[0]))
+            for split in split_line_label:
+                if re.search('[a-zA-Z]', split):
+                    if 'xlabel' in split:
+                        xlabel = split.replace('xlabel', '').strip()
+                    if 'ylabel' in split:
+                        ylabel = split.replace('ylabel', '').strip()
+
+            ########
+            # DATA #
+            ########
+
+            # xticklabel or horizontal data
+            if len(lcont[1].split()) > 2:
+
+                # horizontal data see tests/diff_formats.txt format 3a and format 3b
+                try:
+
+                    float(lcont[1].rsplit(None, 1)[0].split()[0])
+
+                    # Split the horizontal data into x y pairs
+                    pairs = []
+                    for line in lcont[1:]:
+                        numbers = [x for x in line.split() if x]
+                        line_pairs = ['{} {}'.format(numbers[i], numbers[i + 1]) for i in range(0, len(numbers), 2)]
+                        pairs.extend(line_pairs)
+
+                    lcont = [lcont[0]]
+                    lcont.extend(pairs)
+
+                # X tick label data see tests/diff_formats.txt My curve6
+                except ValueError:
+                    pass
+
+            # Splits newline x y pairs into individual x y
+            if lcont[-1] != 'end':
+                v = [item for s in lcont[1:] for item in s.rsplit(None, 1)]
+            else:
+                v = [item for s in lcont[1:-1] for item in s.rsplit(None, 1)]
+
+            xvals = v[::2]
+            yvals = v[1::2]
+
+            # Numerical data
+            try:
+                float(xvals[0])
+
+            # X tick label data
+            except:
+
+                xticks = list(set(xvals))
+                xticks.sort()
+                xticks_dict = {}
+
+                for i, xtick in enumerate(xticks):
+                    xticks_dict[xtick] = i
+
+                xvals = [xticks_dict[xtick] for xtick in xvals]
+
+                xticks_labels = xticks_dict
+
+            # Step Data
+            if len(xvals) != len(yvals):
+                step_original_x = np.array(xvals, dtype=float)
+                step_original_y = np.array(yvals, dtype=float)
+
+                yvals.append(yvals[-1])
+                xvals = np.array(xvals, dtype=float).repeat(2)[1:]
+                yvals = np.array(yvals, dtype=float).repeat(2)[:-1]
+                step = True
+
+            # Numerical Data
+            else:
+                xvals = np.array(xvals, dtype=float)
+                yvals = np.array(yvals, dtype=float)
+
+            return makecurve(x=xvals, y=yvals, name=name, filename=fname,
+                             xlabel=xlabel, ylabel=ylabel,
+                             step=step, step_original_x=step_original_x, step_original_y=step_original_y,
+                             xticks_labels=xticks_labels)
+    except Exception as e:
+        print(str(e))
+        return None
 
 
 ########################################################
