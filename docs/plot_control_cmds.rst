@@ -477,7 +477,7 @@ If no arguments are given, the plot's current layout settings will be displayed.
       [PyDV]: plotlayout de
 
 range
-------
+-----
 
 Set the range for plotting. Using de (for default) will let the curves determine the range. **Shortcut: ran**
 
@@ -640,7 +640,7 @@ Set the width (in points) of x ticks on the x axis. Default is to apply to major
       [PyDV]: xtickwidth 2 both
 
 xtickrotation
-----------
+-------------
 
 Set the rotation (in degrees) of the tick labels on the x axis.
 
@@ -652,7 +652,7 @@ Set the rotation (in degrees) of the tick labels on the x axis.
       [PyDV]: xtickrotation 45
 
 xtickha
-----------
+-------
 
 Set the horizontal alignment of tick labels on the x axis. Default is center.
 
@@ -664,7 +664,7 @@ Set the horizontal alignment of tick labels on the x axis. Default is center.
       [PyDV]: xtickha right
 
 xtickva
-----------
+-------
 
 Set the vertical alignment of tick labels on the x axis. Default is top.
 
@@ -774,7 +774,7 @@ Set the locations of major ticks on the y axis.
       [PyDV]: yticks de
 
 ytickrotation
-----------
+-------------
 
 Set the rotation (in degrees) of the tick labels on the y axis.
 
@@ -786,7 +786,7 @@ Set the rotation (in degrees) of the tick labels on the y axis.
       [PyDV]: ytickrotation 45
 
 ytickha
-----------
+-------
 
 Set the horizontal alignment of tick labels on the y axis. Default is right.
 
@@ -798,7 +798,7 @@ Set the horizontal alignment of tick labels on the y axis. Default is right.
       [PyDV]: ytickha center
 
 ytickva
-----------
+-------
 
 Set the vertical alignment of tick labels on the y axis. Default is center.
 
@@ -810,7 +810,7 @@ Set the vertical alignment of tick labels on the y axis. Default is center.
       [PyDV]: ytickva top
 
 tightlayout
-----------
+-----------
 
 Turn on plot tight layout. Useful if tick labels are long.
 

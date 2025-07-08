@@ -18,13 +18,12 @@ classifiers = [
 homepage = "https://github.com/LLNL/PyDV"
 documentation = "https://pydv.readthedocs.io/en/latest/"
 authors = [
+    "Jorge Moreno <moreno45@llnl.gov>", "Jorge Moreno",
     "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
-    "Jorge Moreno <moreno45@llnl.gov", "Jorge Moreno",
     "Ephraim Rusu <rusu1@llnl.gov>", "Ephraim Rusu",
 ]
 maintainers = [
-    "Sarah El-Jurf <eljurf1@llnl.gov>", "Sarah El-Jurf",
-    "Jorge Moreno <moreno45@llnl.gov", "Jorge Moreno",
+    "Jorge Moreno <moreno45@llnl.gov>", "Jorge Moreno",
 ]
 readme = "README.md"
 packages = [
@@ -41,7 +40,7 @@ scipy = "*"
 PySide2 = "*"
 PyQt5 = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 sphinx_rtd_theme = "*"
 sphinx = "*"
 pytest = "*"

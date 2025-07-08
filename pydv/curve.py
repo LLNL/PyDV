@@ -1,7 +1,6 @@
-# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Ephraim Rusu
-# e-mail: rusu1@llnl.gov
+# Copyright (c) Lawrence Livermore National Security, LLC.
+# Produced at the Lawrence Livermore National Laboratory.
+# See top-level LICENSE AND COPYRIGHT files for dates and other details.
 # LLNL-CODE-507071
 # All rights reserved.
 

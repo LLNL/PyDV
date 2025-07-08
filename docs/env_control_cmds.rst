@@ -310,7 +310,7 @@ current column width will be displayed.
       [PyDV]: ylabelwidth 100
 
 menulength
------------
+----------
 
 Change the number of curves displayed when executing the `menu` command before Enter needs to be pressed.
 If no length is given, the current menu length will be displayed.
