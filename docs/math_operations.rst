@@ -393,7 +393,7 @@ Take hyperbolic cosine of x values of curves.
       [PyDV]: coshx c d
 
 cumsum
------
+------
 
 Create new curve which is the cumulative sum of the original curve.
 
@@ -528,10 +528,11 @@ Plot shaded error region on given curve, **Shortcut: error-range**
 
    Ex:
       [PyDV]: errorrannge a 2 3
+
 exp
 ---
 
-e**y, exponentiate y values of the curves.
+e^y, exponentiate y values of the curves.
 
 .. code::
 
@@ -545,7 +546,7 @@ e**y, exponentiate y values of the curves.
 expx
 ----
 
-e**y, exponentiate x values of the curves.
+e^y, exponentiate x values of the curves.
 
 .. code::
 

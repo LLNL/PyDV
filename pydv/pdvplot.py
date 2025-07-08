@@ -1,7 +1,6 @@
-# Copyright (c) 2011-2024, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory
-# Written by Mason Kwiat, Douglas S. Miller, and Kevin Griffin, Ephraim Rusu, Sarah El-Jurf, Jorge Moreno
-# e-mail: eljurf1@llnl.gov, moreno45@llnl.gov
+# Copyright (c) Lawrence Livermore National Security, LLC.
+# Produced at the Lawrence Livermore National Laboratory.
+# See top-level LICENSE AND COPYRIGHT files for dates and other details.
 # LLNL-CODE-507071
 # All rights reserved.
 
@@ -487,12 +486,11 @@ class Plotter(QMainWindow):
             self._menuDialog.show()
 
     def __viewCopyright(self):
-        msg = self.tr('<b><p style="font-family:verdana;"> \
-                      Copyright &copy; 2011-2024, Lawrence Livermore National Security, LLC. \
-                      Produced at the Lawrence Livermore National Laboratory</p> \
-                      <p style="font-family:verdana;">Written by Jorge Moreno, Sarah El-Jurf, \
-                      Ephraim Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p> \
-                      <p style="font-family:verdana;">e-mail: eljurf1@llnl.gov, moreno45@llnl.gov</p> \
+        msg = self.tr('<b> \
+                      <p style="font-family:verdana;">Copyright &copy; Lawrence Livermore National Security, LLC.</p> \
+                      <p style="font-family:verdana;">Produced at the Lawrence Livermore National Laboratory.</p> \
+                      <p style="font-family:verdana;">See top-level LICENSE AND COPYRIGHT files for dates and other \
+                      details.</p> \
                       <p style="font-family:verdana;">LLNL-CODE-507071</p> \
                       <p style="font-family:verdana;">All rights reserved.</p></b> \
                       <p style="font-family:courier; font-size:80%;">This file is part of PyDV. \
@@ -589,17 +587,14 @@ class Plotter(QMainWindow):
                           self.tr('About PyDV'),
                           self.tr('<h2>About PyDV</h2>'
                                   f'<p style="font-family:courier; font-size:40%;">version {pydv_version}</p>'
-                                  '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/">\
-                                  PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p>'
-                                  '<p style="font-family:courier; font-size:-1;">Copyright &copy; 2011-2024, \
-                                  Lawrence Livermore National Security, LLC.</p>'
-                                  '<p style="font-family:veranda; font-size:80%;">Written by: \
-                                  Jorge Moreno, Sarah El-Jurf, \
-                                  Ephraim Rusu, Kevin Griffin, Mason Kwiat, and Douglas S. Miller</p>'
-                                  '<p style="font-family:veranda; font-size:80%;">email: eljurf1@llnl.gov, \
-                                  moreno45@llnl.gov</p>'
-                                  '<p style="font-family:veranda; font-size:60%;"><i>LLNL-CODE-507071, \
-                                  All rights reserved.</i></p>'))
+                                  '<p style="font-family:verdana;"><a href="https://pydv.readthedocs.io/en/latest/"> \
+                                   PyDV</a> is a 1D graphics tool, heavily based on the ULTRA plotting tool.</p> \
+                                   <p style="font-family:verdana;">Produced at the Lawrence Livermore National \
+                                   Laboratory.</p> \
+                                   <p style="font-family:verdana;">See top-level LICENSE AND COPYRIGHT files for \
+                                   dates and other details.</p> \
+                                   <p style="font-family:verdana;">LLNL-CODE-507071</p> \
+                                   <p style="font-family:verdana;">All rights reserved.</p>'))
 
     def __deleteCurve(self):
         rowcnt = len(self._tableWidget.selectionModel().selectedRows())
