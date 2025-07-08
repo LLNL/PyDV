@@ -14,7 +14,7 @@ which can be seen with the command `list`.
    **[PyDV]:** = Python Data Visualizer command-line prompt.
 
 area
------
+----
 
 Calculate the area of the curves.
 
@@ -184,7 +184,7 @@ Show various statistics about the curve.
       [PyDV]: stats c d
 
 sum
------
+---
 
 Calculate the sum of the x and y values of the curves.
 
@@ -215,6 +215,7 @@ range is used.
       [PyDV]: getymin a:b 2 7
       [PyDV]: getymin c d
       [PyDV]: getymin c d 2 7
+
 getymax
 -------
 

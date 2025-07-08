@@ -55,9 +55,10 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PyDV'
-copyright = u'2015-2024, ' +\
-    'Sarah El-Jurf, Jorge Moreno, Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
-author = u'Sarah El-Jurf, Jorge Moreno, Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks'
+copyright = u'Copyright (c) Lawrence Livermore National Security, LLC.' + \
+             ' Produced at the Lawrence Livermore National Laboratory.' + \
+             ' See top-level LICENSE AND COPYRIGHT files for dates and other details.'
+author = u'PyDV Developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -148,7 +149,7 @@ html_theme = 'furo'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -234,7 +235,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'PyDV.tex', u'PyDV Documentation',
-     u'Ephraim Rusu, Kevin Griffin, Mason Kwiat, Douglas Miller, Rachael Brooks', 'manual'),
+     u'PyDV Developers', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
