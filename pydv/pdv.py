@@ -70,7 +70,10 @@ from threading import Thread
 import numpy
 
 import matplotlib
-matplotlib.use('Qt5Agg')
+if not os.environ.get('DISPLAY'):
+    matplotlib.use('Agg')
+else:
+    matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mclr
 
