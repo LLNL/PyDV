@@ -31,7 +31,7 @@ stages:
 .on_cz:
   tags:
     - shell
-    - ruby
+    - dane
     
 .on_rz:
   tags:

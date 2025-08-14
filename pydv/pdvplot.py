@@ -59,10 +59,7 @@
 # endorsement purposes.
 
 import matplotlib.pyplot as plt
-try:
-    from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
-except:
-    from matplotlib.backends.backend_qtagg import FigureCanvas
+from matplotlib.backends.backend_qtagg import FigureCanvas
 
 from os import path
 
@@ -82,21 +79,12 @@ try:
 except:
     stylesLoaded = False
 
-from matplotlib.backends import qt_compat
-use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
-if use_pyside:
-    from PySide2.QtCore import Qt, QRect, Slot
-    from PySide2.QtGui import QIcon
-    from PySide2.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
-                                   QMessageBox, QTableWidgetItem, QAction, QAbstractItemView, QTableWidget,
-                                   QMainWindow)
-else:
-    from PyQt5.QtCore import Qt, QRect, Slot
-    from PyQt5.QtGui import QIcon
-    from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
-                                 QMessageBox, QTableWidgetItem, QAction, QAbstractItemView, QTableWidget,
-                                 QMainWindow)
-
+from PyQt6.QtCore import Qt, QRect, pyqtSlot
+from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
+                             QMessageBox, QTableWidgetItem, QAbstractItemView, QTableWidget,
+                             QMainWindow)
+from PyQt6.QtGui import QAction
 
 PYDV_DIR = path.dirname(path.abspath(__file__))
 try:
@@ -224,7 +212,7 @@ class Plotter(QMainWindow):
     # SLOTS
     ########################################################################################################
 
-    @Slot()
+    @pyqtSlot()
     def showCurvelistDialog(self):
         """
         Shows a dialog with the output of the list command in a table.
@@ -353,7 +341,7 @@ class Plotter(QMainWindow):
         if not self._listDialog.isVisible():
             self._listDialog.show()
 
-    @Slot()
+    @pyqtSlot()
     def showMenuDialog(self):
         """
         Shows a dialog with the output of the menu command in a table.
