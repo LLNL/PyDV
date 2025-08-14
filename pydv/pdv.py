@@ -6754,7 +6754,10 @@ class Command(cmd.Cmd, object):
         try:
             if len(line.split(':')) > 1 and not self.do_label_done:
                 self.do_label_done = True
-                self.do_label(pdvutil.getletterargs(line))
+                if "`" in line:
+                    self.do_label(pdvutil.getletterargs(line))
+                else:  # extra logic specifically for single label w/ :
+                    self.do_label(pdvutil.getletterargs("PYDV_LABEL" + line))
                 return 0
             else:
                 self.do_label_done = False
