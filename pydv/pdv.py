@@ -73,22 +73,12 @@ import matplotlib
 if not os.environ.get('DISPLAY'):
     matplotlib.use('Agg')
 else:
-    matplotlib.use('Qt5Agg')
+    matplotlib.use('QtAgg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mclr
 
-from matplotlib.backends import qt_compat
-use_pyside = qt_compat.QT_API == qt_compat.QT_API_PYSIDE2
-if use_pyside:
-    from PySide2.QtCore import (qInstallMessageHandler, QtDebugMsg, QtWarningMsg,
-                                QtCriticalMsg, QtFatalMsg, QtSystemMsg, QtInfoMsg)
-    # from PySide2.QtGui import *
-    from PySide2.QtWidgets import QApplication
-else:
-    from PyQt5.QtCore import (qInstallMessageHandler, QtDebugMsg, QtWarningMsg,
-                              QtCriticalMsg, QtFatalMsg, QtSystemMsg, QtInfoMsg)
-    # from PyQt5.QtGui import *
-    from PyQt5.QtWidgets import QApplication
+from PyQt6.QtCore import (qInstallMessageHandler, QtMsgType)
+from PyQt6.QtWidgets import QApplication
 
 import scipy
 import traceback
@@ -8991,17 +8981,17 @@ class Command(cmd.Cmd, object):
 
     def __qtMsgHandler(self, msgtype, context, msg):
         if self.debug:
-            if msgtype == QtDebugMsg:
+            if msgtype == QtMsgType.QtDebugMsg:
                 print("\nQt Debug: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
-            elif msgtype == QtWarningMsg:
+            elif msgtype == QtMsgType.QtWarningMsg:
                 print("\nQt Warning: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
-            elif msgtype == QtCriticalMsg:
+            elif msgtype == QtMsgType.QtCriticalMsg:
                 print("\nQt Critical: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
-            elif msgtype == QtFatalMsg:
+            elif msgtype == QtMsgType.QtFatalMsg:
                 print("\nQt Fatal: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
-            elif msgtype == QtSystemMsg:
+            elif msgtype == QtMsgType.QtSystemMsg:
                 print("\nQt System: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
-            elif msgtype == QtInfoMsg:
+            elif msgtype == QtMsgType.QtInfoMsg:
                 print("\nQt Info: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))
             else:
                 print("\nUnknown Message Type: %s (%s:%u, %s)\n" % (msg, context.file, context.line, context.function))

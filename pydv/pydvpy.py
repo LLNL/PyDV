@@ -73,8 +73,6 @@ import numpy as np
 import scipy
 import scipy.integrate
 import scipy.special
-import scipy.signal
-import scipy.misc
 
 import matplotlib.pyplot as plt
 
@@ -97,12 +95,6 @@ try:
     pdbLoaded = True
 except:
     pdbLoaded = False
-
-try:
-    import gnuplotlib as gp  # noqaf401
-    import time  # noqaf401
-except:
-    pass
 
 
 def makecurve(x=np.empty(0),
@@ -3049,15 +3041,6 @@ def convolve_int(c1, c2, norm=True, npts=100, npts_interp=100, debug=False):
             new_y1 = np.interp(overlap, cr1.x, cr1.y)
             new_y2 = np.interp(overlap, cr2.x, cr2.y)
             new_y = new_y1 * new_y2
-
-            # if debug:
-            #     time.sleep(.5)
-            #     gp.plot((cr1.x, cr1.y, dict(legend='g(t)')),
-            #             (c2_original.x, c2_original.y, dict(legend='h(x)')),
-            #             (cr2.x, cr2.y, dict(legend='h(x-t)')),
-            #             (overlap, new_y, dict(legend='g(t)*h(x-t)')),
-            #             xmin=xmn - (dom_c2[0][2] - dom_c2[0][1]) * 1.5,
-            #             xmax=xmx * 1.5)
 
             area = scipy.integrate.trapezoid(new_y, overlap)
 

@@ -32,13 +32,13 @@ packages = [
 include = ['img/*']
 
 [tool.poetry.dependencies]
-python = ">=3.6"
+python = ">=3.9"
 matplotlib = "*"
 numpy = "*"
 scikit-learn = "*"
 scipy = "*"
-PySide2 = "*"
-PyQt5 = "*"
+PyQt6 = "*"
+scikit-image = "*"
 
 [tool.poetry.group.dev.dependencies]
 sphinx_rtd_theme = "*"
