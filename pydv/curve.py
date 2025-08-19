@@ -291,8 +291,10 @@ class Curve(object):
         """
 
         c = self.copy()
-
-        area0 = integrate.simpson(c.y, c.x)
+        try:
+            area0 = integrate.simpson(c.y, c.x)
+        except:
+            area0 = np.trapz(c.y, c.x)
         c.y /= float(area0)
         c.name = "Normalized %s" % self.plotname
         return c

@@ -77,10 +77,12 @@ else:
 import matplotlib.pyplot as plt
 import matplotlib.colors as mclr
 
-from PyQt6.QtCore import (qInstallMessageHandler, QtMsgType)
+from PyQt6.QtCore import (qInstallMessageHandler, QtMsgType, QObject, pyqtSignal)
 from PyQt6.QtWidgets import QApplication
 
 import scipy
+import scipy.stats
+import scipy.special
 import traceback
 import readline
 import code
@@ -1517,7 +1519,10 @@ class Command(cmd.Cmd, object):
 
         def find_mode(array):
 
-            mode = scipy.stats.mode(array, keepdims=True)
+            try:
+                mode = scipy.stats.mode(array, keepdims=True)
+            except:
+                mode = scipy.stats.mode(array)
             if mode.count[0] == 1 and len(array) != 1:
                 return numpy.nan, numpy.nan
             else:
@@ -5126,9 +5131,8 @@ class Command(cmd.Cmd, object):
             if self.debug:
                 traceback.print_exc(file=sys.stdout)
         finally:
-            self.app.quit()
-            sys.exit()
-            return True
+            self.quit_helper.quit_signal.emit()
+            sys.exit(0)
 
     def help_quit(self):
         print('\n   Macro: Exit PyDV\n   Usage: quit\n   Shortcuts: q\n')
@@ -9014,6 +9018,7 @@ class Command(cmd.Cmd, object):
         self.app = QApplication(sys.argv)
         self.plotter = pdvplot.Plotter(self)
         self.plotter.updatePlotGeometry(self.geometry)
+        self.quit_helper = QuitHelper(self.app)
 
         try:
             readline.read_history_file(os.getenv('HOME') + '/.pdvhistory')
@@ -9090,7 +9095,7 @@ class Command(cmd.Cmd, object):
 
             # Start PyDV Application
             self.plotter.show()
-            self.app.exec_()
+            self.app.exec()
         except SystemExit:
             self.app.quit()
             sys.exit()
@@ -9102,6 +9107,21 @@ class Command(cmd.Cmd, object):
                 traceback.print_exc(file=sys.stdout)
             else:
                 pass
+
+
+class QuitHelper(QObject):
+
+    quit_signal = pyqtSignal()
+
+    def __init__(self, app):
+        super().__init__()
+        self.app = app
+        self.quit_signal.connect(self.handle_quit)
+
+    def handle_quit(self):
+        for widget in QApplication.topLevelWidgets():
+            widget.close()
+        self.app.quit()
 
 
 def main():

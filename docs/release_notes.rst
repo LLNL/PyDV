@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.7.1
+------
+* Upgraded to PyQt6
+* Bugfix for marker with more than one curve
+
 3.7.0
 ------
 * Updated read function for faster read times
