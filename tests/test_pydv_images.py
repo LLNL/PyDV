@@ -32,6 +32,7 @@ os.makedirs(diff_dir)
 commands = [
     # 1
     f"""
+    debug on
     rd {os.path.join(TEST_DIR, 'testData.txt')}
     cur 1 2
     """,
@@ -500,6 +501,8 @@ with open(commands_file, 'w') as fp:
 exec_command = f"python {os.path.join(PYDV_DIR, 'pydv', 'pdv_launcher.py')} -i {commands_file}"
 process = subprocess.Popen(exec_command.split(), stdout=subprocess.PIPE)
 output, error = process.communicate()
+print("Output:\n", output.decode())
+print("Error:\n", error)
 
 
 @pytest.mark.parametrize("i", list(range(1, len(commands) + 1)))

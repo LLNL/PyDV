@@ -80,11 +80,10 @@ except:
     stylesLoaded = False
 
 from PyQt6.QtCore import Qt, QRect, pyqtSlot
-from PyQt6.QtGui import QIcon
+from PyQt6.QtGui import QIcon, QAction
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QTextEdit, QScrollArea, QHBoxLayout, QPushButton,
                              QMessageBox, QTableWidgetItem, QAbstractItemView, QTableWidget,
                              QMainWindow)
-from PyQt6.QtGui import QAction
 
 PYDV_DIR = path.dirname(path.abspath(__file__))
 try:
@@ -640,4 +639,11 @@ class Plotter(QMainWindow):
             self.setGeometry(50, 50, 600, 500)
 
     def closeEvent(self, event):
-        event.ignore()
+
+        if hasattr(self, 'plot_updater') and self.plot_updater.is_alive():
+            self.plot_updater.stop()
+            self.plot_updater.join()
+
+        plt.close('all')
+
+        event.accept()

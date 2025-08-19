@@ -71,8 +71,10 @@ from distutils.version import LooseVersion
 
 import numpy as np
 import scipy
-import scipy.integrate
 import scipy.special
+import scipy.integrate
+import scipy.interpolate
+import scipy.ndimage
 
 import matplotlib.pyplot as plt
 
@@ -2663,7 +2665,10 @@ def integrate(curvelist, low=None, high=None):
         r = __get_sub_range(nc.x, low, high)
         nc.x = nc.x[r[0]:r[1] + 1]
         nc.y = nc.y[r[0]:r[1] + 1]
-        nc.y = np.array(scipy.integrate.cumtrapz(nc.y, nc.x, initial=0.0))
+        try:
+            nc.y = np.array(scipy.integrate.cumtrapz(nc.y, nc.x, initial=0.0))
+        except:
+            nc.y = np.array(scipy.integrate.cumulative_trapezoid(nc.y, nc.x, initial=0.0))
 
         ncurves.append(nc)
 
@@ -3190,7 +3195,10 @@ def diffMeasure(c1, c2, tol=1e-8):
     cdiffy = np.array(ydiff / yden)
     cdiffy[np.isnan(cdiffy)] = 0  # corner case where both curves are all zeros since f1 and f2 will also be 0
 
-    yint = scipy.integrate.cumtrapz(cdiffy, x, initial=0.0)
+    try:
+        yint = scipy.integrate.cumtrapz(cdiffy, x, initial=0.0)
+    except:
+        yint = scipy.integrate.cumulative_trapezoid(cdiffy, x, initial=0.0)
     cinty = np.array(yint / dx)
 
     cdiff = makecurve(x=x,
@@ -3571,7 +3579,10 @@ def area(curvelist):
         curves.append(curvelist)
 
     for c in curves:
-        areas.append((__toCurveString(c), scipy.integrate.simpson(c.y, c.x)))
+        try:
+            areas.append((__toCurveString(c), scipy.integrate.simpson(c.y, c.x)))
+        except:
+            areas.append((__toCurveString(c), np.trapz(c.y, c.x)))
 
     return areas
 
