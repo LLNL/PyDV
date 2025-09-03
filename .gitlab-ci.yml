@@ -103,7 +103,8 @@ deploy_to_develop_on_cz:
   extends: [ .on_cz, .deploy_to_develop_on_cz ]
   script:
     - make deploy_to_develop
-      
+    - make create_and_upload_wheels
+          
 create_env_on_rz:
   stage: create_env
   extends: [ .on_rz, .run_on_rz, .create_env ]
@@ -132,7 +133,8 @@ deploy_to_develop_on_rz:
   extends: [ .on_rz, .deploy_to_develop_on_rz ]
   script:
     - make deploy_to_develop
-
+    - make create_and_upload_wheels
+    
 create_env_on_scf:
   stage: create_env
   extends: [ .on_scf, .run_on_scf, .create_env ]
@@ -160,3 +162,4 @@ deploy_to_develop_on_scf:
   script:
     - make deploy_to_develop
     - make deploy_to_develop DEPLOY_PATH=/usr/gapps/pydv-sa PYTHON_PATH=/usr/tce/bin/python3
+    - make create_and_upload_wheels
