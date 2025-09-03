@@ -59,6 +59,9 @@
 # endorsement purposes.
 
 import numpy as np
+import inspect
+import traceback
+import sys
 
 
 class CurveIndexError(ValueError):
@@ -390,3 +393,19 @@ def get_actual_index(origref, val):
             return i
 
     return -1
+
+
+def print_own_docstring(self):
+    """
+    Prints the docstring of the calling method.
+    """
+    frame = inspect.currentframe().f_back  # Get the caller's frame
+    method_name = frame.f_code.co_name
+    doc = getattr(self.__class__, method_name).__doc__
+    print("\n\n\t**********************************")
+    print("\t***** ERROR, SEE DOCSTRINGS: *****")
+    print("\t**********************************")
+    print("\n\t***** For more error info execute command: `debug on`: *****\n\n", doc)
+
+    if self.debug:
+        traceback.print_exc(file=sys.stdout)

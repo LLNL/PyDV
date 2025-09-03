@@ -611,7 +611,15 @@ class Command(cmd.Cmd, object):
 
     def do_help(self, arg):
         """
-        Override help function to check for shortcuts
+        Return information about the specified command, variable, or command category.
+        If no argument is supplied, return a list of available commands.
+
+        .. code::
+
+            [PyDV]: help [command]
+
+            Ex:
+                [PyDV]: help list
         """
 
         if (arg == '+'):
@@ -706,14 +714,17 @@ class Command(cmd.Cmd, object):
 
     def do_shell(self, line):
         """
-        Execute shell commands
+        Execute shell commands.
+
+        .. code::
+
+            [PyDV]: <shell | system | !> <command>
+
+            Ex:
+                [PyDV]: shell echo $PATH
         """
 
         os.system(line)
-
-    def help_shell(self):
-        print("\n   Procedure: Execute shell commands. The symbol \'!\' is a synonym for \'shell\'."
-              "\n   Usage: <shell | system> <command>\n")
 
     ########################################################################################################
     # command functions #
@@ -721,7 +732,34 @@ class Command(cmd.Cmd, object):
 
     def do_newcurve(self, line):
         """
-        Evaluate a line of mathematical operations
+        Creates a new curve from an expression containing curves that have the **same domain**.
+        For convenience, the **numpy** and **scipy** module have been imported into the namespace. **Shortcut: nc**
+
+        * The x-values will be the x-values of the last curve used in the expression due to how PyDV finds curves in a
+          loop.
+
+        * The y-values will be the evaluated expression after `newcurve`.
+
+        .. note::
+
+            If you want a more advanced expression or more control over what happens, see the command `custom`.
+
+        .. warning::
+
+            * Currently, `newcurve` is hard-wired to only handle single-letter labels.
+              Curve names used in the expression cannot be the @N type we use after
+              we run out of letters. Sorry (April 2015).
+            * A common error is to forget the .x or .y on the curve label name.
+            * All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve
+              will generate a curve from different domains (but with the same number of points) with no error
+              message, and that curve will almost certainly not be what you intended.
+
+        .. code::
+
+            [PyDV]: newcurve <numpy and/or scipy expression>
+
+            Ex:
+                [PyDV]: newcurve scipy.ndimage.gaussian_filter(numpy.sin(a.x*2*numpy.pi)/(b.x**2), sigma=5)
         """
 
         try:
@@ -758,38 +796,18 @@ class Command(cmd.Cmd, object):
 
             self.plotedit = True
         except:
-            print('error - usage: newcurve <expression>')
-            print('try "help newcurve" for much more info')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_newcurve(self):
-        print('\n   newcurve creates a new curve from an expression containing curves that have the same domain.\n')
-        print('Usage: newcurve <numpy expression>\n')
-        print('For convenience, the numpy and scipy modules have been imported into the namespace.')
-        print('\tThe x-values will be the x-values of the last curve used in the expression.')
-        print('\tThe y-values will be the evaluated expression after `newcurve`.')
-        print('EXAMPLE:')
-        print()
-        print('\t[PDV]: newcurve scipy.ndimage.gaussian_filter(numpy.sin(a.x*2*numpy.pi)/(b.x**2), sigma=5)')
-        print()
-        print('This creates a new curve according to the complicated expression.')
-        print('You can abbreviate newcurve as nc.')
-        print()
-        print('WARNINGS:')
-        print('\t* Currently, newcurve is hard-wired to only handle single-letter labels.')
-        print('\t  Curve names used in the expression cannot be the @N type we use after')
-        print('\t  we run out of letters. Sorry (April 2015).')
-        print('\t* A common error is to forget the .x or .y on the curve label name.')
-        print('\t* All the arrays in your expression have to span the same domain! Currently (4/2015), newcurve')
-        print('\t  will generate a curve from different domains (but with the same number of points) with no error')
-        print('\t  message, and that curve will almost certainly not be what you intended.')
-        print('\n If you want a more advanced expression or more control over what happens, see the command `custom`')
-        print()
+            pdvutil.print_own_docstring(self)
 
     def do_eval(self, line):
         """
-        Evaluate a line of mathematical operations
+        Evaluate mathematical operations on curves.
+
+        .. code::
+
+            [PyDV]: eval <curve-operations>
+
+            Ex:
+                [PyDV]: eval a+b
         """
 
         try:
@@ -799,16 +817,19 @@ class Command(cmd.Cmd, object):
             pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
             self.plotedit = True
         except:
-            print('error - usage: eval <curve-operations>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_eval(self):
-        print('\n   Procedure: Evaluate mathematical operations on curves\n   Usage: eval <curve-operations>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_debug(self, line):
         """
-        Turn on debug tracebacks for commands
+        Turn on debug tracebacks for commands.
+
+        .. code::
+
+            [PyDV]: debug on | off
+
+            Ex:
+                [PyDV]: debug on
+                [PyDV]: debug off
         """
 
         try:
@@ -820,17 +841,20 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_debug(self):
-        print('\n   Variable: Show debug tracebacks if True\n   Usage: debug on | off\n')
-
     def do_tightlayout(self, line):
         """
-        Turn on plot tight layout
+        Turn on plot tight layout. Useful if tick labels are long.
+
+        .. code::
+
+            [PyDV]: tightlayout <on | off>
+
+            Ex:
+                [PyDV]: tightlayout on
         """
 
         try:
@@ -847,12 +871,13 @@ class Command(cmd.Cmd, object):
         finally:
             self.redraw = True
 
-    def help_tightlayout(self):
-        print('\n   Variable: Turn on plot tight layout if True\n   Usage: tightlayout on | off\n')
-
     def do_undo(self, line):
         """
-        Undo last operation on a curve
+        Undo the last operation on plotted curves.
+
+        .. code::
+
+            [PyDV]: undo
         """
 
         try:
@@ -871,17 +896,15 @@ class Command(cmd.Cmd, object):
             else:
                 print('error - cannot undo further')
         except:
-            print('error - usage: undo')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_undo(self):
-        print('\n   Procedure: Undo the last operation on plotted curves'
-              '\n   Usage: undo\n')
+            pdvutil.print_own_docstring(self)
 
     def do_redo(self, line):
         """
-        Redo last curve operation undo
+        Redo the last undo curve operation.
+
+        .. code::
+
+            [PyDV]: redo
         """
 
         try:
@@ -894,17 +917,29 @@ class Command(cmd.Cmd, object):
             else:
                 print('error - cannot redo further')
         except:
-            print('error - usage: redo')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_redo(self):
-        print('\n   Procedure: Redo the last undone curve operation'
-              '\n   Usage: redo\n')
+            pdvutil.print_own_docstring(self)
 
     def do_add(self, line):
         """
-        Add one or more curves and plot resulting curve
+        Take the sum of curves. If the optional *value* is specified it will add the y-values of
+        the curves by *value* (equivalent to using the **dy** command). **Shortcut:** +
+
+        .. note::
+            Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+        .. note::
+            Adding curves by a number modifies the curve. If you want to create a new
+            curve then copy the original curve first using the copy command.
+
+        .. code::
+
+            [PyDV]: add <curve-list> [value]
+
+            Ex:
+                [PyDV]: add a
+                [PyDV]: add a:b
+                [PyDV]: add c d
+                [PyDV]: add c d 7
         """
 
         try:
@@ -923,21 +958,30 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
 
         except:
-            print('error - usage: add <curve-list> [value]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_add(self):
-        print('\n   Procedure: Take sum of curves. If the optional value is specified it will add'
-              '\n              the y-values of the curves by value (equivalent to using the dy command).'
-              '\n              Note: Adding curves by a number modifies the curve. If you want to create'
-              '\n              a new curve then copy the original curve first using the copy command.'
-              '\n   Usage: add <curve-list> [value]'
-              '\n   Shortcuts: +\n')
+            pdvutil.print_own_docstring(self)
 
     def do_subtract(self, line):
         """
-        Subtract one or more curves
+        Take the difference of curves. A single curve can be specified, resulting in the
+        negating of its y-values. If the optional `value` is specified it will subtract the
+        y-values of the curves by `value`.
+
+        .. note::
+            Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+        .. note::
+            Subtracting curves by a number modifies the curve. If you want to create a new
+            curve then copy the original curve first using the copy command.
+
+        .. code::
+
+            [PyDV]: <subtract | sub | --> <curve-list> [value]
+
+            Ex:
+                [PyDV]: subtract a
+                [PyDV]: subtract a:b
+                [PyDV]: subtract c d
+                [PyDV]: subtract c d 7
         """
 
         try:
@@ -960,22 +1004,29 @@ class Command(cmd.Cmd, object):
                     pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
         except:
-            print('error - usage: subtract <curve-list> [value]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_subtract(self):
-        print('\n   Procedure: Take difference of curves. A single curve can be specified, resulting in '
-              '\n              the negating of its y-values. If the optional value is specified it will subtract'
-              '\n              the y-values of the curves by value (similar to using the dy command).'
-              '\n              Note: Subtracting curves by a number modifies the curve. If you want to create'
-              '\n              a new curve then copy the original curve first using the copy command.'
-              '\n   Usage: subtract <curve-list> [value]'
-              '\n   Shortcuts: - , sub\n')
+            pdvutil.print_own_docstring(self)
 
     def do_multiply(self, line):
         """
-        Multiply one or more curves
+        Take the product of curves. If the optional `value` is specified it will multiply the
+        y-values of the curves by `value`.
+
+        .. note::
+            Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+        .. note::
+            Multiplying curves by a number modifies the curve. If you want to create a new
+            curve then copy the original curve first using the copy command.
+
+        .. code::
+
+            [PyDV]: <multiply | * | mult> <curve-list> [value]
+
+            Ex:
+                [PyDV]: multiply a
+                [PyDV]: multiply a:b
+                [PyDV]: multiply c d
+                [PyDV]: multiply c d 7
         """
 
         try:
@@ -993,21 +1044,29 @@ class Command(cmd.Cmd, object):
                     pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
         except:
-            print('error - usage: mult <curve-list> [value]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_multiply(self):
-        print('\n   Procedure: Take product of curves. If the optional value is specified it will multiply'
-              '\n              the y-values of the curves by value (equivalent to using the my command).'
-              '\n              Note: Multiplying curves by a number modifies the curve. If you want to create'
-              '\n              a new curve then copy the original curve first using the copy command.'
-              '\n   Usage: multiply <curve-list> [value]'
-              '\n   Shortcuts: * , mult\n')
+            pdvutil.print_own_docstring(self)
 
     def do_divide(self, line):
         """
-        Divide one or more curves
+        Take quotient of curves. If the optional `value` is specified it will divide the
+        y-values of the curves by `value`.
+
+        .. note::
+            Be sure that the x points are in increasing order as PyDV uses numpy.interp().
+
+        .. note::
+            Dividing curves by a number modifies the curve. If you want to create a new
+            curve then copy the original curve first using the copy command.
+
+        .. code::
+
+            [PyDV]: <divide | / | div> <curve-list> [value]
+
+            Ex:
+                [PyDV]: divide a
+                [PyDV]: divide a:b
+                [PyDV]: divide c d
+                [PyDV]: divide c d 7
         """
         try:
             # If dividing by a number then send to divy
@@ -1024,21 +1083,22 @@ class Command(cmd.Cmd, object):
                     pdvutil.parsemath(line, self.plotlist, self, (plt.axis()[0], plt.axis()[1]))
                 self.plotedit = True
         except:
-            print('error - usage: divide <curve-list> [value]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_divide(self):
-        print('\n   Procedure: Take quotient of curves. If the optional value is specified it will divide'
-              '\n              the y-values of the curves by value (equivalent to using the divy command).'
-              '\n              Note: Dividing curves by a number modifies the curve. If you want to create'
-              '\n              a new curve then copy the original curve first using the copy command.'
-              '\n   Usage: divide <curve-list> [value]'
-              '\n   Shortcuts: / , div\n')
+            pdvutil.print_own_docstring(self)
 
     def do_read(self, line):
         """
-        Read in an ultra, csv, or sina file.
+        Read curves from the specified ASCII file and optionally filter by regex. The next available prefix (see the
+        prefix command) is automatically assigned the menu index of the first curve in each data file read. For column
+        oriented (.gnu) files optionally specify the x-column number before the file name.
+
+        .. code::
+
+            [PyDV]: <read | rd> [(regex) matches] [x-col] <filename>
+
+            Ex:
+                [PyDV]: read my_file.ult
+                [PyDV]: read my.*curves my_file.ult
+                [PyDV]: read my.*curves 1 my_file.ult
         """
 
         try:
@@ -1075,30 +1135,26 @@ class Command(cmd.Cmd, object):
             else:
                 print('error - Usage: read [(regex) matches] [x-col] <file-name>')
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
 
-    def help_read(self):
-        print('\n    Macro: Read curve data file'
-              '\n    Usage: read [(regex) matches] [x-col] <file-name>'
-              '\n    Shortcuts: rd\n'
-              '\n    If using regex, set matches equal to a negative number for unlimited matches.'
-              '\n    For column oriented (.gnu) files optionally specify the x-column number before the file name.\n'
-              '\n'
-              '\n    Macro: Read csv data file. For column oriented (.gnu) files optionally specify the x-column'
-              '\n          number (e.g., readcsv file.csv 1).'
-              '\n    Usage: read <file-name> [xcol]\n'
-              '\n'
-              '\n    Macro: Read all curves from sina data file.'
-              '\n    Usage: read <file-name>\n'
-              )
-
     def do_readcsv(self, line):
         """
-        Read in a csv file
+        Read CSV data file. The next available prefix (see the prefix command) is automatically assigned the menu index
+        of the first curve in each data file read. For column oriented (.gnu) files optionally specify the x-column
+        number before the file name. If the columns are in x and y pairs with `savecsv` command, the [x-col] must be
+        specified as `paired`.
+
+        .. code::
+
+            [PyDV]: <readcsv | rdcsv> <filename.csv> [x-col] [paired]
+
+            Ex:
+                [PyDV]: readcsv my_file.csv
+                [PyDV]: readcsv my_file.csv 2
+                [PyDV]: readcsv my_file.csv paired
         """
 
         try:
@@ -1111,41 +1167,45 @@ class Command(cmd.Cmd, object):
 
             self.load_csv(line[0], col)
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
 
-    def help_readcsv(self):
-        print('\n   Macro: Read csv data file. For column oriented (.gnu) files optionally specify the x-column'
-              '\n          number (e.g., readcsv file.csv 1).'
-              '\n   Usage: readcsv <file-name> [xcol]'
-              '\n   Shortcuts: rdcsv\n')
-
     def do_readsina(self, line):
         """
-        Read in a Sina file
+        Read all curves from Sina data file. PyDV assumes there is only one record in the Sina file, and if there are
+        more than one then PyDV only reads the first. PyDV also assumes there is only one independent variable per
+        curve_set; if there are more than one then PyDV may exhibit undefined behavior. The next available prefix
+        (see the prefix command) is automatically assigned the menu index of the first curve in each data file read.
+
+        .. code::
+
+            [PyDV]: <readsina | rdsina> <filename.json>
+
+            Ex:
+                [PyDV]: readsina my_file.json
         """
 
         try:
             line = line.split()
             self.load_sina(line[0])
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
 
-    def help_readsina(self):
-        print('\n   Macro: Read all curves from sina data file.'
-              '\n   Usage: readsina <file-name>'
-              '\n   Shortcuts: rdsina\n')
-
     def do_setxcolumn(self, line):
         """
-        Set x-column for cxv or gnu files explicitly
+        Set x column for reading column formatted data files (.gnu or .csv).
+
+        .. code::
+
+            [PyDV]: setxcolumn <x column>
+
+            Ex:
+                [PyDV]: setxcolumn 1
         """
 
         try:
@@ -1156,15 +1216,9 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError("Expecting 1 argument but received {}".format(len(line)))
         except:
-            print("error - usage: setxcolumn <n>")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
-
-    def help_setxcolumn(self):
-        print("\n    Variable: set x column for reading column formatted data files (.gnu or .csv)."
-              "\n    Usage: setxcolumn <n>, where n is an integer.")
 
     def __menu_curve_math(self, operation, line):
         if len(line.split(':')) > 1:  # check for list notation
@@ -1210,7 +1264,17 @@ class Command(cmd.Cmd, object):
 
     def do_add_h(self, line):
         """
-        Add menu curves
+        Adds curves that have been read from a file but not yet plotted. `list-of-menu-numbers`
+        are the index values displayed in the first column of the `menu` command.
+
+        .. code::
+
+            [PyDV]: add_h <list-of-menu-numbers>
+
+            Ex:
+                [PyDV]: add_h 1
+                [PyDV]: add_h 1:2
+                [PyDV]: add_h 3 4
         """
 
         if not line:
@@ -1225,18 +1289,21 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: add_h <list-of-menu-numbers>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_add_h(self):
-        print('\n   Procedure: Adds curves that have been read from a file but not yet plotted. list-of-menu-numbers '
-              '\n              are the index values displayed in the first column of the menu command.'
-              '\n   Usage: add_h <list-of-menu-numbers>')
+            pdvutil.print_own_docstring(self)
 
     def do_subtract_h(self, line):
         """
-        Subtract menu curves
+        Subtracts curves that have been read from a file but not yet plotted. `list-of-menu-numbers`
+        are the index values displayed in the first column of the `menu` command.
+
+        .. code::
+
+            [PyDV]: subtract_h <list-of-menu-numbers>
+
+            Ex:
+                [PyDV]: subtract_h 1
+                [PyDV]: subtract_h 1:2
+                [PyDV]: subtract_h 3 4
         """
 
         if not line:
@@ -1251,19 +1318,21 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: subtract_h <list-of-menu-numbers>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_subtract_h(self):
-        print('\n   Procedure: Subtracts curves that have been read from a file but not yet plotted.  '
-              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
-              '\n              command.'
-              '\n   Usage: subtract_h <list-of-menu-numbers>')
+            pdvutil.print_own_docstring(self)
 
     def do_multiply_h(self, line):
         """
-        Multiply menu curves
+        Multiplies curves that have been read from a file but not yet plotted. `list-of-menu-numbers`
+        are the index values displayed in the first column of the `menu` command.
+
+        .. code::
+
+            [PyDV]: multiply_h <list-of-menu-numbers>
+
+            Ex:
+                [PyDV]: multiply_h 1
+                [PyDV]: multiply_h 1:2
+                [PyDV]: multiply_h 3 4
         """
 
         if not line:
@@ -1278,19 +1347,21 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: multiply_h <list-of-menu-numbers>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_multiply_h(self):
-        print('\n   Procedure: Multiplies curves that have been read from a file but not yet plotted.  '
-              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
-              '\n              command.'
-              '\n   Usage: multiply_h <list-of-menu-numbers>')
+            pdvutil.print_own_docstring(self)
 
     def do_divide_h(self, line):
         """
-        Divide menu curves
+        Divides curves that have been read from a file but not yet plotted. `list-of-menu-numbers`
+        are the index values displayed in the first column of the `menu` command.
+
+        .. code::
+
+            [PyDV]: divide_h <list-of-menu-numbers>
+
+            Ex:
+                [PyDV]: divide_h 1
+                [PyDV]: divide_h 1:2
+                [PyDV]: divide_h 3 4
         """
 
         if not line:
@@ -1305,19 +1376,27 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: divide_h <list-of-menu-numbers>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_divide_h(self):
-        print('\n   Procedure: Divides curves that have been read from a file but not yet plotted.  '
-              '\n              list-of-menu-numbers are the index values displayed in the first column of the menu '
-              '\n              command.'
-              '\n   Usage: divide_h <list-of-menu-numbers>')
+            pdvutil.print_own_docstring(self)
 
     def do_curve(self, line):
         """
-        Graph the given curves
+        Select curves from the menu for plotting.
+        A regular expression may be supplied in paranthesis for matching against the curve label to plot.
+
+        Regular expressions are based on the Python regex syntax, not the UNIX syntax.
+        In particular, '*' is not the wildcard you might be expecting.
+
+        For an explanation of the regex syntax, type 'help regex'.
+
+        .. code::
+
+            [PyDV]: <curve | cur> [menu (<regex>)] <list-of-menu-numbers>
+
+            Ex:
+                [PyDV]: cur 1
+                [PyDV]: cur 2:3
+                [PyDV]: cur 4 5
+                [PyDV]: cur (.*my_curves.*)
         """
 
         if not line:
@@ -1418,17 +1497,18 @@ class Command(cmd.Cmd, object):
                             current.linestyle = 'None'
                 self.plotedit = True
         except:
-            print('error - usage: curve <(<regex>) | list-of-menu-numbers>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_curve(self):
-        print('\n   Procedure: Select curves from the menu for plotting'
-              '\n   Usage: curve (<regex>) | list-of-menu-numbers>\n   Shortcuts: cur\n')
+            pdvutil.print_own_docstring(self)
 
     def do_erase(self, line):
         """
-        Remove all curves from the graph
+        Erase all curves on the screen but leave the limits untouched.
+
+        .. code::
+
+            [PyDV]: <erase | era>
+
+            Ex:
+                [PyDV]: erase
         """
 
         self.plotlist = []
@@ -1436,13 +1516,18 @@ class Command(cmd.Cmd, object):
 
         self.plotedit = True
 
-    def help_erase(self):
-        print('\n   Macro: Erases all curves on the screen but leaves the limits untouched\n   Usage: erase'
-              '\n   Shortcuts: era\n')
-
     def do_delete(self, line):
         """
-        Remove a curve from the graph
+        Delete a curve from the graph.
+
+        .. code::
+
+            [PyDV]: <delete | del> <curve-list>
+
+            Ex:
+                [PyDV]: delete a
+                [PyDV]: delete a:b
+                [PyDV]: delete c d
         """
 
         try:
@@ -1465,16 +1550,27 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
 
         except:
-            print('error - usage: del <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_delete(self):
-        print('\n   Procedure: Delete curves from list\n   Usage: delete <curve-list>\n   Shortcuts: del\n')
+            pdvutil.print_own_docstring(self)
 
     def do_color(self, line):
         """
-        Set a specific color for a list of curves
+        Set the color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a 6 digit set of hexadecimal
+        red-green-blue values #RRGGBB. The entire set of HTML-standard color names is available. Type `showcolormap`
+        to see the available named colors which will show up in the PyDV plotting area (hit return to go back to your
+        plots).
+
+        .. code::
+
+            [PyDV]: color <curve-list> <color>
+
+            Ex:
+                [PyDV]: color a blue
+                [PyDV]: color a:b blue
+                [PyDV]: color c d blue
+                [PyDV]: color a #aabb33
+                [PyDV]: showcolormap
+                hit return to go back to your plots
+                [PyDV]: color a lime
         """
 
         if not line:
@@ -1502,19 +1598,20 @@ class Command(cmd.Cmd, object):
                             break
             self.plotedit = True
         except:
-            print('error - usage: color <curve-list> <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_color(self):
-        print('\n   Procedure: Set the color of curves\n   Usage: color <curve-list> <color-name>\n   '
-              'Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set\n   of hexadecimal red-green-blue '
-              'values (RRGGBB).\n   The entire set of HTML-standard color names is available.\n   Try "showcolormap" '
-              'to see the available named colors!')
+            pdvutil.print_own_docstring(self)
 
     def do_stats(self, line):
         """
-        Return a curves mean and standard deviation
+        Show various statistics about the curve.
+
+        .. code::
+
+            [PyDV]: stats <curve-list>
+
+            Ex:
+                [PyDV]: stats a
+                [PyDV]: stats a:b
+                [PyDV]: stats c d
         """
 
         def find_mode(array):
@@ -1566,18 +1663,21 @@ class Command(cmd.Cmd, object):
 
                 print('\n')
             except:
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+                pdvutil.print_own_docstring(self)
             finally:
                 self.redraw = False
-
-    def help_stats(self):
-        print('\n   Display the mean and standard deviation for the given curves.'
-              '\n   usage: stats <curve-list>\n')
 
     def do_deltax(self, line):
         """
         Create new curve that calculates difference between its own X points. Delta X vs # of points - 1.
+
+        .. code::
+
+            [PyDV]: deltax <curve>
+
+            Ex:
+                [PyDV]: deltax a
+                [PyDV]: deltax a:b
         """
 
         if not line:
@@ -1603,18 +1703,21 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
             except:
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+                pdvutil.print_own_docstring(self)
             finally:
                 self.redraw = True
-
-    def help_deltax(self):
-        print('\n   Create new curve that calculates difference between its own X points. Delta X vs # of points - 1.'
-              '\n   usage: deltax <curve-list>\n')
 
     def do_deltay(self, line):
         """
         Create new curve that calculates difference between its own Y points. Delta Y vs # of points - 1.
+
+        .. code::
+
+            [PyDV]: deltay <curve>
+
+            Ex:
+                [PyDV]: deltay a
+                [PyDV]: deltay a:b
         """
 
         if not line:
@@ -1640,18 +1743,22 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
             except:
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+                pdvutil.print_own_docstring(self)
             finally:
                 self.redraw = True
 
-    def help_deltay(self):
-        print('\n   Create new curve that calculates difference between its own Y points. Delta Y vs # of points - 1.'
-              '\n   usage: deltay <curve-list>\n')
-
     def do_getattributes(self, line):
         """
-        Return a curve's attributes
+        Return a curve's attributes, such as: color, style, width, etc.
+
+        .. code::
+
+            [PyDV]: getattributes <curve-list>
+
+            Ex:
+                [PyDV]: getattributes a
+                [PyDV]: getattributes a:b
+                [PyDV]: getattributes c d
         """
         if len(line.split(':')) > 1:
             self.do_getattributes(pdvutil.getletterargs(line))
@@ -1702,19 +1809,29 @@ class Command(cmd.Cmd, object):
                     print('    X-ticks Labels = {}'.format(cur.xticks_labels))
                     print('\n')
             except:
-                print('\n   usage: getattributes <curves>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
+                pdvutil.print_own_docstring(self)
             finally:
                 self.redraw = False
 
-    def help_getattributes(self):
-        print('\n   Display the given curve\'s attributes, such as: color, style, and width.'
-              '\n   usage: getattributes <curves>')
-
     def do_markerfacecolor(self, line):
         """
-        Set the markerface color for a list of curves
+        Set the markerface color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a 6 digit set of
+        hexadecimal red-green-blue values #RRGGBB. The entire set of HTML-standard color names is available. Type
+        `showcolormap` to see the available named colors which will show up in the PyDV plotting area (hit return
+        to go back to your plots).
+
+        .. code::
+
+            [PyDV]: markerfacecolor <curve-list> <color-name>
+
+            Ex:
+                [PyDV]: markerfacecolor a blue
+                [PyDV]: markerfacecolor a:b blue
+                [PyDV]: markerfacecolor c d blue
+                [PyDV]: markerfacecolor a #aabb33
+                [PyDV]: showcolormap
+                hit return to go back to your plots
+                [PyDV]: markerfacecolor a lime
         """
 
         try:
@@ -1743,21 +1860,27 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: markerfacecolor <curve-list> <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_markerfacecolor(self):
-        print('\n   Procedure: Set the markerface color of curves'
-              '\n   Usage: markerfacecolor <curve-list> <color-name>'
-              '\n          Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-              '\n          of hexadecimal red-green-blue values (RRGGBB).'
-              '\n          The entire set of HTML-standard color names is available.'
-              '\n          Try "showcolormap" to see the available named colors!')
+            pdvutil.print_own_docstring(self)
 
     def do_markeredgecolor(self, line):
         """
-        Set the markeredge color for a list of curves
+        Set the markeredge color of curves. Color names can be "blue", "red", etc., or "#eb70aa", a 6 digit set of
+        hexadecimal red-green-blue values #RRGGBB. The entire set of HTML-standard color names is available. Type
+        `showcolormap` to see the available named colors which will show up in the PyDV plotting area (hit return
+        to go back to your plots).
+
+        .. code::
+
+            [PyDV]: markeredgecolor <curve-list> <color-name>
+
+            Ex:
+                [PyDV]: markeredgecolor a blue
+                [PyDV]: markeredgecolor a:b blue
+                [PyDV]: markeredgecolor c d blue
+                [PyDV]: markeredgecolor a #aabb33
+                [PyDV]: showcolormap
+                hit return to go back to your plots
+                [PyDV]: markeredgecolor a lime
         """
 
         try:
@@ -1786,21 +1909,15 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: markeredgecolor <curve-list> <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_markeredgecolor(self):
-        print("\n   Procedure: Set the markeredge color of curves"
-              "\n   Usage: markeredgecolor <curve-list> <color-name>"
-              "\n          Color names can be 'blue', 'red', etc, or '#eb70aa', a 6 digit set"
-              "\n          of hexadecimal red-green-blue values (RRGGBB)."
-              "\n          The entire set of HTML-standard color names is available."
-              "\n          Try 'showcolormap' to see the available named colors!")
+            pdvutil.print_own_docstring(self)
 
     def do_showstyles(self, line):
         """
-        Show available matplotlib styles
+        Show available matplotlib styles.
+
+        .. code::
+
+            [PyDV]: showstyles
         """
 
         try:
@@ -1811,18 +1928,17 @@ class Command(cmd.Cmd, object):
             else:
                 print("\nNo styles available.\n")
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_showstyles(self):
-        print("\n   Procedure: show the available pre-defined styles provided by matplotlib."
-              "\n   Usage: showstyles\n")
-
     def do_showcolormap(self, line):
         """
-        Show the available named colors
+        Show the available named colors. Hit return to go back to your plots.
+
+        .. code::
+
+            [PyDV]: showcolormap
         """
 
         try:
@@ -1863,117 +1979,142 @@ class Command(cmd.Cmd, object):
             x = input('hit return to go back to your plots: ')
             self.plotedit = True
         except:
-            print('error - usage: showcolormap')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_showcolormap(self):
-        print('\n   Procedure: show the available named colors'
-              '\n   Usage: showcolormap'
-              '\n   Hit <return> after viewing to go back to regular plotting\n')
+            pdvutil.print_own_docstring(self)
 
     def do_mx(self, line):
         """
-        Scale y values of curves by a constant
+        Scale the x values of the curves by a fixed value.
+
+        .. code::
+
+            [PyDV]: mx <curve-list> <value>
+
+            Ex:
+                [PyDV]: mx a 2
+                [PyDV]: mx a:b 2
+                [PyDV]: mx c d 2
         """
 
         try:
             self.__mod_curve(line, 'mx')
             self.plotedit = True
         except:
-            print('error - usage: mx <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_mx(self):
-        print('\n   Procedure: Scale x values of curves by a constant'
-              '\n   Usage: mx <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_divx(self, line):
         """
-        Divide x values of curves by a constant
+        Divide x values of curves by a constant.
+
+        .. code::
+
+            [PyDV]: divx <curve-list> <value>
+
+            Ex:
+                [PyDV]: divx a 7
+                [PyDV]: divx a:b 7
+                [PyDV]: divx c d 7
+                [PyDV]: divx c d 7
         """
 
         try:
             self.__mod_curve(line, 'divx')
             self.plotedit = True
         except:
-            print('error - usage: divx <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_divx(self):
-        print('\n   Procedure: Divide x values of curves by a constant\n   Usage: divx <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_my(self, line):
         """
-        Scale y values of curves by a constant
+        Multiply the y values of curves by a constant.
+
+        .. code::
+
+            [PyDV]: my <curve-list> <value>
+
+            Ex:
+                [PyDV]: my a 2
+                [PyDV]: my a:b 2
+                [PyDV]: my c d 2
         """
 
         try:
             self.__mod_curve(line, 'my')
             self.plotedit = True
         except:
-            print('error - usage: my <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_my(self):
-        print('\n   Procedure: Scale y values of curves by a constant'
-              '\n   Usage: my <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_divy(self, line):
         """
-        Divide y values of curves by a constant
+        Divide y values of curves by a constant.
+
+        .. code::
+
+            [PyDV]: divy <curve-list> <value>
+
+            Ex:
+                [PyDV]: divy a 7
+                [PyDV]: divy a:b 7
+                [PyDV]: divy c d 7
+                [PyDV]: divy c d 7
         """
 
         try:
             self.__mod_curve(line, 'divy')
             self.plotedit = True
         except:
-            print('error - usage: divy <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_divy(self):
-        print('\n   Procedure: Divide y values of curves by a constant'
-              '\n   Usage: divy <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_dx(self, line):
         """
-        Shift curve x values by given constant
+        Shift x values of curves by a constant.
+
+        .. code::
+
+            [PyDV]: dx <curve-list> <value>
+
+            Ex:
+                [PyDV]: dx a 3
+                [PyDV]: dx a:b 3
+                [PyDV]: dx c d 3
         """
 
         try:
             self.__mod_curve(line, 'dx')
             self.plotedit = True
         except:
-            print('error - usage: dx <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_dx(self):
-        print('\n   Procedure: Shift x values of curves by a constant\n   Usage: dx <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_dy(self, line):
         """
-        Shift curve y values by given constant
+        Shift y values of curves by a constant.
+
+        .. code::
+
+            [PyDV]: dy <curve-list> <value>
+
+            Ex:
+                [PyDV]: dy a 3
+                [PyDV]: dy a:b 3
+                [PyDV]: dy c d 3
         """
 
         try:
             self.__mod_curve(line, 'dy')
             self.plotedit = True
         except:
-            print('error - usage: dy <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_dy(self):
-        print('\n   Procedure: Shift y values of curves by a constant\n   Usage: dy <curve-list> <value>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_L2(self, line):
         """
-        Take L2 norm of two curves
+        Take L2 norm of two curves. The L2 norm is `integral( (curve1 - curve2)**2 )**(1/2)` over the interval
+        [xmin,xmax]. Also prints value of integral to command-line.
+
+        .. code::
+
+            [PyDV]: L2 <curve1> <curve2> [<xmin> <xmax>]
+
+            Ex:
+                [PyDV]: L2 a b
+                [PyDV]: L2 a b 4 10
         """
 
         try:
@@ -1989,18 +2130,20 @@ class Command(cmd.Cmd, object):
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print("error - usage: L2 <curve> <curve> [<xmin> <xmax>]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_L2(self):
-        print('\n   Procedure: makes new curve that is the L2 norm of two args; the L2-norm is '
-              '\n (integral(  (curve1 - curve2)**2 ) )**(1/2) over the interval [xmin, xmax] .'
-              '\n   Usage: L2 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
+            pdvutil.print_own_docstring(self)
 
     def do_L1(self, line):
         """
-        Take L1 norm of two curves
+        Take L1 norm of two curves. The L1 norm is `integral( |curve1 - curve2| )` over the interval [xmin,xmax].
+        Also prints value of integral to command-line.
+
+        .. code::
+
+            [PyDV]: L1 <curve1> <curve2> [<xmin> <xmax>]
+
+            Ex:
+                [PyDV]: L1 a b
+                [PyDV]: L1 a b 4 10
         """
 
         try:
@@ -2016,18 +2159,19 @@ class Command(cmd.Cmd, object):
             # then pass to usual "norm" command
             self.do_norm(line)
         except:
-            print("error - usage: L1 <curve> <curve> [<xmin> <xmax>]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_L1(self):
-        print('\n   Procedure: makes new curve that is the L1 norm of two args; the L1-norm is '
-              '\n integral(  |curve1 - curve2| ) over the interval [xmin, xmax] .'
-              '\n   Usage: L1 <curve> <curve>  [<xmin> <xmax>]\n  Also prints value of integral to command line.\n')
+            pdvutil.print_own_docstring(self)
 
     def do_norm(self, line):
         """
-        Take arbitrary order norm of two curves
+        Makes a new curve that is the norm of two args. Also prints the value of the integral to command line.
+        The p-norm is `(integral( (curve1 - curve2)**p )**(1/p)` over the interval [xmin, xmax], where p = order.
+
+        .. code::
+
+            [PyDV]: norm <curve> <curve> <p> <xmin> <xmax>
+
+            Ex:
+                [PyDV]: norm a b 2 10 15
         """
 
         try:
@@ -2067,20 +2211,20 @@ class Command(cmd.Cmd, object):
                 d.name = "L%d of " % N + a.plotname + " and " + b.plotname
             self.addtoplot(d)
         except:
-            print('error - usage: norm <curve> <curve> <p> [<xmin> <xmax>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_norm(self):
-        print('\n   Procedure: makes new curve that is the norm of two args; the p-norm is '
-              '\n              (integral(  (curve1 - curve2)**p ) )**(1/p) over the interval [xmin, xmax] .'
-              '\n   Usage: norm <curve> <curve> <p> [<xmin> <xmax>]'
-              '\n          where p=order which can be "inf" or an integer. '
-              'Also prints value of integral to command line.\n')
+            pdvutil.print_own_docstring(self)
 
     def do_max(self, line):
         """
-        Make a new curve - the max of the specified curves
+        Makes a new curve with max y values of curves passed in curvelist.
+
+        .. code::
+
+            [PyDV]: max <curve-list>
+
+            Ex:
+                [PyDV]: max a
+                [PyDV]: max a:b
+                [PyDV]: max c d
         """
 
         try:
@@ -2110,17 +2254,20 @@ class Command(cmd.Cmd, object):
                     self.plotedit = True
 
         except:
-            self.help_max()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_max(self):
-        print('\n   Procedure: makes new curve with max y values of curves.'
-              '\n   Usage: max <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_min(self, line):
         """
-        Make a new curve - the min of the specified curves
+        Makes a new curve with min y values of curves passed in curvelist.
+
+        .. code::
+
+            [PyDV]: min <curve-list>
+
+            Ex:
+                [PyDV]: min a
+                [PyDV]: min a:b
+                [PyDV]: min c d
         """
 
         if not line:
@@ -2146,22 +2293,21 @@ class Command(cmd.Cmd, object):
                 if nc is not None:
                     self.addtoplot(nc)
                     self.plotedit = True
-            except RuntimeError as rte:
-                print('error: %s' % rte)
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
             except:
-                self.help_min()
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_min(self):
-        print('\n   Procedure: makes new curve with min y values of curves.'
-              '\n   Usage: min <curve-list>\n')
+                pdvutil.print_own_docstring(self)
 
     def do_average(self, line):
         """
-        Make a new curve - the average of the specified curves
+        Average the specified curvelist over the intersection of their domains.
+
+        .. code::
+
+            [PyDV]: average <curve-list>
+
+            Ex:
+                [PyDV]: average a
+                [PyDV]: average a:b
+                [PyDV]: average c d
         """
 
         if not line:
@@ -2189,22 +2335,23 @@ class Command(cmd.Cmd, object):
                 if nc is not None:
                     self.addtoplot(nc)
                     self.plotedit = True
-            except RuntimeError as rte:
-                print('error: %s' % rte)
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
             except:
-                self.help_average()
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_average(self):
-        print('\n   Procedure: Average the specified curvelist over the intersection of their domains.'
-              '\n   Usage: average <curvelist>\n')
+                pdvutil.print_own_docstring(self)
 
     def do_fit(self, line):
         """
-        Fit a curve with a polynomial function
+        Make new curve that is polynomial fit to argument. n=1 by default, logy means take log(y-values) before fitting,
+        logx means take log(x-values) before fitting.
+
+        .. code::
+
+            [PyDV]: fit <curve> [n] [logx] [logy]
+
+            Ex:
+                [PyDV]: fit a
+                [PyDV]: fit a 2
+                [PyDV]: fit a 2 logx
+                [PyDV]: fit a 2 logy
         """
 
         try:
@@ -2235,55 +2382,64 @@ class Command(cmd.Cmd, object):
             nc.plotname = self.getcurvename()
             self.addtoplot(nc)
         except:
-            print('error - usage: fit <curve> [n] [logx] [logy]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_fit(self):
-        print('\n   Procedure: make new curve that is polynomial fit to argument.'
-              '\n   Usage: fit <curve> [n] [logx] [logy]'
-              '\n   n=1 by default, logy means take log(y-values) before fitting,'
-              '\n   logx means take log(x-values) before fitting\n')
+            pdvutil.print_own_docstring(self)
 
     def do_getx(self, line):
         """
-        Return x values for a given y
+        Return the x values for a given y.
+
+        .. code::
+
+            [PyDV]: getx <curve-list> <y-value>
+
+            Ex:
+                [PyDV]: getx a 1.2
+                [PyDV]: getx a:b 1.2
+                [PyDV]: getx c d 1.2
         """
 
         try:
             self.__mod_curve(line, 'getx')
             print('')
         except:
-            print('error - usage: getx <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getx(self):
-        print('\n   Procedure: Return x values for a given y\n   Usage: getx <curve-list> <y-value>\n')
-
     def do_gety(self, line):
         """
-        Return y values for a given x
+        Return the y values for a given x.
+
+        .. code::
+
+            [PyDV]: gety <curve-list> <x-value>
+
+            Ex:
+                [PyDV]: gety a 3.3
+                [PyDV]: gety a:b 3.3
+                [PyDV]: gety c d 3.3
         """
 
         try:
             self.__mod_curve(line, 'gety')
             print('')
         except:
-            print('error - usage: gety <curve-list> <value>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_gety(self):
-        print('\n   Procedure: Return y values for a given x\n   Usage: gety <curve-list> <x-value>\n')
-
     def do_getrange(self, line):
         """
-        Return range of curves
+        Return range of curves.
+
+        .. code::
+
+            [PyDV]: getrange <curve-list>
+
+            Ex:
+                [PyDV]: getrange a
+                [PyDV]: getrange a:b
+                [PyDV]: getrange c d
         """
 
         if not line:
@@ -2306,18 +2462,22 @@ class Command(cmd.Cmd, object):
                         pass
                 print('')
         except:
-            print('error - usage: getrange <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getrange(self):
-        print('\n   Procedure: Return range of curves\n   Usage: getrange <curve-list>\n   Shortcuts: get-range\n')
-
     def do_getdomain(self, line):
         """
-        Return domain of curves
+        Return domain of curves.
+
+        .. code::
+
+            [PyDV]: getdomain <curve-list>
+
+            Ex:
+                [PyDV]: getdomain a
+                [PyDV]: getdomain a:b
+                [PyDV]: getdomain c d
         """
 
         try:
@@ -2339,18 +2499,22 @@ class Command(cmd.Cmd, object):
                         pass
                 print('')
         except:
-            print('error - usage: getdomain <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getdomain(self):
-        print('\n   Procedure: Return domain of curves\n   Usage: getdomain <curve-list>\n   Shortcuts: get-domain\n')
-
     def do_sum(self, line):
         """
-        Return sum of the x and y values of each curve
+        Calculate the sum of the x and y values of the curves.
+
+        .. code::
+
+            [PyDV]: sum <curve-list>
+
+            Ex:
+                [PyDV]: sum a
+                [PyDV]: sum a:b
+                [PyDV]: sum c d
         """
 
         try:
@@ -2372,18 +2536,22 @@ class Command(cmd.Cmd, object):
                         pass
                 print('')
         except:
-            print('error - usage: sum <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_sum(self):
-        print('\n   Procedure: Return sum of the x and y values of each curve\n   Usage: sum <curve-list>\n')
-
     def do_area(self, line):
         """
-        Return area of each curve
+        Calculate the area of the curves.
+
+        .. code::
+
+            [PyDV]: area <curve-list>
+
+            Ex:
+                [PyDV]: area a
+                [PyDV]: area a:b
+                [PyDV]: area c d
         """
 
         try:
@@ -2405,18 +2573,27 @@ class Command(cmd.Cmd, object):
                         pass
                 print('')
         except:
-            print('error - usage: area <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_area(self):
-        print('\n   Procedure: Return area of each curve\n   Usage: area <curve-list>\n')
-
     def do_getymax(self, line):
         """
-        Return the maximum y-value for the curve within the specified domain
+        Return xy-parings of the x values with the corresponding maximum y-value for the
+        curve within the specified domain. If no domain is given, then the full domain
+        range is used.
+
+        .. code::
+
+            [PyDV]: getymax <curve> [<xmin> <xmax>]
+
+            Ex:
+                [PyDV]: getymax a
+                [PyDV]: getymax a 2 7
+                [PyDV]: getymax a:b
+                [PyDV]: getymax a:b 2 7
+                [PyDV]: getymax c d
+                [PyDV]: getymax c d 2 7
         """
 
         if not line:
@@ -2453,19 +2630,27 @@ class Command(cmd.Cmd, object):
                     for x, y in xy_values:
                         print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
-            print('error - usage: getymax <curve> [<xmin> <xmax>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getymax(self):
-        print('\n   Procedure: Return the maximum y-value for the curve within the specified domain.'
-              '\n   Usage: getymax <curve> [<xmin> <xmax>]\n')
-
     def do_getymin(self, line):
         """
-        Return the minimum y-value for the curve within the specified domain
+        Return xy-parings of the x values with the corresponding minimum y-value for the
+        curve within the specified domain. If no domain is given, then the full domain
+        range is used.
+
+        .. code::
+
+            [PyDV]: getymin <curve> [<xmin> <xmax>]
+
+            Ex:
+                [PyDV]: getymin a
+                [PyDV]: getymin a 2 7
+                [PyDV]: getymin a:b
+                [PyDV]: getymin a:b 2 7
+                [PyDV]: getymin c d
+                [PyDV]: getymin c d 2 7
         """
 
         if not line:
@@ -2502,19 +2687,22 @@ class Command(cmd.Cmd, object):
                     for x, y in xy_values:
                         print('    x: %.6e    y: %.6e\n' % (x, y))
         except:
-            print('error - usage: getymin <curve> [<xmin> <xmax>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getymin(self):
-        print('\n   Procedure: Return the minimum y-value for the curve within the specified domain.'
-              '\n   Usage: getymin <curve> [<xmin> <xmax>]\n')
-
     def do_cumsum(self, line):
         """
-        Return the cumulative sum of the curve(s)
+        Create new curve which is the cumulative sum of the original curve.
+
+        .. code::
+
+            [PyDV]: cumsum <curve-list>
+
+            Ex:
+                [PyDV]: cumsum a
+                [PyDV]: cumsum a:b
+                [PyDV]: cumsum c d
         """
 
         if not line:
@@ -2534,17 +2722,20 @@ class Command(cmd.Cmd, object):
 
                     self.plotedit = True
         except:
-            print('error - usage: cumsum <curve>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_cumsum(self):
-        print('\n   Procedure: Return the cumulative sum of the curve(s).'
-              '\n   Usage: cumsum <curve>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_getlabel(self, line):
         """
-        Return the given curve's label
+        Return the given curve's label.
+
+        .. code::
+
+            [PyDV]: getlabel <curve-list>
+
+            Ex:
+                [PyDV]: getlabel a
+                [PyDV]: getlabel a:b
+                [PyDV]: getlabel c d
         """
 
         try:
@@ -2560,18 +2751,22 @@ class Command(cmd.Cmd, object):
                         if cur.plotname == line[j].upper():
                             print(f"\n {line[j].upper()} Label = {cur.name}")
         except:
-            print('error - usage: getlabel <curve>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getlabel(self):
-        print("\n   Procedure: Return the given curve's label\n   Usage: getlabel <curve>\n")
-
     def do_sort(self, line):
         """
-        Sort the specified curves so that their points are plotted in order of ascending x values
+        Sort the specified curves so that their points are plotted in order of ascending x values.
+
+        .. code::
+
+            [PyDV]: sort <curve-list>
+
+            Ex:
+                [PyDV]: sort a
+                [PyDV]: sort a:b
+                [PyDV]: sort c d
         """
 
         try:
@@ -2591,18 +2786,20 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: sort <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sort(self):
-        print('\n   Procedure: Sort the specified curves so that their points are plotted in order of ascending '
-              'x values.'
-              '\n   Usage: sort <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_rev(self, line):
         """
-        Swap x and y values for the specified curves.
+        Swap x and y values for the specified curves. You may want to `sort` after this one.
+
+        .. code::
+
+            [PyDV]: rev <curve-list>
+
+            Ex:
+                [PyDV]: rev a
+                [PyDV]: rev a:b
+                [PyDV]: rev c d
         """
 
         try:
@@ -2621,17 +2818,20 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: rev <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_rev(self):
-        print('\n    Procedure: Swap x and y values for the specified curves. You may want to sort after this one. '
-              '\n    Usage: rev <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_random(self, line):
         """
-        Generate random y values between -1 and 1 for the specified curves
+        Generate random y values between -1 and 1 for the specified curves.
+
+        .. code::
+
+            [PyDV]: random <curve-list>
+
+            Ex:
+                [PyDV]: random a
+                [PyDV]: random a:b
+                [PyDV]: random c d
         """
 
         try:
@@ -2650,17 +2850,22 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: random <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_random(self):
-        print('\n   Procedure: Generate random y values between -1 and 1 for the specified curves. '
-              '\n   Usage: random <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_disp(self, line):
         """
-        Display the y-values in the specified curves
+        Display the y-values in the specified curve(s).
+
+        .. code::
+
+            [PyDV]: disp <curve-list> [format <format>]
+
+            Ex:
+                [PyDV]: disp a
+                [PyDV]: disp a:b
+                [PyDV]: disp c d
+                [PyDV]: disp c d format e
+                [PyDV]: disp c d format .4f
         """
         format = "g"
         try:
@@ -2682,19 +2887,24 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
         except:
-            print('error - usage: disp <curve-list> [format <format>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_disp(self):
-        print('\n   Procedure: Display the y-values in the specified curve(s). '
-              '\n   Usage: disp <curve-list> [format <format>]n')
-
     def do_dispx(self, line):
         """
-        Display the x-values in the specified curves
+        Display the x-values in the specified curve(s).
+
+        .. code::
+
+            [PyDV]: dispx <curve-list> [format <format>]
+
+            Ex:
+                [PyDV]: dispx a
+                [PyDV]: dispx a:b
+                [PyDV]: dispx c d
+                [PyDV]: dispx c d format e
+                [PyDV]: dispx c d format .4f
         """
         format = "g"
         try:
@@ -2716,19 +2926,22 @@ class Command(cmd.Cmd, object):
                     except pdvutil.CurveIndexError:
                         pass
         except:
-            print('error - usage: dispx <curve-list> [format <format>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_dispx(self):
-        print('\n   Procedure: Display the x-values in the specified curve(s). '
-              '\n   Usage: dispx <curve-list> [format <format>]\n')
-
     def do_getnumpoints(self, line):
         """
-        Display the number of points for the given curve
+        Display the number of points for the given curve.
+
+        .. code::
+
+            [PyDV]: getnumpoints <curve-list>
+
+            Ex:
+                [PyDV]: getnumpoints a
+                [PyDV]: getnumpoints a:b
+                [PyDV]: getnumpoints c d
         """
 
         if not line:
@@ -2744,368 +2957,430 @@ class Command(cmd.Cmd, object):
                     cur = self.plotlist[idx]
                     print(f'\n    {line[i].upper()} Number of points = {pydvpy.getnumpoints(cur)}')
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_getnumpoints(self):
-        print('\n   Display the given curve\'s number of points.\n   usage: getnumpoints <curve>')
-
     def do_abs(self, line):
         """
-        Take absolute value of y values of curves
+        Take the absolute value of the y values of the curves. Modifies the existing curve.
+
+        .. code::
+
+            [PyDV]: abs <curve-list>
+
+            Ex:
+                [PyDV]: abs a
+                [PyDV]: abs a:b
+                [PyDV]: abs c d
         """
 
         try:
             self.__func_curve(line, 'abs', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: abs <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_abs(self):
-        print('\n   Procedure: Take absolute value of y values of curves'
-              '\n   Usage: abs <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_absx(self, line):
         """
-        Take absolute value of x values of curves
+        Take the absolute value of the x values of the curves. Modifies the existing curve.
+
+        .. code::
+
+            [PyDV]: absx <curve-list>
+
+            Ex:
+                [PyDV]: absx a
+                [PyDV]: absx a:b
+                [PyDV]: absx c d
         """
 
         try:
             self.__func_curve(line, 'abs', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: absx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_absx(self):
-        print('\n   Procedure: Take absolute value of x values of curves'
-              '\n   Usage: absx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_log(self, line):
         """
-        Take the natural logarithm of the curve y-values
+        Take the natural logarithm of the y values of the curves. If the optional argument `keep-neg-vals` is set to
+        false, then zero and negative y-values will be discarded. `keep-neg-vals` is true by default.
+
+        .. code::
+
+            [PyDV]: <log | ln> <curve-list> [keep-neg-vals: True | False]
+
+            Ex:
+                [PyDV]: log a
+                [PyDV]: log a:b
+                [PyDV]: log c d
+                [PyDV]: log c d True
         """
 
         try:
             self.__log(line, LogEnum.LOG)
             self.plotedit = True
         except:
-            print('error - usage: log <curve-list> [keep-neg-vals: True | False]')
-            if self.debug:
-                print(traceback.print_exc(file=sys.stdout))
-
-    def help_log(self):
-        print('\n   Procedure: take natural logarithm of y-values of curves.'
-              '\n              If the optional argument keep-neg-vals is set to True, then zero and negative'
-              '\n              y-values will not be discarded. keep-neg-vals is False by default.'
-              '\n   Usage: log <curve-list> [keep-neg-vals: True | False]\n   Shortcut: ln\n')
+            pdvutil.print_own_docstring(self)
 
     def do_logx(self, line):
         """
-        Take the natural logarithm of the curve x-values
+        Take the natural logarithm of the x values of the curves. If the optional argument `keep-neg-vals` is set to
+        false, then zero and negative x-values will be discarded. `keep-neg-vals` is true by default.
+
+        .. code::
+
+            [PyDV]: <logx | lnx> <curve-list> [keep-neg-vals: True | False]
+
+            Ex:
+                [PyDV]: logx a
+                [PyDV]: logx a:b
+                [PyDV]: logx c d
+                [PyDV]: logx c d True
         """
 
         try:
             self.__log(line, LogEnum.LOGX)
             self.plotedit = True
         except:
-            print('error - usage: logx <curve-list> [keep-neg-vals: True | False]')
-            if self.debug:
-                print(traceback.print_exc(file=sys.stdout))
-
-    def help_logx(self):
-        print('\n   Procedure: take natural logarithm of x-values of curves.'
-              '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
-              '\n              will not be discarded. keep-neg-vals is False by default.\n'
-              '\n   Usage: logx <curve-list> [keep-neg-vals: True | False]\n   Shortcut: lnx\n')
+            pdvutil.print_own_docstring(self)
 
     def do_log10(self, line):
         """
-        Take the base 10 logarithm of the curve y-values
+        Take the base 10 logarithm of the y values of the curves. If the optional argument `keep-neg-vals` is set to
+        false, then zero and negative y-values will be discarded. `keep-neg-vals` is true by default.
+
+        .. code::
+
+            [PyDV]: log10 <curve-list> [keep-neg-vals: True | False]
+
+            Ex:
+                [PyDV]: log10 a
+                [PyDV]: log10 a:b
+                [PyDV]: log10 c d
+                [PyDV]: log10 c d True
         """
 
         try:
             self.__log(line, LogEnum.LOG10)
             self.plotedit = True
         except:
-            print('error - usage: log10 <curve-list> [keep-neg-vals: True | False]')
-            if self.debug:
-                print(traceback.print_exc(file=sys.stdout))
-
-    def help_log10(self):
-        print('\n   Procedure: take base 10 logarithm of y values of curves.'
-              '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
-              '\n              will not be discarded. keep-neg-vals is False by default.'
-              '\n   Usage: log10 <curve-list> [keep-neg-vals: True | False]')
+            pdvutil.print_own_docstring(self)
 
     def do_log10x(self, line):
         """
-        Take the base 10 logarithm of the curve x-values
+        Take the base 10 logarithm of the x values of the curves. If the optional argument `keep-neg-vals` is set to
+        false, then zero and negative y-values will be discarded. `keep-neg-vals` is true by default.
+
+        .. code::
+
+            [PyDV]: log10x <curve-list> [keep-neg-vals: True | False]
+
+            Ex:
+                [PyDV]: log10x a
+                [PyDV]: log10x a:b
+                [PyDV]: log10x c d
+                [PyDV]: log10x c d True
         """
 
         try:
             self.__log(line, LogEnum.LOG10X)
             self.plotedit = True
         except:
-            print('error - usage: log10x <curve-list> [keep-neg-vals: True | False]')
-            if self.debug:
-                print(traceback.print_exc(file=sys.stdout))
-
-    def help_log10x(self):
-        print('\n   Procedure: take base 10 logarithm of x values of curves.\n'
-              '\n              If the optional argument keep-neg-vals is set to True, then zero and negative x-values'
-              '\n              will not be discarded. keep-neg-vals is False by default.'
-              '\n   Usage: log10x <curve-list> [keep-neg-vals: True | False]')
+            pdvutil.print_own_docstring(self)
 
     def do_exp(self, line):
         """
-        Exponentiate y values of curves, e**y
+        Exponentiate y values of curves, e^y.
+
+        .. code::
+
+            [PyDV]: exp <curve-list>
+
+            Ex:
+                [PyDV]: exp a
+                [PyDV]: exp a:b
+                [PyDV]: exp c d
         """
 
         try:
             self.__func_curve(line, 'exp', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: exp <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_exp(self):
-        print('\n   Procedure: e**y, exponentiate y values of curves'
-              '\n   Usage: exp <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_expx(self, line):
         """
-        Exponentiate x values of curves, e**x
+        Exponentiate x values of curves, e^x.
+
+        .. code::
+
+            [PyDV]: expx <curve-list>
+
+            Ex:
+                [PyDV]: expx a
+                [PyDV]: expx a:b
+                [PyDV]: expx c d
         """
 
         try:
             self.__func_curve(line, 'exp', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: expx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_expx(self):
-        print('\n   Procedure: e**y, exponentiate x values of curves'
-              '\n   Usage: expx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_cos(self, line):
         """
-        Take cosine of y values of curves
+        Take the cosine of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: cos <curve-list>
+
+            Ex:
+                [PyDV]: cos a
+                [PyDV]: cos a:b
+                [PyDV]: cos c d
         """
 
         try:
             self.__func_curve(line, 'cos', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: cos <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_cos(self):
-        print('\n   Procedure: Take cosine of y values of curves'
-              '\n   Usage: cos <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_cosx(self, line):
         """
-        Take cosine of x values of curves
+        Take the cosine of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: cosx <curve-list>
+
+            Ex:
+                [PyDV]: cosx a
+                [PyDV]: cosx a:b
+                [PyDV]: cosx c d
         """
 
         try:
             self.__func_curve(line, 'cos', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: cosx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_cosx(self):
-        print('\n   Procedure: Take cosine of x values of curves'
-              '\n   Usage: cosx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sin(self, line):
         """
-        Take sine of y values of curves
+        Take the sine of the y values of the curve.
+
+        .. code::
+
+            [PyDV]: sin <curve-list>
+
+            Ex:
+                [PyDV]: sin a
+                [PyDV]: sin a:b
+                [PyDV]: sin c d
         """
 
         try:
             self.__func_curve(line, 'sin', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: sin <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sin(self):
-        print('\n   Procedure: Take sine of y values of curves'
-              '\n   Usage: sin <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sinx(self, line):
         """
-        Take sine of x values of curves
+        Take the sine of the x values of the curve.
+
+        .. code::
+
+            [PyDV]: sinx <curve-list>
+
+            Ex:
+                [PyDV]: sinx a
+                [PyDV]: sinx a:b
+                [PyDV]: sinx c d
         """
 
         try:
             self.__func_curve(line, 'sin', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: sinx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sinx(self):
-        print('\n   Procedure: Take sine of x values of curves'
-              '\n   Usage: sinx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_tan(self, line):
         """
-        Take tangent of y values of curves
+        Take the tangent of y values of curves.
+
+        .. code::
+
+            [PyDV]: tan <curve-list>
+
+            Ex:
+                [PyDV]: tan a
+                [PyDV]: tan a:b
+                [PyDV]: tan c d
         """
 
         try:
             self.__func_curve(line, 'tan', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: tan <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_tan(self):
-        print('\n   Procedure: Take tangent of y values of curves'
-              '\n   Usage: tan <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_tanx(self, line):
         """
-        Take tangent of x values of curves
+        Take the tangent of x values of curves.
+
+        .. code::
+
+            [PyDV]: tanx <curve-list>
+
+            Ex:
+                [PyDV]: tanx a
+                [PyDV]: tanx a:b
+                [PyDV]: tanx c d
         """
 
         try:
             self.__func_curve(line, 'tan', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: tanx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_tanx(self):
-        print('\n   Procedure: Take tangent of x values of curves'
-              '\n   Usage: tanx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_acos(self, line):
         """
         Take arccosine of y values of curves
+
+        .. code::
+
+            [PyDV]: acos <curve-list>
+
+            Ex:
+                [PyDV]: acos a
+                [PyDV]: acos a:b
+                [PyDV]: acos c d
         """
 
         try:
             self.__func_curve(line, 'acos', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: acos <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_acos(self):
-        print('\n   Procedure: Take arccosine of y values of curves'
-              '\n   Usage: acos <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_acosx(self, line):
         """
         Take arccosine of x values of curves
+
+        .. code::
+
+            [PyDV]: acosx <curve-list>
+
+            Ex:
+                [PyDV]: acosx a
+                [PyDV]: acosx a:b
+                [PyDV]: acosx c d
         """
 
         try:
             self.__func_curve(line, 'acos', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: acosx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_acosx(self):
-        print('\n   Procedure: Take arccosine of x values of curves'
-              '\n   Usage: acosx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_asin(self, line):
         """
         Take arcsine of y values of curves.
+
+        .. code::
+
+            [PyDV]: asin <curve-list>
+
+            Ex:
+                [PyDV]: asin a
+                [PyDV]: asin a:b
+                [PyDV]: asin c d
         """
 
         try:
             self.__func_curve(line, 'asin', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: asin <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_asin(self):
-        print('\n   Procedure: Take arcsine of y values of curves'
-              '\n   Usage: asin <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_asinx(self, line):
         """
         Take arcsine of x values of curves.
 
-        :param line: User Command-Line Input (arsinx <curve-list>))
-        :type line: string
+        .. code::
+
+            [PyDV]: asinx <curve-list>
+
+            Ex:
+                [PyDV]: asinx a
+                [PyDV]: asinx a:b
+                [PyDV]: asinx c d
         """
 
         try:
             self.__func_curve(line, 'asin', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: asinx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_asinx(self):
-        print('\n   Procedure: Take arcsine of x values of curves'
-              '\n   Usage: asinx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_atan(self, line):
         """
-        Take arctangent of y values of curves
+        Take arctangent of y values of curves.
+
+        .. code::
+
+            [PyDV]: atan <curve-list>
+
+            Ex:
+                [PyDV]: atan a
+                [PyDV]: atan a:b
+                [PyDV]: atan c d
         """
 
         try:
             self.__func_curve(line, 'atan', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: atan <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_atan(self):
-        print('\n   Procedure: Take arctangent of y values of curves'
-              '\n   Usage: atan <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_atanx(self, line):
         """
-        Take arctangent of x values of curves
+        Take arctangent of x values of curves.
+
+        .. code::
+
+            [PyDV]: atanx <curve-list>
+
+            Ex:
+                [PyDV]: atanx a
+                [PyDV]: atanx a:b
+                [PyDV]: atanx c d
         """
 
         try:
             self.__func_curve(line, 'atan', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: atanx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_atanx(self):
-        print('\n   Procedure: Take arctangent of x values of curves'
-              '\n   Usage: atanx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_atan2(self, line):
         """
-        Take atan2 of two curves
+        Take atan2 of two curves.
+
+        .. code::
+
+            [PyDV]: atan2 <curve1> <curve2>
+
+            Ex:
+                [PyDV]: atan2 a
+                [PyDV]: atan2 a:b
+                [PyDV]: atan2 c d
         """
 
         try:
@@ -3122,643 +3397,764 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: atan curve1 curve2')
-            if (self.debug):
-                traceback.print_exc(file=sys.stdout)
-
-    def help_atan2(self):
-        print('\n   Procedure: Take atan2 of two curves'
-              '\n   Usage: atan2 curve1 curve2\n')
+            pdvutil.print_own_docstring(self)
 
     def do_cosh(self, line):
         """
-        Take hyperbolic cosine of y values of curves
+        Take hyperbolic cosine of y values of curves.
+
+        .. code::
+
+            [PyDV]: cosh <curve-list>
+
+            Ex:
+                [PyDV]: cosh a
+                [PyDV]: cosh a:b
+                [PyDV]: cosh c d
         """
 
         try:
             self.__func_curve(line, 'cosh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: cosh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_cosh(self):
-        print('\n   Procedure: Take hyperbolic cosine of y values of curves'
-              '\n   Usage: cosh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_coshx(self, line):
         """
-        Take hyperbolic cosine of x values of curves
+        Take hyperbolic cosine of x values of curves.
+
+        .. code::
+
+            [PyDV]: coshx <curve-list>
+
+            Ex:
+                [PyDV]: coshx a
+                [PyDV]: coshx a:b
+                [PyDV]: coshx c d
         """
 
         try:
             self.__func_curve(line, 'cosh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: coshx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_coshx(self):
-        print('\n   Procedure: Take hyperbolic cosine of x values of curves'
-              '\n   Usage: coshx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sinh(self, line):
         """
-        Take hyperbolic sine of y values of curves
+        Take the hyperbolic sine of the y values of the curve
+
+        .. code::
+
+            [PyDV]: sinh <curve-list>
+
+            Ex:
+                [PyDV]: sinh a
+                [PyDV]: sinh a:b
+                [PyDV]: sinh c d
         """
 
         try:
             self.__func_curve(line, 'sinh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: sinh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sinh(self):
-        print('\n   Procedure: Take hyperbolic sine of y values of curves'
-              '\n   Usage: sinh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sinhx(self, line):
         """
-        Take hyperbolic sine of x values of curves
+        Take the hyperbolic sine of the x values of the curve
+
+        .. code::
+
+            [PyDV]: sinhx <curve-list>
+
+            Ex:
+                [PyDV]: sinhx a
+                [PyDV]: sinhx a:b
+                [PyDV]: sinhx c d
         """
 
         try:
             self.__func_curve(line, 'sinh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: sinhx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sinhx(self):
-        print('\n   Procedure: Take hyperbolic sine of x values of curves'
-              '\n   Usage: sinhx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_tanh(self, line):
         """
-        Take hyperbolic tangent of y values of curves
+        Take the hyperbolic tangent of y values of curves
+
+        .. code::
+
+            [PyDV]: tanh <curve-list>
+
+            Ex:
+                [PyDV]: tanh a
+                [PyDV]: tanh a:b
+                [PyDV]: tanh c d
         """
 
         try:
             self.__func_curve(line, 'tanh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: tanh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_tanh(self):
-        print('\n   Procedure: Take hyperbolic tangent of y values of curves'
-              '\n   Usage: tanh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_tanhx(self, line):
         """
-        Take hyperbolic tangent of x values of curves
+        Take the hyperbolic tangent of x values of curves
+
+        .. code::
+
+            [PyDV]: tanhx <curve-list>
+
+            Ex:
+                [PyDV]: tanhx a
+                [PyDV]: tanhx a:b
+                [PyDV]: tanhx c d
         """
 
         try:
             self.__func_curve(line, 'tanh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: tanhx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_tanhx(self):
-        print('\n   Procedure: Take hyperbolic tangent of x values of curves'
-              '\n   Usage: tanhx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_acosh(self, line):
         """
-        Take hyperbolic arccosine of y values of curves
+        Take hyperbolic arccosine of y values of curves.
+
+        .. code::
+
+            [PyDV]: acosh <curve-list>
+
+            Ex:
+                [PyDV]: acosh a
+                [PyDV]: acosh a:b
+                [PyDV]: acosh c d
         """
 
         try:
             self.__func_curve(line, 'acosh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: acosh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_acosh(self):
-        print('\n   Procedure: Take hyperbolic arccosine of y values of curves'
-              '\n   Usage: acosh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_acoshx(self, line):
         """
-        Take hyperbolic arccosine of x values of curves
+        Take hyperbolic arccosine of x values of curves.
+
+        .. code::
+
+            [PyDV]: acoshx <curve-list>
+
+            Ex:
+                [PyDV]: acoshx a
+                [PyDV]: acoshx a:b
+                [PyDV]: acoshx c d
         """
 
         try:
             self.__func_curve(line, 'acosh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: acoshx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_acoshx(self):
-        print('\n   Procedure: Take hyperbolic arccosine of x values of curves'
-              '\n   Usage: acoshx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_asinh(self, line):
         """
-        Take hyperbolic arcsine of y values of curves
+        Take hyperbolic arcsine of y values of curves.
+
+        .. code::
+
+            [PyDV]: asinh <curve-list>
+
+            Ex:
+                [PyDV]: asinh a
+                [PyDV]: asinh a:b
+                [PyDV]: asinh c d
         """
 
         try:
             self.__func_curve(line, 'asinh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: asinh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_asinh(self):
-        print('\n   Procedure: Take hyperbolic arcsine of y values of curves'
-              '\n   Usage: asinh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_asinhx(self, line):
         """
-        Take hyperbolic arcsine of x values of curves
+        Take hyperbolic arcsine of x values of curves.
+
+        .. code::
+
+            [PyDV]: asinhx <curve-list>
+
+            Ex:
+                [PyDV]: asinhx a
+                [PyDV]: asinhx a:b
+                [PyDV]: asinhx c d
         """
 
         try:
             self.__func_curve(line, 'asinh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: asinhx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_asinhx(self):
-        print('\n   Procedure: Take hyperbolic arcsine of x values of curves'
-              '\n   Usage: asinhx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_atanh(self, line):
         """
-        Take hyperbolic arctangent of y values of curves
+        Take hyperbolic arctangent of y values of curves.
+
+        .. code::
+
+            [PyDV]: atanh <curve-list>
+
+            Ex:
+                [PyDV]: atanh a
+                [PyDV]: atanh a:b
+                [PyDV]: atanh c d
         """
 
         try:
             self.__func_curve(line, 'atanh', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: atanh <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_atanh(self):
-        print('\n   Procedure: Take hyperbolic arctangent of y values of curves'
-              '\n   Usage: atanh <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_atanhx(self, line):
         """
-        Take hyperbolic arctangent of x values of curves
+        Take hyperbolic arctangent of x values of curves.
+
+        .. code::
+
+            [PyDV]: atanhx <curve-list>
+
+            Ex:
+                [PyDV]: atanhx a
+                [PyDV]: atanhx a:b
+                [PyDV]: atanhx c d
         """
 
         try:
             self.__func_curve(line, 'atanh', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: atanhx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_atanhx(self):
-        print('\n   Procedure: Take hyperbolic arctangent of x values of curves'
-              '\n   Usage: atanhx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_j0(self, line):
         """
         Take the zeroth order Bessel function of y values of curves
+
+        .. code::
+
+            [PyDV]: j0 <curve-list>
+
+            Ex:
+                [PyDV]: j0 a
+                [PyDV]: j0 a:b
+                [PyDV]: j0 c d
         """
 
         try:
             self.__func_curve(line, 'j0', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: j0 <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_j0(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of y values of curves'
-              '\n   Usage: j0 <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_j0x(self, line):
         """
         Take the zeroth order Bessel function of x values of curves
+
+        .. code::
+
+            [PyDV]: j0x <curve-list>
+
+            Ex:
+                [PyDV]: j0x a
+                [PyDV]: j0x a:b
+                [PyDV]: j0x c d
         """
 
         try:
             self.__func_curve(line, 'j0', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: j0x <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_j0x(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of x values of curves'
-              '\n   Usage: j0x <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_j1(self, line):
         """
         Take the first order Bessel function of y values of curves
+
+        .. code::
+
+            [PyDV]: j1 <curve-list>
+
+            Ex:
+                [PyDV]: j1 a
+                [PyDV]: j1 a:b
+                [PyDV]: j1 c d
         """
 
         try:
             self.__func_curve(line, 'j1', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: j1 <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_j1(self):
-        print('\n   Procedure: Take the first order Bessel function of y values of curves'
-              '\n   Usage: j1 <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_j1x(self, line):
         """
         Take the first order Bessel function of x values of curves
+
+        .. code::
+
+            [PyDV]: j1x <curve-list>
+
+            Ex:
+                [PyDV]: j1x a
+                [PyDV]: j1x a:b
+                [PyDV]: j1x c d
         """
 
         try:
             self.__func_curve(line, 'j1', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: j1x <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_j1x(self):
-        print('\n   Procedure: Take the first order Bessel function of x values of curves'
-              '\n   Usage: j1x <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_jn(self, line):
         """
         Take the nth order Bessel function of y values of curves
+
+        .. code::
+
+            [PyDV]: jn <curve-list> <n>
+
+            Ex:
+                [PyDV]: jn a 4
+                [PyDV]: jn a:b 4
+                [PyDV]: jn c d 4
         """
 
         try:
             self.__func_curve(line, 'jn', do_x=0, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: jn <curve-list> <n>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_jn(self):
-        print('\n   Procedure: Take the nth order Bessel function of y values of curves'
-              '\n   Usage: jn <curve-list> <n>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_jnx(self, line):
         """
         Take the nth order Bessel function of x values of curves
+
+        .. code::
+
+            [PyDV]: jnx <curve-list> <n>
+
+            Ex:
+                [PyDV]: jnx a 4
+                [PyDV]: jnx a:b 4
+                [PyDV]: jnx c d 4
         """
 
         try:
             self.__func_curve(line, 'jn', do_x=1, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: jnx <curve-list> <n>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_jnx(self):
-        print('\n   Procedure: Take the nth order Bessel function of x values of curves'
-              '\n   Usage: jnx <curve-list> <n>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_y0(self, line):
         """
-        Take the zeroth order Bessel function of the second kind of y values of curves
+        Take the zeroth order Bessel function of the second kind of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: y0 <curve-list>
+
+            Ex:
+                [PyDV]: y0 a
+                [PyDV]: y0 a:b
+                [PyDV]: y0 c d
         """
 
         try:
             self.__func_curve(line, 'y0', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: y0 <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_y0(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of y values of curves'
-              '\n   Usage: y0 <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_y0x(self, line):
         """
-        Take the zeroth order Bessel function of the second kind of x values of curves
+        Take the zeroth order Bessel function of the second kind of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: y0x <curve-list>
+
+            Ex:
+                [PyDV]: y0x a
+                [PyDV]: y0x a:b
+                [PyDV]: y0x c d
         """
 
         try:
             self.__func_curve(line, 'y0', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: y0x <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_y0x(self):
-        print('\n   Procedure: Take the zeroth order Bessel function of the second kind of x values of curves'
-              '\n   Usage: y0x <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_y1(self, line):
         """
-        Take the first order Bessel function of the second kind of y values of curves
+        Take the first order Bessel function of the second kind of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: y1 <curve-list>
+
+            Ex:
+                [PyDV]: y1 a
+                [PyDV]: y1 a:b
+                [PyDV]: y1 c d
         """
 
         try:
             self.__func_curve(line, 'y1', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: y1 <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_y1(self):
-        print('\n   Procedure: Take the first order Bessel function of the second kind of y values of curves'
-              '\n   Usage: y1 <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_y1x(self, line):
         """
-        Take the first order Bessel function of the second kind of x values of curves
+        Take the first order Bessel function of the second kind of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: y1x <curve-list>
+
+            Ex:
+                [PyDV]: y1x a
+                [PyDV]: y1x a:b
+                [PyDV]: y1x c d
         """
 
         try:
             self.__func_curve(line, 'y1', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: y1x <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_y1x(self):
-        print('\n   Procedure: Take the first order Bessel function of the second kind of x values of curves'
-              '\n   Usage: y1x <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_yn(self, line):
         """
-        Take the nth order Bessel function of the second kind of y values of curves
+        Take the nth order Bessel function of the second kind of y values of curves.
+
+        .. code::
+
+            [PyDV]: yn <curve-list> <n>
+
+            Ex:
+                [PyDV]: yn a 3
+                [PyDV]: yn a:b 3
+                [PyDV]: yn c d 3
         """
 
         try:
             self.__func_curve(line, 'yn', do_x=0, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: yn <curve-list> n')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_yn(self):
-        print('\n   Procedure: Take the nth order Bessel function of the second kind of y values of curves'
-              '\n   Usage: yn <curve-list> <n>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ynx(self, line):
         """
-        Take the nth order Bessel function of the second kind of x values of curves
+        Take the nth order Bessel function of the second kind of x values of curves.
+
+        .. code::
+
+            [PyDV]: ynx <curve-list> <n>
+
+            Ex:
+                [PyDV]: ynx a 3
+                [PyDV]: ynx a:b 3
+                [PyDV]: ynx c d 3
         """
 
         try:
             self.__func_curve(line, 'yn', do_x=1, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: ynx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ynx(self):
-        print('\n   Procedure: Take the nth order Bessel function of the second kind of x values of curves'
-              '\n   Usage: ynx <curve-list> <n>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_powa(self, line):
         """
-        Raise a fixed value, a, to the power of the y values of the curves
+        Raise a fixed value, a, to the power of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: powa <curve-list> <a>
+
+            Ex:
+                [PyDV]: powa a 2
+                [PyDV]: powa a:b 2
+                [PyDV]: powa c d 2
         """
 
         try:
             self.__func_curve(line, 'powa', do_x=0, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: powa <curve-list> a')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_powa(self):
-        print('\n   Procedure: Raise a fixed value, a, to the power of the y values of the curves'
-              '\n   Usage: powa <curve-list> a\n')
+            pdvutil.print_own_docstring(self)
 
     def do_powax(self, line):
         """
-        Raise a fixed value, a, to the power of the x values of the curves
+        Raise a fixed value, a, to the power of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: powax <curve-list> <a>
+
+            Ex:
+                [PyDV]: powax a 2
+                [PyDV]: powax a:b 2
+                [PyDV]: powax c d 2
         """
 
         try:
             self.__func_curve(line, 'powa', do_x=1, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: powax <curve-list> a')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_powax(self):
-        print('\n   Procedure: Raise a fixed value, a, to the power of the x values of the curves'
-              '\n   Usage: powax <curve-list> a\n')
+            pdvutil.print_own_docstring(self)
 
     def do_powr(self, line):
         """
-        Raise the y values of the curves to a fixed power, y=y^p
+        Raise the y values of the curves to a fixed power p.
+
+        .. code::
+
+            [PyDV]: powr <curve-list> <p>
+
+            Ex:
+                [PyDV]: powr a 2
+                [PyDV]: powr a:b 2
+                [PyDV]: powr c d 2
         """
 
         try:
             self.__func_curve(line, 'powr', do_x=0, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: powr <curve-list> a')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_powr(self):
-        print('\n   Procedure: Raise the y values of the curves to a fixed power, y=y^p'
-              '\n   Usage: power <curve-list> p\n   Shortcuts: pow , powr\n')
+            pdvutil.print_own_docstring(self)
 
     def do_powrx(self, line):
         """
-        Raise the x values of the curves to a fixed power, x=x^p
+        Raise the x values of the curves to a fixed power p.
+
+        .. code::
+
+            [PyDV]: powrx <curve-list> <p>
+
+            Ex:
+                [PyDV]: powrx a 2
+                [PyDV]: powrx a:b 2
+                [PyDV]: powrx c d 2
         """
 
         try:
             self.__func_curve(line, 'powr', do_x=1, idx=-1)
             self.plotedit = True
         except:
-            print('error - usage: powrx <curve-list> a')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_powrx(self):
-        print('\n   Procedure: Raise the x values of the curves to a fixed power, x=x^p'
-              '\n   Usage: powerx <curve-list> p\n   Shortcuts: powx , powrx\n')
+            pdvutil.print_own_docstring(self)
 
     def do_recip(self, line):
         """
-        Take the reciprocal of the y values of the curves
+        Take the reciprocal of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: recip <curve-list>
+
+            Ex:
+                [PyDV]: recip a
+                [PyDV]: recip a:b
+                [PyDV]: recip c d
         """
 
         try:
             self.__func_curve(line, 'recip', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: recip <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_recip(self):
-        print('\n   Procedure: Take the reciprocal of the y values of the curves'
-              '\n   Usage: recip <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_recipx(self, line):
         """
-        Take the reciprocal of the x values of the curves
+        Take the reciprocal of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: recipx <curve-list>
+
+            Ex:
+                [PyDV]: recipx a
+                [PyDV]: recipx a:b
+                [PyDV]: recipx c d
         """
 
         try:
             self.__func_curve(line, 'recip', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: recipx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_recipx(self):
-        print('\n   Procedure: Take the reciprocal of the x values of the curves'
-              '\n   Usage: recipx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sqr(self, line):
         """
-        Take the square of the y values of the curves
+        Take the square of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: sqr <curve-list>
+
+            Ex:
+                [PyDV]: sqr a
+                [PyDV]: sqr a:b
+                [PyDV]: sqr c d
         """
 
         try:
             self.__func_curve(line, 'sqr', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: sqr <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sqr(self):
-        print('\n   Procedure: Take the square of the y values of the curves'
-              '\n   Usage: square <curve-list>\n   Shortcut: sqr\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sqrx(self, line):
         """
-        Take the square of the x values of the curves
+        Take the square of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: sqrx <curve-list>
+
+            Ex:
+                [PyDV]: sqrx a
+                [PyDV]: sqrx a:b
+                [PyDV]: sqrx c d
         """
 
         try:
             self.__func_curve(line, 'sqr', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: sqrx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sqrx(self):
-        print('\n   Procedure: Take the square of the x values of the curves'
-              '\n   Usage: squarex <curve-list>\n   Shortcut: sqrx\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sqrt(self, line):
         """
-        Take the square root of the y values of the curves
+        Take the square root of the y values of the curves.
+
+        .. code::
+
+            [PyDV]: sqrt <curve-list>
+
+            Ex:
+                [PyDV]: sqrt a
+                [PyDV]: sqrt a:b
+                [PyDV]: sqrt c d
         """
 
         try:
             self.__func_curve(line, 'sqrt', do_x=0)
             self.plotedit = True
         except:
-            print('error - usage: sqrt <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sqrt(self):
-        print('\n   Procedure: Take the square root of the y values of the curves'
-              '\n   Usage: sqrt <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_sqrtx(self, line):
         """
-        Take the square root of the x values of the curves
+        Take the square root of the x values of the curves.
+
+        .. code::
+
+            [PyDV]: sqrtx <curve-list>
+
+            Ex:
+                [PyDV]: sqrtx a
+                [PyDV]: sqrtx a:b
+                [PyDV]: sqrtx c d
         """
 
         try:
             self.__func_curve(line, 'sqrt', do_x=1)
             self.plotedit = True
         except:
-            print('error - usage: sqrtx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_sqrtx(self):
-        print('\n   Procedure: Take the square root of the x values of the curves'
-              '\n   Usage: sqrtx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xlabel(self, line):
         """
-        Set a label for the x-axis
+        Set a label for the x axis
+
+        .. code::
+
+            [PyDV]: xlabel <label-name>
+
+            Ex:
+                [PyDV]: xlabel my_x_label
         """
 
         try:
             self.set_xlabel(line)
         except:
-            print('error - usage: xlabel <label-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xlabel(self):
-        print('\n   Procedure: Set a label for the x-axis'
-              '\n   Usage: xlabel <label-name>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ylabel(self, line):
         """
-        Set a label for the y-axis
+        Set a label for the y axis.
+
+        .. code::
+
+            [PyDV]: ylabel <label-name>
+
+            Ex:
+                [PyDV]: ylabel my_y_label
         """
 
         try:
             self.set_ylabel(line)
         except:
-            print('error - usage: ylabel <label-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ylabel(self):
-        print('\n   Procedure: Set a label for the y axis'
-              '\n   Usage: ylabel <label-name>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_title(self, line):
         """
         Set a title for the plot
+
+        .. code::
+
+            [PyDV]: title <title-name>
+
+            Ex:
+                [PyDV]: title my_title
         """
 
         try:
             self.set_title(line)
         except:
-            print('error - usage: title <title-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_title(self):
-        print('\n   Procedure: Set a title for the plot'
-              '\n   Usage: title <title-name>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_legend(self, line):
         """
-        Show or hide the key/legend
+        Show/Hide the legend with on | off or set legend position with ur, ul, ll, lr, cl, cr, uc, lc.
+        Specify the number of columns to use in the legend.
+        Specify curves to add to or remove from the legend using the `hide` or `show` keywords followed by the ids of
+        the curves. Commands after `hide`/`show` will not be processed, so make sure these are the last in the command
+        list.
+
+        .. code::
+
+            [PyDV]: <legend | leg | key> <on | off> [position] [<number of columns>] [<show/hide curve ids>]
+
+            Ex:
+                [PyDV]: legend on
+                [PyDV]: legend on ul
+                [PyDV]: legend on ul 2
+                [PyDV]: legend on ul 2
+                [PyDV]: legend on ul 2 showid a
+                [PyDV]: legend on ul 2 showid a:b
+                [PyDV]: legend on ul 2 showid c d
+                [PyDV]: legend on ul 2 showid all
+                [PyDV]: legend on ul 2 hideid a
+                [PyDV]: legend on ul 2 hideid a:b
+                [PyDV]: legend on ul 2 hideid c d
+                [PyDV]: legend on ul 2 hideid all
         """
 
         try:
@@ -3814,19 +4210,20 @@ class Command(cmd.Cmd, object):
                     except:
                         raise Exception('Invalid argument: %s' % key)
         except:
-            print('error - usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]')  # noqae501
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_legend(self):
-        print('\n   Variable: Show the legend if True. Set legend position as '
-              'best, ur, ul, ll, lr, cl, cr, uc, lc, c. Select curves to add to or remove from the legend.'
-              '\n   Usage: legend [on | off] [<position>] [<number of columns>] [<show/hide curve>] [<showid/hideid curve ids>]'  # noqae501
-              '\n   Shortcuts: leg, key\n')
+            pdvutil.print_own_docstring(self)
 
     def do_menulength(self, line):
         """
-        Adjust the number of items shown in the 'menu' command
+        Adjust the number of curves displayed when executing the `menu` command before Enter needs to be pressed.
+        If no length is given, the current menu length will be displayed.
+
+        .. code::
+
+            [PyDV]: menulength <integer>
+
+            Ex:
+                [PyDV]: menulength
+                [PyDV]: menulength 100
         """
 
         try:
@@ -3840,18 +4237,20 @@ class Command(cmd.Cmd, object):
                 self.menulength = length
                 print('changing menu length to ', self.menulength)
         except:
-            print('error - usage: menulength [length]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_menulength(self):
-        print('\n   Command: Adjust the number of items shown in the menu command '
-              'If no length is given, the current menu length will be displayed.'
-              '\n   Usage:  menulength [length]')
+            pdvutil.print_own_docstring(self)
 
     def do_namewidth(self, line):
         """
-        Adjust the width of the label column in 'menu' and 'lst' commands
+        Change the width of the namewidth column of the `menu` and `list` output. If no width is given, the
+        current column width will be displayed.
+
+        .. code::
+
+            [PyDV]: namewidth <integer>
+
+            Ex:
+                [PyDV]: namewidth
+                [PyDV]: namewidth 100
         """
 
         try:
@@ -3865,18 +4264,20 @@ class Command(cmd.Cmd, object):
                 self.namewidth = width
                 print('changing label column width to ', self.namewidth)
         except:
-            print('error - usage: namewidth [width]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_namewidth(self):
-        print('\n   Command: change the width of the curve_name column of the menu and lst output. '
-              'If no width is given, the current column width will be displayed.'
-              '\n   Usage:  namewidth [width]')
+            pdvutil.print_own_docstring(self)
 
     def do_xlabelwidth(self, line):
         """
-        Adjust the width of the xlabel column in 'menu' and 'lst' commands
+        Change the width of the xlabel column of the `menu` and `list` output. If no width is given, the
+        current column width will be displayed.
+
+        .. code::
+
+            [PyDV]: xlabelwidth <integer>
+
+            Ex:
+                [PyDV]: xlabelwidth
+                [PyDV]: xlabelwidth 100
         """
 
         try:
@@ -3890,18 +4291,20 @@ class Command(cmd.Cmd, object):
                 self.xlabelwidth = width
                 print('changing xlabel column width to', self.xlabelwidth)
         except:
-            print('error - usage: xlabelwidth [width]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xlabelwidth(self):
-        print('\n   Command: change the width of the xlabel column of the menu and lst output. '
-              'If no width is given, the current column width will be displayed.'
-              '\n   Usage:  xlabelwidth [width]')
+            pdvutil.print_own_docstring(self)
 
     def do_ylabelwidth(self, line):
         """
-        Adjust the width of the ylabel column in 'menu' and 'lst' commands
+        Change the width of the ylabel column of the `menu` and `list` output. If no width is given, the
+        current column width will be displayed.
+
+        .. code::
+
+            [PyDV]: ylabelwidth <integer>
+
+            Ex:
+                [PyDV]: ylabelwidth
+                [PyDV]: ylabelwidth 100
         """
 
         try:
@@ -3915,18 +4318,20 @@ class Command(cmd.Cmd, object):
                 self.ylabelwidth = width
                 print('changing ylabel column width to', self.ylabelwidth)
         except:
-            print('error - usage: ylabelwidth [width]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ylabelwidth(self):
-        print('\n   Command: change the width of the ylabel column of the menu and lst output. '
-              'If no width is given, the current column width will be displayed.'
-              '\n   Usage:  ylabelwidth [width]')
+            pdvutil.print_own_docstring(self)
 
     def do_filenamewidth(self, line):
         """
-        Adjust the width of the file column in 'menu' and 'lst' commands
+        Change the width of the fname column of the `menu` and `list` output. If no width is given, the
+        current column width will be displayed.
+
+        .. code::
+
+            [PyDV]: filenamewidth <integer>
+
+            Ex:
+                [PyDV]: filenamewidth
+                [PyDV]: filenamewidth 100
         """
 
         try:
@@ -3940,18 +4345,20 @@ class Command(cmd.Cmd, object):
                 self.filenamewidth = width
                 print('changing file column width to', self.filenamewidth)
         except:
-            print('error - usage: filenamewidth [width]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_filenamewidth(self):
-        print('\n   Command: change the width of the file column of the menu and lst output. If no width is given, the'
-              '\n            current column width will be displayed.'
-              '\n   Usage:  filenamewidth [width]')
+            pdvutil.print_own_docstring(self)
 
     def do_recordidwidth(self, line):
         """
-        Adjust the width of the rec id column in 'menu' and 'lst' commands
+        Change the width of the record_id column of the `menu` and `list` output. If no width is given, the
+        current column width will be displayed.
+
+        .. code::
+
+            [PyDV]: recordidwidth <integer>
+
+            Ex:
+                [PyDV]: recordidwidth
+                [PyDV]: recordidwidth 100
         """
 
         try:
@@ -3965,18 +4372,18 @@ class Command(cmd.Cmd, object):
                 self.recordidwidth = width
                 print('changing rec id column width to', self.recordidwidth)
         except:
-            print('error - usage: recordidwidth [width]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_recordidwidth(self):
-        print('\n   Command: change the width of the record_id column of the menu and lst output. '
-              'If no width is given, the current column width will be displayed.'
-              '\n   Usage:  recordidwidth [width]')
+            pdvutil.print_own_docstring(self)
 
     def do_handlelength(self, line):
         """
-        Adjust the length of the lines in the legend
+        Adjust the length of the line(s) in the legend.
+
+        .. code::
+
+            [PyDV]: handlelength <length>
+
+            Ex:
+                [PyDV]: handlelength 10
         """
 
         try:
@@ -3987,18 +4394,19 @@ class Command(cmd.Cmd, object):
                 self.handlelength = max(0, int(key))
             self.plotedit = True
         except:
-            print('error -- usage:')
-            self.help_handlelength()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_handlelength(self):
-        print('\n   Command: change the length of the lines in the legend')
-        print('     Usage: handlelength <integer>')
+            pdvutil.print_own_docstring(self)
 
     def do_minorticks(self, line):
         """
-        Show or hide minor ticks
+        Minor ticks are not visible by default. On will make the minor ticks visible and off will hide the minor ticks.
+
+        .. code::
+
+            [PyDV]: minorticks <on | off>
+
+            Ex:
+                [PyDV]: minorticks on
+                [PyDV]: minorticks off
         """
 
         try:
@@ -4010,18 +4418,20 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on, off, 1, or 0 as argument')
         except:
-            print('error - usage: minorticks <on | off | 1 | 0>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_minorticks(self):
-        print('\n   Variable: Minor ticks are not visible by default.'
-              '\n   On or 1 will make the minor ticks visible and off or 0 will hide the minor ticks.'
-              '\n   Usage: minorticks <on | off | 1 | 0>')
+            pdvutil.print_own_docstring(self)
 
     def do_border(self, line):
         """
-        Show or hide the border
+        Show or hide the plot border. By default, the border color is black.
+
+        .. code::
+
+            [PyDV]: border <on | 1 | off | 0> [color]
+
+            Ex:
+                [PyDV]: border on
+                [PyDV]: border on blue
+                [PyDV]: border off
         """
 
         try:
@@ -4052,22 +4462,19 @@ class Command(cmd.Cmd, object):
                 raise RuntimeError('invalid input: requires on, 1, off, or 0 as argument')
 
         except:
-            print('error - usage: border <on | 1 | off | 0> [color-name]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_border(self):
-        print('\n   Procedure: Show the border if on or 1, otherwise hide the border. The color-name'
-              '\n              determines the color of the border. By default, the border color is black.'
-              '\n   Usage: border <on | 1 | off | 0> [color-name]'
-              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-              '\n   of hexadecimal red-green-blue values (RRGGBB).'
-              '\n   The entire set of HTML-standard color names is available.'
-              '\n   Try "showcolormap" to see the available named colors!')
+            pdvutil.print_own_docstring(self)
 
     def do_grid(self, line):
         """
-        Show or hide the grid
+        Show or hide the grid on the graph.
+
+        .. code::
+
+            [PyDV]: grid <on | off>
+
+            Ex:
+                [PyDV]: grid on
+                [PyDV]: grid off
         """
 
         try:
@@ -4079,16 +4486,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: grid on | off')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_grid(self):
-        print('\n   Variable: Show the grid if True\n   Usage: grid on | off\n')
+            pdvutil.print_own_docstring(self)
 
     def do_axis(self, line):
         """
-        Show or hide the axis
+        Show or hide the axis.
+
+        .. code::
+
+            [PyDV]: axis <on | off>
+
+            Ex:
+                [PyDV]: axis on
+                [PyDV]: axis off
         """
 
         try:
@@ -4100,16 +4510,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: axis on | off')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_axis(self):
-        print('\n   Variable: Show the axis if True\n   Usage: axis on | off\n')
+            pdvutil.print_own_docstring(self)
 
     def do_plot(self, line):
         """
-        Show or hide the line plots
+        Show or hide the line plots.
+
+        .. code::
+
+            [PyDV]: plot <on | off>
+
+            Ex:
+                [PyDV]: plot on
+                [PyDV]: plot off
         """
 
         try:
@@ -4123,16 +4536,15 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: plot on | off')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_plot(self):
-        print('\n   Variable: Show the line plots if True\n   Usage: plot on | off\n')
+            pdvutil.print_own_docstring(self)
 
     def do_recolor(self, line):
         """
-        Reset the color of the line plots
+        Reset the color of the line plots.
+
+        .. code::
+
+            [PyDV]: recolor
         """
 
         colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
@@ -4143,12 +4555,16 @@ class Command(cmd.Cmd, object):
             if j == 7:
                 j = 0
 
-    def help_recolor(self):
-        print('\n   Variable: Reset the color of the line plots\n')
-
     def do_merge(self, line):
         """
-        Merge ultra files together
+        Merge ultra files together.
+
+        .. code::
+
+            [PyDV]:  merge <newfile> <myfile1> <myfile2> etc...
+
+            Ex:
+                [PyDV]: merge newfile.ult myfile1.ult myfile2.ult
         """
 
         try:
@@ -4176,16 +4592,18 @@ class Command(cmd.Cmd, object):
                         lines += '\n'
                 f1.writelines(lines)
         except:
-            print('error - usage: merge <newfile> <myfile1> <myfile2> etc..')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_merge(self):
-        print('\n   Variable: Merge ultra files together\n   Usage: merge <newfile> <myfile1> <myfile2> etc..\n')
+            pdvutil.print_own_docstring(self)
 
     def do_gridcolor(self, line):
         """
-        Set the grid color
+        Set the color of the grid. White is default.
+
+        .. code::
+
+            [PyDV]: gridcolor <color>
+
+            Ex:
+                [PyDV]: gridcolor blue
         """
 
         if not line:
@@ -4199,21 +4617,21 @@ class Command(cmd.Cmd, object):
                 print('error: invalid color ' + color)
                 return 0
         except:
-            print('error - usage: gridcolor <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_gridcolor(self):
-        print('\n   Procedure: Set the color of the grid'
-              '\n   Usage: gridcolor <color-name>'
-              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-              '\n   of hexadecimal red-green-blue values (RRGGBB).'
-              '\n   The entire set of HTML-standard color names is available.'
-              '\n   Try "showcolormap" to see the available named colors!')
+            pdvutil.print_own_docstring(self)
 
     def do_gridstyle(self, line):
         """
-        Change the grid style
+        Set the line style for the grid.
+
+        .. code::
+
+            [PyDV]: gridstyle <style: solid | dash | dot | dashdot>
+
+            Ex:
+                [PyDV]: gridstyle solid
+                [PyDV]: gridstyle dash
+                [PyDV]: gridstyle dot
+                [PyDV]: gridstyle dashdot
         """
 
         if not line:
@@ -4230,16 +4648,19 @@ class Command(cmd.Cmd, object):
         elif style == 'dashdot':
             self.gridstyle = '-.'
         else:
-            print('error: invalid style ' + style)
+            pdvutil.print_own_docstring(self)
             return 0
-
-    def help_gridstyle(self):
-        print('\n   Procedure: Set the line style for the grid.'
-              '\n   Usage: gridstyle <style: solid | dash | dot | dashdot>\n')
 
     def do_gridwidth(self, line):
         """
-        Set the grid line width
+        Set the grid line width in points.
+
+        .. code::
+
+            [PyDV]: gridwidth <width>
+
+            Ex:
+                [PyDV]: gridwidth 5
         """
 
         if not line:
@@ -4248,16 +4669,19 @@ class Command(cmd.Cmd, object):
         try:
             self.gridwidth = float(line.strip())
         except:
-            print('error - usage: gridwidth <width>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_gridwidth(self):
-        print('\n   Procedure: Set the grid line width in points.\n   Usage: gridwidth <width>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_dataid(self, line):
         """
-        Show or hide letter markers on plotted curves
+        Show or hide curve identifiers on plot.
+
+        .. code::
+
+            [PyDV]: dataid <on | off>
+
+            Ex:
+                [PyDV]: dataid on
+                [PyDV]: dataid off
         """
 
         try:
@@ -4269,18 +4693,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: dataid <on | off>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_dataid(self):
-        print('\n   Variable: Show curve identifiers if True'
-              '\n   Usage: dataid <on | off>'
-              '\n   Shortcuts: data-id\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xlogscale(self, line):
         """
-        Show the x axis on a log scale
+        Show the x axis on a log scale.
+
+        .. code::
+
+            [PyDV]: <xlogscale | xls> <on | off>
+
+            Ex:
+                [PyDV]: xlogscale on
+                [PyDV]: xlogscale off
         """
 
         try:
@@ -4296,18 +4721,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: xlogscale <on | 1 | off | 0>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xlogscale(self):
-        print('\n   Variable: Show x axis in log scale if True'
-              '\n   Usage: xlogscale <on | 1 | off | 0>'
-              '\n   Shortcuts: x-log-scale , xls\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ylogscale(self, line):
         """
-        Show the y axis on a log scale
+        Set log scale on or off for the y-axis.
+
+        .. code::
+
+            [PyDV]: <ylogscale | yls> <on | off>
+
+            Ex:
+                [PyDV]: ylogscale on
+                [PyDV]: ylogscale off
         """
 
         try:
@@ -4323,18 +4749,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on or off as argument')
         except:
-            print('error - usage: ylogscale <on | 1 | off | 0>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ylogscale(self):
-        print('\n   Variable: Show y axis in log scale if True'
-              '\n   Usage: ylogscale <on | 1 | off | 0>'
-              '\n   Shortcuts: y-log-scale , yls\n')
+            pdvutil.print_own_docstring(self)
 
     def do_guilims(self, line):
         """
-        Set whether or not to use the GUI min/max values for the X and Y limits
+        Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.
+
+        .. code::
+
+            [PyDV]: guilims <on | off>
+
+            Ex:
+                [PyDV]: guilims on
+                [PyDV]: guilims off
         """
 
         try:
@@ -4350,17 +4777,19 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError("{} is not a valid input.".format(line))
         except:
-            print('error - usage: guilims on | off | 1 | 0')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_guilims(self):
-        print('\n   Variable: Set whether or not to use the GUI min/max values for the X and Y limits. Default is off.'
-              '\n   Usage: guilims on | off | 1 | 0\n')
+            pdvutil.print_own_docstring(self)
 
     def do_update(self, line):
         """
-        Set whether to update after each command
+        Update the plot after each command if True. Update the plot is ON by default.
+
+        .. code::
+
+            [PyDV]: update on | off
+
+            Ex:
+                [PyDV]: update on
+                [PyDV]: update off
         """
 
         try:
@@ -4372,18 +4801,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on/1 or off/0 as argument')
         except:
-            print('error - usage: update <on | 1 | off | 0>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_update(self):
-        print('\n   Variable: Update the plot after each command if ON or 1, otherwise don\'t update the plot.'
-              '\n             Update the plot is ON by default.'
-              '\n   Usage: update <on | 1 | off | 0>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_latex(self, line):
         """
-        Set whether or not to use LaTeX font rendering
+        Use LaTeX font rendering.
+
+        .. code::
+
+            [PyDV]: latex <on | off>
+
+            Ex:
+                [PyDV]: latex on
+                [PyDV]: latex off
         """
 
         try:
@@ -4396,106 +4826,132 @@ class Command(cmd.Cmd, object):
             else:
                 print('invalid input: requires on, off, 1, or 0 as argument')
         except:
-            print('latex on | off | 1 | 0')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_latex(self):
-        print('\n   Variable: Use LaTeX font rendering if True. By default, LaTeX font rendering is off.'
-              '\n   Usage: latex on | off | 1 | 0\n')
+            pdvutil.print_own_docstring(self)
 
     def do_scatter(self, line):
         """
-        Show given curves as points rather than continuous line
+        Show given curves as points rather than continuous line.
+
+        .. code::
+
+            [PyDV]: scatter <curve-list> <on | off>
+
+            Ex:
+                [PyDV]: scatter a on
+                [PyDV]: scatter a:b on
+                [PyDV]: scatter c d off
         """
 
         try:
             self.__mod_curve(line, 'scatter')
             self.plotedit = True
         except:
-            print('error - usage: scatter <curve-list> <on | 1 | off | 0>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_scatter(self):
-        print('\n   Procedure: Plot curves as scatter plots'
-              '\n   Usage: scatter <curve-list> <on | 1 | off | 0>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_linespoints(self, line):
         """
-        Show given curves as points and a line rather than continuous line
+        Show given curves as points and a line rather than continuous line.
+
+        .. code::
+
+            [PyDV]: linespoints <curve-list> on | off
+
+            Ex:
+                [PyDV]: linespoints a on
+                [PyDV]: linespoints a:b on
+                [PyDV]: linespoints c d off
         """
 
         try:
             self.__mod_curve(line, 'linespoints')
             self.plotedit = True
         except:
-            print('error - usage: linespoints <curve-list> on | off')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_linespoints(self):
-        print('\n   Procedure: Plot curves as linespoints plots\n   Usage: linespoints <curve-list> on | off\n')
+            pdvutil.print_own_docstring(self)
 
     def do_lnwidth(self, line):
         """
-        Set line width of given curves
+        Set the line widths of the specified curves. A line width of 0 will give the thinnest line which the host
+        graphics system supports.
+
+        .. code::
+
+            [PyDV]: lnwidth <curve-list> <width>
+
+            Ex:
+                [PyDV]: lnwidth a 2
+                [PyDV]: lnwidth a:b 2
+                [PyDV]: lnwidth c d 2
         """
 
         try:
             self.__mod_curve(line, 'lnwidth')
             self.plotedit = True
         except:
-            print('error - usage: lnwidth <curve-list> <width>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_lnwidth(self):
-        print('\n   Procedure: Set the line widths of curves\n   Usage: lnwidth <curve-list> <width>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_lnstyle(self, line):
         """
-        Set line style of given curves
+        Set the line style of the specified curves.
+
+        .. code::
+
+            [PyDV]: lnstyle <curve-list> <style: solid | dash | dot | dotdash>
+
+            Ex:
+                [PyDV]: lnstyle a solid
+                [PyDV]: lnstyle a:b dash
+                [PyDV]: lnstyle c d dot
         """
 
         try:
             self.__mod_curve(line, 'lnstyle')
             self.plotedit = True
         except:
-            print('error - usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
-                  '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
-                  '| loosely_dashdotted | dashdotted | densely_dashdotted '
-                  '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_lnstyle(self):
-        print('\n   Procedure: Set the line style of curves'
-              '\n   Usage: lnstyle <curve-list> <style: solid | dash | dot | dashdot '
-              '| loosely_dotted | long_dash_with_offset | loosely_dashed | dashed '
-              '| loosely_dashdotted | dashdotted | densely_dashdotted '
-              '| dashdotdotted | loosely_dashdotdotted | densely_dashdotdotted>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_drawstyle(self, line):
         """
-        Set draw style of given curves
+        Set draw style of given curves.
+
+        .. code::
+
+            [PyDV]: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>
+
+            Ex:
+                [PyDV]: drawstyle a steps
+                [PyDV]: drawstyle a:b steps-pre
+                [PyDV]: drawstyle c d steps-post
         """
 
         try:
             self.__mod_curve(line, 'drawstyle')
             self.plotedit = True
         except:
-            print('error - usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_drawstyle(self):
-        print('\n   Procedure: Set the draw style of the curves'
-              '\n   Usage: drawstyle <curve-list> <style: default | steps | steps-pre | steps-post | steps-mid>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_dashstyle(self, line):
         """
-        Set dash style of given curves
+        Set the style of dash or dot dash lines. The python list is a list of integers, alternating how many pixels
+        to turn on and off, for example:
+
+        [2, 2] : Two pixels on, two off (will result in a dot pattern).
+
+        [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
+
+        [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
+
+        [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
+
+        See matplotlib 'set_dashes' command for more information.
+
+        .. code::
+
+            [PyDV]: dashstyle <curve-list> <[...]>
+
+            Ex:
+                [PyDV]: dashstyle a [2, 2]
+                [PyDV]: dashstyle a:b [2, 2]
+                [PyDV]: dashstyle c d [2, 2]
         """
 
         try:
@@ -4504,26 +4960,25 @@ class Command(cmd.Cmd, object):
             self.modcurve(line, 'dashstyle', options)
             self.plotedit = True
         except:
-            print("ERROR : dashstyle usage")
-            self.help_dashstyle()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_dashstyle(self):
-        print('''
-                 Procedure: Set the style of dash or dot dash lines
-                 Usage: dashstyle <curve-list> <[...]>
-                     The python list is a list of integers, alternating how many pixels to turn on and off, for example:
-                         [2, 2] : Two pixels on, two off (will result in a dot pattern).
-                         [4, 2, 2, 2] : 4 on, 2 off, 2 on, 2 off (results in a dash-dot pattern).
-                         [4, 2, 2, 2, 4, 2] : Gives a dash-dot-dash pattern.
-                         [4, 2, 2, 2, 2, 2] : Gives a dash-dot-dot pattern.
-                 See matplotlib 'set_dashes' command for more information.
-             ''')
+            pdvutil.print_own_docstring(self)
 
     def do_group(self, line):
         """
-        Group curves based on name and file if curve names are the same
+        Group curves based on name and file if curve names are the same. Max number of same name curves is 14.
+        Can also update title to curve name and change labels to filenames if all curves share the same name.
+        If `title` is passed, one can adjust the filename label with number of `slashes` as well.
+        If `off` is passed, will reset curves back to normal and stop automatic grouping.
+        Note: `title` also looks at hidden curves thus need to delete curves (e.g. `del a`).
+
+        .. code::
+
+            [PyDV]: group <title <slashes #> > <off>
+
+            Ex:
+                [PyDV]: group
+                [PyDV]: group title
+                [PyDV]: group title slashes 2
+                [PyDV]: group off
         """
         if "off" in line:
             self.group = 0
@@ -4626,13 +5081,18 @@ class Command(cmd.Cmd, object):
                 self.do_lnstyle(f"{cur.plotname} solid")
             self.slashes = 100
 
-    def help_group(self):
-        print('\n   Group curves based on name and file if curve names are the same.'
-              '\n   Usage: group <title <slashes #> >\n')
-
     def do_hide(self, line):
         """
-        Turn hiding on for given curves
+        Hide a curve from the graph.
+
+        .. code::
+
+            [PyDV]: hide <curve-list>
+
+            Ex:
+                [PyDV]: hide a
+                [PyDV]: hide a:b
+                [PyDV]: hide c d
         """
 
         try:
@@ -4640,16 +5100,20 @@ class Command(cmd.Cmd, object):
             self.__mod_curve(line, 'hide')
             self.reset_xticks_labels()
         except:
-            print('error - usage: hide <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_hide(self):
-        print('\n   Procedure: Hide curves from view\n   Usage: hide <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_show(self, line):
         """
-        Turn hiding off for given curves
+        Show the specified curves hidden by the `hide` command
+
+        .. code::
+
+            [PyDV]: show <curve-list>
+
+            Ex:
+                [PyDV]: show a
+                [PyDV]: show a:b
+                [PyDV]: show c d
         """
 
         try:
@@ -4657,17 +5121,20 @@ class Command(cmd.Cmd, object):
             self.__mod_curve(line, 'hide')
             self.reset_xticks_labels()
         except:
-            print('error - usage: show <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_show(self):
-        print('\n   Procedure: Reveal curves hidden by hide command'
-              '\n   Usage: show <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_style(self, line):
         """
-        Use matplotlib style settings
+        Use matplotlib style settings from a style specification. The style name of **default** (if available) is
+        reserved for reverting back to the default style settings. You can type the command `showstyles` and see
+        Matplotlib's Style sheets reference.
+
+        .. code::
+
+            [PyDV]: style <style-name>
+
+            Ex:
+                [PyDV]: style classic
         """
 
         try:
@@ -4676,22 +5143,19 @@ class Command(cmd.Cmd, object):
             self.updatestyle = True
             self.redraw = True
         except:
-            print('error - usage: style <style-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_style(self):
-        print('''
-        Procedure: Use matplotlib style settings from a style specification.
-        The style name of 'default' is reserved for reverting back to the
-        default style settings.
-
-        Usage: style <style-name>
-        ''')
+            pdvutil.print_own_docstring(self)
 
     def do_range(self, line):
         """
-        Change the y range on the graph
+        Set the range for plotting. Using de (for default) will let the curves determine the range.
+
+        .. code::
+
+            [PyDV]: <range | ran> <y-min> <y-max> | de
+
+            Ex:
+                [PyDV]: range 3 7
+                [PyDV]: range de
         """
 
         try:
@@ -4703,18 +5167,19 @@ class Command(cmd.Cmd, object):
             else:
                 print('error: exactly two arguments required or de for default')
         except:
-            print('error - usage: range <low-lim> <high-lim> or range de')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_range(self):
-        print("\n   Procedure: Set the range for plotting. Use 'de' for using the default limits (none)."
-              "\n   Usage: range <low-lim> <high-lim> or range de"
-              "\n   Shortcuts: ran\n")
+            pdvutil.print_own_docstring(self)
 
     def do_domain(self, line):
         """
-        Change the x domain on the graph
+        Set the domain for plotting. Using de (for default) will let the curves determine the domain.
+
+        .. code::
+
+            [PyDV]: <domain | dom> <x-min> <x-max>
+
+            Ex:
+                [PyDV]: domain 3 7
+                [PyDV]: domain de
         """
 
         try:
@@ -4726,19 +5191,25 @@ class Command(cmd.Cmd, object):
             else:
                 print('error: exactly two arguments required or de for default')
         except:
-            print('error - usage: domain <low-lim> <high-lim> or domain de')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_domain(self):
-        print('\n   Procedure: Set the domain for plotting'
-              '\n   Usage: domain <low-lim> <high-lim> or'
-              '\n   Usage: domain de'
-              '\n   Shortcuts: dom\n')
+            pdvutil.print_own_docstring(self)
 
     def do_list(self, line):
         """
-        List currently graphed curves
+        List the curves that are plotted.
+        A regular expression may be supplied for matching against the curve label to be listed.
+
+        Regular expressions are based on the Python regex syntax, not the UNIX syntax.
+        In particular, '*' is not the wildcard you might be expecting.
+
+        For an explanation of the regex syntax, type 'help regex'.
+
+        .. code::
+
+            [PyDV]: <list | lst> <label-pattern>
+
+            Ex:
+                [PyDV]: list
+                [PyDV]: list my.*curves
         """
 
         try:
@@ -4747,7 +5218,7 @@ class Command(cmd.Cmd, object):
                 try:
                     reg = re.compile(r"%s" % line)
                 except:
-                    print("error - invalid label-pattern")
+                    print("error - invalid regex label-pattern")
                     return 0
 
             print("{:<5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
@@ -4787,20 +5258,22 @@ class Command(cmd.Cmd, object):
                     print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(plotname, name, xlabel, ylabel, xmin,
                                                                             xmax, ymin, ymax, fname, record_id))
         except:
-            print("error - usage: list [<label-pattern>]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_list(self):
-        print("\n    {}\n    {}\n    {}\n".format("Macro: Display curves in list",
-                                                  "Usage: list [<label-pattern>]",
-                                                  "Shortcuts: lst"))
-
     def do_listr(self, line):
         """
-        List currently graphed curves
+        List the curves that are plotted in the range from start to stop.
+        If stop is not specified, it will be set to the end of the curve list.
+
+        .. code::
+
+            [PyDV]: listr <start> [stop]
+
+            Ex:
+                [PyDV]: listr 1
+                [PyDV]: listr 1 10
         """
 
         group_plotnames = []
@@ -4808,9 +5281,6 @@ class Command(cmd.Cmd, object):
         group_filenames = []
 
         try:
-            if not line:
-                self.help_listr()
-                return
 
             line = line.split()
             argcnt = len(line)
@@ -4874,22 +5344,22 @@ class Command(cmd.Cmd, object):
                 group_filenames.append(fname)
 
         except:
-            print("error - usage: listr <start> [stop]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
             return group_plotnames, group_curvenames, group_filenames
 
-    def help_listr(self):
-        print("\n   Macro: Display curves in range from start to stop in the list. If stop is not specified, it will"
-              "\n          be set to the end of the plot list."
-              "\n   Usage: listr <start> [stop]"
-              "\n   Shortcuts: lstr")
-
     def do_kill(self, line):
         """
-        Delete the specified entries from the menu
+        Delete the specified entries from the menu.
+
+        .. code::
+
+            [PyDV]: kill [all | number-list]
+
+            Ex:
+                [PyDV]: kill all
+                [PyDV]: kill 5:7
         """
 
         try:
@@ -4906,33 +5376,27 @@ class Command(cmd.Cmd, object):
                         tmpcurvelist.append(self.curvelist[i])
 
                 self.curvelist = tmpcurvelist
-        except RuntimeError as rte:
-            print('   error - %s' % rte)
-            print('   usage: kill [all | number-list]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            print('error - usage: kill [all | number-list]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
             self.plotter.updateDialogs()
 
-    def help_kill(self):
-        print('\n   Procedure: Delete the specified entries from the menu. \
-              number-list is a space separated list of menu indexes'
-              '\n   Usage: kill [all | number-list]')
-
     def do_menur(self, line):
         """
-        Print out curves loaded from files
+        List the curves available for plotting in the range from start to stop.
+        If stop is not specified, it will be set to the end of the curve list.
+
+        .. code::
+
+            [PyDV]: menur <start> [stop]
+
+            Ex:
+                [PyDV]: menur 1
+                [PyDV]: menur 1 10
         """
 
         try:
-            if not line:
-                self.help_menur()
-                return
 
             line = line.split()
             argcnt = len(line)
@@ -4988,20 +5452,27 @@ class Command(cmd.Cmd, object):
                 print("{:>5} {} {} {} {:9} {:9} {:9} {:9} {} {}".format(index, name, xlabel, ylabel, xmin,
                                                                         xmax, ymin, ymax, fname, record_id))
         except:
-            print("error - usage: menur <start> [stop]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_menur(self):
-        print('\n   Macro: List the available curves from start to stop. If stop is not specified, it will be set to'
-              '\n          the end of the curve list.'
-              '\n   Usage: menur <start> [stop]')
-
     def do_menu(self, line):
         """
-        Print out curves loaded from files
+        List the curves available for plotting.
+        A regular expression may be supplied for matching against the curve label to be listed.
+
+        Regular expressions are based on the Python regex syntax, not the UNIX syntax.
+        In particular, '*' is not the wildcard you might be expecting.
+
+        For an explanation of the regex syntax, type 'help regex'.
+
+        .. code::
+
+            [PyDV]: menu <label-pattern>
+
+            Ex:
+                [PyDV]: menu
+                [PyDV]: menu my.*curves
         """
 
         menu_j = 1
@@ -5012,7 +5483,7 @@ class Command(cmd.Cmd, object):
                 try:
                     reg = re.compile(r"%s" % line)
                 except:
-                    print("error: invalid expression")
+                    print("error - invalid regex label-pattern")
                     return 0
 
             print("{:>5} {:<{namewidth}.{namewidth}} {:<{xlabelwidth}.{xlabelwidth}} {:<{ylabelwidth}.{ylabelwidth}} "
@@ -5057,90 +5528,82 @@ class Command(cmd.Cmd, object):
                     if stop in ['n', 'no', 'N', 'NO']:
                         break
         except:
-            print("error - usage: menu [<regex>]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_menu(self):
-        print("""\n   Macro: List the available curves\n   Usage: menu [<regex>]\n
-                      Regular expressions are based on the Python regex syntax, not the UNIX syntax.
-                      In particular, '*' is not the wildcard you might be expecting.
-
-                      Some rules are:
-
-                      'abc'   Matches anything that has 'abc' in it anywhere
-
-                      '.'
-                      (Dot)   Matches any character except a newline.
-
-                      '^'
-                      (Caret) Matches the start of the string.
-
-                      '$'     Matches the end of the string.
-
-                      []      Used to indicate a set of characters.
-
-                      '*'
-                      Causes the resulting RE to match 0 or more repetitions of the
-                      preceding RE, as many repetitions as are possible.  ab* will match
-                      'a', 'ab', or 'a' followed by any number of 'b's.
-
-                      It is useful to know that '.*' matches any number of anythings, which
-                      is often what people expect '*' to do.
-
-                      EXAMPLES:
-
-                      energy     matches   'fluid energy', 'energy from gas', and 'blow energy blow'
-
-                      dt.*cycle  matches  'dt [sh] vs. cycle', and 'find dt on a bicycle please'.
-
-                      ^foo.*rat$ matches 'foobarat', 'foo rat', and 'foolish boy, now you will be eaten by a rat'
-
-                      VR[de]     matches 'bigVRdump', 'smallVRexit', but not 'mediumVRfront'
-
-                      AX[deh-z]  matches 'myAXjob', 'yourAXexit', 'AXnow', but not 'AXfoo'
-
-                      For a painfully complete explanation of the regex syntax, type 'help regex'.
-                      """)
-
     def help_regex(self):
-        print("\n    This is the Python help for the 're' module."
-              "\n    'help menu' will give you a shorter version.")
         help(re)
 
     def do_drop(self, line):
         """
-        Drop to python prompt
+        Start the Python Interactive Console.
+
+        .. code::
+
+            [PyDV]: drop
+
+            Ex:
+                [PyDV]: drop
+
+        Afterwards:
+
+        .. code:: python
+
+            >>> import matplotlib.pyplot as plt
+            >>> plt.ion()
+            >>> my_fig = plt.gcf()  # get figure object
+            >>> my_axis = plt.gca()  # get axis object
+            >>> my_axis.plot([1, 2], [5, 6])
+            >>> Ctrl+D  # to go back into pydv
+
+        Back in PyDV:
+
+        .. code::
+
+            [PyDV]: quit  # only if you want to quit pydv
+
         """
         self.redraw = False
         return True
 
-    def help_drop(self):
-        print('\n   Macro: Enter the python prompt for custom input\n   Usage: drop\n')
-
     def do_quit(self, line):
         """
-        Exit the program
+        Quit PyDV.
+
+        .. code::
+
+            [PyDV]: <quit | q>
+
+            Ex:
+                [PyDV]: q
         """
 
         try:
             readline.write_history_file(os.getenv('HOME') + '/.pdvhistory')
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.quit_helper.quit_signal.emit()
             sys.exit(0)
 
-    def help_quit(self):
-        print('\n   Macro: Exit PyDV\n   Usage: quit\n   Shortcuts: q\n')
-
     def do_image(self, line):
         """
-        Save figure to file
-        """
+        Save the current figure to an image file. All parameters are optional. The default value
+        for `filename=plot`, the default value for `filetype=pdf` and the default value for
+        `transparent=False`. `dpi` is the resolution in dots per inch and the default value is
+        the figure's dpi value. Width and height are in pixels.
+
+        .. code::
+
+            [PyDV]: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] [transparent=False: True | False] [dpi] [width] [height]
+
+            Ex:
+                [PyDV]: image my_plot png
+                [PyDV]: image my_plot png True
+                [PyDV]: image my_plot png True 100
+                [PyDV]: image my_plot png True 100 1920 1080
+        """  # noqae501
 
         try:
             line = line.split()
@@ -5175,22 +5638,21 @@ class Command(cmd.Cmd, object):
 
             plt.gcf().set_size_inches(current_width, current_height)  # reset
         except:
-            print("error - usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg] "
-                  "\n                   [transparent=False: True | False] [dpi] [width] [height]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_image(self):
-        print("\n   Macro: Save the current figure to an image file. All parameters are optional. The default value"
-              "\n          for filename is 'plot', the default value for filetype is 'pdf' and the default value for "
-              "\n          transparent is 'False'. dpi is the resolution in dots per inch and the default value is "
-              "\n          the figure's dpi value. Width and height are in pixels."
-              "\n   Usage: image [filename=plot] [filetype=pdf: png | ps | pdf | svg]"
-              "\n                [transparent=False: True | False] [dpi] [width] [height]")
+            pdvutil.print_own_docstring(self)
 
     def do_save(self, line):
         """
-        Save given curves to a new ultra file
+        Saves plotted curves to a file in ULTRA format. Can also save x and y labels which can be read back in.
+
+        .. code::
+
+            [PyDV]: save <filename> <curve-list> [savelabels]
+
+            Ex:
+                [PyDV]: save my_saved_file.ult a
+                [PyDV]: save my_saved_file.ult b d
+                [PyDV]: save my_saved_file.ult b:d
+                [PyDV]: save my_saved_file.ult b:d savelabels
         """
 
         if not line:
@@ -5221,19 +5683,22 @@ class Command(cmd.Cmd, object):
                     except RuntimeError as rte:
                         print("I/O error: {}".format(rte))
         except:
-            print('error - usage: save <file-name> <curve-list> <savelabels>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_save(self):
-        print('\n   Macro: Save curves to file'
-              '\n   Usage: save <file-name> <curve-list> <savelabels>\n')
-
     def do_savecsv(self, line):
         """
-        Save given curves to a CSV file
+        Saves plotted curves to file in comma separated values (CSV) format. Assumes all curves have the same x basis.
+
+        .. code::
+
+            [PyDV]: savecsv <filename> <curve-list>
+
+            Ex:
+                [PyDV]: savecsv my_saved_file.csv b
+                [PyDV]: savecsv my_saved_file.csv b d
+                [PyDV]: savecsv my_saved_file.csv b:d
         """
 
         if (not line):
@@ -5268,20 +5733,20 @@ class Command(cmd.Cmd, object):
                         writer.writerow(values)
 
         except:
-            print('error - usage: savecsv <file-name> <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_savecsv(self):
-        print('\n   Macro: Save curves to file in comma separated values (csv) format. Assumes all curves have the '
-              '\n   same x basis. CSV file generated with number rows equal to number of points in first curve passed.'
-              '\n   Usage: savecsv <file-name> <curve-list>\n')
-
     def do_annot(self, line):
         """
-        Display text on the plot at the given plot location
+        Display text on the plot at point (x, y). List of annotations can be seen with `listannot`.
+
+        .. code::
+
+            [PyDV]: annot <text> <x> <y>
+
+            Ex:
+                [PyDV]: annot mytext 1 2
         """
 
         if (not line):
@@ -5294,16 +5759,15 @@ class Command(cmd.Cmd, object):
             line = line[:argdex]
             self.usertexts.append([float(xloc), float(yloc), line])
         except:
-            print('error - usage: annot <text> <xloc> <yloc>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_annot(self):
-        print('\n   Macro: Display text on the plot by axis x and y location\n   Usage: annot <text> <xloc> <yloc>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_listannot(self, line):
         """
-        List current annotations
+        List current annotations.
+
+        .. code::
+
+            [PyDV]: listannot
         """
 
         try:
@@ -5317,18 +5781,23 @@ class Command(cmd.Cmd, object):
                 annot = pdvutil.truncate(annot.ljust(50), 50)
                 print('%s   %s  %s   %s' % (dex, xloc, yloc, annot))
         except:
-            print('error - usage: listannot')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_listannot(self):
-        print('\n   Macro: List current annotations\n   Usage: listannot\n')
-
     def do_delannot(self, line):
         """
-        Remove the specified annotations
+        Delete annotations from list. List of annotations can be seen with `listannot`.
+
+        .. code::
+
+            [PyDV]: delannot <number-list-of-annotations>
+
+            Ex:
+                [PyDV]: listannot
+                [PyDV]: delannot 1
+                [PyDV]: delannot 1:2
+                [PyDV]: delannot 3 4
         """
 
         if not line:
@@ -5346,20 +5815,19 @@ class Command(cmd.Cmd, object):
                 for text in rmlist:
                     self.usertexts.remove(text)
         except:
-            print('error - usage: delannot <number-list-of-annotations>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_delannot(self):
-        print('\n   Procedure: Delete annotations from list\n   Usage: delannot <number-list-of-annotations>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_span(self, line):
         """
-        Generates a straight line of slope 1 and y intercept 0 in the specified
-            domain with an optional number of points.
+        Generates straight line of slope 1 and y intercept 0 in the specified domain with an optional number of points.
 
-        :param line: User Command-Line Input (span <xmin> <xmax> [<# pts>])
-        :type line: string
+        .. code::
+
+            [PyDV]: span <xmin> <xmax> [points]
+
+            Ex:
+                [PyDV]: span 1 10
+                [PyDV]: span 1 10 200
         """
         if not line:
             return 0
@@ -5374,18 +5842,19 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: span <xmin> <xmax> [<# pts>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_span(self):
-        print('\n   Procedure: Generates a straight line of slope 1 and y intercept 0 '
-              'in the specified domain with an optional number of points'
-              '\n   Usage: span <xmin> <xmax> [<# pts>]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_line(self, line):
         """
-        Generate y = mx + b line
+        Generate a line with y = mx + b and an optional number of points.
+
+        .. code::
+
+            [PyDV]: line <m> <b> <xmin> <xmax> [# pts]
+
+            Ex:
+                [PyDV]: line 3 7 -1 20
+                [PyDV]: line 3 7 -1 20 200
         """
 
         if not line:
@@ -5404,17 +5873,18 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: line <m> <b> <xmin> <xmax> [<# pts>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_line(self):
-        print('\n   Procedure: Generate a line with y = mx + b and an optional number of points'
-              '\n   Usage: line <m> <b> <xmin> <xmax> [<# pts>]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_makecurve(self, line):
         """
-        Generate curve from given x and y points
+        Generate a curve from two tuples of numbers.
+
+        .. code::
+
+            [PyDV]: makecurve (<list of x-values>) (<list of y-values>)
+
+            Ex:
+                [PyDV]: makecurve (1 2 3) (20 30 40)
         """
 
         if not line:
@@ -5433,86 +5903,101 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: makecurve (<list of x-values>) (<list of y values>)')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_makecurve(self):
-        print('\n   Macro: Generate a curve from two lists of numbers'
-              '\n   Usage: makecurve (<list of x-values>) (<list of y values>)\n   Shortcuts: make-curve\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ymin(self, line):
         """
-        Filter out points
+        Filter out points in curves whose y-values less than limit
+
+        .. code::
+
+            [PyDV]: ymin <curve-list> <limit>
+
+            Ex:
+                [PyDV]: ymin a 3
+                [PyDV]: ymin a:b 3
+                [PyDV]: ymin c d 3
         """
 
         try:
             self.__mod_curve(line, 'ymin')
             self.plotedit = True
         except:
-            print('error - usage: ymin <curve-list> <limit>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ymin(self):
-        print('\n   Procedure: Filter out points in curves whose y-values < limit'
-              '\n   Usage: ymin <curve-list> <limit>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ymax(self, line):
         """
-        Filter out points
+        Filter out points in curves whose y-values greater than limit
+
+        .. code::
+
+            [PyDV]: ymax <curve-list> <limit>
+
+            Ex:
+                [PyDV]: ymax a 3
+                [PyDV]: ymax a:b 3
+                [PyDV]: ymax c d 3
         """
 
         try:
             self.__mod_curve(line, 'ymax')
             self.plotedit = True
         except:
-            print('error - usage: ymax <curve-list> <limit>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ymax(self):
-        print('\n   Procedure: Filter out points in curves whose y-values > limit'
-              '\n   Usage: ymax <curve-list> <limit>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xmin(self, line):
         """
-        Filter out points
+        Filter out points in curves whose x-values less than limit
+
+        .. code::
+
+            [PyDV]: xmin <curve-list> <limit>
+
+            Ex:
+                [PyDV]: xmin a 3
+                [PyDV]: xmin a:b 3
+                [PyDV]: xmin c d 3
         """
 
         try:
             self.__mod_curve(line, 'xmin')
             self.plotedit = True
         except:
-            print('error - usage: xmin <curve-list> <limit>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xmin(self):
-        print('\n   Procedure: Filter out points in curves whose x-values < limit'
-              '\n   Usage: xmin <curve-list> <limit>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xmax(self, line):
         """
-        Filter out points
+        Filter out points in curves whose x-values greater than limit.
+
+        .. code::
+
+            [PyDV]: xmax <curve-list> <limit>
+
+            Ex:
+                [PyDV]: xmax a 3
+                [PyDV]: xmax a:b 3
+                [PyDV]: xmax c d 3
         """
 
         try:
             self.__mod_curve(line, 'xmax')
             self.plotedit = True
         except:
-            print('error - usage: xmax <curve-list> <limit>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xmax(self):
-        print('\n   Procedure: Filter out points in curves whose x-values > limit'
-              '\n   Usage: xmax <curve-list> <limit>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xminmax(self, line):
         """
         Filter out points; this is the only filter points function that returns a new curve
-        due to how ULTRA behaved
+        due to how ULTRA behaved.
+
+        .. code::
+
+            [PyDV]: <xminmax | xmm> <curve-list> <low-lim> <high-lim>
+
+            Ex:
+                [PyDV]: xminmax a 1 3
+                [PyDV]: xminmax a:b 1 3
+                [PyDV]: xminmax c d 1 3
         """
 
         if len(line.split(':')) > 1:
@@ -5547,17 +6032,20 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
 
             except:
-                print('error - usage: xminmax <curve-list> <low-lim> <high-lim>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_xminmax(self):
-        print('\n   Procedure: Trim the selcted curves'
-              '\n   Usage: xminmax <curve-list> <low-lim> <high-lim>\n   Shortcuts: xmm')
+                pdvutil.print_own_docstring(self)
 
     def do_yminmax(self, line):
         """
-        Filter out points
+        Trim the selected curves.
+
+        .. code::
+
+            [PyDV]: <yminmax | ymm> <curve-list> <low-limit> <high-lim>
+
+            Ex:
+                [PyDV]: yminmax a 3 7
+                [PyDV]: yminmax a:b 3 7
+                [PyDV]: yminmax c d 3 7
         """
 
         if len(line.split(':')) > 1:
@@ -5585,17 +6073,21 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
 
             except:
-                print('error - usage: yminmax <curve-list> <low-lim> <high-lim>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_yminmax(self):
-        print('\n   Procedure: Trim the selcted curves'
-              '\n   Usage: yminmax <curve-list> <low-lim> <high-lim>'
-              '\n   Shortcuts: ymm')
+                pdvutil.print_own_docstring(self)
 
     def do_filter(self, line):
-        "Filter out points in the x and y axis"
+        """
+        Filter out points in the x and y axis.
+
+        .. code::
+
+            [PyDV]: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>
+
+            Ex:
+                [PyDV]: filter a 1 2 3 4
+                [PyDV]: filter a:b -3 0 -5 10
+                [PyDV]: filter c d 0 13 -7 15
+        """
 
         if len(line.split(':')) > 1:
             self.do_filter(pdvutil.getletterargs(line))
@@ -5628,17 +6120,20 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
             except:
-                print('error - usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_filter(self):
-        print('\n   Filter out points in the x and y axis'
-              '\n   Usage: filter <curve-list> <x-low-lim> <x-high-lim> <y-low-lim> <y-high-lim>')
+                pdvutil.print_own_docstring(self)
 
     def do_derivative(self, line):
         """
-        Take derivative of the curve
+        Take the derivative of curves.
+
+        .. code::
+
+            [PyDV]: <derivative | der> <curve-list>
+
+            Ex:
+                [PyDV]: derivative a
+                [PyDV]: derivative a:b
+                [PyDV]: derivative c d
         """
 
         if not line:
@@ -5657,16 +6152,21 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
         except:
-            print('error - usage: der <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_derivative(self):
-        print('\n   Procedure: Take derivative of curves\n   Usage: derivative <curve-list>\n   Shortcuts: der\n')
+            pdvutil.print_own_docstring(self)
 
     def do_integrate(self, line):
         """
-        Take the integral of the curve
+        Compute the definite integral of each curve in the list over the specified domain.
+
+        .. code::
+
+            [PyDV]: <integrate | int> <curve-list> [low-limit high-limit]
+
+            Ex:
+                [PyDV]: integrate a
+                [PyDV]: integrate a:b
+                [PyDV]: integrate c d
+                [PyDV]: integrate c d 3 7
         """
 
         if not line:
@@ -5707,17 +6207,18 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
         except:
-            print('error - usage: integrate <curve-list> [<low-limit> <high-limit>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_integrate(self):
-        print('\n   Procedure: Integrate curves\n   Usage: integrate <curve-list> [<low-limit> <high-limit>]'
-              '\n   Shortcuts: int\n')
+            pdvutil.print_own_docstring(self)
 
     def do_vs(self, line):
         """
-        Plot y of one curve against y of another curve
+        Plot the range of the first curve against the range of the second curve.
+
+        .. code::
+
+            [PyDV]: vs <curve1> <curve2>
+
+            Ex:
+                [PyDV]: vs a b
         """
 
         if not line:
@@ -5746,12 +6247,7 @@ class Command(cmd.Cmd, object):
             self.addtoplot(nc)
             self.plotedit = True
         except:
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_vs(self):
-        print('\n   Procedure: Plot the range of the first curve against the range of the second curve.'
-              '\n   Usage: vs <curve1> <curve2>\n')
+            pdvutil.print_own_docstring(self)
 
     def __vs_variant(self, arg0, arg1):
         """
@@ -5800,7 +6296,16 @@ class Command(cmd.Cmd, object):
 
     def do_errorbar(self, line):
         """
-        Define error bars for a curve
+        Plot error bars on the given curve.
+
+        .. code::
+
+            [PyDV]: errorbar <curve> <y-error-curve> <y+error-curve> [x-error-curve x+error-curve] [point-skip]
+
+            Ex:
+                [PyDV]: errorbar a 2 3
+                [PyDV]: errorbar a 2 3 4 5
+                [PyDV]: errorbar a 2 3 4 5 2
         """
 
         if not line:
@@ -5838,20 +6343,19 @@ class Command(cmd.Cmd, object):
             pydvpy.errorbar(scur, cury1, cury2, curx1, curx2, mod)
             self.plotedit = True
         except:
-            # scur.ebar = None
-            print('error - usage: errorbar <curve> <y-error-curve> <y+error-curve> [<x-error-curve> <x+error-curve>]'
-                  ' [<point-skip>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_errorbar(self):
-        print('\n   Procedure: Plot error bars on the given curve. Note: y-error-curve and y+error-curve are curves'
-              ' and not scalars.\n   Usage: errorbar <curve> <y-error-curve> <y+error-curve> '
-              '[<x-error-curve> <x+error-curve>] [<point-skip>]\n   Shortcuts: error-bar\n')
+            pdvutil.print_own_docstring(self)
 
     def do_errorrange(self, line):
         """
-        Define a shaded error range for a curve
+        Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are
+        curves and not scalars
+
+        .. code::
+
+            [PyDV]: errorrange <curve> <y-error-curve> <y+error-curve>
+
+            Ex:
+                [PyDV]: errorrannge a b c
         """
 
         if not line:
@@ -5865,34 +6369,44 @@ class Command(cmd.Cmd, object):
             scur.ebar = None
             self.plotedit = True
         except:
-            # scur.erange = None
-            print('error - usage: errorrange <curve> <y-error-curve> <y+error-curve>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_errorrange(self):
-        print('\n   Procedure: Plot shaded error region on given curve. Note: y-error-curve and y+error-curve are '
-              'curves and not scalars\n   Usage: errorrange <curve> <y-error-curve> <y+error-curve>'
-              '\n   Shortcuts: error-range\n')
-
-    def help_marker(self):
-        print('\n   Procedure: Set the marker symbol for the curves'
-              '\n   Usage: marker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
-              '\n   Note: When setting this value through the interface or the curve object directly, '
-              'use ONLY matplotlib supported marker types.'
-              '\n       Matplotlib marker types are also supported here as well. '
-              'See matplotlib documentation on markers for further information.'
-              )
+            pdvutil.print_own_docstring(self)
 
     def do_marker(self, line):
         """
-        Set the marker for curves
+        Set the marker symbol and marker size (optionally) for scatter plots. You can also use any of the matplotlib
+        supported marker types as well. See the matplotlib documentation on markers for further information.
+
+        .. code::
+
+            [PyDV]: marker <curve-list> <marker-style: + | . | circle | square | diamond> [marker-size]
+
+            Ex:
+                [PyDV]: marker a +
+                [PyDV]: marker a:b .
+                [PyDV]: marker c d circle
+                [PyDV]: marker c d 10
         """
         self.do_linemarker(line)
 
     def do_linemarker(self, line):
         """
         Set the marker symbol and marker size for the curves
+
+        .. note::
+            When setting this value through the interface or the curve object directly,
+            use ONLY matplotlib supported marker types. Matplotlib marker types are also
+            supported here as well. See matplotlib documentation on markers for further
+            information.
+
+        .. code::
+
+            [PyDV]: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]
+
+            Ex:
+                [PyDV]: linemarker a +
+                [PyDV]: linemarker a:b .
+                [PyDV]: linemarker c d circle
+                [PyDV]: linemarker c d square 5
         """
 
         if not line:
@@ -5906,19 +6420,15 @@ class Command(cmd.Cmd, object):
             else:
                 line = line.split()
                 ultra_markers = {'circle': 'o', 'square': 's', 'diamond': 'd'}
+
                 try:
-                    try:
-                        markersize = float(line[-1])
-                        marker = line[-2]
-                    except:
-                        markersize = None
-                        marker = line[-1]
-                    if marker in ultra_markers:
-                        marker = ultra_markers[marker]
+                    markersize = float(line[-1])
+                    marker = line[-2]
                 except:
-                    self.help_linemarker()
-                    if self.debug:
-                        traceback.print_exc(file=sys.stdout)
+                    markersize = None
+                    marker = line[-1]
+                if marker in ultra_markers:
+                    marker = ultra_markers[marker]
 
                 for i in range(len(line)):
                     for j in range(len(self.plotlist)):
@@ -5930,24 +6440,22 @@ class Command(cmd.Cmd, object):
                             break
             self.plotedit = True
         except:
-            self.help_linemarker()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_linemarker(self):
-        print('\n   Procedure: Set the marker symbol for the curves'
-              '\n   Usage: linemarker <curve-list> <marker-style: + | . | circle | square | diamond> [<marker-size>]'
-              '\n   Note: When setting this value through the interface or the curve object directly, '
-              'use ONLY matplotlib supported marker types.'
-              '\n       Matplotlib marker types are also supported here as well. '
-              'See matplotlib documentation on markers for further information.'
-              )
+            pdvutil.print_own_docstring(self)
 
     def do_mathinterpparams(self, line):
         """
         Set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math methods for Curve such
         as `+ a b c`, `- a b c`, etc.... Defaults are `None` which align with `numpy.interp()` defaults. To reset pass
         in none to <left> <right> <period>.
+
+        .. code::
+
+            [PyDV]: mathinterpparams <curve-list> <left> <right> <period>
+
+            Ex:
+                [PyDV]: mathinterpparams a 0 0 none
+                [PyDV]: mathinterpparams a:b 0 0 none
+                [PyDV]: mathinterpparams c d none none none
         """
 
         if not line:
@@ -5988,22 +6496,21 @@ class Command(cmd.Cmd, object):
                             break
             self.plotedit = True
         except:
-            self.help_linemarker()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_mathinterpparams(self):
-        print('\n   Procedure: Set `numpy.interp()` `left`, `right`, and `period` parameters for internal curve math '
-              'methods for Curve such as `+ a b c`, `- a b c`, etc....'
-              '\n   Defaults are `None` which align with `numpy.interp()` defaults.'
-              '\n   To reset pass in none to <left> <right> <period>.'
-              '\n   Usage: mathinterpparams <curve-list> <left> <right> <period>'
-              '\n   See `numpy.interp()` documentation further information.'
-              )
+            pdvutil.print_own_docstring(self)
 
     def do_smooth(self, line):
         """
-        Smooth the curve to given degree
+        Smooth the curve to the given degree.
+
+        .. code::
+
+            [PyDV]: smooth <curve-list> [smooth-factor]
+
+            Ex:
+                [PyDV]: sin a
+                [PyDV]: sin a:b
+                [PyDV]: sin c d
+                [PyDV]: sin c d 4
         """
 
         if not line:
@@ -6036,17 +6543,20 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('error - usage: smooth <curve-list> [<smooth-factor>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_smooth(self):
-        print('\n   Procedure: Smooth the curve to the given degree.'
-              '\n   Usage: smooth <curve-list> [<smooth-factor>]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_fft(self, line):
         """
-        Make a new curve - the Fourier Transform of y-values the given curves
+        Compute the one-dimensional discrete Fourier Transform for the curves.
+
+        .. code::
+
+            [PyDV]: fft <curve-list>
+
+            Ex:
+                [PyDV]: fft a
+                [PyDV]: fft a:b
+                [PyDV]: fft c d
         """
 
         if not line:
@@ -6067,18 +6577,20 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
             except:
-                print('error - usage: fft <curve-list>')
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_fft(self):
-        print('\n   Procedure: Compute the one-dimensional discrete Fourier Transform of the y values of the curves.'
-              '\n              Return real and imaginary parts.'
-              '\n   Usage: fft <curve-list>\n')
+                pdvutil.print_own_docstring(self)
 
     def do_appendcurves(self, line):
         """
-        Merge list of curves
+        Merge a list of curves over the union of their domains.
+        Where the domains overlap, take the average of the curves' y-values.
+
+        .. code::
+
+            [PyDV]: appendcurves <curve-list>
+
+            Ex:
+                [PyDV]: appendcurves a:b
+                [PyDV]: appendcurves c d
         """
 
         if not line:
@@ -6106,21 +6618,18 @@ class Command(cmd.Cmd, object):
                 if nc is not None:
                     self.addtoplot(nc)
                     self.plotedit = True
-            except RuntimeError as rte:
-                print('error: %s' % rte)
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
             except:
-                self.help_appendcurves()
-                if self.debug:
-                    traceback.print_exc(file=sys.stdout)
-
-    def help_appendcurves(self):
-        print('\n   Procedure: Merge a list of curves over the union of their domains. Where domains overlap, take'
-              '\n              the average of the curve\'s y-values.'
-              '\n   Usage: appendcurves <curve-list>\n')
+                pdvutil.print_own_docstring(self)
 
     def do_alpha(self, line):
+        """
+        Find the alpha.
+
+        .. code::
+
+            [PyDV]: alpha <calculated-a> <calculated-i> <response> [# points]
+        """
+
         if not line:
             return 0
 
@@ -6151,31 +6660,36 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
             else:
                 raise RuntimeError("Wrong number of arguments, expecting 3 or 4 but received %d." % len(line))
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            self.help_alpha()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_alpha(self):
-        print('\n   Procedure: Find the alpha'
-              '\n   Usage: alpha <calculated-a> <calculated-i> <response> [# points]')
+            pdvutil.print_own_docstring(self)
 
     def do_convolve(self, line):
-        print(f"convol {line}")
-        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
-        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
+        """
+        Computes the convolution of the two given curves.
 
-    def help_convolve(self):
-        print("Use convolc for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
-        print("Use convolb for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
+        **THIS IS DEPRECIATED**
+
+        * Use `convolc` for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))
+        * Use `convolb` for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))
+        """
+        print(f"convol {line}")
+        print("Use `convolc` for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))")
+        print("Use `convolb` for (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))")
 
     def do_convolveb(self, line):
         """
-        Make a new curve - slower convolution which doesn't use FFT
+        Computes the convolution of the two given curves and normalizes by the area under the second curve.
+
+        (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) / Int(-inf, inf, dt*h(t))
+
+        .. code::
+
+            [PyDV]: convolveb <curve1> <curve2> [points] [points_interp]
+
+            Ex:
+                [PyDV]: convolveb g h
+                [PyDV]: convolveb g h 200
+                [PyDV]: convolveb g h 200 200
         """
 
         if not line:
@@ -6205,25 +6719,23 @@ class Command(cmd.Cmd, object):
 
             self.addtoplot(nc)
             self.plotedit = True
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            self.help_convolveb()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_convolveb(self):
-        print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t)) /'
-              '\n                         Int(-inf, inf, dt*h(t))'
-              '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   Usage: convolveb <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolb')
+            pdvutil.print_own_docstring(self)
 
     def do_convolvec(self, line):
         """
-        Make a new curve - slower convolution which doesn't use FFT
+        Computes the convolution of the two given curves with no normalization.
+
+        (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))
+
+        .. code::
+
+            [PyDV]: convolvec <curve1> <curve2> [points] [points_interp]
+
+            Ex:
+                [PyDV]: convolvec g h
+                [PyDV]: convolvec g h 200
+                [PyDV]: convolvec g h 200 200
         """
 
         if not line:
@@ -6253,24 +6765,20 @@ class Command(cmd.Cmd, object):
 
             self.addtoplot(nc)
             self.plotedit = True
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            self.help_convolvec()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_convolvec(self):
-        print('\n   Procedure: Computes the convolution of the two given curves'
-              '\n              (g*h)(x) = Int(-inf, inf, dt*g(t)*h(x-t))'
-              '\n   This slower method uses direct integration and minimal interpolations.'
-              '\n   Usage: convolvec <curve1> <curve2> [# points] [# points interpolation]\n   Shortcuts: convolc')
+            pdvutil.print_own_docstring(self)
 
     def do_diffMeasure(self, line):
         """
-        Make two new curves - the diff-measure of two given curves
+        Compare two curves. For the given curves a fractional difference measure and its average is computed
+
+        .. code::
+
+            [PyDV]: diffMeasure <curve1> <curve2> [tolerance]
+
+            Ex:
+                [PyDV]: diffMeasure a b
+                [PyDV]: diffMeasure a b 0.1
         """
 
         if not line:
@@ -6297,17 +6805,18 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
             print('Difference measure for curves ' + c1.plotname + ' and ' + c2.plotname + ': ' + str(cint.y[-1]))
         except:
-            print('error: requires exactly two curves as arguments')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_diffMeasure(self):
-        print('\n   Procedure: Compare two curves. For the given curves a fractional difference measure and its '
-              'average is computed\n   Usage: diffMeasure <curve1> <curve2> [tolerance]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_correl(self, line):
         """
-        Compute the correlation function of the two curves
+        Computes the cross-correlation of two curves.
+
+        .. code::
+
+            [PyDV]: correl <curve1> <curve2>
+
+            Ex:
+                [PyDV]: correl a b
         """
 
         if not line:
@@ -6328,23 +6837,20 @@ class Command(cmd.Cmd, object):
             nc = pydvpy.correlate(c1, c2, 'same')
             self.addtoplot(nc)
             self.plotedit = True
-        except RuntimeError as rte:
-            print('error: %s' % rte)
-            self.help_correl()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            self.help_correl()
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_correl(self):
-        print('\n   Procedure: Compute the correlation function of the two curves.'
-              '\n   Usage: correl <curve1> <curve2>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_theta(self, line):
         """
-        Generate a unit step distribution
+        Generate a unit step distribution.
+
+        .. code::
+
+            [PyDV]: theta <xmin> <x0> <xmax> [# points]
+
+            Ex:
+                [PyDV]: theta -5 0 5
+                [PyDV]: theta -3 3 5 200
         """
 
         try:
@@ -6362,17 +6868,18 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('Usage: xmin x0 xmax [# points]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_theta(self):
-        print('\n   Procedure: Generate a unit step distribution.'
-              '\n   Usage: xmin x0 xmax [# points]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_normalize(self, line):
         """
-        Normalize a curve
+        Normalize a curve.
+
+        .. code::
+
+            [PyDV]: normalize <curve>
+
+            Ex:
+                [PyDV]: normalize a
         """
 
         try:
@@ -6384,17 +6891,18 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('Usage: normalize <curve>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_normalize(self):
-        print('\n   Procedure: Normalize a curve.'
-              '\n   Usage: normalize <curve>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_hypot(self, line):
         """
-        Calculate harmonic average of two curves, sqrt(a^2+b^2)
+        Calculate harmonic average of two curves, sqrt(a^2+b^2).
+
+        .. code::
+
+            [PyDV]: hypot <curve1> <curve2>
+
+            Ex:
+                [PyDV]: hypot a b
         """
 
         try:
@@ -6408,18 +6916,19 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('Usage: hypot <curve1> <curve2>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_hypot(self):
-        print('\n   Procedure: Calculate harmonic average of two curves, sqrt(a^2+b^2).'
-              '\n   Usage: hypot <curve1> <curve2>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_delta(self, line):
         """
-        Procedure: Generate a Dirac delta distribution such that
-                   Int(xmin, xmax, dt*delta(t - x0)) = 1
+        Procedure: Generate a Dirac delta distribution such that `Int(xmin, xmax, dt*delta(t - x0)) = 1`.
+
+        .. code::
+
+            [PyDV]: delta <xmin> <x0> <xmax> [<# points>]
+
+            Ex:
+                [PyDV]: delta -5 0 5
+                [PyDV]: delta -3 3 5 200
         """
 
         try:
@@ -6436,18 +6945,20 @@ class Command(cmd.Cmd, object):
             self.plotedit = True
 
         except:
-            print('Usage: delta <xmin> <x0> <xmax> [<# points>]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_delta(self):
-        print('\n   Procedure: Generate a Dirac delta distribution such that.'
-              '\n   Int(xmin, xmax, dt*delta(t - x0)) = 1'
-              '\n   Usage: delta <xmin> <x0> <xmax> [<# points>]\n')
+            pdvutil.print_own_docstring(self)
 
     def do_bkgcolor(self, line):
         """
-        Changes background color of the plot, window, or both
+        Change the background color of the plot, window, or both.
+
+        .. code::
+
+            [PyDV]: bkgcolor <[plot | window] color | reset>
+
+            Ex:
+                [PyDV]: bkgcolor plot blue
+                [PyDV]: bkgcolor window blue
+                [PyDV]: bkgcolor reset
         """
 
         try:
@@ -6481,25 +6992,23 @@ class Command(cmd.Cmd, object):
                     self.plotcolor = color
 
             self.plotedit = True
-        except ValueError as ve:
-            print('\nerror - %s' % ve.message)
-            print('usage: bkgcolor <[plot | window] color-name | reset>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            print('usage: bkgcolor <[plot | window] color-name | reset>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_bkgcolor(self):
-        print("\n    Procedure: Change the background color of the given component. If no component name is specified,"
-              " then both components will be given the same color. See (https://matplotlib.org/users/colors.html) for "
-              "all the different ways to specify color-name. \'reset\' will return the plot and window colors to their"
-              " original values.\n\n    Usage: bkgcolor <[plot | window] color-name | reset>")
+            pdvutil.print_own_docstring(self)
 
     def do_fontcolor(self, line):
         """
-        Edits the font color for various text components
+        Change the font color of given plot component.
+
+        .. code::
+
+            [PyDV]: fontcolor [<component: xlabel | ylabel | title | xaxis | yaxis>] <color>
+
+            Ex:
+                [PyDV]: fontcolor xlabel blue
+                [PyDV]: fontcolor ylabel blue
+                [PyDV]: fontcolor title blue
+                [PyDV]: fontcolor xaxis blue
+                [PyDV]: fontcolor yaxis blue
         """
 
         try:
@@ -6537,27 +7046,26 @@ class Command(cmd.Cmd, object):
                 self.keycolor = color
 
             self.plotedit = True
-        except ValueError as ve:
-            print('\nerror - %s' % ve.message)
-            print('usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis '
-                  '| legend | title>] <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
         except:
-            print('error - usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis '
-                  '| legend | title>] <color-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_fontcolor(self):
-        print('\n   Procedure: Change the font color of given component. '
-              'If no component is given the font color is changed for all components.'
-              '\n   Usage: fontcolor [<component: xlabel | ylabel | xaxis | yaxis | legend | title>] <color-name>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_fontsize(self, line):
         """
-        Edits the font size for various text components
-        """
+        Change the font size of given component, or overall scaling factor.
+
+        .. code::
+
+            [PyDV]: fontsize [<component: title | xlabel | ylabel | key | tick | curve | annotation>] <numerical-size | small | medium | large | default>
+
+            Ex:
+                [PyDV]: fontsize title 12
+                [PyDV]: fontsize xlabel small
+                [PyDV]: fontsize ylabel medium
+                [PyDV]: fontsize key large
+                [PyDV]: fontsize tick default
+                [PyDV]: fontsize curve 12
+                [PyDV]: fontsize annotation small
+        """  # noqae501
 
         try:
             line = line.split()
@@ -6607,19 +7115,20 @@ class Command(cmd.Cmd, object):
                 else:
                     self.annotationfont = size
         except:
-            print('error - usage: fontsize [<component: title | xlabel | ylabel | legend | tick | curve | annotation>] '
-                  '<numerical-size | small | medium | large | default>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_fontsize(self):
-        print('\n   Procedure: Change the font size of given component, or overall scaling factor'
-              '\n   Usage: fontsize [<component: title | xlabel | ylabel | legend '
-              '| tick | curve | annotation>] <numerical-size | small | medium | large | default>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_gaussian(self, line):
         """
-        Generate a gaussian function
+        Generate a gaussian function.
+
+        .. code::
+
+            [PyDV]: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]
+
+            Ex:
+                [PyDV]: gaussian 5 2 0
+                [PyDV]: gaussian 5 2 0 100
+                [PyDV]: gaussian 5 2 0 100 2
         """
 
         if not line:
@@ -6647,17 +7156,18 @@ class Command(cmd.Cmd, object):
             self.addtoplot(c)
             self.plotedit = True
         except:
-            print('error - usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_gaussian(self):
-        print('\n   Procedure: Generate a gaussian function.'
-              '\n   Usage: gaussian <amplitude> <width> <center> [<# points> [<# half-widths>]] \n')
+            pdvutil.print_own_docstring(self)
 
     def do_geometry(self, line):
         """
-        Change the window size and location
+        Change the PyDV window size and location in pixels.
+
+        .. code::
+
+            [PyDV]: geometry <xsize> <ysize> <xlocation> <ylocation>
+
+            Ex:
+                [PyDV]: geometry 500 500 250 250
         """
 
         try:
@@ -6669,18 +7179,28 @@ class Command(cmd.Cmd, object):
             self.plotter.updatePlotGeometry(self.geometry)
         except:
             self.redraw = False
-            print('error - usage: geometry <xsize> <ysize> <xlocation> <ylocation>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_geometry(self):
-        print('\n   Procedure: Change the window size and location in pixels'
-              '\n   Usage: geometry <xsize> <ysize> <xlocation> <ylocation>'
-              '\n   Shortcuts: geom\n')
+            pdvutil.print_own_docstring(self)
 
     def do_plotlayout(self, line):
         """
-        Adjust the plot layout parameters
+        Adjust the plot layout parameters. Where `left` is the position of the left edge of the
+        plot as a fraction of the figure width, `right` is the position of the right edge of the
+        plot, as a fraction of the figure width, `top` is the position of the top edge of the plot,
+        as a fraction of the figure height and `bottom` is the position of the bottom edge of the plot,
+        as a fraction of the figure height. Alternatively, `de` will revert to the default plot layout values.
+
+        If no arguments are given, the plot's current layout settings will be displayed.
+
+        .. code::
+
+            [PyDV]: plotlayout [<left> <right> <top> <bottom> || de]
+
+            Ex:
+                [PyDV]: plotlayout left
+                [PyDV]: plotlayout right
+                [PyDV]: plotlayout top
+                [PyDV]: plotlayout bottom
+                [PyDV]: plotlayout de
         """
 
         try:
@@ -6714,24 +7234,15 @@ class Command(cmd.Cmd, object):
                 raise ValueError("Unknown argument(s)")
         except:
             self.redraw = False
-            print("error - usage: plotlayout [<left> <right> <top> <bottom> || de]")
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_plotlayout(self):
-        print("\n   Procedure: Adjust the plot layout parameters. Where 'left' is the position of the left edge of the"
-              "\n              plot as a fraction of the figure width, 'right' is the position of the right edge of the"
-              "\n              plot, as a fraction of the figure width, 'top' is the position of the top edge of the "
-              "\n              plot, as a fraction of the figure height and 'bottom' is the position of the bottom edge"
-              "\n              of the plot, as a fraction of the figure height. Alternatively, 'de' will revert to the"
-              "\n              default plot layout values. "
-              "\n              If no arguments are given, the plot's current layout settings will be displayed."
-              "\n   Usage: plotlayout [<left> <right> <top> <bottom> || de]"
-              "\n   Shortcut: pl\n")
+            pdvutil.print_own_docstring(self)
 
     def do_reid(self, line):
         """
-        Re-id command re-identifies all the curves into continuous alphabetical order
+        Relabel all the curves into continuous alphabetical order.
+
+        .. code::
+
+            [PyDV]: reid
         """
 
         try:
@@ -6742,17 +7253,21 @@ class Command(cmd.Cmd, object):
                 else:
                     c.plotname = '@' + str(i + 1)  # after first 26 curves, go to @N labels
         except:
-            print('error - usage: re-id or reid')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_reid(self):
-        print('\n   Procedure: relabel all the curves in order.'
-              '\n   Usage: re-id\n')
+            pdvutil.print_own_docstring(self)
 
     def do_label(self, line):
         """
-        Change label for a curve
+        Change the key and list label for a curve. For multiple curves, each label must start with ` (this is the
+        backtick character ` , not the single quote character ').
+
+        .. code::
+
+            [PyDV]: label <curve> <new-label>
+
+            Ex:
+                [PyDV]: label a my_new_label
+                [PyDV]: label a:b `my_new_label `my other label
+                [PyDV]: label a:c `mynewlabel `my other label `my thirdlabel
         """
 
         try:
@@ -6781,20 +7296,20 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
         except:
             self.do_label_done = False
-            print('error - usage: label <curve> <new-label>\n')
-            print('For multiple curves, each label must start with `')
-            print('label a:c `mynewlabel `my other label `my thirdlabel')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_label(self):
-        print('\n   Procedure: Change the key and list label for a curve\n   Usage: label <curve> <new-label>\n')
-        print('   For multiple curves, each label must start with `')
-        print('   label a:c `mynewlabel `my other label `my thirdlabel')
+            pdvutil.print_own_docstring(self)
 
     def do_labelrecordids(self, line):
         """
-        Change label for a curve to the recordid
+        Add curve recordid to the legend label. Command will only work with curves from Sina files with valid
+        record ids.
+
+        .. code::
+
+            [PyDV]: labelrecordids <on | off>
+
+            Ex:
+                [PyDV]: labelrecordids on
+                [PyDV]: labelrecordids off
         """
 
         try:
@@ -6806,17 +7321,19 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('invalid input: requires on or off as argument')
         except:
-            print('error - usage: labelrecordids <on | off>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_labelrecordids(self):
-        print('\n   Variable: Add curve recordid to the legend label if "on", otherwise hide curve recordid if "off".'
-              '\n   Usage: labelrecordids <on | off>')
+            pdvutil.print_own_docstring(self)
 
     def do_labelfilenames(self, line):
         """
-        Change label for a curve to the filename
+        Add curve filename to the legend label.
+
+        .. code::
+
+            [PyDV]: labelfilenames <on | off>
+
+            Ex:
+                [PyDV]: labelfilenames on
+                [PyDV]: labelfilenames off
         """
 
         try:
@@ -6828,17 +7345,19 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('invalid input: requires on or off as argument')
         except:
-            print('error - usage: labelfilenames <on | off>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_labelfilenames(self):
-        print('\n   Variable: Add curve filename to the legend label if "on", otherwise hide curve filename if "off".'
-              '\n   Usage: labelfilenames <on | off>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_labelcurve(self, line):
         """
-        Change label for a curve to the curve letter
+        Add curve letter to the legend label.
+
+        .. code::
+
+            [PyDV]: labelcurve <on | off>
+
+            Ex:
+                [PyDV]: labelcurve on
+                [PyDV]: labelcurve off
         """
 
         try:
@@ -6850,17 +7369,18 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('invalid input: requires on or off as argument')
         except:
-            print('error - usage: labelcurve <on | off>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_labelcurve(self):
-        print('\n   Variable: Add curve letter to the legend label if "on", otherwise hide curve letter if "off".'
-              '\n   Usage: labelcurve <on | off>')
+            pdvutil.print_own_docstring(self)
 
     def do_run(self, line):
         """
-        Run a list of commands from a file
+        Execute a list of commands from a file.
+
+        .. code::
+
+            [PyDV]: run <filename>
+
+            Ex:
+                [PyDV]: run my_file
         """
 
         try:
@@ -6893,16 +7413,20 @@ class Command(cmd.Cmd, object):
         except SystemExit:
             self.do_quit(line)
         except:
-            print('error - usage: run <filename>')
-            if (self.debug):
-                traceback.print_exc(file=sys.stdout)
-
-    def help_run(self):
-        print('\n   Procedure: Execute a list of commands from a file\n   Usage: run <filename>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_movefront(self, line):
         """
         Move given curves to the front of the plot
+
+        .. code::
+
+            [PyDV]: movefront <curve-list>
+
+            Ex:
+                [PyDV]: movefront a
+                [PyDV]: movefront a:b
+                [PyDV]: movefront c d
         """
 
         try:
@@ -6926,17 +7450,152 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
         except:
-            print('error - usage: movefront <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_movefront(self):
-        print('\n   Procedure: Move the given curves so they are plotted on top'
-              '\n   Usage: movefront <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_custom(self, line):
         """
-        Read in a file of custom functions
+        Load a Python file of custom functions to extend PyDV. Functions must be of the form
+        `def do_commandname(self, line): ...`.
+
+        This custom Python script is imported at the `pdv.py` level and thus you can use the methods within
+        `class Command():` by calling `self.do_METHOD_NAME():`. These are the methods used in the [PyDV]
+        command line prompt that are detailed in this documentation.
+
+        The `pydvpy.py` module is imported as `pydvpy` which means you can also use the PyDV Python API functions
+        by calling `pydvpy.FUNCTION_NAME():`.
+
+        Below are some template functions that are used throughout PyDV. The parameter `line` is the text that is
+        passed into the function after the function name in the PyDV Command Line Interface.
+        These functions should have `try` statements so that PyDV doesn't crash if there is an error. Be sure to
+        pass in the command `debug on` to PyDV to get more information about any errors.
+
+        .. code::
+
+            [PyDV]: custom <file-name>
+
+            Ex:
+                [PyDV]: debug on
+                [PyDV]: custom my_custom_functions.py
+                [PyDV]: mycustomfunction
+                [PyDV]: myothercustomfunction
+                [PyDV]: createcustomcurve a:b
+                [PyDV]: customcurveinfo a:b
+
+        my_custom_functions.py:
+
+        .. code:: python
+
+            import os
+
+
+            def do_mycustomfunction(self, line):
+                '''
+                Create new curve and add it to the `self.curvelist()`.
+                These are the curves shown with the `menu` command.
+                '''
+
+                try:
+                    num_curves = int(line)
+                    for i in range(num_curves):
+                        x = [i, i + 1, i + 2]
+                        y = x
+                        name = f'TestCurve_{i}'
+                        fname = f'TestFilename_{i}'
+                        xlabel = f'TestXlabel_{i}'
+                        ylabel = f'TestYlabel_{i}'
+                        title = f'TestTitle_{i}'
+                        record_id = f'TestRecordID_{i}'
+                        c = pydvpy.makecurve(x=x,
+                                             y=y,
+                                             name=name,
+                                             filename=fname,
+                                             xlabel=xlabel,
+                                             ylabel=ylabel,
+                                             title=title,
+                                             record_id=record_id)
+                        self.curvelist.append(c)
+                except:
+                    pdvutil.print_own_docstring(self)
+
+
+            def do_myothercustomfunction(self, line):
+                '''
+                Calling other functions within PyDV.
+                '''
+
+                try:
+                    files = line.split()
+
+                    TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+                    self.do_read(os.path.join(TEST_DIR, '../tests', files[0]))
+                    self.do_readsina(os.path.join(TEST_DIR, '../tests', files[1]))
+                except:
+                    pdvutil.print_own_docstring(self)
+
+
+            def do_createcustomcurve(self, line):
+                '''
+                Create new curve and add it to the `self.plotlist()`.
+                These are the curves shown with the `list` command.
+                '''
+
+                if not line:
+                    return 0
+                try:
+                    if len(line.split(':')) > 1:
+                        self.do_createcustomcurve(pdvutil.getletterargs(line))
+                        return 0
+                    else:
+                        line = line.split()
+
+                        for i in line:
+                        idx = pdvutil.getCurveIndex(i, self.plotlist)
+                        cur = self.plotlist[idx]
+                        x = cur.x + 10
+                        y = cur.y - 10
+                        nc = pydvpy.makecurve(x=x,
+                                                y=y,
+                                                name=name,
+                                                filename=fname,
+                                                xlabel=xlabel,
+                                                ylabel=ylabel,
+                                                title=title,
+                                                record_id=record_id)
+                        self.addtoplot(nc)
+
+                        self.plotedit = True
+                except:
+                    pdvutil.print_own_docstring(self)
+
+
+            def do_customcurveinfo(self, line):
+                '''
+                Acquire information from the the curves in `self.plotlist()`.
+                '''
+
+                try:
+                    if len(line.split(':')) > 1:
+                        self.do_customcurveinfo(pdvutil.getletterargs(line))
+                        return 0
+                    else:
+                        print('\\nCustom Curve Info:')
+                        line = line.split()
+
+                        for i in range(len(line)):
+                        try:
+                            idx = pdvutil.getCurveIndex(line[i], self.plotlist)
+                            cur = self.plotlist[idx]
+                            info = numpy.sum(cur.x) + 10
+                            print(f'\\nCurve {cur.plotname}: {cur.name}')
+                            print(f'\\tInfo: {info:.6e}')
+                        except pdvutil.CurveIndexError:
+                            pass
+                        print('')
+                except:
+                    pdvutil.print_own_docstring(self)t)
+                finally:
+                    self.redraw = False
+
         """
 
         try:
@@ -6958,20 +7617,20 @@ class Command(cmd.Cmd, object):
                 if self.debug:
                     traceback.print_exc(file=sys.stdout)
         except:
-            print('error - usage: custom <file-name>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_custom(self):
-        print("\n   Procedure: Load a file of custom functions to extend PDV. "
-              "\n              Functions must be of the form 'def do_commandname(self, line): ...'"
-              "\n   Usage: custom <file-name>\n")
-
     def do_alias(self, line):
         """
-        Allow user defined command synonyms
+        Define a synonym for an existing command.
+
+        .. code::
+
+            [PyDV]: alias <command> <alias>
+
+            Ex:
+                [PyDV]: alias list l
         """
 
         try:
@@ -6982,18 +7641,22 @@ class Command(cmd.Cmd, object):
             exec(function)
             exec('self.do_' + alias + ' = types.MethodType(do_' + alias + ', self)')
         except:
-            print('error - usage: alias <command> <alias>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
+            pdvutil.print_own_docstring(self)
         finally:
             self.redraw = False
 
-    def help_alias(self):
-        print('\n   Procedure: Define a synonym for an existing command\n   Usage: alias <command> <alias>\n')
-
     def do_copy(self, line):
         """
-        Plot copies of the given curves
+        Copy and plot the given curves.
+
+        .. code::
+
+            [PyDV]: copy <curve-list>
+
+            Ex:
+                [PyDV]: copy a
+                [PyDV]: copy a:b
+                [PyDV]: copy c d
         """
 
         try:
@@ -7012,16 +7675,20 @@ class Command(cmd.Cmd, object):
 
                 self.plotedit = True
         except:
-            print('error - usage: copy <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_copy(self):
-        print('\n   Procedure: Copy and plot the given curves\n   Usage: copy <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_makeextensive(self, line):
         """
-        Set the y-values such that `y[i] *= (x[i+1] - x[i])`
+        Set the y-values such that y[i] = y[i] * (x[i+1] - x[i]).
+
+        .. code::
+
+            [PyDV]: <makeextensive | mkext> <curve-list>
+
+            Ex:
+                [PyDV]: makeextensive a
+                [PyDV]: makeextensive a:b
+                [PyDV]: makeextensive c d
         """
 
         try:
@@ -7044,17 +7711,20 @@ class Command(cmd.Cmd, object):
                     raise RuntimeError('Need to specify a valid curve or curves')
 
         except:
-            print('error - usage: makeextensive <curve-list>\n  Shortcut: mkext')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_makeextensive(self):
-        print('\n   Procedure: Set the y-values such that y[i] *= (x[i+1] - x[i]) '
-              '\n   Usage: makeextensive <curve-list>\n   Shortcut: mkext')
+            pdvutil.print_own_docstring(self)
 
     def do_makeintensive(self, line):
         """
-        Set the y-values such that y[i] /= (x[i+1] - x[i])
+        Set the y-values such that y[i] = y[i] / (x[i+1] - x[i]).
+
+        .. code::
+
+            [PyDV]: <makeintensive | mkint> <curve-list>
+
+            Ex:
+                [PyDV]: makeintensive a
+                [PyDV]: makeintensive a:b
+                [PyDV]: makeintensive c d
         """
 
         try:
@@ -7077,17 +7747,20 @@ class Command(cmd.Cmd, object):
                     raise RuntimeError('Need to specify a valid curve or curves')
 
         except:
-            print('error - usage: makeintensive <curve-list>\n  Shortcut: mkint')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_makeintensive(self):
-        print('\n   Procedure: Set the y-values such that y[i] /= (x[i+1] - x[i]) '
-              '\n   Usage: makeintensive <curve-list>\n   Shortcut: mkint')
+            pdvutil.print_own_docstring(self)
 
     def do_dupx(self, line):
         """
-        Duplicate the x-values such that y = x for each of the given curves
+        Duplicate x-values so that y=x for each of the specified curves.
+
+        .. code::
+
+            [PyDV]: dupx <curve-list>
+
+            Ex:
+                [PyDV]: dupx a
+                [PyDV]: dupx a:b
+                [PyDV]: dupx c d
         """
 
         try:
@@ -7109,17 +7782,20 @@ class Command(cmd.Cmd, object):
                     pydvpy.dupx(curves)
 
         except:
-            print('error - usage: dupx <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_dupx(self):
-        print('\n   Procedure: Duplicate the x-values such that y = x for each of the given curves'
-              '\n   Usage: dupx <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xindex(self, line):
         """
-        Create curves with y-values vs. integer index values
+        Create curves with y-values vs. integer index values.
+
+        .. code::
+
+            [PyDV]: xindex <curve-list>
+
+            Ex:
+                [PyDV]: xindex a
+                [PyDV]: xindex a:b
+                [PyDV]: xindex c d
         """
 
         try:
@@ -7143,17 +7819,19 @@ class Command(cmd.Cmd, object):
                     raise RuntimeError('Need to specify a valid curve or curves')
 
         except:
-            print('error - usage: xindex <curve-list>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xindex(self):
-        print('\n   Procedure: Create curves with y-values vs. integer index values'
-              '\n   Usage: xindex <curve-list>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ticks(self, line):
         """
-        Set the number of ticks on the axes
+        Set the maximum number of major ticks on the axes.
+
+        .. code::
+
+            [PyDV]: ticks <quantity> | de
+
+                Ex:
+                    [PyDV]: ticks 3
+                    [PyDV]: ticks de
         """
 
         try:
@@ -7171,18 +7849,21 @@ class Command(cmd.Cmd, object):
                 self.xticks = numticks
                 self.yticks = numticks
         except:
-            print('error - usage: ticks <quantity> or ticks de')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ticks(self):
-        print('\n   Variable: Set the maximum number of major ticks on the x- and y-axes'
-              '\n   Usage: ticks <quantity> or'
-              '\n   Usage: ticks de\n')
+            pdvutil.print_own_docstring(self)
 
     def do_yticks(self, line):
         """
-        Set the yticks explicitly
+        Set the locations of major ticks on the y axis.
+
+        .. code::
+
+            [PyDV]: yticks de | <number> | <list of locations> | <list of locations, list of labels>
+
+            Ex:
+                [PyDV]: yticks 3
+                [PyDV]: yticks (1, 2, 3)
+                [PyDV]: yticks (1, 2, 3), ('first label', 'second label', 'third label')
+                [PyDV]: yticks de
         """
 
         try:
@@ -7197,17 +7878,21 @@ class Command(cmd.Cmd, object):
                     locs, labels = eval(line)
                     self.yticks = (locs, labels)
         except:
-            print('error - usage: yticks <de | integer | (list of locations) | (list of locations), (list of labels)>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_yticks(self):
-        print('\n   Variable: Set the locations of major ticks on the y axis'
-              '\n   Usage: yticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
+            pdvutil.print_own_docstring(self)
 
     def do_xticks(self, line):
         """
-        Set the xticks explicitly
+        Set the locations of major ticks on the x-axis
+
+        .. code::
+
+            [PyDV]: xticks de | <number> | <list of locations> | <list of locations, list of labels>
+
+            Ex:
+                [PyDV]: xticks 3
+                [PyDV]: xticks (1, 2, 3)
+                [PyDV]: xticks (1, 2, 3), ('first label', 'second label', 'third label')
+                [PyDV]: xticks de
         """
 
         try:
@@ -7222,17 +7907,21 @@ class Command(cmd.Cmd, object):
                     locs, labels = eval(line)
                     self.xticks = (locs, labels)
         except:
-            print('error - usage: xticks < de | integer | (list of locations) | (list of locations), (list of labels)>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xticks(self):
-        print('\n   Variable: Set the locations or the maximum number of major ticks on the x axis (de = default).'
-              '\n   Usage: xticks <de | integer | (list of locations) | (list of locations), (list of labels)>')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickcolor(self, line):
         """
-        Set the color for the x ticks
+        Set the color of the ticks on the x-axis. Default is to apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: xtickcolor <de | color> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: xtickcolor blue major
+                [PyDV]: xtickcolor blue minor
+                [PyDV]: xtickcolor blue both
+                [PyDV]: xtickcolor de both
         """
 
         try:
@@ -7266,21 +7955,21 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: xtickcolor color [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickcolor(self):
-        print('\n   Variable: Set the color of the ticks on the x axis. Default is apply to major ticks only.'
-              '\n   Usage: xtickcolor color [which: major | minor | both]\n'
-              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-              '\n   of hexadecimal red-green-blue values (RRGGBB).'
-              '\n   The entire set of HTML-standard color names is available.'
-              '\n   Try "showcolormap" to see the available named colors!\n')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickcolor(self, line):
         """
-        Set the color for the ticks on the y axis
+        Set the color of the ticks on the y-axis. Default is to apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: ytickcolor <de | color> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: ytickcolor blue major
+                [PyDV]: ytickcolor blue minor
+                [PyDV]: ytickcolor blue both
+                [PyDV]: ytickcolor de both
         """
 
         try:
@@ -7314,21 +8003,20 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: ytickcolor color [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickcolor(self):
-        print('\n   Variable: Set the color of the ticks on the y axis. Default is apply to major ticks only.'
-              '\n   Usage: ytickcolor color [which: major | minor | both]\n'
-              '\n   Color names can be "blue", "red", etc, or "#eb70aa", a 6 digit set'
-              '\n   of hexadecimal red-green-blue values (RRGGBB).'
-              '\n   The entire set of HTML-standard color names is available.'
-              '\n   Try "showcolormap" to see the available named colors!\n')
+            pdvutil.print_own_docstring(self)
 
     def do_xticklength(self, line):
         """
-        Set the xticks length explicitly
+        Set the length (in points) of x ticks on the axis. Default is apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: xticklength <number> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: xticklength 2 major
+                [PyDV]: xticklength 2 minor
+                [PyDV]: xticklength 2 both
         """
 
         try:
@@ -7362,18 +8050,20 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: xticklength number [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xticklength(self):
-        print('\n   Variable: Set the length (in points) of x ticks on the x axis. '
-              'Default is apply to major ticks only.'
-              '\n   Usage: xticklength number [which: major | minor | both]')
+            pdvutil.print_own_docstring(self)
 
     def do_yticklength(self, line):
         """
-        Set the yticks length explicitly
+        Set the length (in points) of y ticks on the y axis. Default is to apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: yticklength <number> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: yticklength 2 major
+                [PyDV]: yticklength 2 minor
+                [PyDV]: yticklength 2 both
         """
 
         try:
@@ -7407,18 +8097,20 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: yticklength number [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_yticklength(self):
-        print('\n   Variable: Set the length (in points) of y ticks on the y axis. '
-              'Default is apply to major ticks only.'
-              '\n   Usage: yticklength number [which: major | minor | both]')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickwidth(self, line):
         """
-        Set the xticks width explicitly
+        Set the width (in points) of x ticks on the x axis. Default is to apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: xtickwidth <number> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: xtickwidth 2 major
+                [PyDV]: xtickwidth 2 minor
+                [PyDV]: xtickwidth 2 both
         """
 
         try:
@@ -7452,17 +8144,20 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: xtickwidth number [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickwidth(self):
-        print('\n   Variable: Set the width (in points) of x ticks on the x axis. Default is apply to major ticks only.'
-              '\n   Usage: xtickwidth number [which: major | minor | both]')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickwidth(self, line):
         """
-        Set the yticks width explicitly
+        Set the width (in points) of y ticks on the y axis. Default is to apply to major ticks only.
+
+        .. code::
+
+            [PyDV]: ytickwidth <number> [which: major | minor | both]
+
+            Ex:
+                [PyDV]: ytickwidth 2 major
+                [PyDV]: ytickwidth 2 minor
+                [PyDV]: ytickwidth 2 both
         """
 
         try:
@@ -7496,17 +8191,21 @@ class Command(cmd.Cmd, object):
             else:
                 raise RuntimeError('Too many arguments, expecting 1 or 2 but received %d' % len(line))
         except:
-            print('error - usage: ytickwidth number [which: major | minor | both]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickwidth(self):
-        print('\n   Variable: Set the width (in points) of y ticks on the y axis. Default is apply to major ticks only.'
-              '\n   Usage: ytickwidth number [which: major | minor | both]')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickformat(self, line):
         """
-        Set the ytickformat explicitly
+        Set the format of major ticks on the y axis. Default is plain.
+
+        .. code::
+
+            [PyDV]: ytickformat <plain | sci | exp | 10**>
+
+            Ex:
+                [PyDV]: ytickformat plain
+                [PyDV]: ytickformat sci
+                [PyDV]: ytickformat exp
+                [PyDV]: ytickformat 10**
         """
 
         try:
@@ -7515,21 +8214,21 @@ class Command(cmd.Cmd, object):
             else:
                 self.ytickformat = line.strip()
         except:
-            print('error - usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickformat(self):
-        print('\n   Variable: Set the format of major ticks on the y axis'
-              '\n   Usage: ytickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
-              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) '
-              'format string (e.g., %5.1e).'
-              '\n          Note: exp and 10** only apply when ylogscale is set to on. C-style '
-              'formating only applies when ylogscale is set to off.')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickformat(self, line):
         """
-        Set the xtickformat explicitly
+        Set the format of major ticks on the x axis. Default is plain.
+
+        .. code::
+
+            [PyDV]: xtickformat <plain | sci | exp | 10**>
+
+            Ex:
+                [PyDV]: xtickformat plain
+                [PyDV]: xtickformat sci
+                [PyDV]: xtickformat exp
+                [PyDV]: xtickformat 10**
         """
 
         try:
@@ -7538,136 +8237,141 @@ class Command(cmd.Cmd, object):
             else:
                 self.xtickformat = line.strip()
         except:
-            print('error - usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickformat(self):
-        print('\n   Variable: Set the format of major ticks on the x axis'
-              '\n   Usage: xtickformat <plain | sci | exp | 10** | %[width][.precision][type]>.  '
-              '\n          Default is plain. %[width][.precision][type] is the C-style (old Python style) '
-              'format string (e.g., %5.1e).'
-              '\n          Note: exp and 10** only apply when xlogscale is set to on. C-style '
-              'formating only applies when xlogscale is set to off.')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickrotation(self, line):
         """
-        Set the xtickrotation explicitly
+        Set the rotation (in degrees) of the tick labels on the x axis.
+
+        .. code::
+
+            [PyDV]: xtickrotation <degree>
+
+            Ex:
+                [PyDV]: xtickrotation 45
         """
 
         try:
             self.xtickrotation = float(line.strip())
         except:
-            print('error - usage: xtickrotation <degree>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickrotation(self):
-        print('\n   Variable: Set the rotation of tick labels on the x axis'
-              '\n   Usage: xtickrotation <degree>')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickha(self, line):
         """
-        Set the xtick horizontal alignment explicitly
+        Set the horizontal alignment of tick labels on the x axis. Default is center.
+
+        .. code::
+
+            [PyDV]: xtickha <center | right | left>
+
+            Ex:
+                [PyDV]: xtickha right
         """
 
         try:
             self.xtickha = line.strip()
         except:
-            print('error - usage: xtickha <center | right | left>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickha(self):
-        print('\n   Variable: Set the horizontal alignment of tick labels on the x axis'
-              '\n   Default is center'
-              '\n   Usage: xtickha <center | right | left>')
+            pdvutil.print_own_docstring(self)
 
     def do_xtickva(self, line):
         """
-        Set the xtick vertical alignment explicitly
+        Set the vertical alignment of tick labels on the x axis. Default is top.
+
+        .. code::
+
+            [PyDV]: xtickva <center | top | bottom>
+
+            Ex:
+                [PyDV]: xtickva center
         """
 
         try:
             self.xtickva = line.strip()
         except:
-            print('error - usage: xtickva <center | top | bottom>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_xtickva(self):
-        print('\n   Variable: Set the vertical alignment of tick labels on the x axis'
-              '\n   Default is top'
-              '\n   Usage: xtickva <center | top | bottom>')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickha(self, line):
         """
-        Set the ytick horizontal alignment explicitly
+        Set the horizontal alignment of tick labels on the y axis. Default is right.
+
+        .. code::
+
+            [PyDV]: ytickha <center | right | left>
+
+            Ex:
+                [PyDV]: ytickha center
         """
 
         try:
             self.ytickha = line.strip()
         except:
-            print('error - usage: ytickha <center | right | left>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickha(self):
-        print('\n   Variable: Set the horizontal alignment of tick labels on the y axis'
-              '\n   Default is right'
-              '\n   Usage: ytickha <center | right | left>')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickva(self, line):
         """
-        Set the ytick vertical alignment explicitly
+        Set the vertical alignment of tick labels on the y axis. Default is center.
+
+        .. code::
+
+            [PyDV]: ytickva <center | top | bottom>
+
+            Ex:
+                [PyDV]: ytickva top
         """
 
         try:
             self.ytickva = line.strip()
         except:
-            print('error - usage: ytickva <center | top | bottom>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickva(self):
-        print('\n   Variable: Set the vertical alignment of tick labels on the y axis'
-              '\n   Default is center'
-              '\n   Usage: ytickva <center | top | bottom>')
+            pdvutil.print_own_docstring(self)
 
     def do_ytickrotation(self, line):
         """
-        Set the ytickrotation explicitly
+        Set the rotation (in degrees) of the tick labels on the y axis.
+
+        .. code::
+
+            [PyDV]: ytickrotation <degree>
+
+            Ex:
+                [PyDV]: ytickrotation 45
         """
 
         try:
             self.ytickrotation = float(line.strip())
         except:
-            print('error - usage: ytickrotation <degree>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_ytickrotation(self):
-        print('\n   Variable: Set the rotation of tick labels on the y axis'
-              '\n   Usage: ytickrotation <degree>')
+            pdvutil.print_own_docstring(self)
 
     def do_fontstyle(self, line):
         """
-        Set the font family
+        Set the fontstyle family.
+
+        .. code::
+
+            [PyDV]: fontstyle <serif | sans-serif | monospace>
+
+            Ex:
+                [PyDV]: fontstyle serif
+                [PyDV]: fontstyle sans-serif
+                [PyDV]: fontstyle monospace
         """
 
         try:
             matplotlib.rc('font', family=line.strip())
         except:
-            print('error - usage: fontstyle <serif | sans-serif | monospace>')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_fontstyle(self):
-        print('\n   Variable: Set the fontstyle family\n   Usage: fontstyle <serif | sans-serif | monospace>\n')
+            pdvutil.print_own_docstring(self)
 
     def do_subsample(self, line):
         """
-        Subsample the curves, i.e., reduce to every nth value
+        Subsample the curves by the optional stride. Default value for stride is 2.
+
+        .. code::
+
+            [PyDV]: subsample <curve-list> [stride]
+
+            Ex:
+                [PyDV]: subsample a 3
+                [PyDV]: subsample a:b 3
+                [PyDV]: subsample c d 3
         """
 
         try:
@@ -7700,13 +8404,7 @@ class Command(cmd.Cmd, object):
                 self.plotedit = True
 
         except:
-            print('error - usage: subsample <curve-list> [stride]')
-            if self.debug:
-                traceback.print_exc(file=sys.stdout)
-
-    def help_subsample(self):
-        print('\n    Procedure: Subsample the curves by the optional stride. The default value for stride is 2.'
-              '\n    Usage: subsample <curve-list> [stride]')
+            pdvutil.print_own_docstring(self)
 
     ########################################################################################################
     # helper functions #
@@ -9110,6 +9808,9 @@ class Command(cmd.Cmd, object):
 
 
 class QuitHelper(QObject):
+    """
+    PyQt6 QuitHelper
+    """
 
     quit_signal = pyqtSignal()
 

@@ -2,10 +2,12 @@
 
 Release Notes
 =============
-3.7.1
+3.8.0
 ------
 * Upgraded to PyQt6
 * Bugfix for marker with more than one curve
+* Refactored docs
+* PyDVpy common function
 
 3.7.0
 ------

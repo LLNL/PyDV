@@ -292,6 +292,24 @@ def get_styles():
     return list()
 
 
+def _convert_to_curvelist(curvelist):
+    """
+    Convert curve(s) to list of curves
+
+    :param curvelist: The list of curves
+    :type curvelist: list
+    :returns: curves -- the list of curves
+    """
+    curves = list()
+
+    if isinstance(curvelist, list):
+        curves.extend(curvelist)
+    else:
+        curves.append(curvelist)
+
+    return curves
+
+
 def create_plot(curvelist,
                 fname=None,
                 ftype='png',
@@ -373,12 +391,7 @@ def create_plot(curvelist,
     if (yls):
         axis.set_yscale('log')
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         if not cur.hidden:
@@ -463,12 +476,7 @@ def save(fname, curvelist, verbose=False, save_labels=False):
     :param verbose: prints the error stacktrace when True
     :type verbose: bool
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     try:
         with open(fname, "w") as f:
@@ -507,12 +515,7 @@ def savecsv(fname, curvelist, verbose=False):
     :param verbose: prints the error stacktrace when True
     :type verbose: bool
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     try:
         f = open(fname, 'w')
@@ -861,12 +864,7 @@ def cos(curvelist):
     :param curvelist: The Curve or list of Curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.cos(cur.y)
@@ -885,12 +883,7 @@ def cosx(curvelist):
     :param curvelist: The Curve or list of Curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.cos(cur.x)
@@ -909,12 +902,7 @@ def cosh(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.cosh(cur.y)
@@ -933,12 +921,7 @@ def coshx(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.cosh(cur.x)
@@ -957,12 +940,7 @@ def acosh(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.arccosh(cur.y)
@@ -981,12 +959,7 @@ def acoshx(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.arccosh(cur.x)
@@ -1005,12 +978,7 @@ def acos(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.arccos(cur.y)
@@ -1029,12 +997,7 @@ def acosx(curvelist):
     :param curvelist: The Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.arccos(cur.x)
@@ -1051,11 +1014,10 @@ def sin(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.sin(c.y)
-    else:
-        curvelist.y = np.sin(curvelist.y)
+    curves = _convert_to_curvelist(curvelist)
+
+    for cur in curves:
+        cur.y = np.sin(cur.y)
 
 
 def sinx(curvelist):
@@ -1069,12 +1031,10 @@ def sinx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.sin(c.x)
-    else:
-        curvelist.x = np.sin(curvelist.x)
+    for cur in curves:
+        cur.x = np.sin(cur.x)
 
 
 def sinh(curvelist):
@@ -1088,12 +1048,10 @@ def sinh(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.sinh(c.y)
-    else:
-        curvelist.y = np.sinh(curvelist.y)
+    for cur in curves:
+        cur.y = np.sinh(cur.y)
 
 
 def sinhx(curvelist):
@@ -1107,12 +1065,10 @@ def sinhx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.sinh(c.x)
-    else:
-        curvelist.x = np.sinh(curvelist.x)
+    for cur in curves:
+        cur.x = np.sinh(cur.x)
 
 
 def asinh(curvelist):
@@ -1126,12 +1082,10 @@ def asinh(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.asinh(c.y)
-    else:
-        curvelist.y = np.asinh(curvelist.y)
+    for cur in curves:
+        cur.y = np.asinh(cur.y)
 
 
 def asinhx(curvelist):
@@ -1145,12 +1099,10 @@ def asinhx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.asinh(c.x)
-    else:
-        curvelist.x = np.asinh(curvelist.x)
+    for cur in curves:
+        cur.x = np.asinh(cur.x)
 
 
 def asin(curvelist):
@@ -1164,11 +1116,10 @@ def asin(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.asin(c.y)
-    else:
-        curvelist.y = np.asin(curvelist.y)
+    curves = _convert_to_curvelist(curvelist)
+
+    for cur in curves:
+        cur.y = np.asin(cur.y)
 
 
 def asinx(curvelist):
@@ -1182,12 +1133,10 @@ def asinx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.asin(c.x)
-    else:
-        curvelist.x = np.asin(curvelist.x)
+    for cur in curves:
+        cur.x = np.asin(cur.x)
 
 
 def tan(curvelist):
@@ -1201,12 +1150,10 @@ def tan(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.tan(c.y)
-    else:
-        curvelist.y = np.tan(curvelist.y)
+    for cur in curves:
+        cur.y = np.tan(cur.y)
 
 
 def tanx(curvelist):
@@ -1220,12 +1167,10 @@ def tanx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.tan(c.x)
-    else:
-        curvelist.x = np.tan(curvelist.x)
+    for cur in curves:
+        cur.x = np.tan(cur.x)
 
 
 def tanh(curvelist):
@@ -1239,12 +1184,10 @@ def tanh(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.tanh(c.y)
-    else:
-        curvelist.y = np.tanh(curvelist.y)
+    for cur in curves:
+        cur.y = np.tanh(cur.y)
 
 
 def tanhx(curvelist):
@@ -1258,12 +1201,10 @@ def tanhx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.tanh(c.x)
-    else:
-        curvelist.x = np.tanh(curvelist.x)
+    for cur in curves:
+        cur.x = np.tanh(cur.x)
 
 
 def atan(curvelist):
@@ -1277,12 +1218,10 @@ def atan(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.atan(c.y)
-    else:
-        curvelist.y = np.atan(curvelist.y)
+    for cur in curves:
+        cur.y = np.atan(cur.y)
 
 
 def atanx(curvelist):
@@ -1296,12 +1235,10 @@ def atanx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.atan(c.x)
-    else:
-        curvelist.x = np.atan(curvelist.x)
+    for cur in curves:
+        cur.x = np.atan(cur.x)
 
 
 def atanh(curvelist):
@@ -1315,12 +1252,10 @@ def atanh(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.atanh(c.y)
-    else:
-        curvelist.y = np.atanh(curvelist.y)
+    for cur in curves:
+        cur.y = np.atanh(cur.y)
 
 
 def atanhx(curvelist):
@@ -1334,12 +1269,10 @@ def atanhx(curvelist):
     :param curvelist: A single curve or a list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.atanh(c.x)
-    else:
-        curvelist.x = np.atanh(curvelist.x)
+    for cur in curves:
+        cur.x = np.atanh(cur.x)
 
 
 def atan2(c1, c2, t=None):
@@ -1521,12 +1454,7 @@ def divx(curvelist, value):
     :param value: The divisor
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if float(value) == 0:
@@ -1547,12 +1475,7 @@ def divy(curvelist, value):
     :param value: The divisor
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if float(value) == 0:
@@ -1576,12 +1499,7 @@ def dx(curvelist, value):
     :param value: The amount to shift the x values by
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x += float(value)
@@ -1603,12 +1521,7 @@ def dy(curvelist, value):
     :param value: The amount to shift the y values by
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y += float(value)
@@ -1630,12 +1543,7 @@ def mx(curvelist, value):
     :param value: The amount to scale the x values by
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x *= float(value)
@@ -1657,12 +1565,7 @@ def my(curvelist, value):
     :param value: The amount to scale the y values by
     :type value: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y *= float(value)
@@ -1807,12 +1710,7 @@ def abs(curvelist):
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.abs(cur.y)
@@ -1831,12 +1729,7 @@ def absx(curvelist):
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.abs(cur.x)
@@ -1858,12 +1751,7 @@ def log(curvelist, keep=True):
                  keep is True by default.
     :type keep: optional, boolean
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if not keep:
@@ -1895,12 +1783,7 @@ def logx(curvelist, keep=True):
                  keep is True by default.
     :type keep: optional, boolean
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if not keep:
@@ -1933,12 +1816,7 @@ def log10(curvelist, keep=True):
                  keep is True by default.
     :type keep: optional, boolean
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if not keep:
@@ -1968,12 +1846,7 @@ def log10x(curvelist, keep=True):
                  keep is True by default.
     :type keep: optional, boolean
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if not keep:
@@ -1999,12 +1872,7 @@ def exp(curvelist):
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.exp(cur.y)
@@ -2023,12 +1891,7 @@ def expx(curvelist):
     :param curvelist: the Curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.exp(cur.x)
@@ -2049,12 +1912,7 @@ def powa(curvelist, a):
     :param a: the fixed value
     :type a: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.y = np.power(float(a), cur.y)
@@ -2075,12 +1933,7 @@ def powax(curvelist, a):
     :param a: the fixed value
     :type a: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         cur.x = np.power(float(a), cur.x)
@@ -2101,11 +1954,10 @@ def powr(curvelist, a):
     :param a: the fixed value
     :type a: float
     """
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.power(c.y, float(a))
-    else:
-        curvelist.y = np.power(curvelist.y, float(a))
+    curves = _convert_to_curvelist(curvelist)
+
+    for cur in curves:
+        cur.y = np.power(cur.y, float(a))
 
 
 def powrx(curvelist, a):
@@ -2123,12 +1975,10 @@ def powrx(curvelist, a):
     :param a: the fixed value
     :type a: float
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.power(c.x, float(a))
-    else:
-        curvelist.x = np.power(curvelist.x, float(a))
+    for cur in curves:
+        cur.x = np.power(cur.x, float(a))
 
 
 def sqr(curvelist):
@@ -2138,12 +1988,10 @@ def sqr(curvelist):
     :param curvelist: the curve or list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.square(c.y)
-    else:
-        curvelist.y = np.square(curvelist.y)
+    for cur in curves:
+        cur.y = np.square(cur.y)
 
 
 def sqrx(curvelist):
@@ -2153,12 +2001,10 @@ def sqrx(curvelist):
     :param curvelist: the curve or list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.square(c.x)
-    else:
-        curvelist.x = np.square(curvelist.x)
+    for cur in curves:
+        cur.x = np.square(cur.x)
 
 
 def sqrt(curvelist):
@@ -2168,12 +2014,10 @@ def sqrt(curvelist):
     :param curvelist: the curve or list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.y = np.sqrt(c.y)
-    else:
-        curvelist.y = np.sqrt(curvelist.y)
+    for cur in curves:
+        cur.y = np.sqrt(cur.y)
 
 
 def sqrtx(curvelist):
@@ -2183,12 +2027,10 @@ def sqrtx(curvelist):
     :param curvelist: the curve or list of curves
     :type curvelist: curve or list
     """
+    curves = _convert_to_curvelist(curvelist)
 
-    if isinstance(curvelist, list):
-        for c in curvelist:
-            c.x = np.sqrt(c.x)
-    else:
-        curvelist.x = np.sqrt(curvelist.x)
+    for cur in curves:
+        cur.x = np.sqrt(cur.x)
 
 
 def xmax(curvelist, max):
@@ -2201,12 +2043,7 @@ def xmax(curvelist, max):
     :type max: float
     """
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves = curvelist
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(c.x <= float(max))]
@@ -2223,12 +2060,7 @@ def xmin(curvelist, min):
     :type min: float
     """
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves = curvelist
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(c.x >= float(min))]
@@ -2247,12 +2079,7 @@ def xminmax(curvelist, min, max):
     :param max: The maximum value
     :type max: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves = curvelist
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
@@ -2269,12 +2096,7 @@ def ymax(curvelist, max):
     :type max: float
     """
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves = curvelist
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(c.y <= float(max))]
@@ -2291,12 +2113,7 @@ def ymin(curvelist, min):
     :type min: float
     """
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves = curvelist
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(c.y >= float(min))]
@@ -2315,12 +2132,7 @@ def yminmax(curvelist, min, max):
     :param max: The maximum value
     :type max: float
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
@@ -2337,13 +2149,7 @@ def yn(curvelist, n):
     :param n: The order
     :type n: int
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.yn(int(n), c.y)
@@ -2359,13 +2165,7 @@ def ynx(curvelist, n):
     :param n: The order
     :type n: int
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.yn(int(n), c.x)
@@ -2379,13 +2179,7 @@ def y0(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.y0(c.y)
@@ -2399,13 +2193,7 @@ def y0x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.y0(c.x)
@@ -2419,13 +2207,7 @@ def y1(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.y1(c.y)
@@ -2439,13 +2221,7 @@ def y1x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.y1(c.x)
@@ -2461,13 +2237,7 @@ def jn(curvelist, n):
     :param n: The order
     :type n: float
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.jn(float(n), c.y)
@@ -2483,13 +2253,7 @@ def jnx(curvelist, n):
     :param n: The order
     :type n: float
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.jn(int(n), c.x)
@@ -2503,13 +2267,7 @@ def j0(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.j0(c.y)
@@ -2523,13 +2281,7 @@ def j0x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.j0(c.x)
@@ -2543,13 +2295,7 @@ def j1(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = scipy.special.j1(c.y)
@@ -2563,13 +2309,7 @@ def j1x(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: curve or list
     """
-    # scipy.special.errprint(1)
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = scipy.special.j1(c.x)
@@ -2588,12 +2328,7 @@ def recip(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = np.reciprocal(c.y)
@@ -2615,12 +2350,7 @@ def recipx(curvelist):
     :type curvelist: Curve or list
     :return:
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.x = np.reciprocal(c.x)
@@ -2638,13 +2368,8 @@ def integrate(curvelist, low=None, high=None):
     :type high: float
     :return: list -- the list of integrated curves
     """
-    curves = list()
+    curves = _convert_to_curvelist(curvelist)
     ncurves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
 
     for c in curves:
         nc = c.copy()
@@ -3273,12 +2998,7 @@ def subsample(curvelist, stride=2, verbose=False):
     :param verbose: If True additional information will be printed to stdout
     :type verbose: bool
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         n = len(c.x)
@@ -3306,12 +3026,7 @@ def smooth(curvelist, factor=1):
     :param factor: The smooth factor
     :type factor: int
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         if len(c.x) < 2:
@@ -3515,12 +3230,7 @@ def getdomain(curvelist):
     :return: list -- A list of tuples where each tuple contains the curve name, minimum x, and maximum x
     """
     domains = list()
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         domains.append((__toCurveString(c), min(c.x), max(c.x)))
@@ -3543,12 +3253,7 @@ def sum(curvelist):
     :return: list -- A list of tuples where each tuple contains the curve name, sum of x-values, and sum of y-values
     """
     sums = list()
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         sums.append((__toCurveString(c), np.sum(c.x), np.sum(c.y)))
@@ -3571,12 +3276,7 @@ def area(curvelist):
     :return: list -- A list of tuples where each tuple contains the curve name and area
     """
     areas = list()
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         try:
@@ -3639,12 +3339,7 @@ def getrange(curvelist):
     :return: list -- A list of tuples where each tuple contains the curve name, minimum y, and maximum y
     """
     ranges = list()
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         ranges.append((__toCurveString(c), min(c.y), max(c.y)))
@@ -3838,12 +3533,7 @@ def makeextensive(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         for i in range(1, len(c.y)):
@@ -3866,12 +3556,7 @@ def makeintensive(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         for i in range(1, len(c.y)):
@@ -3895,12 +3580,7 @@ def dupx(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         c.y = np.copy(c.x)
@@ -3968,12 +3648,7 @@ def xindex(curvelist):
     :param curvelist: The curve or list of curves
     :type curvelist: Curve or list
     """
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
         stop = len(c.y)
@@ -4911,12 +4586,7 @@ def getxi(curvelist, i):
     """
     xvals = list()
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         xvals.append(cur.x[i])
@@ -4942,12 +4612,7 @@ def getyi(curvelist, i):
     """
     yvals = list()
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         yvals.append(cur.y[i])
@@ -5357,12 +5022,7 @@ def getfl(curvelist):
     """
     first_last = list()
 
-    curves = list()
-
-    if isinstance(curvelist, list):
-        curves.extend(curvelist)
-    else:
-        curves.append(curvelist)
+    curves = _convert_to_curvelist(curvelist)
 
     for cur in curves:
         first_last.append([cur.y[0], cur.y[-1]])
