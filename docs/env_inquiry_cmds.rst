@@ -15,87 +15,42 @@ These functions are provided to gain access to information about the state of th
 help
 ----
 
-Return infroamtion about the specified command, variable, or command category. If no argument is supplied, return a list of available commands.
-
-.. code::
-
-   [PyDV]: help [command]
-
-   Ex:
-      [PyDV]: help list
+.. autofunction:: pydv.pdv.Command.do_help
+   :noindex:
 
 list
 ----
 
-Return a list of the plotted curves currently displayed. A regular expression may be supplied for matching against the curve label to be listed. **Shortcut: lst**
-
-.. code::
-
-   [PyDV]: list <label-pattern>
-
-   Ex:
-      [PyDV]: list
-      [PyDV]: list my.*curves
+.. autofunction:: pydv.pdv.Command.do_list
+   :noindex:
 
 listr
 -----
 
-Return a list of the plotted curves currently displayed in range from **start** to **stop**. If **stop** is not
-specified, it will be set to the end of the plot list. **Shortcut: lstr**
-
-.. code::
-
-   [PyDV]: listr <start> [stop]
-
-   Ex:
-      [PyDV]: listr 1
-      [PyDV]: listr 1 10
+.. autofunction:: pydv.pdv.Command.do_listr
+   :noindex:
 
 listannot
 ---------
 
-List current annotations.
-
-.. code::
-
-   [PyDV]: listannot
+.. autofunction:: pydv.pdv.Command.do_listannot
+   :noindex:
 
 menu
 ----
 
-Return a selection of the curves available for plotting. A regular expression may be supplied for matching against the curve label to be listed.
-
-.. code::
-
-   [PyDV]: menu <label-pattern>
-
-   Ex:
-      [PyDV]: menu
-      [PyDV]: menu my.*curves
+.. autofunction:: pydv.pdv.Command.do_menu
+   :noindex:
 
 menur
 -----
 
-Return a selection of the curves available for plotting in the range from **start** to **stop**. If
-**stop** is not specified, it will be set to the end of the curve list.
+.. autofunction:: pydv.pdv.Command.do_menur
+   :noindex:
 
-.. code::
+shell
+-----
 
-   [PyDV]: menur <start> [stop]
-
-   Ex:
-      [PyDV]: menur 1
-      [PyDV]: menur 1 10
-
-system
-------
-
-Allows passing commands to the operating system. **Shortcut: ! or shell**
-
-.. code::
-
-   [PyDV]: system <command>
-
-   Ex:
-      [PyDV]: system echo $PATH
+.. autofunction:: pydv.pdv.Command.do_shell
+   :noindex:
 
