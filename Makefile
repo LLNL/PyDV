@@ -12,11 +12,7 @@ PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
 
-ifeq ($(SOURCE_ZONE),SCF)
-	WEAVE_DEPLOY_GROUP = sduser
-else
-	WEAVE_DEPLOY_GROUP = llnl_emp
-endif
+WHEELS_PATH = /usr/workspace/weaveci/weave/wheels/public
 
 define do_create_env
     echo "Creating venv $(PYDV_ENV)"
@@ -124,4 +120,29 @@ deploy_to_develop:
 		tar -xvf $(VERSION).tar && rm $(VERSION).tar
 		sed -i "s,/usr/apps/weave/weave-prod-cpu/bin/python3,$(PYTHON_PATH)," pdv
 		cd .. && chmod -R 750 develop
+	AS_WEAVECI_USER
+
+#
+# create_and_upload_wheels creates wheels and uploads to /usr/workspace/weaveci/weave...
+# so that /usr/apps/weave/tools/create_venv.sh can install it from the wheels
+# This is meant to be run when CI_COMMIT_BRANCH == develop.
+# Temporarily updated the name since PyDV is already taken in pypi
+#
+.ONESHELL:
+create_and_upload_wheels:
+	$(eval GIVE_USER = $(USER))
+	cp pyproject.toml pyproject.toml.ORIG
+	sed -i 's/name = "PyDV"/name = "LLNL-PyDV"/g' pyproject.toml
+	source $(PYDV_ENV)/bin/activate && \
+	python3 -m build && \
+	deactivate
+	cp pyproject.toml.ORIG pyproject.toml
+	give -f weaveci $(CI_PROJECT_DIR)/dist/*
+	export TERM=xterm && export DISPLAY=:0. && \
+	xsu weaveci -c "sg weaveci" <<AS_WEAVECI_USER
+		umask 027
+		mkdir -p $(WHEELS_PATH)
+		cd $(WHEELS_PATH)
+		take -f $(GIVE_USER)
+		chmod -R go+rX $(WHEELS_PATH)
 	AS_WEAVECI_USER
