@@ -233,13 +233,13 @@ class Plotter(QMainWindow):
         # Create or clear table
         if self._tableWidget is None:
             self._tableWidget = QTableWidget(rows, cols, self)
-            self._tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+            self._tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             self._tableWidget.setHorizontalHeaderLabels(headerLabels)
             self._tableWidget.setAlternatingRowColors(True)
-            self._tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+            self._tableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
 
             # Setup Right-click menu
-            self._tableWidget.setContextMenuPolicy(Qt.ActionsContextMenu)
+            self._tableWidget.setContextMenuPolicy(Qt.ContextMenuPolicy.ActionsContextMenu)
             deleteCurveAction = QAction("Delete selected curve(s)", self._tableWidget)
             deleteCurveAction.triggered.connect(self.__deleteCurve)
             self._tableWidget.addAction(deleteCurveAction)
@@ -257,7 +257,7 @@ class Plotter(QMainWindow):
             if c.edited:
                 prefix = '*'
             plotnameItem = QTableWidgetItem(self.tr("%s%s" % (prefix, c.plotname)))
-            plotnameItem.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            plotnameItem.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
             self._tableWidget.setItem(row, col, plotnameItem)
             col += 1
 
@@ -324,7 +324,7 @@ class Plotter(QMainWindow):
             vbox.addWidget(scroll)
 
             hbox = QHBoxLayout(self._listDialog)
-            hbox.setAlignment(Qt.AlignCenter)
+            hbox.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
             # Dismiss Button
             okButton = QPushButton(self._listDialog)
@@ -361,13 +361,13 @@ class Plotter(QMainWindow):
         # Create or clear table
         if self._menuTableWidget is None:
             self._menuTableWidget = QTableWidget(rows, cols, self)
-            self._menuTableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+            self._menuTableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
             self._menuTableWidget.setHorizontalHeaderLabels(headerLabels)
             self._menuTableWidget.setAlternatingRowColors(True)
-            self._menuTableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+            self._menuTableWidget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
 
             # Setup Right-click menu
-            self._menuTableWidget.setContextMenuPolicy(Qt.ActionsContextMenu)
+            self._menuTableWidget.setContextMenuPolicy(Qt.ContextMenuPolicy.ActionsContextMenu)
             plotCurveAction = QAction("Plot selected curve(s)", self._menuTableWidget)
             plotCurveAction.triggered.connect(self.__plotMenuCurve)
             self._menuTableWidget.addAction(plotCurveAction)
@@ -456,7 +456,7 @@ class Plotter(QMainWindow):
             vbox.addWidget(scroll)
 
             hbox = QHBoxLayout(self._menuDialog)
-            hbox.setAlignment(Qt.AlignCenter)
+            hbox.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
             # Dismiss Button
             okButton = QPushButton(self._menuDialog)
@@ -560,7 +560,7 @@ class Plotter(QMainWindow):
         okButton.setMinimumSize(100, 20)
         okButton.setMaximumSize(100, 20)
         okButton.setText('OK')
-        hbox.addWidget(okButton, Qt.AlignCenter)
+        hbox.addWidget(okButton, Qt.AlignmentFlag.AlignCenter)
         vbox.addLayout(hbox)
 
         copy_dialog.resize(300, 500)

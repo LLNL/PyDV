@@ -2,6 +2,10 @@
 
 Release Notes
 =============
+3.8.1
+------
+* Bugfix for PyQt6 GUI updates
+
 3.8.0
 ------
 * Upgraded to PyQt6

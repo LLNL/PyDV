@@ -12,7 +12,7 @@ PROJECT = "weave/pydv.git"
 
 RZ_TESTS_WORKDIR = /usr/gapps/pydv/wsc_tests_workdir
 
-WHEELS_PATH = /usr/workspace/weaveci/weave/wheels/public
+WHEELS_PATH = /usr/workspace/weaveci/weave/wheels/develop/public
 
 define do_create_env
     echo "Creating venv $(PYDV_ENV)"
