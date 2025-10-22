@@ -1613,18 +1613,6 @@ class Command(cmd.Cmd, object):
                 [PyDV]: stats a:b
                 [PyDV]: stats c d
         """
-
-        def find_mode(array):
-
-            try:
-                mode = scipy.stats.mode(array, keepdims=True)
-            except:
-                mode = scipy.stats.mode(array)
-            if mode.count[0] == 1 and len(array) != 1:
-                return numpy.nan, numpy.nan
-            else:
-                return mode.mode[0], mode.count[0]
-
         if not line:
             return 0
 
@@ -1638,25 +1626,7 @@ class Command(cmd.Cmd, object):
                     try:
                         curvidx = pdvutil.getCurveIndex(line[i], self.plotlist)
                         cur = self.plotlist[curvidx]
-                        numx, countx = find_mode(cur.x)
-                        numy, county = find_mode(cur.y)
-
-                        print('\nCurve ' + cur.plotname)
-                        print('\n\t         X:\t              Y:')
-                        print(f'\n\tlength:    {len(cur.x):<15.10g}\t{len(cur.y):<15.10g}')
-                        print(f'\tmean:      {numpy.mean(cur.x):<15.10g}\t{numpy.mean(cur.y):<15.10g}')
-                        print(f'\tmedian:    {numpy.median(cur.x):<15.10g}\t{numpy.median(cur.y):<15.10g}')
-                        print(f'\tmode:      {numx:<15.10g}\t{numy:<15.10g}')
-                        print(f'\t    count: {countx:<15.10g}\t{county:<15.10g}')
-                        print(f'\tstd:       {numpy.std(cur.x):<15.10g}\t{numpy.std(cur.y):<15.10g}')
-                        print(f'\tskew:      {scipy.stats.skew(cur.x):<15.10g}\t{scipy.stats.skew(cur.y):<15.10g}')
-                        print(f'\tkurtosis:  {scipy.stats.kurtosis(cur.x):<15.10g}\t{scipy.stats.kurtosis(cur.y):<15.10g}')  # noqae501
-                        print(f'\tmin:       {numpy.min(cur.x):<15.10g}\t{numpy.min(cur.y):<15.10g}')
-                        print(f'\t25%:       {numpy.quantile(cur.x,.25):<15.10g}\t{numpy.quantile(cur.y,.25):<15.10g}')
-                        print(f'\t50%:       {numpy.quantile(cur.x,.50):<15.10g}\t{numpy.quantile(cur.y,.50):<15.10g}')
-                        print(f'\t75%:       {numpy.quantile(cur.x,.75):<15.10g}\t{numpy.quantile(cur.y,.75):<15.10g}')
-                        print(f'\tmax:       {numpy.max(cur.x):<15.10g}\t{numpy.max(cur.y):<15.10g}')
-                        print(f'\tsum:       {numpy.sum(cur.x):<15.10g}\t{numpy.sum(cur.y):<15.10g}')
+                        pydvpy.stats(cur)
 
                     except pdvutil.CurveIndexError:
                         pass
