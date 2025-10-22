@@ -2046,8 +2046,9 @@ def xmax(curvelist, max):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(c.x <= float(max))]
-        c.y = c.y[np.where(c.x <= float(max))]
+        mask = np.where(c.x <= float(max))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def xmin(curvelist, min):
@@ -2063,8 +2064,9 @@ def xmin(curvelist, min):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(c.x >= float(min))]
-        c.y = c.y[np.where(c.x >= float(min))]
+        mask = np.where(c.x >= float(min))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def xminmax(curvelist, min, max):
@@ -2082,8 +2084,9 @@ def xminmax(curvelist, min, max):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
-        c.y = c.y[np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))]
+        mask = np.where(np.logical_and(c.x >= float(min), c.x <= float(max)))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def ymax(curvelist, max):
@@ -2099,8 +2102,9 @@ def ymax(curvelist, max):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(c.y <= float(max))]
-        c.y = c.y[np.where(c.y <= float(max))]
+        mask = np.where(c.y <= float(max))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def ymin(curvelist, min):
@@ -2116,8 +2120,9 @@ def ymin(curvelist, min):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(c.y >= float(min))]
-        c.y = c.y[np.where(c.y >= float(min))]
+        mask = np.where(c.y >= float(min))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def yminmax(curvelist, min, max):
@@ -2135,8 +2140,9 @@ def yminmax(curvelist, min, max):
     curves = _convert_to_curvelist(curvelist)
 
     for c in curves:
-        c.x = c.x[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
-        c.y = c.y[np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))]
+        mask = np.where(np.logical_and(c.y >= float(min), c.y <= float(max)))
+        c.x = c.x[mask]
+        c.y = c.y[mask]
 
 
 def yn(curvelist, n):
@@ -3322,6 +3328,45 @@ def getnumpoints(curve):
     :return: int -- the number of points in curve
     """
     return len(curve.x)
+
+
+def stats(curve):
+    """
+    Print statistics of the given curve.
+
+    :param curve: The given curve
+    """
+
+    def find_mode(array):
+
+        try:
+            mode = scipy.stats.mode(array, keepdims=True)
+        except:
+            mode = scipy.stats.mode(array)
+        if mode.count[0] == 1 and len(array) != 1:
+            return np.nan, np.nan
+        else:
+            return mode.mode[0], mode.count[0]
+
+    numx, countx = find_mode(curve.x)
+    numy, county = find_mode(curve.y)
+
+    print('\nCurve ' + curve.plotname)
+    print('\n\t         X:\t              Y:')
+    print(f'\n\tlength:    {len(curve.x):<15.10g}\t{len(curve.y):<15.10g}')
+    print(f'\tmean:      {np.mean(curve.x):<15.10g}\t{np.mean(curve.y):<15.10g}')
+    print(f'\tmedian:    {np.median(curve.x):<15.10g}\t{np.median(curve.y):<15.10g}')
+    print(f'\tmode:      {numx:<15.10g}\t{numy:<15.10g}')
+    print(f'\t    count: {countx:<15.10g}\t{county:<15.10g}')
+    print(f'\tstd:       {np.std(curve.x):<15.10g}\t{np.std(curve.y):<15.10g}')
+    print(f'\tskew:      {scipy.stats.skew(curve.x):<15.10g}\t{scipy.stats.skew(curve.y):<15.10g}')
+    print(f'\tkurtosis:  {scipy.stats.kurtosis(curve.x):<15.10g}\t{scipy.stats.kurtosis(curve.y):<15.10g}')  # noqae501
+    print(f'\tmin:       {np.min(curve.x):<15.10g}\t{np.min(curve.y):<15.10g}')
+    print(f'\t25%:       {np.quantile(curve.x,.25):<15.10g}\t{np.quantile(curve.y,.25):<15.10g}')
+    print(f'\t50%:       {np.quantile(curve.x,.50):<15.10g}\t{np.quantile(curve.y,.50):<15.10g}')
+    print(f'\t75%:       {np.quantile(curve.x,.75):<15.10g}\t{np.quantile(curve.y,.75):<15.10g}')
+    print(f'\tmax:       {np.max(curve.x):<15.10g}\t{np.max(curve.y):<15.10g}')
+    print(f'\tsum:       {np.sum(curve.x):<15.10g}\t{np.sum(curve.y):<15.10g}')
 
 
 def getrange(curvelist):
