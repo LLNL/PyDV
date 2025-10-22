@@ -2,6 +2,11 @@
 
 Release Notes
 =============
+3.8.2
+------
+* Bugfix for xminmax mask 
+* Added `stats()` to pydvpy which prints statistics of the curve
+
 3.8.1
 ------
 * Bugfix for PyQt6 GUI updates
